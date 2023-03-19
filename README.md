@@ -1,3 +1,16 @@
+# git commend
+
+- start:
+  all ways start working requesting => git pull
+
+- save changes in file:
+  git add .  
+   git commit -m 'message' // save in local storage
+  git push --all // push to github
+- merge to master:
+  go to master branch => git checkout master
+  commend to merge: git merge brachName
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
