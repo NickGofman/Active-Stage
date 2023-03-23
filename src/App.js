@@ -2,7 +2,7 @@
 function App() {
   return (
     <section class="text-gray-600 body-font">
-      <h1>Nickgfgg</h1>
+      <h1>Nick</h1>
       
       <div class="container px-5 py-24 mx-auto flex flex-col items-center">
         <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
