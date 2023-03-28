@@ -1,6 +1,10 @@
+import { useContext } from 'react';
+import DarkModeContext from '../DarkModeContext';
+
 function LoginPage() {
+  const { darkMode } = useContext(DarkModeContext);
   return (
-    <section className="text-gray-600 body-font">
+    <section>
       <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
         <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
           <h1 className="title-font font-medium text-3xl">

@@ -2,7 +2,6 @@ import React from 'react';
 import LoginPage from './pages/LoginPage';
 import Footer from './components/footer/Footer';
 import NavBar from './components/navBar/NavBar';
-
 import DarkModeContext from './DarkModeContext';
 
 function App() {
