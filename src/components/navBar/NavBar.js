@@ -1,58 +1,63 @@
-import { useState } from 'react';
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Avatar,
+  Typography,
+} from '@material-tailwind/react';
+import {
+  Cog6ToothIcon,
+  PowerIcon,
+  InboxArrowDownIcon,
+  UserCircleIcon,
+  LifebuoyIcon,
+} from '@heroicons/react/24/outline';
 
-import { close, logo, menu } from '../../assets';
-import { navLinks } from '../../constants';
-
-const Navbar = () => {
-  const [active, setActive] = useState('Home');
-  const [toggle, setToggle] = useState(false);
-
+export default function NavBar() {
   return (
-    <nav className="w-full flex py-6 justify-between items-center navbar">
-      <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        {navLinks.map((nav, index) => (
-          <li
-            key={nav.id}
-            className={`font-poppins font-normal cursor-pointer text-[16px] mr-10  ${
-              index === navLinks.length - 1 ? 'mr-0' : 'mr-10'
-            }`}
-            onClick={() => setActive(nav.title)}
-          >
-            <a href={`#${nav.id}`}>{nav.title}</a>
-          </li>
-        ))}
-      </ul>
-
-      <div className="sm:hidden flex flex-1 justify-end items-center">
-        <img
-          src={toggle ? close : menu}
-          alt="menu"
-          className="w-[28px] h-[28px] object-contain"
-          onClick={() => setToggle(!toggle)}
+    <Menu>
+      <MenuHandler>
+        <Avatar
+          variant="circular"
+          alt="candice wu"
+          className="cursor-pointer"
+          src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
         />
-
-        <div
-          className={`${
-            !toggle ? 'hidden' : 'flex'
-          } p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}
-        >
-          <ul className="list-none flex justify-end items-start flex-1 flex-col">
-            {navLinks.map((nav, index) => (
-              <li
-                key={nav.id}
-                className={`font-poppins font-medium cursor-pointer text-[16px]  ${
-                  index === navLinks.length - 1 ? 'mb-0' : 'mb-4'
-                }`}
-                onClick={() => setActive(nav.title)}
-              >
-                <a href={`#${nav.id}`}>{nav.title}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </nav>
+      </MenuHandler>
+      <MenuList>
+        <MenuItem className="flex items-center gap-2">
+          <UserCircleIcon strokeWidth={2} className="h-4 w-4" />
+          <Typography variant="small" className="font-normal">
+            My Profile
+          </Typography>
+        </MenuItem>
+        <MenuItem className="flex items-center gap-2">
+          <Cog6ToothIcon strokeWidth={2} className="h-4 w-4" />
+          <Typography variant="small" className="font-normal">
+            Edit Profile
+          </Typography>
+        </MenuItem>
+        <MenuItem className="flex items-center gap-2">
+          <InboxArrowDownIcon strokeWidth={2} className="h-4 w-4" />
+          <Typography variant="small" className="font-normal">
+            Inbox
+          </Typography>
+        </MenuItem>
+        <MenuItem className="flex items-center gap-2">
+          <LifebuoyIcon strokeWidth={2} className="h-4 w-4" />
+          <Typography variant="small" className="font-normal">
+            Help
+          </Typography>
+        </MenuItem>
+        <hr className="my-2 border-blue-gray-50" />
+        <MenuItem className="flex items-center gap-2 ">
+          <PowerIcon strokeWidth={2} className="h-4 w-4" />
+          <Typography variant="small" className="font-normal">
+            Sign Out
+          </Typography>
+        </MenuItem>
+      </MenuList>
+    </Menu>
   );
-};
-
-export default Navbar;
+}
