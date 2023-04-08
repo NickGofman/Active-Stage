@@ -5,7 +5,9 @@ const PageLayout = ({children }) => {
   return (
     <>
       <NavBar />
-      <div>{children}</div>
+      <div className="container flex px-5 py-24 mx-auto flex-col justify-center">
+        {children}
+      </div>
       <Footer />
     </>
   );

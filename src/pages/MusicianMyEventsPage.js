@@ -1,7 +1,7 @@
 import React from 'react';
 
-function MusicainMyEventsPage() {
+function MusicianMyEventsPage() {
   return <div>MusicainMyEventsPage</div>;
 }
 
-export default MusicainMyEventsPage;
+export default MusicianMyEventsPage;
