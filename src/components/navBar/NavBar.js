@@ -7,12 +7,13 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import {
-  Cog6ToothIcon,
+  HomeIcon,
   PowerIcon,
-  InboxArrowDownIcon,
+  MusicalNoteIcon,
   UserCircleIcon,
-  LifebuoyIcon,
 } from '@heroicons/react/24/outline';
+
+import { Link } from 'react-router-dom';
 
 export default function NavBar() {
   return (
@@ -26,6 +27,7 @@ export default function NavBar() {
         />
       </MenuHandler>
       <MenuList>
+        
         <MenuItem className="flex items-center gap-2">
           <UserCircleIcon strokeWidth={2} className="h-4 w-4" />
           <Typography variant="small" className="font-normal">
@@ -33,23 +35,18 @@ export default function NavBar() {
           </Typography>
         </MenuItem>
         <MenuItem className="flex items-center gap-2">
-          <Cog6ToothIcon strokeWidth={2} className="h-4 w-4" />
+          <HomeIcon strokeWidth={2} className="h-4 w-4" />
           <Typography variant="small" className="font-normal">
-            Edit Profile
+            Home
           </Typography>
         </MenuItem>
         <MenuItem className="flex items-center gap-2">
-          <InboxArrowDownIcon strokeWidth={2} className="h-4 w-4" />
+          <MusicalNoteIcon strokeWidth={2} className="h-4 w-4" />
           <Typography variant="small" className="font-normal">
-            Inbox
+           My Events
           </Typography>
         </MenuItem>
-        <MenuItem className="flex items-center gap-2">
-          <LifebuoyIcon strokeWidth={2} className="h-4 w-4" />
-          <Typography variant="small" className="font-normal">
-            Help
-          </Typography>
-        </MenuItem>
+       
         <hr className="my-2 border-blue-gray-50" />
         <MenuItem className="flex items-center gap-2 ">
           <PowerIcon strokeWidth={2} className="h-4 w-4" />

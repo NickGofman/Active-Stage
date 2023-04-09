@@ -3,7 +3,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PageLayout from './layout/PageLayout';
 import MusicianHomePage from './pages/MusicianHomePage';
-import { ThemeProvider} from '@material-tailwind/react';
+import MusicianMyEventsPage from './pages/MusicianMyEventsPage';
+import MusicianProfilePage from './pages/MusicianProfilePage';
+import { ThemeProvider } from '@material-tailwind/react';
 
 function App() {
   return (
@@ -12,7 +14,9 @@ function App() {
         <PageLayout>
           {/* <LoginPage /> */}
           {/* <RegisterPage/> */}
-          <MusicianHomePage />
+          {/* <MusicianHomePage /> */}
+          {/* <MusicianMyEventsPage /> */}
+          <MusicianProfilePage/>
         </PageLayout>
       </main>
     </ThemeProvider>

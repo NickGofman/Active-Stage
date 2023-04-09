@@ -1,66 +1,62 @@
-import { useContext } from 'react';
-import DarkModeContext from '../../DarkModeContext';
 import MainLogo from '../../logo/NJs0uK01.svg';
-import { instagram, facebook } from '../../assets';
-
+import { FaInstagram, FaFacebook } from 'react-icons/fa';
 const date = new Date();
 const currentYear = date.getFullYear();
 
 function Footer() {
-  const { darkMode } = useContext(DarkModeContext);
   return (
     <footer>
-      <div className=" px-5 py-8 mx-auto flex items-center sm:flex-row flex-col justify-center space-y-6">
-        <a className="flex title-font font-medium items-center md:justify-start  text-gray-900">
+      <div className="flex items-center justify-evenly  text-gray-600 lg:flex-row flex-col">
+        <div className=" px-5 py-5">
+          <div data-field="phone">
+            <a
+              href="tel:+972-50-831-7378"
+              data-tracking-element-type="3"
+              dir="ltr"
+            >
+              Call now
+            </a>
+            <ul>
+              <li dir="ltr">050-831-7378</li>
+              <li dir="ltr">052-435-1437</li>
+            </ul>
+          </div>
+        </div>
+        <div className="px-5 py-5">
+          <h3 className="text-black">Address</h3>
+          <div>
+            <address>
+              <div>Derekh Yafo 35</div>
+              <div>Haifa</div>
+              <div>Israel</div>
+            </address>
+          </div>
+        </div>
+        <div className="px-5 py-5">
+          <h3 className="text-black">Contact Us</h3>
+
+          <div className="flex flex-row space-x-3">
+            <a href="https://www.instagram.com/elispub/">
+              <FaInstagram size={40} />
+            </a>
+            <a href="https://www.facebook.com/elis.pub/">
+              <FaFacebook size={40} />
+            </a>
+          </div>
+        </div>
+        <div className=" px-5 py-5 flex space-y-6 ">
           <img
             src={MainLogo}
             alt="Active-Stage Logo"
             className="w-[124px] h-[80px]"
           />
-          <span className=" text-gray-600 ml-3 text-xl">Active Stage</span>
-        </a>
-        <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 ">
-          © {currentYear} Active Stage @Nick Gofman & Saar Yankovich
-        </p>
-        {/* <div
-          className="flex
-        "
-        >
-          <a
-            className=" ml-3 text-gray-500"
-            href="https://www.facebook.com/elis.pub/"
-          >
-            <svg
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-8 h-8"
-              viewBox="0 0 24 24"
-            ></svg>
-          </a>
-
-          <a
-            className="ml-3 text-gray-500"
-            href="https://www.instagram.com/elispub/?hl=en"
-          >
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-8 h-8"
-              viewBox="0 0 24 24"
-            >
-              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-              <a>
-                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-              </a>
-            </svg>
-          </a>
-        </div> */}
+          <p className="ml-3 text-xl">Active Stage</p>
+        </div>
       </div>
+
+      <p className=" text-center text-sm text-gray-500 sm:ml-4 sm:pl-4 ">
+        © {currentYear} Active Stage @Nick Gofman & Saar Yanckovich
+      </p>
     </footer>
   );
 }
