@@ -118,7 +118,7 @@ function MusicianHomePage() {
         </div>
       </div>
 
-      <PaginationEvents events={events} itemsPerPage={6} />
+      <PaginationEvents events={events} itemsPerPage={6} header="Upcoming Events" />
     </div>
   );
 }

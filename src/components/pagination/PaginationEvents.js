@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../eventView/EventCardMusician';
 
-const PaginationEvents = ({ itemsPerPage, events }) => {
+const PaginationEvents = ({ itemsPerPage, events,header }) => {
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = events.slice(itemOffset, endOffset);
@@ -36,7 +36,7 @@ const PaginationEvents = ({ itemsPerPage, events }) => {
     <>
       <div className="flex flex-col items-center  mt-10">
         <Typography variant="h2" className="text-center mb-5  ">
-          Upcoming Events
+          {header}
         </Typography>
         <div className="grid lg:grid-rows-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
           {currentItems.map((event) => (

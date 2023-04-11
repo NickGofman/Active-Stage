@@ -1,6 +1,7 @@
 import React from 'react';
 import UpcomingEventMusician from '../components/eventView/EventCardMusician';
 import { Typography } from '@material-tailwind/react';
+import PaginationEvents from '../components/pagination/PaginationEvents';
 
 function MusicianMyEventsPage() {
   const events = [
@@ -56,38 +57,16 @@ function MusicianMyEventsPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center  mt-10">
-        <Typography variant="h2" className="text-center mb-5  ">
-          Registered Events
-        </Typography>
-        <div className="grid lg:grid-rows-1 lg:grid-cols-3 gap-4 sm:grid-cols-1">
-          {events.map((event) => (
-            <UpcomingEventMusician
-              key={event.id}
-              date={event.date}
-              hour={event.hour}
-              type={event.type}
-              description={event.description}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="flex flex-col items-center  mt-10">
-        <Typography variant="h2" className="text-center mb-5  ">
-          Assigned Events
-        </Typography>
-        <div className="grid lg:grid-rows-1 lg:grid-cols-3 gap-4 sm:grid-cols-1">
-          {events.map((event) => (
-            <UpcomingEventMusician
-              key={event.id}
-              date={event.date}
-              hour={event.hour}
-              type={event.type}
-              description={event.description}
-            />
-          ))}
-        </div>
-      </div>
+      <PaginationEvents
+        events={events}
+        itemsPerPage={3}
+        header={'Registered Events'}
+      />
+      <PaginationEvents
+        events={events}
+        itemsPerPage={3}
+        header={'Assigned Events'}
+      />
     </>
   );
 }
