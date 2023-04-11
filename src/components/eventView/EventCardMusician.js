@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Typography } from '@material-tailwind/react';
 
-function UpcomingEventMusician(props) {
+function EventCardMusician(props) {
   const { date, hour, type, description } = props;
   return (
     <div className="py-8 flex flex-wrap  max-w-sm rounded-md border-2  ">
@@ -25,4 +25,4 @@ function UpcomingEventMusician(props) {
   );
 }
 
-export default UpcomingEventMusician;
+export default EventCardMusician;
