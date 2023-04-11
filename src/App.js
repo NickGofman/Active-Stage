@@ -13,11 +13,11 @@ function App() {
     <ThemeProvider>
       <main className="h-screen">
         <PageLayout>
-          {/* <LoginPage />
+          <LoginPage />
           <RegisterPage />
           <MusicianHomePage />
           <MusicianMyEventsPage />
-          <MusicianProfilePage /> */}
+          <MusicianProfilePage />
           <ForgotPassword/>
         </PageLayout>
       </main>
