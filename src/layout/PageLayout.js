@@ -5,7 +5,7 @@ const PageLayout = ({children }) => {
   return (
     <>
       <Header />
-      <div className="container flex px-5 py-24 mx-auto flex-col justify-center">
+      <div className="container flex px-5 py-24 mx-auto flex-col justify-center ">
         {children}
       </div>
       <Footer />

@@ -5,6 +5,7 @@ import PageLayout from './layout/PageLayout';
 import MusicianHomePage from './pages/MusicianHomePage';
 import MusicianMyEventsPage from './pages/MusicianMyEventsPage';
 import MusicianProfilePage from './pages/MusicianProfilePage';
+import ForgotPassword from './pages/ForgotPassword';
 import { ThemeProvider } from '@material-tailwind/react';
 
 function App() {
@@ -13,10 +14,11 @@ function App() {
       <main className="h-screen">
         <PageLayout>
           {/* <LoginPage />
-          <RegisterPage/>
+          <RegisterPage />
           <MusicianHomePage />
-          <MusicianMyEventsPage /> */}
-          <MusicianProfilePage/>
+          <MusicianMyEventsPage />
+          <MusicianProfilePage /> */}
+          <ForgotPassword/>
         </PageLayout>
       </main>
     </ThemeProvider>
