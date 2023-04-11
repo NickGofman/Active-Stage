@@ -12,17 +12,15 @@ import ForgetPassword from './pages/ForgetPassword';
 function App() {
   return (
     <ThemeProvider>
-      <main className="h-screen">
-        <PageLayout>
-          {/* <LoginPage />
-          <RegisterPage />
-          <MusicianHomePage />
-          <MusicianMyEventsPage />
-          <MusicianProfilePage />
-          <ChangePassword /> */}
-          <ForgetPassword/>
-        </PageLayout>
-      </main>
+      <PageLayout>
+        {/* <LoginPage />
+        <RegisterPage />
+        <MusicianHomePage />
+        <MusicianMyEventsPage />
+        <MusicianProfilePage />
+        <ChangePassword /> */}
+        <ForgetPassword />
+      </PageLayout>
     </ThemeProvider>
   );
 }
