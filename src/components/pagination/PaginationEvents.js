@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../eventView/EventCardMusician';
 
-const PaginationEvents = ({ itemsPerPage, events,header }) => {
+const PaginationEvents = ({ itemsPerPage, events ,header,isHome}) => {
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = events.slice(itemOffset, endOffset);
@@ -34,6 +34,7 @@ const PaginationEvents = ({ itemsPerPage, events,header }) => {
 
   return (
     <>
+    {isHome?(
       <div className="flex flex-col items-center  mt-10">
         <Typography variant="h2" className="text-center mb-5  ">
           {header}
@@ -50,6 +51,25 @@ const PaginationEvents = ({ itemsPerPage, events,header }) => {
           ))}
         </div>
       </div>
+    ):(
+      <div className="flex flex-col items-center  mt-10">
+        <Typography variant="h2" className="text-center mb-5  ">
+          {header}
+        </Typography>
+        <div className="grid lg:grid-rows-1 lg:grid-cols-3 gap-4 sm:grid-cols-1">
+          {currentItems.map((event) => (
+            <EventCardMusician
+              key={event.id}
+              date={event.date}
+              hour={event.hour}
+              type={event.type}
+              description={event.description}
+            />
+          ))}
+        </div>
+      </div>
+    )}
+      
       <motion.div
         variants={paginationVariants}
         initial="hidden"

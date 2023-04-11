@@ -61,11 +61,13 @@ function MusicianMyEventsPage() {
         events={events}
         itemsPerPage={3}
         header={'Registered Events'}
+        isHome={false}
       />
       <PaginationEvents
         events={events}
         itemsPerPage={3}
         header={'Assigned Events'}
+        isHome={false}
       />
     </>
   );

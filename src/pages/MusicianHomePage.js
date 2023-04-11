@@ -1,5 +1,6 @@
 import React from 'react';
 import PaginationEvents from '../components/pagination/PaginationEvents';
+import { Typography } from '@material-tailwind/react';
 function MusicianHomePage() {
   const numberOfEvents = 0;
   // const date = new Date();
@@ -117,8 +118,7 @@ function MusicianHomePage() {
           <span className="text-md text-gray-500">My Next Show</span>
         </div>
       </div>
-
-      <PaginationEvents events={events} itemsPerPage={6} header="Upcoming Events" />
+          <PaginationEvents events={events} itemsPerPage={6} header="Upcoming Events" isHome={true}/>
     </div>
   );
 }
