@@ -12,10 +12,10 @@ function App() {
     <ThemeProvider>
       <main className="h-screen">
         <PageLayout>
-          {/* <LoginPage /> */}
-          {/* <RegisterPage/> */}
-          {/* <MusicianHomePage /> */}
-          {/* <MusicianMyEventsPage /> */}
+          {/* <LoginPage />
+          <RegisterPage/>
+          <MusicianHomePage />
+          <MusicianMyEventsPage /> */}
           <MusicianProfilePage/>
         </PageLayout>
       </main>
