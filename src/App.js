@@ -15,8 +15,7 @@ function App() {
         <PageLayout>
           {/* <LoginPage /> */}
           {/* <RegisterPage/> */}
-          {/* <MusicianHomePage /> */}
-          <PaginationButtons/>
+          <MusicianHomePage />
           {/* <MusicianMyEventsPage /> */}
           {/* <MusicianProfilePage/> */}
         </PageLayout>
