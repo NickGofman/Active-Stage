@@ -1,8 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-tailwind/react';
-import EventCardMusician from '../components/eventView/EventCardMusician';
-import PaginationButtons from '../components/pagination/PaginationButtons';
-//import useFetch from '../components/pagination/useFetch';
+import PaginationEvents from '../components/pagination/PaginationEvents';
 function MusicianHomePage() {
   const numberOfEvents = 0;
   // const date = new Date();
@@ -102,7 +99,6 @@ function MusicianHomePage() {
         'Intimate concert featuring indie bands and acoustic performances in a cozy setting.',
     },
   ];
-  //const { pages, totalPages, currentPage, setCurrentPage } = useFetch(events);
 
   return (
     <div>
@@ -122,7 +118,7 @@ function MusicianHomePage() {
         </div>
       </div>
 
-      <PaginationButtons events={events} itemsPerPage={6} />
+      <PaginationEvents events={events} itemsPerPage={6} />
     </div>
   );
 }

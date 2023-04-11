@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../eventView/EventCardMusician';
 
-const PaginationButtons = ({ itemsPerPage, events }) => {
+const PaginationEvents = ({ itemsPerPage, events }) => {
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = events.slice(itemOffset, endOffset);
@@ -70,12 +70,13 @@ const PaginationButtons = ({ itemsPerPage, events }) => {
               <BsChevronLeft />
             </span>
           }
+          renderOnZeroPageCount={null}
           containerClassName="flex items-center justify-center mt-8 mb-4"
-          pageClassName="block w-8 h-8  border border-solid border-gray-300 hover:bg-gray-300 w-10 h-10 flex items-center justify-center rounded-full mr-4"
-          activeClassName="bg-light-blue-300 text-white"
+          activeLinkClassName="bg-light-blue-300 text-white"
+          pageLinkClassName="block w-8 h-8  border border-solid border-gray-300 hover:bg-gray-300 w-10 h-10 flex items-center justify-center rounded-full mr-4"
         />
       </motion.div>
     </>
   );
 };
-export default PaginationButtons;
+export default PaginationEvents;
