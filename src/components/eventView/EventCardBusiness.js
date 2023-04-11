@@ -1,7 +1,7 @@
 import React from 'react';
 
-function UpcomingEventBusiness() {
+function EventCardBusiness() {
   return <div>UpcomingEventBusiness</div>;
 }
 
-export default UpcomingEventBusiness;
+export default EventCardBusiness;
