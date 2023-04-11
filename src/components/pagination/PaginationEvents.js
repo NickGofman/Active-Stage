@@ -6,9 +6,9 @@ import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../eventView/EventCardMusician';
 
 const PaginationEvents = ({ itemsPerPage, events ,header,isHome}) => {
-  const [itemOffset, setItemOffset] = useState(0);
-  const endOffset = itemOffset + itemsPerPage;
-  const currentItems = events.slice(itemOffset, endOffset);
+  const [itemOffset, setItemOffset] = useState(0);//initial state
+  const endOffset = itemOffset + itemsPerPage;//last item to present
+  const currentItems = events.slice(itemOffset, endOffset);//array of current items
   const pageCount = Math.ceil(events.length / itemsPerPage);
 
   const handlePageClick = (event) => {

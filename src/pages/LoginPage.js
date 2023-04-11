@@ -14,13 +14,19 @@ function LoginPage() {
           <Button className="mt-6" fullWidth>
             Register
           </Button>
+          <a
+            href="#"
+            className="font-medium text-blue-500 transition-colors hover:text-blue-700 ml-2"
+          >
+            Forgot Password?
+          </a>
           <Typography color="gray" className="mt-4 text-center font-normal">
-            Already have an account?{' '}
+            Don't have an account?
             <a
               href="#"
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              className="font-medium text-blue-500 transition-colors hover:text-blue-700 ml-2"
             >
-              Sign In
+              Sign Up
             </a>
           </Typography>
         </form>

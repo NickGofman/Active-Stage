@@ -5,18 +5,22 @@ import PageLayout from './layout/PageLayout';
 import MusicianHomePage from './pages/MusicianHomePage';
 import MusicianMyEventsPage from './pages/MusicianMyEventsPage';
 import MusicianProfilePage from './pages/MusicianProfilePage';
+import ChangePassword from './pages/ChangePassword';
 import { ThemeProvider } from '@material-tailwind/react';
+import ForgetPassword from './pages/ForgetPassword';
 
 function App() {
   return (
     <ThemeProvider>
       <main className="h-screen">
         <PageLayout>
-          {/* <LoginPage /> */}
-          {/* <RegisterPage/> */}
-          {/* <MusicianHomePage /> */}
-          {/* <MusicianMyEventsPage /> */}
-          <MusicianProfilePage/>
+          {/* <LoginPage />
+          <RegisterPage />
+          <MusicianHomePage />
+          <MusicianMyEventsPage />
+          <MusicianProfilePage />
+          <ChangePassword /> */}
+          <ForgetPassword/>
         </PageLayout>
       </main>
     </ThemeProvider>

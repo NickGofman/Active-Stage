@@ -1,7 +1,7 @@
 import React from 'react';
-import { Input, Textarea, Button, Typography } from '@material-tailwind/react';
+import { Input,  Button, Typography } from '@material-tailwind/react';
 
-function ForgotPassword() {
+function ChangePassword() {
   return (
     <form className=" space-y-9 mx-auto max-w-lg lg:w-3/4">
       <Typography variant="h2">Change Your Password</Typography>
@@ -32,4 +32,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ChangePassword;
