@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from '@material-tailwind/react';
-import UpcomingEventMusician from '../components/eventView/UpcomingEventMusician';
+import EventCardMusician from '../components/eventView/EventCardMusician';
 function MusicianHomePage() {
   const numberOfEvents = 0;
   // const date = new Date();
@@ -99,7 +99,7 @@ function MusicianHomePage() {
           </Typography>
           <div className="grid lg:grid-rows-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
             {events.map((event) => (
-              <UpcomingEventMusician
+              <EventCardMusician
                 key={event.id}
                 date={event.date}
                 hour={event.hour}
