@@ -14,14 +14,14 @@ function App() {
   return (
     <ThemeProvider>
       <PageLayout>
-        {/* <LoginPage />
-        <RegisterPage />
-        <MusicianHomePage /> */}
+        {/* <LoginPage /> */}
+        {/* <RegisterPage /> */}
+        <MusicianHomePage />
         {/* <MusicianMyEventsPage /> */}
         {/* <MusicianProfilePage /> */}
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
-        <BusinessHomePage/>
+        {/* <BusinessHomePage/> */}
       </PageLayout>
     </ThemeProvider>
   );
