@@ -18,9 +18,10 @@ function App() {
         <RegisterPage />
         <MusicianHomePage /> */}
         {/* <MusicianMyEventsPage /> */}
-        <MusicianProfilePage />
+        {/* <MusicianProfilePage /> */}
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
+        <BusinessHomePage/>
       </PageLayout>
     </ThemeProvider>
   );
