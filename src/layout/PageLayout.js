@@ -6,9 +6,9 @@ const PageLayout = ({ children }) => {
     <>
       <Header />
 
-      <div className=" h-screen flex px-5 py-24 mx-auto flex-col justify-center items-center ">
+      <main className=" h-screen flex px-5 py-24 mx-auto flex-col justify-center items-center ">
         {children}
-      </div>
+      </main>
 
       <Footer />
     </>
