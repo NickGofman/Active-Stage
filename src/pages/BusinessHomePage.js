@@ -1,25 +1,11 @@
-import { Card, Typography,CardHeader} from '@material-tailwind/react';
+import UpcomingEventsInfoCard from "../components/cards/UpcomingEventsInfoCard";
 const BusinessHomePage = () => {
   return (
-    <Card className="space-y-6 p-6">
-      <CardHeader  >
-        <Typography color='blue'>
-          Upcoming Event
-        </Typography>
-      </CardHeader>
-      <div className="flex space-x-6 ">
-        <Typography variant="paragraph">19-6-2023</Typography>
-        <Typography variant="paragraph">19:29</Typography>
-      </div>
-      <div className="flex space-x-6 ">
-        <Typography variant="paragraph">19-6-2023</Typography>
-        <Typography variant="paragraph">19:29</Typography>
-      </div>
-      <div className="flex space-x-6 ">
-        <Typography variant="paragraph">19-6-2023</Typography>
-        <Typography variant="paragraph">19:29</Typography>
-      </div>
-    </Card>
+    <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
+      <UpcomingEventsInfoCard />
+      <UpcomingEventsInfoCard />
+      <UpcomingEventsInfoCard />
+    </div>
   );
 };
 export default BusinessHomePage;

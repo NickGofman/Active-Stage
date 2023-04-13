@@ -3,12 +3,12 @@ import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Typography } from '@material-tailwind/react';
-import EventCardMusician from '../eventView/EventCardMusician';
+import EventCardMusician from '../cards/EventCardMusician';
 
-const PaginationEvents = ({ itemsPerPage, events ,header,isHome}) => {
-  const [itemOffset, setItemOffset] = useState(0);//initial state
-  const endOffset = itemOffset + itemsPerPage;//last item to present
-  const currentItems = events.slice(itemOffset, endOffset);//array of current items
+const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
+  const [itemOffset, setItemOffset] = useState(0); //initial state
+  const endOffset = itemOffset + itemsPerPage; //last item to present
+  const currentItems = events.slice(itemOffset, endOffset); //array of current items
   const pageCount = Math.ceil(events.length / itemsPerPage);
 
   const handlePageClick = (event) => {
@@ -34,42 +34,42 @@ const PaginationEvents = ({ itemsPerPage, events ,header,isHome}) => {
 
   return (
     <>
-    {isHome?(
-      <div className="flex flex-col items-center  mt-10">
-        <Typography variant="h2" className="text-center mb-5  ">
-          {header}
-        </Typography>
-        <div className="grid lg:grid-rows-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
-          {currentItems.map((event) => (
-            <EventCardMusician
-              key={event.id}
-              date={event.date}
-              hour={event.hour}
-              type={event.type}
-              description={event.description}
-            />
-          ))}
+      {isHome ? (
+        <div className="flex flex-col items-center  mt-10">
+          <Typography variant="h2" className="text-center mb-5  ">
+            {header}
+          </Typography>
+          <div className="grid lg:grid-rows-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
+            {currentItems.map((event) => (
+              <EventCardMusician
+                key={event.id}
+                date={event.date}
+                hour={event.hour}
+                type={event.type}
+                description={event.description}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    ):(
-      <div className="flex flex-col items-center  mt-10">
-        <Typography variant="h2" className="text-center mb-5  ">
-          {header}
-        </Typography>
-        <div className="grid lg:grid-rows-1 lg:grid-cols-3 gap-4 sm:grid-cols-1">
-          {currentItems.map((event) => (
-            <EventCardMusician
-              key={event.id}
-              date={event.date}
-              hour={event.hour}
-              type={event.type}
-              description={event.description}
-            />
-          ))}
+      ) : (
+        <div className="flex flex-col items-center  mt-10">
+          <Typography variant="h2" className="text-center mb-5  ">
+            {header}
+          </Typography>
+          <div className="grid lg:grid-rows-1 lg:grid-cols-3 gap-4 sm:grid-cols-1">
+            {currentItems.map((event) => (
+              <EventCardMusician
+                key={event.id}
+                date={event.date}
+                hour={event.hour}
+                type={event.type}
+                description={event.description}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    )}
-      
+      )}
+
       <motion.div
         variants={paginationVariants}
         initial="hidden"

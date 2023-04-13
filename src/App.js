@@ -16,12 +16,12 @@ function App() {
       <PageLayout>
         {/* <LoginPage /> */}
         {/* <RegisterPage /> */}
-        <MusicianHomePage />
+        {/* <MusicianHomePage /> */}
         {/* <MusicianMyEventsPage /> */}
         {/* <MusicianProfilePage /> */}
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
-        {/* <BusinessHomePage/> */}
+        <BusinessHomePage/>
       </PageLayout>
     </ThemeProvider>
   );
