@@ -15,11 +15,11 @@ function App() {
       <PageLayout>
         {/* <LoginPage />
         <RegisterPage />
-        <MusicianHomePage />
-        <MusicianMyEventsPage />
+        <MusicianHomePage /> */}
+        {/* <MusicianMyEventsPage /> */}
         <MusicianProfilePage />
-        <ChangePassword /> */}
-        <ForgetPassword />
+        {/* <ChangePassword />
+        <ForgetPassword /> */}
       </PageLayout>
     </ThemeProvider>
   );
