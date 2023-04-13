@@ -13,13 +13,13 @@ function App() {
   return (
     <ThemeProvider>
       <PageLayout>
-        {/* <LoginPage />
-        <RegisterPage />
-        <MusicianHomePage />
-        <MusicianMyEventsPage />
+        {/* <LoginPage /> */}
+        {/* <RegisterPage /> */}
+        {/* <MusicianHomePage /> */}
+        {/* <MusicianMyEventsPage /> */}
         <MusicianProfilePage />
-        <ChangePassword /> */}
-        <ForgetPassword />
+        {/* <ChangePassword /> */}
+        {/* <ForgetPassword /> */}
       </PageLayout>
     </ThemeProvider>
   );
