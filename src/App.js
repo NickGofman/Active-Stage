@@ -8,6 +8,7 @@ import MusicianProfilePage from './pages/MusicianProfilePage';
 import ChangePassword from './pages/ChangePassword';
 import { ThemeProvider } from '@material-tailwind/react';
 import ForgetPassword from './pages/ForgetPassword';
+import BusinessHomePage from './pages/BusinessHomePage';
 
 function App() {
   return (
@@ -18,8 +19,8 @@ function App() {
         <MusicianHomePage /> */}
         {/* <MusicianMyEventsPage /> */}
         <MusicianProfilePage />
-        {/* <ChangePassword />
-        <ForgetPassword /> */}
+        {/* <ChangePassword /> */}
+        {/* <ForgetPassword /> */}
       </PageLayout>
     </ThemeProvider>
   );
