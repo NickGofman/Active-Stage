@@ -5,11 +5,11 @@ const BusinessHomePage = () => {
       <div className="flex space-x-6 ">
         <Typography variant="paragraph">19-6-2023</Typography>
         <Typography variant="paragraph">19:29</Typography>
-      </div>{' '}
+      </div>
       <div className="flex space-x-6 ">
         <Typography variant="paragraph">19-6-2023</Typography>
         <Typography variant="paragraph">19:29</Typography>
-      </div>{' '}
+      </div>
       <div className="flex space-x-6 ">
         <Typography variant="paragraph">19-6-2023</Typography>
         <Typography variant="paragraph">19:29</Typography>
