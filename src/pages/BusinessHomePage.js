@@ -1,6 +1,6 @@
 import { FaRegPlusSquare } from 'react-icons/fa';
 import { Button, Typography } from '@material-tailwind/react';
-
+import Calendar from '../components/calendar/Calendar';
 import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
 const BusinessHomePage = () => {
   return (
@@ -22,11 +22,12 @@ const BusinessHomePage = () => {
           isAssignIncome={false}
         />
       </div>
-      <div className='flex mt-5 '>
-          <Typography>Create new Event</Typography>
+      <div className="flex space-x-4 mt-5 ">
+        <Typography>Create new Event</Typography>
         <Button>
           <FaRegPlusSquare size={100} />
         </Button>
+        <Calendar />
       </div>
     </>
   );
