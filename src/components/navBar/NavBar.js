@@ -58,19 +58,18 @@
 //     </Menu>
 //   );
 // }
-import MainLogo from '../../logo/NJs0uK01.svg';
 
 import { useState, useEffect } from 'react';
 import {
   Navbar,
   MobileNav,
   Typography,
-  Button,
   IconButton,
   Avatar,
 } from '@material-tailwind/react';
+import MainLogo from '../../logo/NJs0uK01.svg';
 
-export default function Example() {
+export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {
@@ -80,7 +79,7 @@ export default function Example() {
     );
   }, []);
 
-  const navList = (
+  let navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
         as="li"
@@ -133,24 +132,26 @@ export default function Example() {
   );
 
   return (
-    <Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4">
+    <Navbar fullWidth className="w-full max-w-screen-xl ">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+       
+        <div>
+          <img
+            src={MainLogo}
+            alt="Active-Stage Logo"
+            className="w-[200px] h-[100px]"
+          />
+        </div>
         <Typography
           as="a"
           href="#"
           variant="small"
           className="mr-4 cursor-pointer py-1.5 font-normal"
         >
-          <span>
-            <img
-              src={MainLogo}
-              alt="Active-Stage Logo"
-              className="w-[100px] h-[80px]"
-            />
-          </span>
+          {' '}
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-       
+        {/* toggle icons */}
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
