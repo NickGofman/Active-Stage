@@ -102,23 +102,28 @@ function MusicianHomePage() {
   ];
 
   return (
-    <div>
-      <div className="flex justify-center py-4 lg:pt-4 pt-8  ">
-        <div className=" p-3 text-center   border-r-2">
+    <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
+        <div className=" p-3 text-center border-r-2">
           <span className="text-2xl font-bold block uppercase tracking-wide text-gray-700 ">
             {numberOfEvents}
           </span>
           <span className="text-md text-gray-500">Registered Events</span>
         </div>
-
         <div className="p-3 text-center  ">
           <span className="text-2xl  font-bold block uppercase tracking-wide text-gray-700">
             26/12/2023
           </span>
           <span className="text-md text-gray-500">My Next Show</span>
         </div>
-      </div>
-          <PaginationEvents events={events} itemsPerPage={6} header="Upcoming Events" isHome={true}/>
+
+        <PaginationEvents
+          events={events}
+          itemsPerPage={6}
+          header="Upcoming Events"
+          isHome={true}
+        />
+        </div>
     </div>
   );
 }

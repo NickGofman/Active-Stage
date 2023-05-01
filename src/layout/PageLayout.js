@@ -6,11 +6,7 @@ const PageLayout = ({ children }) => {
   return (
     <div className="flex  flex-col h-screen ">
       <Header />
-      <main className=" flex flex-grow px-5 py-24 mx-auto flex-col justify-center items-center ">
-    
-        {children}
-      </main>
-
+      <main className="flex-1">{children}</main>
       <Footer />
     </div>
   );

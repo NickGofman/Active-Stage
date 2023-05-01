@@ -67,8 +67,8 @@ const BusinessHomePage = () => {
   ];
 
   return (
-    <>
-      <div className="flex flex-col space-y-10 lg:space-y-0 lg:flex-row space-x-7">
+    <div className=" flex flex-grow px-5 py-24 mx-auto flex-col justify-center items-center ">
+      <div className="flex flex-col space-y-10 lg :space-y-0 lg:flex-row space-x-7">
         <Calendar />
         <div className="lg:flex lg:flex-col space-y-4  lg:space-y-4 md:grid md:grid-cols-2 md:gap-3">
           <UpcomingEventsInfoCard
@@ -100,7 +100,7 @@ const BusinessHomePage = () => {
           <FaRegPlusSquare size={40} />
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 export default BusinessHomePage;
