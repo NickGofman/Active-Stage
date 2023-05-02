@@ -1,11 +1,9 @@
 import React from 'react';
+import WarningCancel from '../popup/WarningCancel';
 import { Button } from '@material-tailwind/react';
 
 function EventTableView(props) {
-  const { Status, BandName, Registered, Date } = props;
-  function handleCancel(EventID) {
-    // handle cancel button click
-  }
+  const { Status, BandName, Registered, Date, EventId } = props;
 
   //open the popup window
   function handleUpdate() {
@@ -31,9 +29,7 @@ function EventTableView(props) {
       <td className="px-6 py-4">{Registered}</td>
       <td className="px-6 py-4">{Date}</td>
       <td className="space-x-5">
-        <Button size="sm" onClick={handleCancel}>
-          Cancel
-        </Button>
+        <WarningCancel EventID={EventId} />
         <Button size="sm" onClick={handleUpdate}>
           Update
         </Button>

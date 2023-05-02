@@ -4,6 +4,7 @@ import { useState} from 'react';
 import { Radio } from '@material-tailwind/react';
 import { events } from '../constants/index';
 import Datepicker from 'react-tailwindcss-datepicker';
+
 function BusinessAllEvents() {
   //get all events
   const [sortType, setSortType] = useState('all');
@@ -105,6 +106,7 @@ function BusinessAllEvents() {
               return (
                 <EventTableView
                   key={event.id}
+                  EventId={event.id}
                   Status={event.status}
                   BandName={event.bandName}
                   Registered={event.registered}
