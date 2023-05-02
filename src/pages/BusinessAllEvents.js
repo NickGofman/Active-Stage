@@ -1,26 +1,38 @@
 import React from 'react';
 import EventTableView from '../components/eventTable/EventTableView';
-import { useState } from 'react';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useState} from 'react';
 import { Radio } from '@material-tailwind/react';
+import { events } from '../constants/index';
+import Datepicker from 'react-tailwindcss-datepicker';
 function BusinessAllEvents() {
   //get all events
   const [sortType, setSortType] = useState('all');
+  const [date, setDate] = useState({
+    startDate: new Date().setMonth(-3),
+    endDate: new Date().setMonth(11),
+  });
+  //axios will be here we wil have 5 routes that get sortType and date
 
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
-    console.log(event.target.value);
-    setSortType(event.target.label);
+    setSortType(event.target.value);
     // send a query to the database based on the selected sort type
+  };
+  const handleDateChange =(newValue) => {
+    console.log('newValue:', newValue);
+    setDate(newValue);
   };
 
   return (
     <div className="flex flex-col items-center space-y-9 mt-10">
-      <div className="relative shadow-md sm:rounded-lg ">
-        <div>
-          <DatePicker disablePast={true} />
-          <DatePicker disablePast={true} />
+      <div className="relative shadow-md sm:rounded-lg">
+        <div className="flex justify-end">
+          <Datepicker
+            containerClassName=" relative max-w-sm"
+            useRange={false}
+            value={date}
+            onChange={handleDateChange}
+          />
         </div>
         {/* Radio buttons for sorting */}
         <div className="space-x-7">
@@ -89,7 +101,18 @@ function BusinessAllEvents() {
           </thead>
           {/* map throw the data from DB */}
           <tbody className="">
-            <EventTableView
+            {events.map((event) => {
+              return (
+                <EventTableView
+                  key={event.id}
+                  Status={event.status}
+                  BandName={event.bandName}
+                  Registered={event.registered}
+                  Date={event.date}
+                />
+              );
+            })}
+            {/* <EventTableView
               Status="Confirmed"
               BandName="The Beatles"
               Registered="John Lennon"
@@ -124,7 +147,7 @@ function BusinessAllEvents() {
               BandName="The Beatles"
               Registered="John Lennon"
               Date="05/01/2023"
-            />
+            /> */}
           </tbody>
         </table>
       </div>

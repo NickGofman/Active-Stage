@@ -10,12 +10,9 @@ import { ThemeProvider } from '@material-tailwind/react';
 import ForgetPassword from './pages/ForgetPassword';
 import BusinessHomePage from './pages/BusinessHomePage';
 import BusinessAllEvents from './pages/BusinessAllEvents';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 function App() {
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
     <ThemeProvider>
       <PageLayout>
         {/* <LoginPage /> */}
@@ -29,7 +26,6 @@ function App() {
         <BusinessAllEvents />
       </PageLayout>
     </ThemeProvider>
-    </LocalizationProvider>
   );
 }
 

@@ -16,3 +16,33 @@ export const navLinks = [
     title: 'Clients',
   },
 ];
+export const events = [
+  {
+    id: 1,
+    status: 'cofirmed',
+    bandName: 'The Beatles',
+    registered: 'John Lennon',
+    date: '05/01/2023',
+  },
+  {
+    id: 2,
+    status: 'cofirmed',
+    bandName: 'The Beatles',
+    registered: 'John Lennon',
+    date: '05/01/2023',
+  },
+  {
+    id: 3,
+    status: 'cofirmed',
+    bandName: 'The Beatles',
+    registered: 'John Lennon',
+    date: '05/01/2023',
+  },
+  {
+    id: 4,
+    status: 'cofirmed',
+    bandName: 'The Beatles',
+    registered: 'John Lennon',
+    date: '05/01/2023',
+  },
+];
