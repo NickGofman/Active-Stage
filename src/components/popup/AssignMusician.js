@@ -6,7 +6,6 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
-  Input,
   Typography,
 } from '@material-tailwind/react';
 function AssignMusician(props) {

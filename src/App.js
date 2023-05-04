@@ -10,7 +10,7 @@ import { ThemeProvider } from '@material-tailwind/react';
 import ForgetPassword from './pages/ForgetPassword';
 import BusinessHomePage from './pages/BusinessHomePage';
 import BusinessAllEvents from './pages/BusinessAllEvents';
-
+import BusinessReportpage from './pages/BusinessReportpage';
 
 function App() {
   return (
@@ -23,8 +23,9 @@ function App() {
         {/* <MusicianProfilePage /> */}
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
-        {/* <BusinessHomePage/> */}
+        {/* <BusinessHomePage /> */}
         {/* <BusinessAllEvents /> */}
+        <BusinessReportpage/>
       </PageLayout>
     </ThemeProvider>
   );

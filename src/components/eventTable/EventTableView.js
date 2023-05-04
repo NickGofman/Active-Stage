@@ -4,7 +4,6 @@ import EventIncome from '../popup/EventIncome';
 import AssignMusician from '../popup/AssignMusician';
 import UpdateEvent from '../popup/UpdateEvent';
 
-
 function EventTableView(props) {
   const { status, BandName, Registered, Date, EventId, MusicalType } = props;
   let color = '';
@@ -50,56 +49,60 @@ function EventTableView(props) {
   //   // handle add income button click
   // }
   return (
-    <tr className={color}>
-      <th
-        scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-      >
-        {BandName}
-      </th>
-      <td className="px-6 py-4">{Registered}</td>
-      <td className="px-6 py-4">{Date}</td>
-      <td>{status}</td>
-      <td className=" grid grid-cols-2 gap-3 m-3 lg:flex lg:flex-row">
-        <WarningCancel
-          disabled={
-            status === 'published' ||
-            (status === 'assigned' &&
-              !isBefore(eventDateObject, new window.Date()))
-          }
-          EventID={EventId}
-        />
-        {
-          <UpdateEvent
+    
+     
+      <tr className={color}>
+        <th
+          scope="row"
+          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {BandName}
+        </th>
+        <td className="px-6 py-4">{Registered}</td>
+        <td className="px-6 py-4">{Date}</td>
+        <td>{status}</td>
+        <td className=" grid grid-cols-2 gap-3 m-3 lg:flex lg:flex-row">
+          <WarningCancel
             disabled={
               status === 'published' ||
               (status === 'assigned' &&
                 !isBefore(eventDateObject, new window.Date()))
             }
+            EventID={EventId}
+          />
+          {
+            <UpdateEvent
+              disabled={
+                status === 'published' ||
+                (status === 'assigned' &&
+                  !isBefore(eventDateObject, new window.Date()))
+              }
+              EventDate={Date}
+              EventID={EventId}
+              MusicalType={MusicalType}
+            />
+          }
+          <AssignMusician
             EventDate={Date}
             EventID={EventId}
-            MusicalType={MusicalType}
+            disabled={
+              status === 'published' ||
+              (status === 'assigned' &&
+                !isBefore(eventDateObject, new window.Date()))
+            }
           />
-        }
-        <AssignMusician
-          EventDate={Date}
-          EventID={EventId}
-          disabled={
-            status === 'published' ||(status === 'assigned'&&
-            !isBefore(eventDateObject, new window.Date()))
-          }
-        />
-        <EventIncome
-          EventDate={Date}
-          BandName={BandName}
-          disabled={
-            status === 'assigned' &&
-            isBefore(eventDateObject, new window.Date())
-          }
-          EventID={EventId}
-        />
-      </td>
-    </tr>
+          <EventIncome
+            EventDate={Date}
+            BandName={BandName}
+            disabled={
+              status === 'assigned' &&
+              isBefore(eventDateObject, new window.Date())
+            }
+            EventID={EventId}
+          />
+        </td>
+      </tr>
+    
   );
 }
 

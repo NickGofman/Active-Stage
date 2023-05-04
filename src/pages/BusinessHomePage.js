@@ -1,7 +1,7 @@
-import { FaRegPlusSquare } from 'react-icons/fa';
 import { Button, Typography } from '@material-tailwind/react';
 import Calendar from '../components/calendar/Calendar';
 import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
+import CreateNewEvent from '../components/popup/CreateNewEvent';
 const BusinessHomePage = () => {
   // create function for handelClick for all 3 use cases
   // get the upcoming event
@@ -68,9 +68,10 @@ const BusinessHomePage = () => {
 
   return (
     <div className=" flex flex-grow px-5 py-24 mx-auto flex-col justify-center items-center ">
-      <div className="flex flex-col space-y-10 lg :space-y-0 lg:flex-row space-x-7">
+      <div className="flex flex-col space-y-4  lg:space-y-0 lg:flex-row space-x-2">
         <Calendar />
-        <div className="lg:flex lg:flex-col space-y-4  lg:space-y-4 md:grid md:grid-cols-2 md:gap-3">
+        <div className="lg:flex lg:flex-col space-y-4  lg:space-y-4 md:grid md:grid-cols-2 md:gap-3 justify-center ">
+          <CreateNewEvent />
           <UpcomingEventsInfoCard
             header="Upcoming Event"
             isAssign={true}
@@ -93,12 +94,6 @@ const BusinessHomePage = () => {
             data={data[2]}
           />
         </div>
-      </div>
-      <div className="flex space-x-4 mt-5 justify-center items-center">
-        <Typography variant="h3">Create new Event</Typography>
-        <Button>
-          <FaRegPlusSquare size={40} />
-        </Button>
       </div>
     </div>
   );
