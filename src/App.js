@@ -15,13 +15,15 @@ function App() {
   return (
     <ThemeProvider>
       <PageLayout>
-        {/* <LoginPage />
-        <RegisterPage />
-        <MusicianHomePage />
-        <MusicianMyEventsPage />
-        <MusicianProfilePage />
-        <ChangePassword /> */}
-        <ForgetPassword />
+        {/* <LoginPage /> */}
+        {/* <RegisterPage /> */}
+        {/* <MusicianHomePage /> */}
+        {/* <MusicianMyEventsPage /> */}
+        {/* <MusicianProfilePage /> */}
+        {/* <ChangePassword /> */}
+        {/* <ForgetPassword /> */}
+        {/* <BusinessHomePage/> */}
+        <BusinessAllEvents />
       </PageLayout>
     </ThemeProvider>
   );
