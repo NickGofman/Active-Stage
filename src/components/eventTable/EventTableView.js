@@ -1,5 +1,6 @@
 import React from 'react';
 import WarningCancel from '../popup/WarningCancel';
+import EventIncome from '../popup/EventIncome';
 import { Button } from '@material-tailwind/react';
 
 function EventTableView(props) {
@@ -36,9 +37,7 @@ function EventTableView(props) {
         <Button size="sm" onClick={handleAssign}>
           Assign
         </Button>
-        <Button size="sm" onClick={handleAddIncome}>
-          Add income
-        </Button>
+        <EventIncome EventDate={Date} BandName={BandName} EventID={EventId} />
       </td>
     </tr>
   );
