@@ -44,14 +44,7 @@ function Footer() {
             </a>
           </div>
         </div>
-        <div className=" px-5 py-5 flex space-y-6 ">
-          <img
-            src={MainLogo}
-            alt="Active-Stage Logo"
-            className="w-[124px] h-[80px]"
-          />
-          <p className="ml-3 text-xl">Active Stage</p>
-        </div>
+      
       </div>
 
       <p className=" text-center text-sm text-gray-500 sm:ml-4 sm:pl-4 ">
