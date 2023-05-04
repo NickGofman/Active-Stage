@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 function EventIncome(props) {
-  const { EventDate, BandName, EvnetID } = props;
+  const { EventDate, BandName, EventID } = props;
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);

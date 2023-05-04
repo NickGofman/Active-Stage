@@ -9,8 +9,8 @@ import {
   Input,
   Typography,
 } from '@material-tailwind/react';
-function AssignMusician(props) {
-  const { EventDate, EventID } = props;
+function UpdateEvent(props) {
+  const { EventDate, EventID, MusicalType } = props;
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -26,7 +26,7 @@ function AssignMusician(props) {
   return (
     <Fragment>
       <Button onClick={handleOpen} size="sm">
-        Assign
+        Update
       </Button>
       <Dialog
         open={open}
@@ -36,12 +36,13 @@ function AssignMusician(props) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Assign Income</DialogHeader>
+        <DialogHeader>Update Event Info</DialogHeader>
         <DialogBody divider>
           <Typography variant="lead">Event Date: {EventDate}</Typography>
-          {/* map throw the usersList */}
           <div className="flex flex-col w-72 items-end gap-6">
-            {/* band Name */}
+            {/* Open calendar to change date */}
+
+            <Input size="lg" label={MusicalType} />
           </div>
         </DialogBody>
         <DialogFooter>
@@ -62,4 +63,4 @@ function AssignMusician(props) {
   );
 }
 
-export default AssignMusician;
+export default UpdateEvent;

@@ -1,10 +1,12 @@
 import React from 'react';
 import WarningCancel from '../popup/WarningCancel';
 import EventIncome from '../popup/EventIncome';
+import AssignMusician from '../popup/AssignMusician';
+import UpdateEvent from '../popup/UpdateEvent';
 import { Button } from '@material-tailwind/react';
 
 function EventTableView(props) {
-  const { Status, BandName, Registered, Date, EventId } = props;
+  const { Status, BandName, Registered, Date, EventId, MusicalType } = props;
 
   //open the popup window
   function handleUpdate() {
@@ -31,12 +33,12 @@ function EventTableView(props) {
       <td className="px-6 py-4">{Date}</td>
       <td className="space-x-5">
         <WarningCancel EventID={EventId} />
-        <Button size="sm" onClick={handleUpdate}>
-          Update
-        </Button>
-        <Button size="sm" onClick={handleAssign}>
-          Assign
-        </Button>
+        <UpdateEvent
+          EventDate={Date}
+          EventID={EventId}
+          MusicalType={MusicalType}
+        />
+        <AssignMusician EventDate={Date} EventID={EventId} />
         <EventIncome EventDate={Date} BandName={BandName} EventID={EventId} />
       </td>
     </tr>

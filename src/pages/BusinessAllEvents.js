@@ -108,6 +108,7 @@ function BusinessAllEvents() {
                   key={event.id}
                   EventId={event.id}
                   Status={event.status}
+                  MusicalType ={event.MusicalType}
                   BandName={event.bandName}
                   Registered={event.registered}
                   Date={event.date}
