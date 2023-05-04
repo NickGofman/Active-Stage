@@ -11,6 +11,7 @@ import ForgetPassword from './pages/ForgetPassword';
 import BusinessHomePage from './pages/BusinessHomePage';
 import BusinessAllEvents from './pages/BusinessAllEvents';
 
+
 function App() {
   return (
     <ThemeProvider>
@@ -23,7 +24,7 @@ function App() {
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
         {/* <BusinessHomePage/> */}
-        <BusinessAllEvents />
+        {/* <BusinessAllEvents /> */}
       </PageLayout>
     </ThemeProvider>
   );

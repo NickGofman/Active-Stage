@@ -3,8 +3,7 @@ import WarningCancel from '../popup/WarningCancel';
 import EventIncome from '../popup/EventIncome';
 import AssignMusician from '../popup/AssignMusician';
 import UpdateEvent from '../popup/UpdateEvent';
-import { Button } from '@material-tailwind/react';
-import dayjs from 'dayjs';
+
 
 function EventTableView(props) {
   const { status, BandName, Registered, Date, EventId, MusicalType } = props;
@@ -39,17 +38,17 @@ function EventTableView(props) {
   const isBefore = (dateA, dateB) => dateA < dateB;
 
   //open the popup window
-  function handleUpdate() {
-    // handle update button click
-  }
+  // function handleUpdate() {
+  //   // handle update button click
+  // }
 
-  function handleAssign() {
-    // handle assign button click
-  }
+  // function handleAssign() {
+  //   // handle assign button click
+  // }
 
-  function handleAddIncome() {
-    // handle add income button click
-  }
+  // function handleAddIncome() {
+  //   // handle add income button click
+  // }
   return (
     <tr className={color}>
       <th
