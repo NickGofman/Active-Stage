@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 function AssignMusician(props) {
-  const { EventDate, EventID } = props;
+  const { EventDate, EventID, disabled } = props;
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -25,7 +25,7 @@ function AssignMusician(props) {
   }
   return (
     <Fragment>
-      <Button onClick={handleOpen} size="sm">
+      <Button onClick={handleOpen} size="sm" color="green" disabled={!disabled}>
         Assign
       </Button>
       <Dialog
@@ -39,7 +39,7 @@ function AssignMusician(props) {
         <DialogHeader>Assign Income</DialogHeader>
         <DialogBody divider>
           <Typography variant="lead">Event Date: {EventDate}</Typography>
-          {/* map throw the usersList */}
+          {/* map throw the usersList  for each user add button with onclick*/}
           <div className="flex flex-col w-72 items-end gap-6">
             {/* band Name */}
           </div>
@@ -52,9 +52,6 @@ function AssignMusician(props) {
             className="mr-1"
           >
             <span>Cancel</span>
-          </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
-            <span>Confirm</span>
           </Button>
         </DialogFooter>
       </Dialog>

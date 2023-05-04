@@ -12,7 +12,7 @@ function BusinessAllEvents() {
     startDate: new Date().setMonth(-3),
     endDate: new Date().setMonth(11),
   });
-  //axios will be here we wil have 5 routes that get sortType and date
+  //axios will be here we wil have 4 routes that get sortType and date
 
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
@@ -33,6 +33,7 @@ function BusinessAllEvents() {
             useRange={false}
             value={date}
             onChange={handleDateChange}
+            displayFormat={'DD/MM/YYYY'}
           />
         </div>
         {/* Radio buttons for sorting */}
@@ -107,7 +108,7 @@ function BusinessAllEvents() {
                 <EventTableView
                   key={event.id}
                   EventId={event.id}
-                  Status={event.status}
+                  status={event.status}
                   MusicalType ={event.MusicalType}
                   BandName={event.bandName}
                   Registered={event.registered}
@@ -115,42 +116,7 @@ function BusinessAllEvents() {
                 />
               );
             })}
-            {/* <EventTableView
-              Status="Confirmed"
-              BandName="The Beatles"
-              Registered="John Lennon"
-              Date="05/01/2023"
-            />
-            <EventTableView
-              Status="Confirmed"
-              BandName="The Beatles"
-              Registered="John Lennon"
-              Date="05/01/2023"
-            />
-            <EventTableView
-              Status="Confirmed"
-              BandName="The Beatles"
-              Registered="John Lennon"
-              Date="05/01/2023"
-            />
-            <EventTableView
-              Status="Confirmed"
-              BandName="The Beatles"
-              Registered="John Lennon"
-              Date="05/01/2023"
-            />
-            <EventTableView
-              Status="Confirmed"
-              BandName="The Beatles"
-              Registered="John Lennon"
-              Date="05/01/2023"
-            />
-            <EventTableView
-              Status="Confirmed"
-              BandName="The Beatles"
-              Registered="John Lennon"
-              Date="05/01/2023"
-            /> */}
+           
           </tbody>
         </table>
       </div>

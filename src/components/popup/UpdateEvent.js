@@ -11,22 +11,24 @@ import {
 } from '@material-tailwind/react';
 import Datepicker from 'react-tailwindcss-datepicker';
 function UpdateEvent(props) {
-  const { EventDate, EventID, MusicalType } = props;
+  const { EventDate, EventID, MusicalType, disabled } = props;
   const [open, setOpen] = useState(false);
-
+  const [date, setDate] = useState({
+    startDate: new Date(),
+  });
   const handleOpen = () => setOpen(!open);
   // get users that assign to event
   const usersList = function getUsres(EventID) {
     // handle cancel button click
   };
-
+  const handleDateChange = (newValue) => {
+    console.log('newValue:', newValue);
+    setDate(newValue);
+  };
   //use axios assign user to event
-  function handleCancel(EventID, userID) {
-    // handle cancel button click
-  }
   return (
     <Fragment>
-      <Button onClick={handleOpen} size="sm">
+      <Button onClick={handleOpen} disabled={!disabled} size="sm">
         Update
       </Button>
       <Dialog
@@ -40,12 +42,15 @@ function UpdateEvent(props) {
         <DialogHeader>Update Event Info</DialogHeader>
         <DialogBody divider>
           <Typography variant="lead">Event Date: {EventDate}</Typography>
-          <div className="flex flex-col w-72 items-end gap-6">
+          <div className="flex flex-col w-72  gap-6">
             <Datepicker
+              minDate={new Date()}
               containerClassName=" relative max-w-sm"
               useRange={false}
-              // value={date}
-              // onChange={handleDateChange}
+              value={date}
+              asSingle={true}
+              onChange={handleDateChange}
+              displayFormat={'DD/MM/YYYY'}
             />
             <Input size="lg" label="time" />
 

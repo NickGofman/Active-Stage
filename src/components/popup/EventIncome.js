@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 function EventIncome(props) {
-  const { EventDate, BandName, EventID } = props;
+  const { EventDate, BandName, EventID, disabled } = props;
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -20,7 +20,12 @@ function EventIncome(props) {
   }
   return (
     <Fragment>
-      <Button onClick={handleOpen} size="sm">
+      <Button
+        onClick={handleOpen}
+        size="sm"
+        color="yellow"
+        disabled={!disabled}
+      >
         Add Income
       </Button>
       <Dialog

@@ -7,7 +7,7 @@ import {
   DialogBody,
   DialogFooter,
 } from '@material-tailwind/react';
-function WarningCancel() {
+function WarningCancel({disabled}) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -17,7 +17,7 @@ function WarningCancel() {
   }
   return (
     <Fragment>
-      <Button onClick={handleOpen} size="sm">
+      <Button disabled={!disabled} onClick={handleOpen} size="sm" color="red">
         Cancel
       </Button>
       <Dialog
