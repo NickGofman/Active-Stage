@@ -22,7 +22,7 @@ function App() {
         {/* <MusicianProfilePage /> */}
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
-        {/* <BusinessHomePage/> */}
+        <BusinessHomePage/>
         <BusinessAllEvents />
       </PageLayout>
     </ThemeProvider>

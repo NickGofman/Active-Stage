@@ -9,6 +9,7 @@ import {
   Input,
   Typography,
 } from '@material-tailwind/react';
+import Datepicker from 'react-tailwindcss-datepicker';
 function UpdateEvent(props) {
   const { EventDate, EventID, MusicalType } = props;
   const [open, setOpen] = useState(false);
@@ -40,7 +41,13 @@ function UpdateEvent(props) {
         <DialogBody divider>
           <Typography variant="lead">Event Date: {EventDate}</Typography>
           <div className="flex flex-col w-72 items-end gap-6">
-            {/* Open calendar to change date */}
+            <Datepicker
+              containerClassName=" relative max-w-sm"
+              useRange={false}
+              // value={date}
+              // onChange={handleDateChange}
+            />
+            <Input size="lg" label="time" />
 
             <Input size="lg" label={MusicalType} />
           </div>
