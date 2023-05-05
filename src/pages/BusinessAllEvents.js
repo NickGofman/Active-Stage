@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTableView from '../components/eventTable/EventTableView';
-import { useState} from 'react';
+import { useState } from 'react';
 import { Radio } from '@material-tailwind/react';
 import { events } from '../constants/index';
 import Datepicker from 'react-tailwindcss-datepicker';
@@ -19,7 +19,7 @@ function BusinessAllEvents() {
     setSortType(event.target.value);
     // send a query to the database based on the selected sort type
   };
-  const handleDateChange =(newValue) => {
+  const handleDateChange = (newValue) => {
     console.log('newValue:', newValue);
     setDate(newValue);
   };
