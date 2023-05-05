@@ -23,7 +23,7 @@ function App() {
         {/* <ProfilePage /> */}
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
-        <BusinessHomePage />
+        {/* <BusinessHomePage /> */}
         <BusinessAllEvents />
         {/* <BusinessReportpage/> */}
       </PageLayout>

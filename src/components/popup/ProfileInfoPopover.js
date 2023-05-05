@@ -13,11 +13,11 @@ export default function ProfileInfoPopover() {
   const [openPopover, setOpenPopover] = React.useState(false);
   const triggers = {
     onMouseEnter: () => setOpenPopover(true),
-    onMouseLeave: () => setOpenPopover(false),
+    onMouseLeave: () => setOpenPopover(true),
   };
 
   return (
-    <Popover open={openPopover} handler={setOpenPopover}>
+    <Popover  open={openPopover} handler={setOpenPopover}>
       <PopoverHandler {...triggers}>
         <Button variant="text">Profile Info</Button>
       </PopoverHandler>

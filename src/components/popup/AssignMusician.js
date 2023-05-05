@@ -39,7 +39,7 @@ function AssignMusician(props) {
       >
         <DialogHeader>Assign Income</DialogHeader>
         <DialogBody divider>
-          <Typography variant="lead">Event Date: {EventDate}</Typography>
+          <Typography variant="paragraph">Event Date: {EventDate}</Typography>
           <ProfileInfoPopover/>
           {/* map throw the usersList  for each user add button with onclick*/}
           <div className="flex flex-col w-72 items-end gap-6">
