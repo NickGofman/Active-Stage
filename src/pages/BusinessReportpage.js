@@ -52,6 +52,27 @@ function BusinessReportPage() {
       Income: 25,
       style: 'Rock',
     },
+    {
+      id: 8,
+      bandName: 'Bob',
+      date: '11 - 05 - 2023',
+      Income: 25,
+      style: 'Rock',
+    },
+    {
+      id: 9,
+      bandName: 'Bob',
+      date: '11 - 05 - 2023',
+      Income: 25,
+      style: 'Rock',
+    },
+    {
+      id: 10,
+      bandName: 'Bob',
+      date: '11 - 05 - 2023',
+      Income: 25,
+      style: 'Rock',
+    },
   ];
 
   const [date, setDate] = useState({
