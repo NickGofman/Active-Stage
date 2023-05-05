@@ -17,15 +17,20 @@ function RegisterPage() {
             <Input size="lg" label="First Name" />
             <Input size="lg" label="Last Name" />
             <Input size="lg" label="Email" />
-            <Input type="password" size="lg" label="Password" />
+            <Input
+              type="password"
+              variant="outlined"
+              size="lg"
+              label="Password"
+            />
             <Input type="password" size="lg" label="Confirm Password" />
-            <Input type="date" label="Birth date" />
+            <Input type="date" label="Birth date" datatype='' />
             <Button variant="gradient" className="flex items-center gap-3">
               <CloudArrowUpIcon strokeWidth={2} className="h-5 w-5" /> Upload
-              Files
+              Profile Image
             </Button>
             <Input size="lg" label="Years Of Experience" />
-            <Textarea label="Description" />
+            <Textarea type="text" label="Description" />
           </div>
           <Button className="mt-6" fullWidth>
             Register

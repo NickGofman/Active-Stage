@@ -1,8 +1,8 @@
 import React from 'react';
-import { JsonToTable } from 'react-json-to-table';
+
 import Datepicker from 'react-tailwindcss-datepicker';
 import { useState } from 'react';
-import { Select, Option } from '@material-tailwind/react';
+import { Select, Option, Input } from '@material-tailwind/react';
 function BusinessReportPage() {
   const mySQLData = [
     {
@@ -35,7 +35,6 @@ function BusinessReportPage() {
   });
   let bandNameList = mySQLData.map((obj) => obj.bandName);
   let MusicalStyleList = mySQLData.map((obj) => obj.style);
-  
 
   const handleDateChange = (newValue) => {
     console.log('newValue:', newValue);
@@ -62,9 +61,6 @@ function BusinessReportPage() {
             <Option key={index}>{band}</Option>
           ))}
         </Select>
-      </div>
-      <div className="flex flex-col mt-10 mr-16 ml-16">
-        <JsonToTable  json={mySQLData} />
       </div>
     </>
   );

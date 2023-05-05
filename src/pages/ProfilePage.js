@@ -2,10 +2,32 @@ import React from 'react';
 import { Button } from '@material-tailwind/react';
 import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import MusicianProfileForm from '../components/forms/MusicianProfileForm';
-function MusicianProfilePage() {
+import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
+function ProfilePage() {
+  const admin = {
+    businessName: 'Sparkle Sparkle',
+    address: 'Derekh Yafo 35 Haifa Israel',
+    phone: '054-315-5555',
+    managerName: 'Alex',
+    role: 'Admin',
+  };
+  const user = {
+    bandName: 'Sparkle Sparkle',
+    fullName: 'Sparkle Sofimarat',
+    email: 'user@gmail.com',
+    experience: 5,
+    youtubeURL: 'www.youtube.com/CollBand',
+    phone: '054-315-5555',
+    description: 'Im Hello you Are ME',
+    role: 'Musician',
+  };
+
+  // get user Role for rendering form
+  const userRole = 'admin';
+
   return (
     <>
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2   ">
+      <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">
         <div className="flex flex-col space-y-5  items-center">
           <img
             alt="..."
@@ -21,10 +43,16 @@ function MusicianProfilePage() {
             Change Password
           </Button>
         </div>
-       <MusicianProfileForm/>
+        <div className="flex flex-col  items-center">
+          {userRole === 'amin' ? (
+            <BusinessProfileForm admin={admin} />
+          ) : (
+            <MusicianProfileForm user={user} />
+          )}
+        </div>
       </div>
     </>
   );
 }
 
-export default MusicianProfilePage;
+export default ProfilePage;

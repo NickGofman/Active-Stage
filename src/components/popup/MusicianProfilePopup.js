@@ -1,7 +1,7 @@
 import React from 'react';
 
-function MuscianProfilePopup() {
+function MusicianProfilePopup() {
   return <div>MuscianProfilePopup</div>;
 }
 
-export default MuscianProfilePopup;
+export default MusicianProfilePopup;

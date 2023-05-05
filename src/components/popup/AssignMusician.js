@@ -8,6 +8,8 @@ import {
   DialogFooter,
   Typography,
 } from '@material-tailwind/react';
+import ProfileInfoPopover from './ProfileInfoPopover';
+
 function AssignMusician(props) {
   const { EventDate, EventID, disabled } = props;
   const [open, setOpen] = useState(false);
@@ -38,6 +40,7 @@ function AssignMusician(props) {
         <DialogHeader>Assign Income</DialogHeader>
         <DialogBody divider>
           <Typography variant="lead">Event Date: {EventDate}</Typography>
+          <ProfileInfoPopover/>
           {/* map throw the usersList  for each user add button with onclick*/}
           <div className="flex flex-col w-72 items-end gap-6">
             {/* band Name */}

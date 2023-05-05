@@ -1,6 +1,5 @@
 import React from 'react';
-import UpcomingEventMusician from '../components/cards/EventCardMusician';
-import { Typography } from '@material-tailwind/react';
+
 import PaginationEvents from '../components/pagination/PaginationEvents';
 
 function MusicianMyEventsPage() {

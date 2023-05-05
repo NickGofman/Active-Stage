@@ -1,68 +1,100 @@
 import React from 'react';
-import { Input,Textarea,Button } from  '@material-tailwind/react';
+import { Input, Textarea, Button } from '@material-tailwind/react';
+import { useState } from 'react';
 
-function MusicianProfileForm() {
+function MusicianProfileForm(prop) {
+  const {
+    bandName,
+    fullName,
+    email,
+    experience,
+    phone,
+    youtubeURL,
+    description,
+  } = prop.user;
+
+  // useState handle user profile Update
+  const [inputs, setInputs] = useState({
+    bandName: bandName,
+    fullName: fullName,
+    email: email,
+    phone: phone,
+    experience: experience,
+    youtubeURL: youtubeURL,
+    description: description,
+  });
+  const handleChange = (e) => {
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  // send data to backEnd to update user profile
+  const handleSubmit = () => {};
   return (
     <div className="max-w-lg w-full px-6 py-12 bg-white shadow-md rounded-md">
-      <form className="space-y-9">
+      <div className="space-y-9">
         <Input
-          variant="static"
+          name="fullName"
           label="Full Name"
           id="inputOrgName"
-          type="text"
-          placeholder="Full Name"
           required={true}
+          value={inputs.fullName}
+          onChange={handleChange}
         />
         <Input
-          variant="static"
+          name="bandName"
           label="Band Name"
           id="inputBandName"
-          type="text"
-          placeholder="Email"
-          value={'Sparkle Sparkle'}
+          value={inputs.bandName}
+          // onChange={handleChange}
           readOnly
         />
         <Input
-          variant="static"
-          label="years Of Experience"
-          id="inputExp"
-          type="number"
-          placeholder="Number Of Experience "
-          required={true}
-        />
-        <Input
-          variant="static"
+          name="email"
+          type="Email"
           label="Email"
           id="inputOrgEmail"
-          type="email"
-          defaultValue="muscianUser@gmail.com"
-          readOnly
+          value={inputs.email}
+          // onChange={handleChange}
+          readOnly={true}
         />
         <Input
-          variant="static"
+          name="experience"
+          type="number"
+          label="years Of Experience"
+          id="inputExp"
+          required={true}
+          onChange={handleChange}
+          value={inputs.experience}
+        />
+
+        <Input
+          name="phone"
+          type="tel"
           label="Phone Number"
           id="inputOrgPhone"
-          type="tel"
           required={true}
-          placeholder="Enter phone number"
+          onChange={handleChange}
+          value={inputs.phone}
         />
         <Input
-          variant="static"
+          name="youtubeURL"
+          type="Url"
           label="Youtube Channel"
           id="inputOrgUrl"
-          type="url"
           required={true}
-          placeholder="URL"
+          onChange={handleChange}
+          value={inputs.youtubeURL}
         />
         <Textarea
-          variant="static"
+          name="description"
           label="Description"
-          id="inputOrgDesc"
-          type="text"
-          placeholder="Enter description"
+          onChange={handleChange}
+          value={inputs.description}
         />
-        <Button>Save Changes</Button>
-      </form>
+        <Button onClick={handleSubmit}>Save Changes</Button>
+      </div>
     </div>
   );
 }

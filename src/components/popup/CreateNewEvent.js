@@ -72,7 +72,7 @@ function CreateNewEvent(props) {
             />
             <Typography variant="small">Description: </Typography>
             <Textarea
-              variant="standard"
+              variant="static"
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>

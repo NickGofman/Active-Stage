@@ -4,7 +4,7 @@ import RegisterPage from './pages/RegisterPage';
 import PageLayout from './layout/PageLayout';
 import MusicianHomePage from './pages/MusicianHomePage';
 import MusicianMyEventsPage from './pages/MusicianMyEventsPage';
-import MusicianProfilePage from './pages/MusicianProfilePage';
+import ProfilePage from './pages/ProfilePage';
 import ChangePassword from './pages/ChangePassword';
 import { ThemeProvider } from '@material-tailwind/react';
 import ForgetPassword from './pages/ForgetPassword';
@@ -20,12 +20,12 @@ function App() {
         {/* <RegisterPage /> */}
         {/* <MusicianHomePage /> */}
         {/* <MusicianMyEventsPage /> */}
-        {/* <MusicianProfilePage /> */}
+        {/* <ProfilePage /> */}
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
-        {/* <BusinessHomePage /> */}
-        {/* <BusinessAllEvents /> */}
-        <BusinessReportpage/>
+        <BusinessHomePage />
+        <BusinessAllEvents />
+        {/* <BusinessReportpage/> */}
       </PageLayout>
     </ThemeProvider>
   );
