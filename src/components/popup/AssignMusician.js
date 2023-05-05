@@ -117,16 +117,9 @@ function AssignMusician(props) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Assign Income</DialogHeader>
-        <DialogBody divider>
+        <DialogHeader className='flex justify-between'>
+          Assign Musician
           <Typography variant="lead">Event Date: {EventDate}</Typography>
-          <ProfileInfoPopover/>
-          {/* map throw the usersList  for each user add button with onclick*/}
-          <div className="flex flex-col w-72 items-end gap-6">
-            {/* band Name */}
-          </div>
-        </DialogBody>
-        <DialogFooter>
           <Button
             variant="text"
             color="red"
@@ -134,7 +127,7 @@ function AssignMusician(props) {
             className="mr-1 "
           >
             <span>Cancel</span>
-          </Button>{' '}
+          </Button>
         </DialogHeader>
         <DialogBody divider className="h-[40rem] overflow-scroll">
           {/* map throw the usersList  for each user add button with onclick*/}

@@ -81,7 +81,7 @@ function BusinessAllEvents() {
             onChange={handleSortTypeChange}
           />
         </div>
-        <div className='h-96 overflow-scroll border rounded'>
+        <div className='h-96 overflow-scroll overflow-x-hidden border rounded'>
           <table className="w-full text-sm text-left text-gray-500 rounded ">
             <thead className=" sticky top-0 z-10 text-xs text-gray-700 uppercase bg-gray-50 ">
               <tr>

@@ -31,7 +31,27 @@ function BusinessReportPage() {
       Income: 25,
       style: 'Rock',
     },
-    
+    {
+      id: 4,
+      bandName: 'Bob',
+      date: '11 - 05 - 2023',
+      Income: 25,
+      style: 'Rock',
+    },
+    {
+      id: 6,
+      bandName: 'Bob',
+      date: '11 - 05 - 2023',
+      Income: 25,
+      style: 'Rock',
+    },
+    {
+      id: 7,
+      bandName: 'Bob',
+      date: '11 - 05 - 2023',
+      Income: 25,
+      style: 'Rock',
+    },
   ];
 
   const [date, setDate] = useState({
@@ -75,9 +95,9 @@ function BusinessReportPage() {
       <div className="flex flex-col mt-10 mr-16 ml-16">
         <Button className="w-1/4">Export To Excel File</Button>
 
-        <Card className="overflow-scroll h-full w-full mt-5 ">
+        <Card className="overflow-scroll overflow-x-hidden h-96 w-full mt-5">
           <table className="w-full min-w-max table-auto text-left ">
-            <thead>
+            <thead className='sticky top-0 z-0 '>
               <tr>
                 {TABLE_HEAD.map((head) => (
                   <th

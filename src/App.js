@@ -24,8 +24,8 @@ function App() {
         {/* <ChangePassword /> */}
         {/* <ForgetPassword /> */}
         {/* <BusinessHomePage /> */}
-        <BusinessAllEvents />
-        {/* <BusinessReportpage/> */}
+        {/* <BusinessAllEvents /> */}
+        <BusinessReportpage/>
       </PageLayout>
     </ThemeProvider>
   );
