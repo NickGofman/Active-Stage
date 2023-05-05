@@ -63,16 +63,21 @@ function CreateNewEvent(props) {
               displayFormat={'DD/MM/YYYY'}
             />
 
-            <Typography variant="small">Set Time: {time} </Typography>
             <Input
               type="time"
               size="lg"
               label="time"
               onChange={(e) => setTime(e.target.value)}
             />
-            <Typography variant="small">Description: </Typography>
+            <Input
+              type="text"
+              size="lg"
+              label="Musical Style"
+              onChange={(e) => setTime(e.target.value)}
+            />
             <Textarea
-              variant="static"
+              variant="outlined"
+              label="Description"
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>

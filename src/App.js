@@ -16,16 +16,16 @@ function App() {
   return (
     <ThemeProvider>
       <PageLayout>
-        {/* <LoginPage /> */}
-        {/* <RegisterPage /> */}
-        {/* <MusicianHomePage /> */}
-        {/* <MusicianMyEventsPage /> */}
-        {/* <ProfilePage /> */}
-        {/* <ChangePassword /> */}
-        {/* <ForgetPassword /> */}
+        <LoginPage />
+        <RegisterPage />
+        <MusicianHomePage />
+        <MusicianMyEventsPage />
+        <ProfilePage />
+        <ChangePassword />
+        <ForgetPassword />
         <BusinessHomePage />
         <BusinessAllEvents />
-        {/* <BusinessReportpage/> */}
+        <BusinessReportpage/>
       </PageLayout>
     </ThemeProvider>
   );
