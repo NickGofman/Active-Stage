@@ -44,7 +44,7 @@ function ProfilePage() {
           </Button>
         </div>
         <div className="flex flex-col  items-center">
-          {userRole === 'amin' ? (
+          {userRole === 'admin' ? (
             <BusinessProfileForm admin={admin} />
           ) : (
             <MusicianProfileForm user={user} />
