@@ -10,7 +10,7 @@ export const AuthContextProvider = ({ children }) => {
   const login =  (inputs) => {
       setCurrentUser({
         id: 1,
-        role: 'admin',
+        role: 'user',
         businessName: 'Elis pub',
         managerName: 'nick',
       });

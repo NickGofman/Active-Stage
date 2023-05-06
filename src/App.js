@@ -21,7 +21,6 @@ import { useContext } from 'react';
 import { AuthContext } from './components/context/authContext';
 function App() {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
   const ProtectedRoute = ({ children, isAllowed }) => {
     if (!isAllowed) {
       return <Navigate to="/login" />;
@@ -33,23 +32,52 @@ function App() {
     {
       path: '/',
       element: (
-        <ProtectedRoute isAllowed={currentUser.role === 'admin'}>
-          <BusinessHomePage />
+        <ProtectedRoute isAllowed={currentUser?.role === 'admin'}>
+          <PageLayout />
         </ProtectedRoute>
       ),
       children: [
         {
-          path: '/allEvents',
+          path: '/',
+          element: <BusinessHomePage />,
+        },
+        {
+          path: '/events',
           element: <BusinessAllEvents />,
         },
         {
           path: '/profile/:id',
           element: <ProfilePage />,
         },
+        {
+          path: '/reports',
+          element: <BusinessReportpage />,
+        },
       ],
     },
     {
-      index: true,
+      path: '/',
+      element: (
+        <ProtectedRoute isAllowed={currentUser?.role === 'user'}>
+          <PageLayout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: '/',
+          element: <MusicianHomePage />,
+        },
+        {
+          path: 'profile/:id',
+          element:<ProfilePage/>
+        },
+        {
+          path:'myEvents',
+          element:<MusicianMyEventsPage/>
+        }
+      ],
+    },
+    {
       path: '/login',
       element: <LoginPage />,
     },

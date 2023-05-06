@@ -38,7 +38,6 @@ function MusicianProfileForm(prop) {
           name="fullName"
           label="Full Name"
           id="inputOrgName"
-          required={true}
           value={inputs.fullName}
           onChange={handleChange}
         />
@@ -47,7 +46,6 @@ function MusicianProfileForm(prop) {
           label="Band Name"
           id="inputBandName"
           value={inputs.bandName}
-          // onChange={handleChange}
           readOnly
         />
         <Input
@@ -56,7 +54,6 @@ function MusicianProfileForm(prop) {
           label="Email"
           id="inputOrgEmail"
           value={inputs.email}
-          // onChange={handleChange}
           readOnly={true}
         />
         <Input
@@ -64,7 +61,6 @@ function MusicianProfileForm(prop) {
           type="number"
           label="years Of Experience"
           id="inputExp"
-          required={true}
           onChange={handleChange}
           value={inputs.experience}
         />
@@ -74,7 +70,6 @@ function MusicianProfileForm(prop) {
           type="tel"
           label="Phone Number"
           id="inputOrgPhone"
-          required={true}
           onChange={handleChange}
           value={inputs.phone}
         />
@@ -83,7 +78,6 @@ function MusicianProfileForm(prop) {
           type="Url"
           label="Youtube Channel"
           id="inputOrgUrl"
-          required={true}
           onChange={handleChange}
           value={inputs.youtubeURL}
         />

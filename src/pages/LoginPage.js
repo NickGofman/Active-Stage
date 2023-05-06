@@ -1,6 +1,12 @@
 // import Button from '../components/buttons/Button';
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
+import { AuthContext } from '../components/context/authContext';
+import { useContext } from 'react';
 function LoginPage() {
+  const {login}=useContext(AuthContext);
+  const handleLogin=()=>{
+    login();
+  }
   return (
     <div className="container px-5 py-24 mx-auto flex flex-wrap justify-center">
       <Card color="transparent" shadow={false}>
@@ -11,8 +17,8 @@ function LoginPage() {
             <Input type="password" size="lg" label="Password" />
           </div>
 
-          <Button className="mt-6" fullWidth>
-            Register
+          <Button onClick={handleLogin} className="mt-6" fullWidth>
+            Login
           </Button>
           <a
             href="#"

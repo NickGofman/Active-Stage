@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from 'react';
 import {
   Navbar,
@@ -7,12 +5,20 @@ import {
   Typography,
   IconButton,
   Avatar,
+  Button,
 } from '@material-tailwind/react';
+import { BiHome } from 'react-icons/bi';
+import { CgProfile } from 'react-icons/cg';
+import { BsCalendar4Event } from 'react-icons/bs';
+import { HiOutlineDocumentReport } from 'react-icons/hi';
 import MainLogo from '../../logo/NJs0uK01.svg';
-
+import { AuthContext } from '../../components/context/authContext';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
-
+  const { currentUser } = useContext(AuthContext);
+  const handleLogout = () => {};
   useEffect(() => {
     window.addEventListener(
       'resize',
@@ -22,46 +28,80 @@ export default function NavBar() {
 
   let navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      {
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className=" p-1 font-bold"
+        >
+          <Link to="/" className="flex flex-row-reverse gap-1 items-center">
+            <BiHome />
+            Home
+          </Link>
+        </Typography>
+      }
       <Typography
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-bold "
       >
-        <a href="#" className="flex items-center">
-          Pages
-        </a>
+        <Link
+          to={'/profile/' + currentUser.id}
+          className="flex flex-row-reverse gap-1 items-center"
+        >
+          <CgProfile />
+          Profile
+        </Link>
       </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Blocks
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Docs
-        </a>
-      </Typography>
+      {currentUser?.role === 'admin' ? (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-bold "
+        >
+          <Link
+            to="/events"
+            className="flex flex-row-reverse gap-1 items-center"
+          >
+            <BsCalendar4Event />
+            Events
+          </Link>
+        </Typography>
+      ) : (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-bold "
+        >
+          <Link
+            to="/events"
+            className="flex flex-row-reverse gap-1 items-center"
+          >
+            <BsCalendar4Event />
+            My Events
+          </Link>
+        </Typography>
+      )}
+      {currentUser?.role === 'admin' && (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-bold "
+        >
+          <Link
+            to="/reports"
+            className="flex flex-row-reverse gap-1 items-center"
+          >
+            <HiOutlineDocumentReport />
+            Reports
+          </Link>
+        </Typography>
+      )}
       <Avatar
         variant="circular"
         size="lg"
@@ -75,7 +115,6 @@ export default function NavBar() {
   return (
     <Navbar fullWidth className="w-full max-w-screen-xl rounded-xl">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-       
         <div>
           <img
             src={MainLogo}
@@ -83,15 +122,18 @@ export default function NavBar() {
             className="w-[150px] h-[100px]"
           />
         </div>
-        <Typography
-          as="a"
-          href="#"
-          variant="small"
-          className="mr-4 cursor-pointer py-1.5 font-normal"
-        >
-          {' '}
-        </Typography>
-        <div className="hidden lg:block">{navList}</div>
+        <div className="hidden  lg:flex lg:flex-col lg:gap-1">
+          {navList}
+          <Button
+            onClick={handleLogout}
+            variant="text"
+            color="red"
+            className="w-1/5 self-end"
+            size="sm"
+          >
+            Logout
+          </Button>
+        </div>
         {/* toggle icons */}
         <IconButton
           variant="text"

@@ -45,8 +45,8 @@ function BusinessProfileForm(prop) {
           id="phone"
           name="phone"
           required={true}
-          value={phone}
-          onChange={inputs.handleChange}
+          value={inputs.phone}
+          onChange={handleChange}
         />
 
         <Input
@@ -54,9 +54,9 @@ function BusinessProfileForm(prop) {
           label="Manager Name"
           id="inputOrgPhone"
           required={true}
-          value={managerName}
+          value={inputs.managerName}
           name="managerName"
-          onChange={inputs.handleChange}
+          onChange={handleChange}
         />
 
         <Button onClick={handleSubmit}>Save Changes</Button>
