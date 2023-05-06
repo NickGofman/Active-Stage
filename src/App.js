@@ -21,8 +21,11 @@ import { useContext } from 'react';
 import { AuthContext } from './components/context/authContext';
 function App() {
   const { currentUser } = useContext(AuthContext);
-  const ProtectedRoute = ({ children, isAllowed }) => {
-    if (!isAllowed) {
+  const ProtectedRoute = ({ children, isAdmin=false }) => {
+    if(currentUser&& isAdmin){
+      return <Navigate to="/admin" />;
+    }
+    if (!currentUser) {
       return <Navigate to="/login" />;
     }
 
@@ -30,7 +33,7 @@ function App() {
   };
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: '/admin',
       element: (
         <ProtectedRoute isAllowed={currentUser?.role === 'admin'}>
           <PageLayout />
@@ -38,19 +41,19 @@ function App() {
       ),
       children: [
         {
-          path: '/',
+          path: '/admin',
           element: <BusinessHomePage />,
         },
         {
-          path: '/events',
+          path: '/admin/events',
           element: <BusinessAllEvents />,
         },
         {
-          path: '/profile/:id',
+          path: '/admin/profile/:id',
           element: <ProfilePage />,
         },
         {
-          path: '/reports',
+          path: '/admin/reports',
           element: <BusinessReportpage />,
         },
       ],
@@ -58,7 +61,7 @@ function App() {
     {
       path: '/',
       element: (
-        <ProtectedRoute isAllowed={currentUser?.role === 'user'}>
+        <ProtectedRoute>
           <PageLayout />
         </ProtectedRoute>
       ),
@@ -68,11 +71,11 @@ function App() {
           element: <MusicianHomePage />,
         },
         {
-          path: 'profile/:id',
+          path: '/profile/:id',
           element: <ProfilePage />,
         },
         {
-          path: 'myEvents',
+          path: '/myEvents',
           element: <MusicianMyEventsPage />,
         },
       ],

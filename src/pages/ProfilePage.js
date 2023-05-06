@@ -3,7 +3,10 @@ import { Button } from '@material-tailwind/react';
 import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import MusicianProfileForm from '../components/forms/MusicianProfileForm';
 import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
+import { AuthContext } from '../components/context/authContext';
+import { useContext } from 'react';
 function ProfilePage() {
+  const { currentUser } = useContext(AuthContext);
   const admin = {
     businessName: 'Sparkle Sparkle',
     address: 'Derekh Yafo 35 Haifa Israel',
@@ -23,7 +26,7 @@ function ProfilePage() {
   };
 
   // get user Role for rendering form
-  const userRole = 'admin';
+
 
   return (
     <>
@@ -44,7 +47,7 @@ function ProfilePage() {
           </Button>
         </div>
         <div className="flex flex-col  items-center">
-          {userRole === 'admin' ? (
+          {currentUser?.role === 'admin' ? (
             <BusinessProfileForm admin={admin} />
           ) : (
             <MusicianProfileForm user={user} />

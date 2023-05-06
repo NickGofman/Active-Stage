@@ -28,19 +28,21 @@ export default function NavBar() {
 
   let navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      {
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className=" p-1 font-bold"
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className=" p-1 font-bold"
+      >
+        <Link
+          to={currentUser.role === 'admin' ? '/admin' : '/'}
+          className="flex flex-row-reverse gap-1 items-center"
         >
-          <Link to="/" className="flex flex-row-reverse gap-1 items-center">
-            <BiHome />
-            Home
-          </Link>
-        </Typography>
-      }
+          <BiHome />
+          Home
+        </Link>
+      </Typography>
+
       <Typography
         as="li"
         variant="small"
@@ -48,44 +50,32 @@ export default function NavBar() {
         className="p-1 font-bold "
       >
         <Link
-          to={'/profile/' + currentUser.id}
+          to={
+            currentUser?.role === 'admin'
+              ? `/admin/profile/${currentUser.id}`
+              : `/profile/${currentUser.id}`
+          }
           className="flex flex-row-reverse gap-1 items-center"
         >
           <CgProfile />
           Profile
         </Link>
       </Typography>
-      {currentUser?.role === 'admin' ? (
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-bold "
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-bold "
+      >
+        <Link
+          to={currentUser.role === 'admin' ? '/admin/events' : '/myevents'}
+          className="flex flex-row-reverse gap-1 items-center"
         >
-          <Link
-            to="/events"
-            className="flex flex-row-reverse gap-1 items-center"
-          >
-            <BsCalendar4Event />
-            Events
-          </Link>
-        </Typography>
-      ) : (
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-bold "
-        >
-          <Link
-            to="/events"
-            className="flex flex-row-reverse gap-1 items-center"
-          >
-            <BsCalendar4Event />
-            My Events
-          </Link>
-        </Typography>
-      )}
+          <BsCalendar4Event />
+          {currentUser.role === 'admin' ? 'Events' : 'My Events'}
+        </Link>
+      </Typography>
+
       {currentUser?.role === 'admin' && (
         <Typography
           as="li"
@@ -94,7 +84,7 @@ export default function NavBar() {
           className="p-1 font-bold "
         >
           <Link
-            to="/reports"
+            to="/admin/reports"
             className="flex flex-row-reverse gap-1 items-center"
           >
             <HiOutlineDocumentReport />
