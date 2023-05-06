@@ -69,12 +69,12 @@ function App() {
         },
         {
           path: 'profile/:id',
-          element:<ProfilePage/>
+          element: <ProfilePage />,
         },
         {
-          path:'myEvents',
-          element:<MusicianMyEventsPage/>
-        }
+          path: 'myEvents',
+          element: <MusicianMyEventsPage />,
+        },
       ],
     },
     {
@@ -84,6 +84,14 @@ function App() {
     {
       path: '/register',
       element: <RegisterPage />,
+    },
+    {
+      path: '/forgetpassword',
+      element: <ForgetPassword />,
+    },
+    {
+      path: '/changepassword',
+      element: <ChangePassword />,
     },
   ]);
   return (

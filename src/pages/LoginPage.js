@@ -2,6 +2,7 @@
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
 import { AuthContext } from '../components/context/authContext';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 function LoginPage() {
   const {login}=useContext(AuthContext);
   const handleLogin=()=>{
@@ -20,20 +21,20 @@ function LoginPage() {
           <Button onClick={handleLogin} className="mt-6" fullWidth>
             Login
           </Button>
-          <a
-            href="#"
+          <Link
+            to="/forgetpassword"
             className="font-medium text-blue-500 transition-colors hover:text-blue-700 ml-2"
           >
             Forgot Password?
-          </a>
+          </Link>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Don't have an account?
-            <a
-              href="#"
+            <Link
+              to="/register"
               className="font-medium text-blue-500 transition-colors hover:text-blue-700 ml-2"
             >
-              Sign Up
-            </a>
+              Register
+            </Link>
           </Typography>
         </form>
       </Card>
