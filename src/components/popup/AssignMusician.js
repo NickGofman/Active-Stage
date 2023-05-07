@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  DialogFooter,
   Typography,
 } from '@material-tailwind/react';
 import MusicianAssignCard from '../cards/MusicianAssignCard';
@@ -117,7 +116,7 @@ function AssignMusician(props) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader className='flex justify-between'>
+        <DialogHeader className="flex justify-between">
           Assign Musician
           <Typography variant="lead">Event Date: {EventDate}</Typography>
           <Button

@@ -43,6 +43,7 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
             {currentItems.map((event) => (
               <EventCardMusician
                 key={event.id}
+                id={event.id}
                 date={event.date}
                 hour={event.hour}
                 type={event.type}

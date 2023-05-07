@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Textarea, Button } from '@material-tailwind/react';
+import { Input,  Button } from '@material-tailwind/react';
 import { useState } from 'react';
 
 function BusinessProfileForm(prop) {
