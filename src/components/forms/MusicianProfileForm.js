@@ -64,7 +64,6 @@ function MusicianProfileForm(prop) {
           onChange={handleChange}
           value={inputs.experience}
         />
-
         <Input
           name="phone"
           type="tel"
@@ -87,6 +86,7 @@ function MusicianProfileForm(prop) {
           onChange={handleChange}
           value={inputs.description}
         />
+        <Input name="image" type="file" label="Upload Image" />
         <Button onClick={handleSubmit}>Save Changes</Button>
       </div>
     </div>

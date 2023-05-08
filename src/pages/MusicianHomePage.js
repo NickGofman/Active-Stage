@@ -1,6 +1,6 @@
 import React from 'react';
 import PaginationEvents from '../components/pagination/PaginationEvents';
-import { Card, Typography, CardBody} from '@material-tailwind/react';
+import { Card, Typography, CardBody } from '@material-tailwind/react';
 function MusicianHomePage() {
   const numberOfEvents = 0;
   const nextEventDate = '25/05/2023';
@@ -120,15 +120,6 @@ function MusicianHomePage() {
         </CardBody>
       </Card>
       <div>
-        <div className=" p-3 text-center border-r-2">
-          <span className="text-2xl font-bold block uppercase tracking-wide text-gray-700 "></span>
-          <span className="text-md text-gray-500"></span>
-        </div>
-        <div className="p-3 text-center  ">
-          <span className="text-2xl  font-bold block uppercase tracking-wide text-gray-700"></span>
-          <span className="text-md text-gray-500"></span>
-        </div>
-
         <PaginationEvents
           events={events}
           itemsPerPage={6}

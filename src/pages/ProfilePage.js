@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-tailwind/react';
+import { Button, Input } from '@material-tailwind/react';
 import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import MusicianProfileForm from '../components/forms/MusicianProfileForm';
 import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
@@ -27,7 +27,6 @@ function ProfilePage() {
 
   // get user Role for rendering form
 
-
   return (
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">
@@ -38,10 +37,11 @@ function ProfilePage() {
             className="shadow-xl rounded-full h-auto align-middle border-none "
             style={{ maxWidth: '150px' }}
           />
-          <Button variant="gradient" className="flex items-center gap-3">
+          {/* <Button variant="gradient" className="flex items-center gap-3">
             <CloudArrowUpIcon strokeWidth={2} className="h-5 w-5" /> Upload
             Image
-          </Button>
+          </Button> */}
+
           <Button variant="gradient" className="flex items-center gap-3">
             Change Password
           </Button>
