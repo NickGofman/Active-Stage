@@ -7,6 +7,7 @@ import {
   Textarea,
 } from '@material-tailwind/react';
 import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
+import { FiUpload } from 'react-icons/fi';
 function RegisterPage() {
   return (
     <div className="container px-5 py-24 mx-auto flex flex-wrap justify-center">
@@ -24,11 +25,14 @@ function RegisterPage() {
               label="Password"
             />
             <Input type="password" size="lg" label="Confirm Password" />
-            <Input type="date" label="Birth date" datatype='' />
-            <Button variant="gradient" className="flex items-center gap-3">
-              <CloudArrowUpIcon strokeWidth={2} className="h-5 w-5" /> Upload
-              Profile Image
-            </Button>
+            <Input type="date" label="Birth date" datatype="" />
+            <Input
+              className="text-xs cursor-pointer"
+              name="image"
+              type="file"
+              label="Upload Image"
+              icon={<FiUpload />}
+            />
             <Input size="lg" label="Years Of Experience" />
             <Textarea type="text" label="Description" />
           </div>

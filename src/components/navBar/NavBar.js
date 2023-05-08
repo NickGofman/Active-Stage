@@ -103,8 +103,8 @@ export default function NavBar() {
   );
 
   return (
-    <Navbar fullWidth className="w-full max-w-screen-xl rounded-xl">
-      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+    <Navbar  className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 ">
+      <div className="flex items-center justify-between text-blue-gray-900">
         <div>
           <img
             src={MainLogo}
@@ -112,7 +112,7 @@ export default function NavBar() {
             className="w-[150px] h-[100px]"
           />
         </div>
-        <div className="hidden  lg:flex lg:flex-col lg:gap-1">
+        <div className="hidden lg:flex lg:flex-col lg:gap-1">
           {navList}
           <Button
             onClick={handleLogout}

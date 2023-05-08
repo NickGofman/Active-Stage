@@ -1,12 +1,14 @@
 import React from 'react';
-import { Button, Input } from '@material-tailwind/react';
+import { Button,Avatar } from '@material-tailwind/react';
 import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import MusicianProfileForm from '../components/forms/MusicianProfileForm';
 import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
 import { AuthContext } from '../components/context/authContext';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const admin = {
     businessName: 'Sparkle Sparkle',
     address: 'Derekh Yafo 35 Haifa Israel',
@@ -24,6 +26,9 @@ function ProfilePage() {
     description: 'Im Hello you Are ME',
     role: 'Musician',
   };
+    const handleChangePassword = () => {
+      navigate('/changepassword');
+    };
 
   // get user Role for rendering form
 
@@ -42,7 +47,11 @@ function ProfilePage() {
             Image
           </Button> */}
 
-          <Button variant="gradient" className="flex items-center gap-3">
+          <Button
+            onClick={handleChangePassword}
+            variant="gradient"
+            className="flex items-center gap-3"
+          >
             Change Password
           </Button>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Textarea, Button } from '@material-tailwind/react';
 import { useState } from 'react';
-
+import { FiUpload } from 'react-icons/fi';
 function MusicianProfileForm(prop) {
   const {
     bandName,
@@ -86,7 +86,13 @@ function MusicianProfileForm(prop) {
           onChange={handleChange}
           value={inputs.description}
         />
-        <Input name="image" type="file" label="Upload Image" />
+        <Input
+          className="text-xs cursor-pointer"
+          name="image"
+          type="file"
+          label="Upload Image"
+          icon={<FiUpload />}
+        />
         <Button onClick={handleSubmit}>Save Changes</Button>
       </div>
     </div>

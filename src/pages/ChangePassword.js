@@ -1,5 +1,12 @@
 import React from 'react';
-import { Input, Button, Typography } from '@material-tailwind/react';
+import {
+  Input,
+  Button,
+  Typography,
+  Card,
+  CardHeader,
+  CardBody,
+} from '@material-tailwind/react';
 import { useState } from 'react';
 
 function ChangePassword() {
@@ -16,28 +23,36 @@ function ChangePassword() {
     }));
   };
   return (
-    <form className=" space-y-9 mx-auto max-w-lg lg:w-3/4">
-      <Typography variant="h2">Change Your Password</Typography>
-      <Input
-        label="Email"
-        type="email"
-        required={true}
-        onChange={handleChange}
-      />
-      <Input
-        label="New password"
-        type="password"
-        required={true}
-        onChange={handleChange}
-      />
-      <Input
-        label="Confirm New password"
-        type="password"
-        required={true}
-        onChange={handleChange}
-      />
-      <Button>Change password</Button>
-    </form>
+    <div className="flex flex-col items-center justify-center h-screen ">
+      <Card className="max-w-5xl">
+        <CardHeader color="blue" className="text-center">
+          <Typography variant="h3">Change your password</Typography>
+        </CardHeader>
+        <CardBody>
+          <form className="flex flex-col gap-4">
+            <Input
+              label="Email"
+              type="email"
+              required={true}
+              onChange={handleChange}
+            />
+            <Input
+              label="New password"
+              type="password"
+              required={true}
+              onChange={handleChange}
+            />
+            <Input
+              label="Confirm New password"
+              type="password"
+              required={true}
+              onChange={handleChange}
+            />
+            <Button>Change password</Button>
+          </form>
+        </CardBody>
+      </Card>
+    </div>
   );
 }
 
