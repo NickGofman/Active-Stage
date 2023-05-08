@@ -39,7 +39,7 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
           <Typography variant="h2" className="text-center mb-5  ">
             {header}
           </Typography>
-          <div className="grid lg:grid-rows-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
+          <div className="grid lg:grid-rows-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
             {currentItems.map((event) => (
               <EventCardMusician
                 key={event.id}
@@ -57,7 +57,7 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
           <Typography variant="h2" className="text-center mb-5  ">
             {header}
           </Typography>
-          <div className="grid lg:grid-rows-1 lg:grid-cols-3 gap-4 sm:grid-cols-1">
+          <div className="grid lg:grid-rows-1 md:grid-cols-2  lg:grid-cols-3 gap-4 sm:grid-cols-1">
             {currentItems.map((event) => (
               <EventCardMusician
                 key={event.id}

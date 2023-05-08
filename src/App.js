@@ -1,16 +1,19 @@
 import React from 'react';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import PageLayout from './layout/PageLayout';
-import MusicianHomePage from './pages/MusicianHomePage';
-import MusicianMyEventsPage from './pages/MusicianMyEventsPage';
-import ProfilePage from './pages/ProfilePage';
-import ChangePassword from './pages/ChangePassword';
+
+import {
+  LoginPage,
+  RegisterPage,
+  PageLayout,
+  MusicianMyEventsPage,
+  ProfilePage,
+  ChangePassword,
+  ForgetPassword,
+  BusinessAllEvents,
+  BusinessHomePage,
+  BusinessReportPage,
+  MusicianHomePage,
+} from './pages/exportPages.js';
 import { ThemeProvider } from '@material-tailwind/react';
-import ForgetPassword from './pages/ForgetPassword';
-import BusinessHomePage from './pages/BusinessHomePage';
-import BusinessAllEvents from './pages/BusinessAllEvents';
-import BusinessReportpage from './pages/BusinessReportpage';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -21,8 +24,8 @@ import { useContext } from 'react';
 import { AuthContext } from './components/context/authContext';
 function App() {
   const { currentUser } = useContext(AuthContext);
-  const ProtectedRoute = ({ children, isAdmin=false }) => {
-    if(currentUser&& isAdmin){
+  const ProtectedRoute = ({ children, isAdmin = false }) => {
+    if (currentUser && isAdmin) {
       return <Navigate to="/admin" />;
     }
     if (!currentUser) {
@@ -54,7 +57,7 @@ function App() {
         },
         {
           path: '/admin/reports',
-          element: <BusinessReportpage />,
+          element: <BusinessReportPage />,
         },
       ],
     },

@@ -1,8 +1,10 @@
 import React from 'react';
 import PaginationEvents from '../components/pagination/PaginationEvents';
-import { Typography } from '@material-tailwind/react';
+import { Card, Typography, CardBody} from '@material-tailwind/react';
 function MusicianHomePage() {
   const numberOfEvents = 0;
+  const nextEventDate = '25/05/2023';
+
   // const date = new Date();
   const events = [
     {
@@ -103,18 +105,28 @@ function MusicianHomePage() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
-        <div className=" p-3 text-center border-r-2">
-          <span className="text-2xl font-bold block uppercase tracking-wide text-gray-700 ">
+      <Card className="mt-6 w-96">
+        <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
+          <Typography variant="h5" color="blue-gray" className="mb-2">
             {numberOfEvents}
-          </span>
-          <span className="text-md text-gray-500">Registered Events</span>
+          </Typography>
+          <Typography>Registered Events</Typography>
+        </CardBody>
+        <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
+          <Typography variant="h5" color="blue-gray" className="mb-2">
+            {nextEventDate}
+          </Typography>
+          <Typography>My Next Show</Typography>
+        </CardBody>
+      </Card>
+      <div>
+        <div className=" p-3 text-center border-r-2">
+          <span className="text-2xl font-bold block uppercase tracking-wide text-gray-700 "></span>
+          <span className="text-md text-gray-500"></span>
         </div>
         <div className="p-3 text-center  ">
-          <span className="text-2xl  font-bold block uppercase tracking-wide text-gray-700">
-            26/12/2023
-          </span>
-          <span className="text-md text-gray-500">My Next Show</span>
+          <span className="text-2xl  font-bold block uppercase tracking-wide text-gray-700"></span>
+          <span className="text-md text-gray-500"></span>
         </div>
 
         <PaginationEvents
@@ -123,7 +135,7 @@ function MusicianHomePage() {
           header="Upcoming Events"
           isHome={true}
         />
-        </div>
+      </div>
     </div>
   );
 }

@@ -32,7 +32,7 @@ function MusicianProfileForm(prop) {
   // send data to backEnd to update user profile
   const handleSubmit = () => {};
   return (
-    <div className="max-w-lg w-full px-6 py-12 bg-white shadow-md rounded-md">
+    <div className="max-w-lg w-auto md:w-full px-6 py-12 bg-white shadow-md rounded-md">
       <div className="space-y-9">
         <Input
           name="fullName"

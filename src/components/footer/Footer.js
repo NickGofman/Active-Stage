@@ -6,7 +6,7 @@ const currentYear = date.getFullYear();
 function Footer() {
   return (
     <footer>
-      <div className="flex items-center justify-evenly  text-gray-600 lg:flex-row flex-col">
+      <div className="flex items-center justify-evenly  text-gray-600 flex-wrap">
         <div className=" px-5 py-5">
           <div data-field="phone">
             <a

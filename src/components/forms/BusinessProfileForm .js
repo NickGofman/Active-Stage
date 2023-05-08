@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input,  Button } from '@material-tailwind/react';
+import { Input, Button } from '@material-tailwind/react';
 import { useState } from 'react';
 
 function BusinessProfileForm(prop) {
@@ -21,7 +21,7 @@ function BusinessProfileForm(prop) {
   const handleSubmit = () => {};
 
   return (
-    <div className="max-w-lg w-full px-6 py-12 bg-white shadow-md rounded-md">
+    <div className="max-w-lg  w-auto md:w-full  px-6 py-12 bg-white shadow-md rounded-md">
       <form className="space-y-9">
         <Input
           label="Business Name"
