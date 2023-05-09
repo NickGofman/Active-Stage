@@ -31,6 +31,9 @@ function App() {
     if (!currentUser) {
       return <Navigate to="/login" />;
     }
+    // if (currentUser && !isAdmin) {
+    //   return <Navigate to="/" />;
+    // }
 
     return children;
   };

@@ -5,7 +5,7 @@ function MusicianHomePage() {
   const numberOfEvents = 0;
   const nextEventDate = '25/05/2023';
 
-  // const date = new Date();
+  // make sure the musician is'nt already registered to the current event,
   const events = [
     {
       id: 1,

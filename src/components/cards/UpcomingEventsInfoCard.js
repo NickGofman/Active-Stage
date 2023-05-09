@@ -1,12 +1,12 @@
 import { Card, Typography, CardHeader } from '@material-tailwind/react';
-
+import EventIncome from '../popup/EventIncome';
+import AssignMusician from '../popup/AssignMusician';
 const UpcomingEventsInfoCard = ({
   isAssign,
   isAssignIncome,
   handleClick,
   data,
 }) => {
-  const { header, dates } = data;
   return (
     <>
       {isAssign ? (
@@ -17,37 +17,40 @@ const UpcomingEventsInfoCard = ({
         >
           <CardHeader>
             <Typography variant="paragraph" color="light-blue">
-              {header}
+              Upcoming Events
             </Typography>
           </CardHeader>
-          {dates.map((date, index) => (
+          {data.map(({ date, eventId }) => (
             <div
-              key={index}
-              className="flex justify-center space-x-6 hover:bg-light-blue-50 rounded-xl cursor-pointer "
-              onClick={handleClick}
+              key={eventId}
+              className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer "
             >
-              <Typography variant="paragraph">{date.date}</Typography>
-              <Typography variant="paragraph">{date.time}</Typography>
+              <Typography variant="paragraph">{date}</Typography>
             </div>
-          ))}{' '}
+          ))}
         </Card>
       ) : isAssignIncome ? (
         <Card className=" shadow-lg hover:shadow-green-300  shadow-green-200 space-y-6 p-6 text-center flex-2 ">
           <CardHeader>
             <Typography variant="paragraph" color="green">
-              {header}
+              Assign Musician
             </Typography>
           </CardHeader>
-          {dates.map((date, index) => (
+          {data.map(({ date, registered, eventId }) => (
             <div
-              key={index}
+              key={eventId}
               className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer"
               onClick={handleClick}
             >
-              <Typography variant="paragraph">{date.date}</Typography>
+              <Typography variant="paragraph">{date}</Typography>
               <Typography variant="paragraph">
-                Registered: {date.registered}
+                Registered: {registered}
               </Typography>
+              <AssignMusician
+                EventId={eventId}
+                EventDate={date}
+                disabled={true}
+              />
             </div>
           ))}
         </Card>
@@ -58,16 +61,21 @@ const UpcomingEventsInfoCard = ({
         >
           <CardHeader>
             <Typography variant="paragraph" color="red">
-              {header}
+              Assign Income
             </Typography>
           </CardHeader>
-          {dates.map((date, index) => (
+          {data.map(({ date, bandName, eventId }) => (
             <div
-              key={index}
+              key={eventId}
               className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer "
-              onClick={handleClick}
             >
-              <Typography variant="paragraph">{date.date}</Typography>
+              <EventIncome
+                EventId={eventId}
+                bandName={bandName}
+                EventDate={date}
+                disabled={true}
+              />
+              <Typography variant="paragraph">{date}</Typography>
             </div>
           ))}
         </Card>

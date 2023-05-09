@@ -15,6 +15,7 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
     const newOffset = (event.selected * itemsPerPage) % events.length;
     setItemOffset(newOffset);
   };
+  //make query to check if user already registered to event if true change the text in the button and disabled the button
   const paginationVariants = {
     hidden: {
       opacity: 0,
@@ -61,10 +62,12 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
             {currentItems.map((event) => (
               <EventCardMusician
                 key={event.id}
+                id={event.id}
                 date={event.date}
                 hour={event.hour}
                 type={event.type}
                 description={event.description}
+                isRegistered={true}
               />
             ))}
           </div>

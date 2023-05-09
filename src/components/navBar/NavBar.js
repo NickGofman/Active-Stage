@@ -103,27 +103,25 @@ export default function NavBar() {
   );
 
   return (
-    <Navbar  className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 ">
+    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 ">
       <div className="flex items-center justify-between text-blue-gray-900">
-        <div>
+        <div className="flex flex-col ">
           <img
             src={MainLogo}
             alt="Active-Stage Logo"
             className="w-[150px] h-[100px]"
           />
-        </div>
-        <div className="hidden lg:flex lg:flex-col lg:gap-1">
-          {navList}
           <Button
             onClick={handleLogout}
             variant="text"
             color="red"
-            className="w-1/5 self-end"
             size="sm"
+            className="text-sm"
           >
             Logout
           </Button>
         </div>
+        <div className="hidden lg:flex lg:flex-col lg:gap-1">{navList}</div>
         {/* toggle icons */}
         <IconButton
           variant="text"

@@ -7,7 +7,8 @@ import {
   DialogBody,
   DialogFooter,
 } from '@material-tailwind/react';
-function WarningCancel({disabled}) {
+
+function WarningCancel({ disabled }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);

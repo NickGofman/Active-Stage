@@ -10,61 +10,64 @@ const BusinessHomePage = () => {
   const getLatestEventToAssign = (evetID) => {};
   // get Events that need to assign Income
   const getIncomeUpdating = (evetID) => {};
-
-  const data = [
+  //get the 3 first events with status assign, date not pass,
+  const dataUpcoming = [
     {
-      header: 'Upcoming Events',
-      dates: [
-        {
-          date: '19-6-2023',
-          time: '19:29',
-        },
-        {
-          date: '20-6-2023',
-          time: '10:00',
-        },
-        {
-          date: '21-6-2023',
-          time: '15:30',
-        },
-      ],
+      date: '19-6-2023 19:29',
+      bandName: 'assadc',
+      eventId: '1',
     },
     {
-      header: 'Assign Musician',
-
-      dates: [
-        {
-          date: '19-6-2023',
-          registered: 3,
-        },
-        {
-          date: '20-6-2023',
-          registered: 0,
-        },
-        {
-          date: '21-6-2023',
-          registered: 5,
-        },
-      ],
+      date: '18-6-2023 19:29',
+      bandName: 'assadc',
+      eventId: '2',
     },
     {
-      header: 'Assign Income',
-      dates: [
-        {
-          date: '19-6-2023',
-          time: null,
-        },
-        {
-          date: '20-6-2023',
-          time: null,
-        },
-        {
-          date: '21-6-2023',
-          time: null,
-        },
-      ],
+      date: '16-6-2023 19:29',
+      bandName: 'assadc',
+      eventId: '3',
     },
   ];
+  //get the 3 first events with status published, date not pass,
+  const dataAssign = [
+    {
+      date: '19-6-2023 19:29',
+      registered: 2,
+      eventId: '1',
+    },
+    {
+      date: '18-6-2023 19:29',
+      registered: 5,
+
+      eventId: '2',
+    },
+    {
+      date: '16-6-2023 19:29',
+      registered: 3,
+
+      eventId: '3',
+    },
+  ];
+  //get the 3 first events with status assign, date pass(need income)
+  const dataIncome = [
+    {
+      date: '19-6-2023 19:29',
+      bandName: 'assadc',
+      eventId: '1',
+    },
+    {
+      date: '18-6-2023 19:29',
+      bandName: 'assadc',
+      eventId: '2',
+    },
+    {
+      date: '16-6-2023 19:29',
+      bandName: 'assadc',
+      eventId: '3',
+    },
+  ];
+
+  
 
   return (
     <div className=" flex flex-grow px-5 py-24 mx-auto flex-col justify-center items-center ">
@@ -77,21 +80,21 @@ const BusinessHomePage = () => {
             isAssign={true}
             isAssignIncome={false}
             handleClick={getLatestUpcomingEvent}
-            data={data[0]}
+            data={dataUpcoming}
           />
           <UpcomingEventsInfoCard
             header="Upcoming Event to assign"
             isAssign={false}
             isAssignIncome={true}
             handleClick={getLatestEventToAssign}
-            data={data[1]}
+            data={dataAssign}
           />
           <UpcomingEventsInfoCard
             header="Events for income updating"
             isAssign={false}
             isAssignIncome={false}
             handleClick={getIncomeUpdating}
-            data={data[2]}
+            data={dataIncome}
           />
         </div>
       </div>
