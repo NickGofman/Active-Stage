@@ -24,16 +24,24 @@ import { useContext } from 'react';
 import { AuthContext } from './components/context/authContext';
 function App() {
   const { currentUser } = useContext(AuthContext);
-  const ProtectedRoute = ({ children, isAdmin = false }) => {
-    if (currentUser && isAdmin) {
-      return <Navigate to="/admin" />;
-    }
+  const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
+    console.log('isAdmin', isAdmin, 'isMusician', isMusician);
     if (!currentUser) {
-      return <Navigate to="/login" />;
+      console.log('currentUser');
+
+      return <Navigate to="/" />;
     }
-    // if (currentUser && !isAdmin) {
-    //   return <Navigate to="/" />;
-    // }
+    if (isAdmin) {
+      console.log('isAdmin');
+
+      return currentUser.role === 'admin' ? children : <Navigate to="/*" />;
+    }
+    if (isMusician) {
+      console.log('isMusician');
+
+      return currentUser.role === 'user' ? children : <Navigate to="/*" />;
+    }
+    console.log('children');
 
     return children;
   };
@@ -41,7 +49,7 @@ function App() {
     {
       path: '/admin',
       element: (
-        <ProtectedRoute isAllowed={currentUser?.role === 'admin'}>
+        <ProtectedRoute isAdmin>
           <PageLayout />
         </ProtectedRoute>
       ),
@@ -65,29 +73,29 @@ function App() {
       ],
     },
     {
-      path: '/',
+      path: '/user',
       element: (
-        <ProtectedRoute>
+        <ProtectedRoute isMusician>
           <PageLayout />
         </ProtectedRoute>
       ),
       children: [
         {
-          path: '/',
+          path: '/user',
           element: <MusicianHomePage />,
         },
         {
-          path: '/profile/:id',
+          path: '/user/profile/:id',
           element: <ProfilePage />,
         },
         {
-          path: '/myEvents',
+          path: '/user/myEvents',
           element: <MusicianMyEventsPage />,
         },
       ],
     },
     {
-      path: '/login',
+      path: '/',
       element: <LoginPage />,
     },
     {
@@ -101,6 +109,10 @@ function App() {
     {
       path: '/changepassword',
       element: <ChangePassword />,
+    },
+    {
+      path: '/*',
+      element: <div>Page not found</div>,
     },
   ]);
   return (

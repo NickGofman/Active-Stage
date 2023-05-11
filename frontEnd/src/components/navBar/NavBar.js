@@ -35,7 +35,7 @@ export default function NavBar() {
         className=" p-1 font-bold"
       >
         <Link
-          to={currentUser.role === 'admin' ? '/admin' : '/'}
+          to={currentUser.role === 'admin' ? '/admin' : '/user'}
           className="flex flex-row-reverse gap-1 items-center"
         >
           <BiHome />
@@ -53,7 +53,7 @@ export default function NavBar() {
           to={
             currentUser?.role === 'admin'
               ? `/admin/profile/${currentUser.id}`
-              : `/profile/${currentUser.id}`
+              : `/user/profile/${currentUser.id}`
           }
           className="flex flex-row-reverse gap-1 items-center"
         >
@@ -68,7 +68,7 @@ export default function NavBar() {
         className="p-1 font-bold "
       >
         <Link
-          to={currentUser.role === 'admin' ? '/admin/events' : '/myevents'}
+          to={currentUser.role === 'admin' ? '/admin/events' : '/user/myevents'}
           className="flex flex-row-reverse gap-1 items-center"
         >
           <BsCalendar4Event />

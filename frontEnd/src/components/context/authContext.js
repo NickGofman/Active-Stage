@@ -8,12 +8,15 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const login = (inputs) => {
+    //we need to use axios here to ge the user details and set the currentuser
     setCurrentUser({
       id: 1,
-      role: 'admin',
+      role: 'user',
       businessName: 'Elis pub',
       managerName: 'nick',
     });
+
+    
   };
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(currentUser));

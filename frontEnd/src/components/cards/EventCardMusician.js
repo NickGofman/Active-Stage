@@ -28,7 +28,7 @@ function EventCardMusician(props) {
         </Typography>
       </CardBody>
       <CardFooter className="">
-        {location.pathname !== '/myevents' && (
+        {location.pathname !== '/user/myevents' && (
           <RegisterToEvent
             date={date}
             hour={hour}

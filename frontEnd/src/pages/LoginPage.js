@@ -9,10 +9,17 @@ import {
   CardHeader,
 } from '@material-tailwind/react';
 import { AuthContext } from '../components/context/authContext';
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 function LoginPage() {
-  const { login } = useContext(AuthContext);
+  const { login, currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log("Use affect",currentUser);
+    if (currentUser !== null) {
+      currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
+    }
+  }, [currentUser, navigate]);
   const handleLogin = () => {
     login();
   };
@@ -36,7 +43,7 @@ function LoginPage() {
           </form>
         </CardBody>
         <CardFooter className="pt-0">
-          <Button variant="gradient" fullWidth>
+          <Button onClick={handleLogin} variant="gradient" fullWidth>
             Sign In
           </Button>
           <Link
