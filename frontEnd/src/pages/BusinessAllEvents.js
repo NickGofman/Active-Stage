@@ -26,10 +26,10 @@ function BusinessAllEvents() {
 
   return (
     <div className="flex flex-col items-center space-y-9 mt-10">
-      <div className="relative shadow-md sm:rounded-lg">
+      <div className=" shadow-md sm:rounded-lg">
         <div className="flex justify-end">
           <Datepicker
-            containerClassName=" relative max-w-sm"
+            containerClassName=" relative max-w-sm "
             useRange={false}
             value={date}
             onChange={handleDateChange}
@@ -37,7 +37,7 @@ function BusinessAllEvents() {
           />
         </div>
         {/* Radio buttons for sorting */}
-        <div className="space-x-7">
+        <div className="space-x-7 pb-3">
           <Radio
             label="All"
             type="radio"
@@ -81,9 +81,9 @@ function BusinessAllEvents() {
             onChange={handleSortTypeChange}
           />
         </div>
-        <div className='h-96 overflow-scroll overflow-x-hidden border rounded'>
+        <div className="h-96 overflow-scroll overflow-x-hidden border rounded ">
           <table className="w-full text-sm text-left text-gray-500 rounded ">
-            <thead className=" sticky top-0 z-10 text-xs text-gray-700 uppercase bg-gray-50 ">
+            <thead className=" sticky top-0 text-xs text-gray-700 uppercase bg-gray-50  ">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Band Name

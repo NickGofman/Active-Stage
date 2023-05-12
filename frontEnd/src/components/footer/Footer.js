@@ -1,4 +1,3 @@
-import MainLogo from '../../logo/NJs0uK01.svg';
 import { FaInstagram, FaFacebook } from 'react-icons/fa';
 const date = new Date();
 const currentYear = date.getFullYear();

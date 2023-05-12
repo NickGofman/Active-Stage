@@ -1,4 +1,4 @@
-import { Button, Typography } from '@material-tailwind/react';
+
 import Calendar from '../components/calendar/Calendar';
 import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
 import CreateNewEvent from '../components/popup/CreateNewEvent';

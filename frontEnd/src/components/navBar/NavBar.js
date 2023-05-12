@@ -103,7 +103,7 @@ export default function NavBar() {
   );
 
   return (
-    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 ">
+    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 mb-10 ">
       <div className="flex items-center justify-between text-blue-gray-900">
         <div className="flex flex-col ">
           <img

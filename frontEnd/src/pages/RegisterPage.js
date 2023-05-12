@@ -6,7 +6,6 @@ import {
   Typography,
   Textarea,
 } from '@material-tailwind/react';
-import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import { FiUpload } from 'react-icons/fi';
 function RegisterPage() {
   return (

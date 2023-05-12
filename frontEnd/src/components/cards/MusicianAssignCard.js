@@ -1,11 +1,11 @@
 import {
+  Button,
   Card,
   Typography,
   CardBody,
   CardFooter,
 } from '@material-tailwind/react';
 import React from 'react';
-import { Button } from '@material-tailwind/react';
 function MusicianAssignCard(props) {
   const { bandName, experience, description } = props;
   return (
@@ -19,8 +19,9 @@ function MusicianAssignCard(props) {
         </Typography>
         <Typography variant="small">{description}</Typography>
       </CardBody>
-      <CardFooter className="pt-0">
+      <CardFooter className="pt-0 space-x-5 ">
         <Button>Assign</Button>
+        <Button color="red">Block User Forever</Button>
       </CardFooter>
     </Card>
   );

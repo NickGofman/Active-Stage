@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button,Avatar } from '@material-tailwind/react';
-import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
+import { Button } from '@material-tailwind/react';
 import MusicianProfileForm from '../components/forms/MusicianProfileForm';
 import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
 import { AuthContext } from '../components/context/authContext';

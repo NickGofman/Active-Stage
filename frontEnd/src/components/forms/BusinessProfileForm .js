@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input, Button } from '@material-tailwind/react';
 import { useState } from 'react';
-import { FiUpload } from 'react-icons/fi';
 
 function BusinessProfileForm(prop) {
   const { businessName, address, phone, managerName } = prop.admin;
@@ -59,7 +58,6 @@ function BusinessProfileForm(prop) {
           name="managerName"
           onChange={handleChange}
         />
-        
 
         <Button onClick={handleSubmit}>Save Changes</Button>
       </form>
