@@ -6,7 +6,8 @@ import {
   Typography,
   Textarea,
 } from '@material-tailwind/react';
-import { FiUpload } from 'react-icons/fi';
+import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 import { makeRequest } from '../axios';
 function RegisterPage() {
   const [inputs, setInputs] = useState({
@@ -17,33 +18,35 @@ function RegisterPage() {
     confirmPassword: '',
     birthDate: '',
     yearsOfExperience: '',
+    phoneNumber: '',
+    url: '',
     description: '',
+    bandName: '',
   });
   const [err, setErr] = useState(null);
+  const [errMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
   //check use password
 
   //send data to backEnd
   const handleRegistration = (e) => {
     e.preventDefault();
     // Validate form data
-
     const errors = validateForm(inputs);
-    if (Object.entries(errors).every((current)=>current.length===0)) {
-      console.log("Errors",errors);
-      setErr(errors);
+    if (Object.values(errors).some((current) => current !== '')) {
       return;
-    }
-
-    // Check password confirmation
-    else {
+    } else {
+      console.log('In ELSE');
       makeRequest
         .post('/auth/register', inputs)
         .then((response) => {
-          console.log("Responce:",response);
           // Handle successful registration
+          console.log('Response:', response);
+          setErrorMessage('');
+          navigate('/');
         })
         .catch((error) => {
-          console.log(error);
+          setErrorMessage(error.response.data.error);
         });
     }
   };
@@ -55,16 +58,14 @@ function RegisterPage() {
     }));
     setErr(validateForm({ ...inputs, [e.target.name]: e.target.value }));
   };
-  // const checkText = function(name){
-  //   return inputs[name] === ''
-  // }
 
   return (
     <div className="container px-5 py-24 mx-auto flex flex-wrap justify-center">
       <Card color="transparent" shadow={false}>
         <Typography variant="h4">Register</Typography>
-        <form className="mt-8  w-80 max-w-screen-lg sm:w-96 mb-4 flex flex-col gap-6">
+        <form className="mt-8  w-80 max-w-screen-lg sm:w-96 mb-4 flex flex-col gap-4">
           <Input
+            required
             type="text"
             size="lg"
             label="First Name"
@@ -74,6 +75,7 @@ function RegisterPage() {
             success={err?.firstName === ''}
           />
           <Input
+            required
             type="text"
             size="lg"
             label="Last Name"
@@ -83,11 +85,21 @@ function RegisterPage() {
             success={err?.lastName === ''}
           />
           <Input
+            required
+            type="text"
+            size="lg"
+            label="Band Name"
+            name="bandName"
+            onChange={handleChange}
+            error={err?.bandName !== ''}
+            success={err?.bandName === ''}
+          />
+          <Input
+            required
             type="email"
             size="lg"
             label="Email"
             name="email"
-            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
             onChange={handleChange}
             error={err?.email !== ''}
             success={err?.email === ''}
@@ -103,6 +115,15 @@ function RegisterPage() {
             error={err?.password !== ''}
             success={err?.password === ''}
           />
+          <Typography
+            variant="small"
+            color="gray"
+            className="flex items-center gap-1 font-normal mt-2"
+          >
+            <InformationCircleIcon className="w-4 h-4 -mt-px" />
+            Password should contain at least 8 characters with numbers and
+            digits
+          </Typography>
           <Input
             required
             type="password"
@@ -130,6 +151,28 @@ function RegisterPage() {
             error={err?.yearsOfExperience !== ''}
             success={err?.yearsOfExperience === ''}
           />
+          <Input
+            size="lg"
+            label="Phone Number"
+            name="phoneNumber"
+            onChange={handleChange}
+            error={err?.phoneNumber !== ''}
+            success={err?.phoneNumber === ''}
+          />
+          <Typography
+            variant="small"
+            color="gray"
+            className="flex items-center gap-1 font-normal mt-2"
+          >
+            <InformationCircleIcon className="w-4 h-4 -mt-px" />
+            Phone number format 05X-XXXXXXX
+          </Typography>
+          <Input
+            size="lg"
+            label="Youtube URL"
+            name="url"
+            onChange={handleChange}
+          />
           <Textarea
             required
             type="text"
@@ -137,7 +180,9 @@ function RegisterPage() {
             name="description"
             onChange={handleChange}
           />
-
+          <Typography color="red" variant="lead">
+            {errMessage && errMessage}
+          </Typography>
           <Button className="mt-6" fullWidth onClick={handleRegistration}>
             Register
           </Button>
@@ -155,11 +200,13 @@ function RegisterPage() {
       confirmPassword: '',
       birthDate: '',
       yearsOfExperience: '',
+
+      phoneNumber: '',
+      bandName: '',
     };
 
     // Check first name
     if (inputs.firstName === '') {
-      console.log('In IF', inputs.firstName);
       errors.firstName = 'First name is required';
     }
 
@@ -204,6 +251,18 @@ function RegisterPage() {
       errors.yearsOfExperience = 'Years of experience is required';
     } else if (isNaN(inputs.yearsOfExperience)) {
       errors.yearsOfExperience = 'Years of experience must be a number';
+    }
+    // Check phone number
+    if (!inputs.phoneNumber) {
+      errors.phoneNumber = 'Phone number is required';
+    } else if (!/^05\d([-]{0,1})\d{7}$/.test(inputs.phoneNumber)) {
+      console.log('In ELSE');
+      errors.phoneNumber =
+        'Phone number must be a valid Israeli phone number in the format 054-315-9449';
+    }
+
+    if (!inputs.bandName) {
+      errors.bandName = 'band name is required';
     }
 
     return errors;

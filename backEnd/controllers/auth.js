@@ -16,13 +16,8 @@ const roleEnum = {
 // ================ register ======================
 
 const register = async (req, res) => {
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(422).json({ errors: errors.array() });
-  // }
-  console.log('IN BACKEND');
-
-  console.log(req.body);
+  //get data from frontEND
+  console.log("IN /auth/register BACKEND")
   const {
     email,
     password,
@@ -31,7 +26,6 @@ const register = async (req, res) => {
     description,
     birthDate,
     bandName,
-
     firstName,
     lastName,
     url,
@@ -39,28 +33,29 @@ const register = async (req, res) => {
 
   // hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
-  // check if user exist
+  //check user EXIST
   pool.query(
-    'SELECT * FROM user WHERE Email = ? OR (SELECT * FROM musician WHERE BandName = ?)',
+    'SELECT * FROM user u LEFT JOIN musician m ON u.UserId = m.UserId WHERE u.Email = ? OR m.BandName = ?',
     [email, bandName],
     (err, result) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-      console.log(result);
+      //check if email or bandName
       if (result.length > 0) {
-        if (result[0].email === email) {
-          return res.status(400).json({ error: 'User already exists.' });
-        } else if (
-          result[0]['(SELECT 1 FROM musician WHERE BandName = ?)'] === 1
-        ) {
-          return res.status(400).json({ error: 'Band name already exists.' });
+        for (let i = 0; i < result.length; i++) {
+          const user = result[i];
+          if (user.Email === email) {
+            return res.status(400).json({ error: 'User already exists.' });
+          } else if (user.BandName === bandName) {
+            return res.status(400).json({ error: 'Band name already exists.' });
+          }
         }
       }
 
       // insert into user table
       pool.query(
-        'INSERT INTO user (Email, Password, PhoneNumber, status, role) VALUES (?,?, ?, ?, ?)',
+        'INSERT INTO user (Email, Password, PhoneNumber, status, role) VALUES (?, ?, ?, ?, ?)',
         [
           email,
           hashedPassword,
@@ -72,14 +67,15 @@ const register = async (req, res) => {
           if (err) {
             return res.status(500).json({ error: err.message });
           }
-          console.log(result);
+
           if (!result.affectedRows) {
             return res.status(500).json({ error: 'User registration failed.' });
           }
+          const userId = result.insertId;
 
           // insert into musician table
           pool.query(
-            'INSERT INTO musician (Email,URL, YearsOfExperience, Description, BirthDate, BandName, FirstName, LastName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO musician (Email,URL, YearsOfExperience, Description, BirthDate, BandName, FirstName, LastName,UserId) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)',
             [
               email,
               url,
@@ -89,12 +85,16 @@ const register = async (req, res) => {
               bandName,
               firstName,
               lastName,
+              userId,
             ],
             (err) => {
               if (err) {
                 return res.status(500).json({ error: err.message });
               }
-              res.json({ message: 'Musician registered successfully.' });
+
+              res
+                .status(200)
+                .json({ message: 'Musician registered successfully.' });
             }
           );
         }
