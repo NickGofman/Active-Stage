@@ -13,11 +13,16 @@ const roleEnum = {
   MUSICIAN: 'Musician',
 };
 
+// ================ register ======================
+
 const register = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).json({ errors: errors.array() });
+  // }
+  console.log('IN BACKEND');
+
+  console.log(req.body);
   const {
     email,
     password,
@@ -26,7 +31,7 @@ const register = async (req, res) => {
     description,
     birthDate,
     bandName,
-    photo,
+
     firstName,
     lastName,
     url,
@@ -35,59 +40,69 @@ const register = async (req, res) => {
   // hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
   // check if user exist
-  pool.query('SELECT * FROM user WHERE email = ?', [email], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    console.log(result);
-    if (result.length > 0) {
-      return res.status(400).json({ error: 'User already exists.' });
-    }
-
-    // insert into user table
-    pool.query(
-      'INSERT INTO user (email, password, PhoneNumber, status, role) VALUES (?,?, ?, ?, ?)',
-      [
-        email,
-        hashedPassword,
-        phoneNumber,
-        statusEnum.ACTIVE,
-        roleEnum.MUSICIAN,
-      ],
-      (err, result) => {
-        if (err) {
-          return res.status(500).json({ error: err.message });
-        }
-        console.log(result);
-        if (!result.affectedRows) {
-          return res.status(500).json({ error: 'User registration failed.' });
-        }
-
-        // insert into musician table
-        pool.query(
-          'INSERT INTO musician (Email,URL, YearsOfExperience, Description, BirthDate, BandName, Photo, FirstName, LastName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-          [
-            email,
-            url,
-            yearsOfExperience,
-            description,
-            birthDate,
-            bandName,
-            photo,
-            firstName,
-            lastName,
-          ],
-          (err) => {
-            if (err) {
-              return res.status(500).json({ error: err.message });
-            }
-            res.json({ message: 'Musician registered successfully.' });
-          }
-        );
+  pool.query(
+    'SELECT * FROM user WHERE Email = ? OR (SELECT * FROM musician WHERE BandName = ?)',
+    [email, bandName],
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
       }
-    );
-  });
+      console.log(result);
+      if (result.length > 0) {
+        if (result[0].email === email) {
+          return res.status(400).json({ error: 'User already exists.' });
+        } else if (
+          result[0]['(SELECT 1 FROM musician WHERE BandName = ?)'] === 1
+        ) {
+          return res.status(400).json({ error: 'Band name already exists.' });
+        }
+      }
+
+      // insert into user table
+      pool.query(
+        'INSERT INTO user (Email, Password, PhoneNumber, status, role) VALUES (?,?, ?, ?, ?)',
+        [
+          email,
+          hashedPassword,
+          phoneNumber,
+          statusEnum.ACTIVE,
+          roleEnum.MUSICIAN,
+        ],
+        (err, result) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+          console.log(result);
+          if (!result.affectedRows) {
+            return res.status(500).json({ error: 'User registration failed.' });
+          }
+
+          // insert into musician table
+          pool.query(
+            'INSERT INTO musician (Email,URL, YearsOfExperience, Description, BirthDate, BandName, FirstName, LastName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+              email,
+              url,
+              yearsOfExperience,
+              description,
+              birthDate,
+              bandName,
+              firstName,
+              lastName,
+            ],
+            (err) => {
+              if (err) {
+                return res.status(500).json({ error: err.message });
+              }
+              res.json({ message: 'Musician registered successfully.' });
+            }
+          );
+        }
+      );
+    }
+  );
 };
+// ================ login ======================
 
 const login = (req, res) => {
   pool.query(
@@ -130,6 +145,7 @@ const login = (req, res) => {
     }
   );
 };
+// ================ logout ======================
 
 const logout = (req, res) => {
   res
