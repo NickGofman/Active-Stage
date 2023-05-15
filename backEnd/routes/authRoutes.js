@@ -7,11 +7,14 @@ const {
   login,
   logout,
   forgotPassword,
+  changePassword,
 } = require('../controllers/auth.js');
 
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);
 router.post('/forgotPassword', forgotPassword);
+router.post('/changePassword', changePassword);
+
 
 module.exports = router;

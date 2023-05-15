@@ -17,7 +17,6 @@ import { ThemeProvider } from '@material-tailwind/react';
 import {
   createBrowserRouter,
   RouterProvider,
-  Outlet,
   Navigate,
 } from 'react-router-dom';
 import { useContext } from 'react';
@@ -34,12 +33,12 @@ function App() {
     if (isAdmin) {
       console.log('isAdmin');
 
-      return currentUser.role === 'admin' ? children : <Navigate to="/*" />;
+      return currentUser.Role === 'admin' ? children : <Navigate to="/*" />;
     }
     if (isMusician) {
       console.log('isMusician');
 
-      return currentUser.role === 'user' ? children : <Navigate to="/*" />;
+      return currentUser.Role === 'user' ? children : <Navigate to="/*" />;
     }
     console.log('children');
 

@@ -17,8 +17,13 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
-  const { currentUser } = useContext(AuthContext);
-  const handleLogout = () => {};
+  const { logout, currentUser } = useContext(AuthContext);
+  
+  const handleLogout = async() => {
+
+    await logout();
+
+  };
   useEffect(() => {
     window.addEventListener(
       'resize',
@@ -35,7 +40,7 @@ export default function NavBar() {
         className=" p-1 font-bold"
       >
         <Link
-          to={currentUser.role === 'admin' ? '/admin' : '/user'}
+          to={currentUser.Role === 'admin' ? '/admin' : '/user'}
           className="flex flex-row-reverse gap-1 items-center"
         >
           <BiHome />
@@ -51,9 +56,9 @@ export default function NavBar() {
       >
         <Link
           to={
-            currentUser?.role === 'admin'
-              ? `/admin/profile/${currentUser.id}`
-              : `/user/profile/${currentUser.id}`
+            currentUser?.Role === 'admin'
+              ? `/admin/profile/${currentUser.UserId}`
+              : `/user/profile/${currentUser.UserId}`
           }
           className="flex flex-row-reverse gap-1 items-center"
         >
@@ -68,7 +73,7 @@ export default function NavBar() {
         className="p-1 font-bold "
       >
         <Link
-          to={currentUser.role === 'admin' ? '/admin/events' : '/user/myevents'}
+          to={currentUser.Role === 'admin' ? '/admin/events' : '/user/myevents'}
           className="flex flex-row-reverse gap-1 items-center"
         >
           <BsCalendar4Event />
@@ -76,7 +81,7 @@ export default function NavBar() {
         </Link>
       </Typography>
 
-      {currentUser?.role === 'admin' && (
+      {currentUser?.Role === 'admin' && (
         <Typography
           as="li"
           variant="small"

@@ -47,7 +47,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className=" grid grid-cols-2 gap-4 w-2/3 ">
+      <div className="lg:grid  w-2/3 ">
         <Typography className="mb-7" variant="lead">
           Forgot your password? No problem! Enter your email address below and
           we'll send you a new temporary password.
@@ -58,8 +58,6 @@ const ForgotPassword = () => {
             size="lg"
             name="email"
             onChange={handleChange}
-            error={err?.email !== ''}
-            success={err?.email === ''}
             variant="outlined"
             label="Email"
             type="email"

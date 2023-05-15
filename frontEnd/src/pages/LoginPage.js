@@ -14,30 +14,37 @@ import { Link, useNavigate } from 'react-router-dom';
 function LoginPage() {
   const { login, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   console.log('Use affect', currentUser);
-  //   if (currentUser !== null) {
-  //     currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
-  //   }
-  // }, [currentUser, navigate]);
-
-  if (currentUser !== null) {
-    currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
-  }
-
-  //send to login function the email and password
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Validate form data
-
-    login(inputs);
-  };
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
   });
-  const [err, setErr] = useState(null);
-  const [errMessage, setErrorMessage] = useState('');
+  const [err, setErr] = useState('');
+
+  useEffect(() => {
+    // console.log('ERROR USE EFFECT:', err);
+    // console.log('Use affect', currentUser);
+    if (currentUser !== null) {
+      currentUser?.Role === 'admin' ? navigate('/admin') : navigate('/user');
+    }
+  }, [currentUser, navigate]);
+
+  // if (currentUser !== null) {
+  //   currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
+  // }
+
+  //send to login function the email and password
+  const handleLogin = async(e) => {
+    e.preventDefault();
+    // Validate form data
+    // Check email
+
+    try {
+      await login(inputs);
+    } catch (error) {
+      console.log("InCartch")
+      setErr(error.response.data.error)
+    }
+  };
 
   const handleChange = (e) => {
     console.log(inputs);
@@ -45,7 +52,6 @@ function LoginPage() {
       ...prevInputs,
       [e.target.name]: e.target.value,
     }));
-    setErr({ ...inputs, [e.target.name]: e.target.value });
   };
 
   return (
@@ -70,8 +76,6 @@ function LoginPage() {
               label="Email"
               name="email"
               onChange={handleChange}
-              error={err?.email !== ''}
-              success={err?.email === ''}
             />
             <Input
               required
@@ -81,12 +85,12 @@ function LoginPage() {
               label="Password"
               name="password"
               onChange={handleChange}
-              error={err?.password !== ''}
-              success={err?.password === ''}
             />
           </form>
         </CardBody>
         <CardFooter className="pt-0">
+          <Typography color="red" variant="lead">{err && err}</Typography>
+          
           <Button onClick={handleLogin} variant="gradient" fullWidth>
             Sign In
           </Button>

@@ -6,7 +6,7 @@ const nodeMailer = require('nodemailer');
 
 require('dotenv').config();
 
-// ================ register ======================
+//#region ================ REGISTER ======================
 
 const register = async (req, res) => {
   const statusEnum = {
@@ -108,7 +108,10 @@ const register = async (req, res) => {
     }
   );
 };
-// ================ login ======================
+
+//#endregion
+
+//#region  ================ LOGIN ======================
 
 const login = (req, res) => {
   console.log('IN /auth/login BACKEND');
@@ -122,7 +125,7 @@ const login = (req, res) => {
       }
       console.log(JSON.stringify(results));
       if (results.length === 0) {
-        return res.status(401).json({ error: 'Invalid email or password.' });
+        return res.status(401).json({ error: 'Invalid email or password' });
       }
       // get user info
       const user = results[0];
@@ -153,7 +156,10 @@ const login = (req, res) => {
     }
   );
 };
-// ================ logout ======================
+
+//#endregion  ================ ENDlogin ======================
+
+//#region ================ LOGOUT ======================
 
 const logout = (req, res) => {
   res
@@ -161,7 +167,9 @@ const logout = (req, res) => {
     .status(200)
     .json('USER LOGGED OUT!');
 };
-// ================ Forgot Password ======================
+//#endregion ================ LOGOUT ======================
+
+//#region ================ FORGOT-PASSWORD ======================
 
 const forgotPassword = async (req, res) => {
   // Generate new password
@@ -233,6 +241,70 @@ const forgotPassword = async (req, res) => {
     }
   );
 };
+//#endregion ================ Forgot Password ======================
+
+//#region ================ CHANGE-PASSWORD======================
+
+const changePassword = async(req, res) => {
+  const token = req.cookies.accessToken;
+  const password = req.body.newPassword;
+  //hash new password
+  console.log('hash new password');
+  let hashedPassword = await bcrypt.hash(password, 10);
+    console.log('AFTER hash new password');
+
+  //check token
+  if (!token) return res.status(401).json('Not logged in!');
+  jwt.verify(token, 'secretKey', (err, userInfo) => {
+    if (err) return res.status(403).json('Token is not valid!');
+    console.log(userInfo);
+    const q = 'UPDATE user SET Password = ? WHERE UserId=?';
+    const values = [hashedPassword, userInfo.id];
+    pool.query(q, [hashedPassword,userInfo.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json('user password changed successfully');
+    });
+  });
+};
+
+// const changePassword = async (req, res) => {
+//   const token = req.cookies.accessToken;
+//   const password = req.body.password;
+
+//   try {
+//     // Hash the new password
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // Check token
+//     if (!token) {
+//       return res.status(401).json('Not logged in!');
+//     }
+
+//     jwt.verify(token, 'secretKey', (err, userInfo) => {
+//       if (err) {
+//         return res.status(403).json('Token is not valid!');
+//       }
+
+//       console.log(userInfo);
+
+//       const q = 'UPDATE user SET Password = ? WHERE UserId = ?';
+//       const values = [hashedPassword, userInfo.id];
+
+//       pool.query(q, values, (err, data) => {
+//         if (err) {
+//           return res.status(500).json(err);
+//         }
+
+//         return res.status(200).json('User password changed successfully');
+//       });
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json('Internal Server Error');
+//   }
+// };
+//#endregion ================ CHANGE-PASSWORD======================
+
 function generatePassword() {
   const length = 12;
   const charset =
@@ -245,4 +317,4 @@ function generatePassword() {
   return password;
 }
 
-module.exports = { register, login, logout, forgotPassword };
+module.exports = { register, login, logout, forgotPassword, changePassword };

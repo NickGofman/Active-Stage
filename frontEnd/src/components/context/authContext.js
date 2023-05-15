@@ -5,35 +5,30 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   //check if already login
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(localStorage.getItem('user')) || null
+  );
 
-  const login = (inputs) => {
+  const login = async (inputs) => {
     //we need to use axios here to ge the user details and
     console.log('In authContext');
-    makeRequest
-      .post('/auth/login', inputs)
-      .then((response) => {
-        // Handle successful registration
-        console.log('Response In authContext: ', response);
-
-        //set the current user
-        setCurrentUser({
-          id: response.data.UserId,
-          role: response.data.Role,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const res = await makeRequest.post('/auth/login', inputs, {
+      withCredentials: true,
+    });
+    const { Status, ...others } = res.data;
+    setCurrentUser(others);
   };
-  // useEffect(() => {
-  //   localStorage.setItem('user', JSON.stringify(currentUser));
-  // }, [currentUser]);
-
-  const logout = () => {
+  //set user localStorage
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(currentUser));
+  }, [currentUser]);
+  //clean user localStorage
+  const logout = async () => {
+    const res = await makeRequest.post('/auth/logout');
     localStorage.removeItem('user');
     setCurrentUser(null);
   };
+
   return (
     <AuthContext.Provider value={{ currentUser, login, logout }}>
       {children}
