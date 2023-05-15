@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const authRoutes = require('./routes/authRoutes');
-const cors=require('cors')
+const cors = require('cors');
 
 const port = process.env.port || 3001;
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,7 +20,6 @@ app.use(
 );
 
 app.use('/auth', authRoutes);
-
 
 app.listen(port, () => {
   console.log(`WE ARE RUNNING PORT: ${port}`);

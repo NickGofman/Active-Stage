@@ -2,6 +2,9 @@
 const bcrypt = require('bcrypt');
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+
+require('dotenv').config();
 
 const statusEnum = {
   ACTIVE: 'Active',
@@ -17,7 +20,7 @@ const roleEnum = {
 
 const register = async (req, res) => {
   //get data from frontEND
-  console.log("IN /auth/register BACKEND")
+  console.log('IN /auth/register BACKEND');
   const {
     email,
     password,
@@ -153,4 +156,82 @@ const logout = (req, res) => {
     .status(200)
     .json('USER LOGGED OUT!');
 };
-module.exports = { register, login, logout };
+// ================ Forgot Password ======================
+
+const forgotPassword = async (req, res) => {
+  // Generate new password
+  const newPassword = generatePassword();
+  // Hash password
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const userEmail = req.body;
+  console.log('IN /auth/forgotPassword');
+  console.log('EMAILAAA:', userEmail);
+  // Check if user exists
+  pool.query(
+    'SELECT * FROM user WHERE Email = ?',
+    userEmail.email,
+    (err, result) => {
+      console.log('IN pool.query(SELECT * FROM user WHERE Email = ?');
+      console.log('EMAILAAA234234:', userEmail);
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      console.log('RESULT: ', result);
+      if (result.length === 0) {
+        return res.status(400).json({ error: 'User does not exist.' });
+      }
+
+      // Update user password in the database
+      pool.query(
+        'UPDATE user SET Password = ? WHERE Email = ?',
+        [hashedPassword, userEmail],
+        (err, result) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+          // Send email with new password
+          // const transporter = nodemailer.createTransport({
+          //   service: 'gmail',
+          //   auth: {
+          //     user: process.env.EMAIL_USERNAME,
+          //     pass: process.env.EMAIL_PASSWORD,
+          //   },
+          // });
+          // const mailOptions = {
+          //   from: process.env.EMAIL_USERNAME,
+          //   to: userEmail,
+          //   subject: 'New Password',
+          //   text: `Your new password is: ${newPassword}`,
+          // };
+          //       console.log('AFTER create MAIL:');
+
+          // transporter.sendMail(mailOptions, (error, info) => {
+          //   if (error) {
+          //        console.log(error);
+
+          //     return res.status(500).json({ error: error.message });
+          //   }
+          //   console.log(`Email sent to ${email}: ${info.response}`);
+          //   return res
+          //     .status(200)
+          //     .json({ message: 'New password sent to your email.' });
+          // });
+
+        }
+      );
+    }
+  );
+};
+function generatePassword() {
+  const length = 12;
+  const charset =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]\\:;?><,./-=';
+  let password = '';
+  for (let i = 0; i < length; ++i) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+  return password;
+}
+
+module.exports = { register, login, logout, forgotPassword };

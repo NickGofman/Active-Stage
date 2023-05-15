@@ -5,7 +5,7 @@ import MusicianHomePage from './MusicianHomePage';
 import MusicianMyEventsPage from './MusicianMyEventsPage';
 import ProfilePage from './ProfilePage';
 import ChangePassword from './ChangePassword';
-import ForgetPassword from './ForgetPassword';
+import ForgotPassword from './ForgotPassword';
 import BusinessHomePage from './BusinessHomePage';
 import BusinessAllEvents from './BusinessAllEvents';
 import BusinessReportPage from './BusinessReportPage';
@@ -16,7 +16,7 @@ export {
   MusicianMyEventsPage,
   ProfilePage,
   ChangePassword,
-  ForgetPassword,
+  ForgotPassword,
   BusinessAllEvents,
   BusinessHomePage,
   BusinessReportPage,

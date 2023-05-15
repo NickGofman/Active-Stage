@@ -7,7 +7,7 @@ import {
   MusicianMyEventsPage,
   ProfilePage,
   ChangePassword,
-  ForgetPassword,
+  ForgotPassword,
   BusinessAllEvents,
   BusinessHomePage,
   BusinessReportPage,
@@ -104,7 +104,7 @@ function App() {
     },
     {
       path: '/forgetpassword',
-      element: <ForgetPassword />,
+      element: <ForgotPassword />,
     },
     {
       path: '/changepassword',
