@@ -20,7 +20,6 @@ app.use(
 );
 
 app.use('/auth', authRoutes);
-
 app.listen(port, () => {
   console.log(`WE ARE RUNNING PORT: ${port}`);
 });

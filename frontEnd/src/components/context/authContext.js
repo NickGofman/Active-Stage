@@ -4,9 +4,8 @@ import { makeRequest } from '../../axios';
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem('user')) || null
-  );
+  //check if already login
+  const [currentUser, setCurrentUser] = useState(null);
 
   const login = (inputs) => {
     //we need to use axios here to ge the user details and
@@ -27,9 +26,9 @@ export const AuthContextProvider = ({ children }) => {
         console.log(error);
       });
   };
-  useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(currentUser));
-  }, [currentUser]);
+  // useEffect(() => {
+  //   localStorage.setItem('user', JSON.stringify(currentUser));
+  // }, [currentUser]);
 
   const logout = () => {
     localStorage.removeItem('user');

@@ -196,7 +196,7 @@ const forgotPassword = async (req, res) => {
             return res.status(500).json({ error: err.message });
           }
           console.log('RESULT: ', result);
-          var transporter = nodeMailer.createTransport({
+          let transporter = nodeMailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
@@ -206,47 +206,25 @@ const forgotPassword = async (req, res) => {
             },
           });
 
-          var mailOptions = {
+          let mailOptions = {
             from: process.env.EMAIL_USERNAME,
             to: userEmail.email,
             subject: 'Sending Email using Node.js',
-            html: `<h1>Hello ${userEmail.email} you new password is ${newPassword}</h1>`,
+            html: `<h1>Hello ${userEmail.email} </h1> <p>you new password is ${newPassword}</p>`,
           };
 
           transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error);
-            } else {
-              console.log('Email sent: ' + info.response);
+
+              return res.status(500).json({ error: error.message });
             }
+            console.log(`Email sent to ${email}: ${info.response}`);
+            return res
+              .status(200)
+              .json({ message: 'New password sent to your email.' });
           });
-          // Send email with new password
-          // const transporter = nodemailer.createTransport({
-          //   service: 'gmail',
-          //   auth: {
-          //     user: process.env.EMAIL_USERNAME,
-          //     pass: process.env.EMAIL_PASSWORD,
-          //   },
-          // });
-          // const mailOptions = {
-          //   from: process.env.EMAIL_USERNAME,
-          //   to: userEmail,
-          //   subject: 'New Password',
-          //   text: `Your new password is: ${newPassword}`,
-          // };
-          //       console.log('AFTER create MAIL:');
 
-          // transporter.sendMail(mailOptions, (error, info) => {
-          //   if (error) {
-          //        console.log(error);
-
-          //     return res.status(500).json({ error: error.message });
-          //   }
-          //   console.log(`Email sent to ${email}: ${info.response}`);
-          //   return res
-          //     .status(200)
-          //     .json({ message: 'New password sent to your email.' });
-          // });
           return res
             .status(200)
             .json({ message: 'New password sent to your email.' });

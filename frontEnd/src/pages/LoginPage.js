@@ -14,12 +14,16 @@ import { Link, useNavigate } from 'react-router-dom';
 function LoginPage() {
   const { login, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log('Use affect', currentUser);
-    if (currentUser !== null) {
-      currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
-    }
-  }, [currentUser, navigate]);
+  // useEffect(() => {
+  //   console.log('Use affect', currentUser);
+  //   if (currentUser !== null) {
+  //     currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
+  //   }
+  // }, [currentUser, navigate]);
+
+  if (currentUser !== null) {
+    currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
+  }
 
   //send to login function the email and password
   const handleLogin = (e) => {
