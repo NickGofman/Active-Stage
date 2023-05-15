@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
+import { makeRequest } from '../../axios';
 
 export const AuthContext = createContext();
 
@@ -8,15 +9,23 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const login = (inputs) => {
-    //we need to use axios here to ge the user details and set the currentuser
-    setCurrentUser({
-      id: 1,
-      role: 'user',
-      businessName: 'Elis pub',
-      managerName: 'nick',
-    });
+    //we need to use axios here to ge the user details and
+    console.log('In authContext');
+    makeRequest
+      .post('/auth/login', inputs)
+      .then((response) => {
+        // Handle successful registration
+        console.log('Response In authContext: ', response);
 
-    
+        //set the current user
+        setCurrentUser({
+          id: response.data.UserId,
+          role: response.data.Role,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(currentUser));

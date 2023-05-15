@@ -12,8 +12,8 @@ const statusEnum = {
 };
 
 const roleEnum = {
-  BUSINESS: 'Business',
-  MUSICIAN: 'Musician',
+  BUSINESS: 'admin',
+  MUSICIAN: 'user',
 };
 
 // ================ register ======================
@@ -108,6 +108,8 @@ const register = async (req, res) => {
 // ================ login ======================
 
 const login = (req, res) => {
+  console.log('IN /auth/login BACKEND');
+
   pool.query(
     'SELECT * FROM user WHERE email = ?',
     [req.body.email],
@@ -134,7 +136,7 @@ const login = (req, res) => {
         //assign TOKEN
         const token = jwt.sign({ id: user.UserId }, 'secretKey');
         //add to cookies
-        const { password, ...others } = user;
+        const { Password, ...others } = user;
         res
           .cookie('accessToken', token, {
             httpOnly: true,
@@ -160,11 +162,12 @@ const logout = (req, res) => {
 
 const forgotPassword = async (req, res) => {
   // Generate new password
-  const newPassword = generatePassword();
+  let newPassword = generatePassword();
   // Hash password
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-  const userEmail = req.body;
-  console.log('IN /auth/forgotPassword');
+  let hashedPassword = await bcrypt.hash(newPassword, 10);
+  let userEmail = req.body;
+
+  console.log('HASHPassword', hashedPassword, 'NEW PASSWORD:', newPassword);
   console.log('EMAILAAA:', userEmail);
   // Check if user exists
   pool.query(
@@ -184,11 +187,12 @@ const forgotPassword = async (req, res) => {
       // Update user password in the database
       pool.query(
         'UPDATE user SET Password = ? WHERE Email = ?',
-        [hashedPassword, userEmail],
+        [hashedPassword, userEmail.email],
         (err, result) => {
           if (err) {
             return res.status(500).json({ error: err.message });
           }
+          console.log('RESULT: ', result);
           // Send email with new password
           // const transporter = nodemailer.createTransport({
           //   service: 'gmail',
@@ -216,7 +220,9 @@ const forgotPassword = async (req, res) => {
           //     .status(200)
           //     .json({ message: 'New password sent to your email.' });
           // });
-
+          return res
+            .status(200)
+            .json({ message: 'New password sent to your email.' });
         }
       );
     }

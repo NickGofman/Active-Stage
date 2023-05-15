@@ -9,20 +9,41 @@ import {
   CardHeader,
 } from '@material-tailwind/react';
 import { AuthContext } from '../components/context/authContext';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 function LoginPage() {
   const { login, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("Use affect",currentUser);
+    console.log('Use affect', currentUser);
     if (currentUser !== null) {
       currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
     }
   }, [currentUser, navigate]);
-  const handleLogin = () => {
-    login();
+
+  //send to login function the email and password
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Validate form data
+
+    login(inputs);
   };
+  const [inputs, setInputs] = useState({
+    email: '',
+    password: '',
+  });
+  const [err, setErr] = useState(null);
+  const [errMessage, setErrorMessage] = useState('');
+
+  const handleChange = (e) => {
+    console.log(inputs);
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [e.target.name]: e.target.value,
+    }));
+    setErr({ ...inputs, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <Typography variant="h3">Welcome to Active Stage</Typography>
@@ -38,8 +59,27 @@ function LoginPage() {
         </CardHeader>
         <CardBody>
           <form className="flex flex-col gap-4">
-            <Input label="Email" size="lg" />
-            <Input label="Password" size="lg" />
+            <Input
+              required
+              type="email"
+              size="lg"
+              label="Email"
+              name="email"
+              onChange={handleChange}
+              error={err?.email !== ''}
+              success={err?.email === ''}
+            />
+            <Input
+              required
+              type="password"
+              variant="outlined"
+              size="lg"
+              label="Password"
+              name="password"
+              onChange={handleChange}
+              error={err?.password !== ''}
+              success={err?.password === ''}
+            />
           </form>
         </CardBody>
         <CardFooter className="pt-0">
