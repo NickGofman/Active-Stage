@@ -2,23 +2,24 @@
 const bcrypt = require('bcrypt');
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+const nodeMailer = require('nodemailer');
 
 require('dotenv').config();
-
-const statusEnum = {
-  ACTIVE: 'Active',
-  BANNED: 'Banned',
-};
-
-const roleEnum = {
-  BUSINESS: 'admin',
-  MUSICIAN: 'user',
-};
 
 // ================ register ======================
 
 const register = async (req, res) => {
+  const statusEnum = {
+    ACTIVE: 'Active',
+    BANNED: 'Banned',
+  };
+
+  const roleEnum = {
+    BUSINESS: 'admin',
+    MUSICIAN: 'user',
+  };
+
+  console.log('HERE STATUS', statusEnum.ACTIVE, roleEnum.MUSICIAN);
   //get data from frontEND
   console.log('IN /auth/register BACKEND');
   const {
@@ -55,10 +56,12 @@ const register = async (req, res) => {
           }
         }
       }
-
+      let BUSINESS = 'admin';
+      let MUSICIAN = 'user';
       // insert into user table
+      console.log(`HERE STATUS ${statusEnum.ACTIVE} ${roleEnum.MUSICIAN}`);
       pool.query(
-        'INSERT INTO user (Email, Password, PhoneNumber, status, role) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO user (Email, Password, PhoneNumber, Status, Role) VALUES (?, ?, ?, ?, ?)',
         [
           email,
           hashedPassword,
@@ -193,6 +196,30 @@ const forgotPassword = async (req, res) => {
             return res.status(500).json({ error: err.message });
           }
           console.log('RESULT: ', result);
+          var transporter = nodeMailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+              user: process.env.EMAIL_USERNAME,
+              pass: process.env.EMAIL_PASSWORD,
+            },
+          });
+
+          var mailOptions = {
+            from: process.env.EMAIL_USERNAME,
+            to: userEmail.email,
+            subject: 'Sending Email using Node.js',
+            html: `<h1>Hello ${userEmail.email} you new password is ${newPassword}</h1>`,
+          };
+
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
           // Send email with new password
           // const transporter = nodemailer.createTransport({
           //   service: 'gmail',
