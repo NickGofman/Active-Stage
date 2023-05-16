@@ -17,7 +17,9 @@ function ProfilePage() {
   };
   const user = {
     bandName: 'Sparkle Sparkle',
-    fullName: 'Sparkle Sofimarat',
+    firstName: 'firstName',
+    photo: '16842262823094 (528).jpg',
+    lastName: 'lastName',
     email: 'user@gmail.com',
     experience: 5,
     youtubeURL: 'www.youtube.com/CollBand',

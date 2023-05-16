@@ -260,7 +260,7 @@ const changePassword = async(req, res) => {
     console.log(userInfo);
     const q = 'UPDATE user SET Password = ? WHERE UserId=?';
     const values = [hashedPassword, userInfo.id];
-    pool.query(q, [hashedPassword,userInfo.id], (err, data) => {
+    pool.query(q, values, (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json('user password changed successfully');
     });

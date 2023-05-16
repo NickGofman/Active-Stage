@@ -33,7 +33,7 @@ function LoginPage() {
   // }
 
   //send to login function the email and password
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     // Validate form data
     // Check email
@@ -41,8 +41,8 @@ function LoginPage() {
     try {
       await login(inputs);
     } catch (error) {
-      console.log("InCartch")
-      setErr(error.response.data.error)
+      console.log('InCartch');
+      setErr(error.response.data.error);
     }
   };
 
@@ -89,8 +89,10 @@ function LoginPage() {
           </form>
         </CardBody>
         <CardFooter className="pt-0">
-          <Typography color="red" variant="lead">{err && err}</Typography>
-          
+          <Typography color="red" variant="lead">
+            {err && err}
+          </Typography>
+
           <Button onClick={handleLogin} variant="gradient" fullWidth>
             Sign In
           </Button>
