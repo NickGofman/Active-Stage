@@ -32,71 +32,8 @@ const storage = multer.diskStorage({
   },
 });
 const maxSize = 1 * 1024 * 1024; //~1MB
-// const upload = multer({
-//   storage: storage,
-//   // add catch to the error
 
-//   fileFilter: (req, file, cb) => {
-//     if (
-//       file.mimetype == 'image/png' ||
-//       file.mimetype == 'image/jpg' ||
-//       file.mimetype == 'image/jpeg'
-//     ) {
-//       cb(null, true);
-//     } else {
-//       cb(null, false);
-//       return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-//     }
-//   },
-//   limits: { fileSize: maxSize },
-// }).single('file');
 
-// V1
-// app.post('/upload',  upload.single('file'), async (req, res) => {
-//   const file = req.file;
-//   const oldPhoto = req.body.oldPhoto;
-//   console.log("In '/upload' INDEX: ", oldPhoto);
-//   // Delete the old photo
-//   if (oldPhoto) {
-//     try {
-//       unlink(`./UploadImages/${oldPhoto}`, (err) => {
-//         if (err) throw err;
-//         console.log(`./UploadImages/${oldPhoto} was deleted`);
-//       });
-//     } catch (error) {
-//       console.log('Error deleting old photo:', error);
-//     }
-//   }
-//   res.status(200).json(file.filename);
-// });
-// V2
-// app.post('/upload', async (req, res) => {
-//  await upload(req, res, function (err) {
-//     if (err instanceof multer.MulterError) {
-//       // A Multer error occurred when uploading.
-//       res.send(err);
-//     } else if (err) {
-//       // An unknown error occurred when uploading.
-//       res.send(err);
-//     }
-//   });
-//   const oldPhoto = req.body.oldPhoto;
-//   console.log("In '/upload' INDEX: ", oldPhoto);
-//   // Delete the old photo
-//   if (oldPhoto) {
-//     try {
-//       unlink(`./UploadImages/${oldPhoto}`, (err) => {
-//         if (err) throw err;
-//         console.log(`./UploadImages/${oldPhoto} was deleted`);
-//       });
-//     } catch (error) {
-//       console.log('Error deleting old photo:', error);
-//     }
-//   }
-//   res.status(200).json('File was deleted');
-// });
-
-// V3
 const handleMulterErrors = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     // A Multer error occurred when uploading.

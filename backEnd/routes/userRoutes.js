@@ -2,7 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { updateProfile } = require('../controllers/user.js');
+const { updateProfile, getProfile } = require('../controllers/user.js');
 
 router.post('/updateProfile', updateProfile);
+router.get('/profile/:id', getProfile);
 module.exports = router;

@@ -48,7 +48,6 @@ function LoginPage() {
   };
 
   const handleChange = (e) => {
-    console.log(inputs);
     setInputs((prevInputs) => ({
       ...prevInputs,
       [e.target.name]: e.target.value,

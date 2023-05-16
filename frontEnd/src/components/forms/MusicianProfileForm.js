@@ -6,31 +6,29 @@ import { makeRequest } from '../../axios';
 import { FiUpload } from 'react-icons/fi';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { Navigate } from 'react-router-dom';
-function MusicianProfileForm(prop) {
+function MusicianProfileForm(props) {
   const [err, setErr] = useState('');
 
   const {
-    bandName,
-    firstName,
-    lastName,
-    email,
-    photo,
-    experience,
-    phone,
-    youtubeURL,
-    description,
-  } = prop.user;
+    FirstName,
+    LastName,
+    PhoneNumber,
+    YearsOfExperience,
+    URL,
+    Photo,
+    Description,
+  } = props.user;
   // useState handle use file
   const [file, setFile] = useState(null);
   // useState handle user profile Update
   const [inputs, setInputs] = useState({
-    firstName: firstName,
-    lastName: lastName,
-    phone: phone,
+    firstName: FirstName,
+    lastName: LastName,
+    phone: PhoneNumber,
     file: '',
-    experience: experience,
-    youtubeURL: youtubeURL,
-    description: description,
+    experience: YearsOfExperience,
+    youtubeURL: URL,
+    description: Description,
   });
   const handleChange = (e) => {
     setInputs((prev) => ({
@@ -55,7 +53,6 @@ function MusicianProfileForm(prop) {
         let imgURL = '';
         //upload image
         imgURL = await UploadImage();
-
         inputs.file = imgURL;
       }
       //send data to database
@@ -70,17 +67,14 @@ function MusicianProfileForm(prop) {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      console.log('UploadImage OLD:', photo);
-      formData.append('oldPhoto', photo);
-
+      console.log('UploadImage OLD:', Photo);
+      formData.append('oldPhoto', Photo);
       const res = await makeRequest.post('/upload', formData);
-      
+      setErr('');
       return res.data;
     } catch (error) {
-     
       setErr(error.response.data.message);
     }
-    
   };
   return (
     <div className="max-w-lg w-auto md:w-full px-6 py-12 bg-white shadow-md rounded-md">

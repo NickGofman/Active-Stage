@@ -39,6 +39,15 @@ const updateProfile = (req, res) => {
 
   //
 };
+const getProfile = (req, res) => {
+  const userId = req.params.id;
+  const q =
+    'SELECT m.FirstName,m.LastName,u.PhoneNumber,m.YearsOfExperience,m.URL,m.Photo,m.Description FROM musician as m JOIN user as u ON m.UserId = u.UserId WHERE m.UserId = ?';
+    pool.query(q, userId, (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(data);
+    });
+};
 
 //#endregion
-module.exports = { updateProfile };
+module.exports = { updateProfile, getProfile };
