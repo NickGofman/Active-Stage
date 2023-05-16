@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 //#region ================updateProfile================
 const updateProfile = (req, res) => {
   const token = req.cookies.accessToken;
-  console.log('In updateProfile');
+  console.log('CONTROLLERS BACKEND updateProfile');
   const {
     firstName,
     lastName,
