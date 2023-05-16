@@ -21,6 +21,9 @@ import {
 } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './components/context/authContext';
+import { QueryClientProvider, QueryClient } from 'react-query';
+const queryClient = new QueryClient();
+
 function App() {
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
@@ -115,9 +118,11 @@ function App() {
     },
   ]);
   return (
-    <ThemeProvider>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

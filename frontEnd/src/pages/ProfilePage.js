@@ -18,18 +18,18 @@ function ProfilePage() {
   const user = {
     bandName: 'Sparkle Sparkle',
     firstName: 'firstName',
-    photo: '16842262823094 (528).jpg',
+    photo: '',
     lastName: 'lastName',
     email: 'user@gmail.com',
     experience: 5,
     youtubeURL: 'www.youtube.com/CollBand',
-    phone: '054-315-5555',
+    phone: '054-3155555',
     description: 'Im Hello you Are ME',
     role: 'Musician',
   };
-    const handleChangePassword = () => {
-      navigate('/changepassword');
-    };
+  const handleChangePassword = () => {
+    navigate('/changepassword');
+  };
 
   // get user Role for rendering form
 

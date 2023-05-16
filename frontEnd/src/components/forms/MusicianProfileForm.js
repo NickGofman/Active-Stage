@@ -5,6 +5,7 @@ import { makeRequest } from '../../axios';
 
 import { FiUpload } from 'react-icons/fi';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import { Navigate } from 'react-router-dom';
 function MusicianProfileForm(prop) {
   const [err, setErr] = useState('');
 
@@ -61,7 +62,7 @@ function MusicianProfileForm(prop) {
       await makeRequest.post('/user/updateProfile', inputs, {
         withCredentials: true,
       });
-      setErr("")
+      setErr('');
     }
   };
   // handle file upload
@@ -69,14 +70,17 @@ function MusicianProfileForm(prop) {
     try {
       const formData = new FormData();
       formData.append('file', file);
+      console.log('UploadImage OLD:', photo);
       formData.append('oldPhoto', photo);
-      
-    
+
       const res = await makeRequest.post('/upload', formData);
+      
       return res.data;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+     
+      setErr(error.response.data.message);
     }
+    
   };
   return (
     <div className="max-w-lg w-auto md:w-full px-6 py-12 bg-white shadow-md rounded-md">
@@ -156,7 +160,15 @@ function MusicianProfileForm(prop) {
           icon={<FiUpload />}
           onChange={(e) => setFile(e.target.files[0])}
         />
-        {err && err}
+        <Typography
+          variant="small"
+          color="gray"
+          className="flex items-center gap-1 font-normal mt-2"
+        >
+          <InformationCircleIcon className="w-4 h-4 -mt-px" />
+          {err && err}
+        </Typography>
+
         <Button onClick={handleSubmit}>Save Changes</Button>
       </form>
     </div>
