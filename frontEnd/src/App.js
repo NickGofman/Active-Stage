@@ -27,9 +27,8 @@ const queryClient = new QueryClient();
 function App() {
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
-    console.log('isAdmin', isAdmin, 'isMusician', isMusician);
+    console.log('isAdmin:', isAdmin, 'isMusician"', isMusician);
     if (!currentUser) {
-      console.log('currentUser');
 
       return <Navigate to="/" />;
     }
@@ -43,7 +42,6 @@ function App() {
 
       return currentUser.Role === 'user' ? children : <Navigate to="/*" />;
     }
-    console.log('children');
 
     return children;
   };

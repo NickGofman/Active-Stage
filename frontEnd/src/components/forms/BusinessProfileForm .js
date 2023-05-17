@@ -1,9 +1,11 @@
 import React from 'react';
 import { Input, Button } from '@material-tailwind/react';
 import { useState } from 'react';
+import { useUpdateAdminData } from '../../hooks/useAdminProfileData';
 
-function BusinessProfileForm(prop) {
-  const { businessName, address, phone, managerName } = prop.admin;
+function BusinessProfileForm(props) {
+  console.log('PROPS ADMIN', props);
+  const { businessName, address, phone, managerName } = props?.data.data[0];
   // useState handle user profile Update
   const [inputs, setInputs] = useState({
     businessName: businessName,
@@ -11,14 +13,28 @@ function BusinessProfileForm(prop) {
     phone: phone,
     managerName: managerName,
   });
+  // send data to backEnd to update user profile
+
+  // const {
+  //   mutate: update,
+  //   isError,
+  //   error,
+  //   isLoading,
+  // } = useUpdateAdminData(inputs);
+
+  // if (isLoading) {
+  //   return <div>Loading....</div>;
+  // }
+
+  // if (isError) {
+  //   return error;
+  // }
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
-  // send data to backEnd to update user profile
-  const handleSubmit = () => {};
 
   return (
     <div className="max-w-lg  w-auto md:w-full  px-6 py-12 bg-white shadow-md rounded-md">
@@ -26,7 +42,6 @@ function BusinessProfileForm(prop) {
         <Input
           label="Business Name"
           id="inputBusinessName"
-          value={inputs.businessName}
           type="text"
           name="businessName"
           onChange={handleChange}
@@ -35,7 +50,6 @@ function BusinessProfileForm(prop) {
           type="text"
           label="Address"
           id="Address"
-          value={inputs.address}
           name="address"
           onChange={handleChange}
         />
@@ -45,7 +59,6 @@ function BusinessProfileForm(prop) {
           id="phone"
           name="phone"
           required={true}
-          value={inputs.phone}
           onChange={handleChange}
         />
 
@@ -54,12 +67,11 @@ function BusinessProfileForm(prop) {
           label="Manager Name"
           id="inputOrgPhone"
           required={true}
-          value={inputs.managerName}
           name="managerName"
           onChange={handleChange}
         />
 
-        <Button onClick={handleSubmit}>Save Changes</Button>
+        {/* <Button onClick={update}>Save Changes</Button> */}
       </form>
     </div>
   );

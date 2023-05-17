@@ -1,23 +1,22 @@
 import React from 'react';
 import { Input, Textarea, Button, Typography } from '@material-tailwind/react';
+
 import { useState } from 'react';
 import { makeRequest } from '../../axios';
-
 import { FiUpload } from 'react-icons/fi';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
-import { Navigate } from 'react-router-dom';
 function MusicianProfileForm(props) {
   const [err, setErr] = useState('');
 
   const {
+    Description,
     FirstName,
     LastName,
     PhoneNumber,
     YearsOfExperience,
     URL,
     Photo,
-    Description,
-  } = props.user;
+  } = props?.data.data[0];
   // useState handle use file
   const [file, setFile] = useState(null);
   // useState handle user profile Update
@@ -25,17 +24,20 @@ function MusicianProfileForm(props) {
     firstName: FirstName,
     lastName: LastName,
     phone: PhoneNumber,
-    file: '',
+    file: Photo,
     experience: YearsOfExperience,
     youtubeURL: URL,
     description: Description,
   });
+
+  console.log('INPUSTS:', inputs);
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
   // send data to backEnd to update user profile
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,6 +126,7 @@ function MusicianProfileForm(props) {
           onChange={handleChange}
           value={inputs.phone}
         />
+
         <Typography
           variant="small"
           color="gray"

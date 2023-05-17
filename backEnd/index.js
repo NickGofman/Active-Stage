@@ -4,6 +4,8 @@ const path = require('path');
 const app = express();
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
@@ -32,7 +34,6 @@ const storage = multer.diskStorage({
   },
 });
 const maxSize = 1 * 1024 * 1024; //~1MB
-
 
 const handleMulterErrors = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
@@ -93,6 +94,7 @@ app.post('/upload', (req, res, next) => {
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/admin', adminRoutes);
 
 app.listen(port, () => {
   console.log(`WE ARE RUNNING PORT: ${port}`);

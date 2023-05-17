@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@material-tailwind/react';
 import MusicianProfileForm from '../components/forms/MusicianProfileForm';
 import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
 import { AuthContext } from '../components/context/authContext';
 import { useContext } from 'react';
-import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useMusicianProfileData } from '../hooks/useMusicianProfileData';
 import { useLocation } from 'react-router-dom';
-import { makeRequest } from '../axios';
+import { useAdminProfileData } from '../hooks/useAdminProfileData';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -16,28 +15,60 @@ function ProfilePage() {
   const handleChangePassword = () => {
     navigate('/changepassword');
   };
-  // const { isLoading, error, data } = useQuery(['getProfile'], () =>
-  //   makeRequest.get('/user/profile/' + userId).then((res) => {
-  //     return res.data;
-  //   })
-  // );
- const { isLoading, data, isError, error, refetch } = useMusicianProfileData(userId);
- if(isError){
-  console.log(error)
- }
- console.log(data)
 
+  const onSuccess = (data) => {
+    console.log({ data });
+  };
+
+  const onError = (error) => {
+    console.log({ error });
+  };
+  const isUser = currentUser.Role === 'user';
+  console.log('USER ID', userId);
+
+  //make a request for user data
+  const {
+    isLoading: userDataLoading,
+    data: userData,
+    isError: userIsError,
+    error: userError,
+  } = useMusicianProfileData(onError, onSuccess, userId);
+
+  //========wait for data==============
+
+  //make a request for admin data
+  const {
+    isLoading: adminDataLoading,
+    data: adminData,
+    isError: adminIsError,
+    error: adminError,
+  } = useAdminProfileData(onError, onSuccess, userId, isUser);
+  
+  if (userDataLoading) {
+    return <div> userDataLoading Loading...</div>;
+  }
+  if (userIsError) {
+    console.log(userError);
+  }
+  //========wait for data==============
+  if (adminDataLoading) {
+    return <div> adminDataLoading Loading...</div>;
+  }
+  
+  if (adminIsError) {
+    console.log(adminError);
+  }
+console.log("ADMIN DATA PROFILE PAGE  ",adminData)
   return (
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">
         <div className="flex flex-col space-y-5  items-center">
-          <img
-            alt="..."
-            src={"../../../backEnd/UploadImages/"+data.Photo}
+          {/* <img
+            alt={userData?.data[0].Photo}
+            src={`../../../backEnd/UploadImages/1684245555705documents.png`}
             className="shadow-xl rounded-full h-auto align-middle border-none "
             style={{ maxWidth: '150px' }}
-          />
-
+          /> */}
           <Button
             onClick={handleChangePassword}
             variant="gradient"
@@ -47,10 +78,10 @@ function ProfilePage() {
           </Button>
         </div>
         <div className="flex flex-col  items-center">
-          {currentUser?.role === 'admin' ? (
-            <BusinessProfileForm admin={{}} />
+          {currentUser?.Role === 'admin' ? (
+            <BusinessProfileForm data={adminData} />
           ) : (
-            <MusicianProfileForm user={data} />
+            <MusicianProfileForm data={userData} />
           )}
         </div>
       </div>
