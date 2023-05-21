@@ -60,6 +60,9 @@ function BusinessProfileForm(props) {
   };
   return (
     <div className="max-w-lg  w-auto md:w-full  px-6 py-12 bg-white shadow-md rounded-md">
+      <Typography color="blue" className="mb-2" variant="h5">
+        Here You Can Edit Your Profile
+      </Typography>
       <form className="space-y-9">
         <Input
           label="Business Email"

@@ -50,8 +50,17 @@ const createEvent = (req, res) => {
     );
   });
 };
-
+const getMusicalStyles = (req, res) => {
+  const q = 'Select * FROM typesdescription';
+  pool.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    return res.status(200).json(data);
+  });
+};
 
 module.exports = {
   createEvent,
+  getMusicalStyles,
 };

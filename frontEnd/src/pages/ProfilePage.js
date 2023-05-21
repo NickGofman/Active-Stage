@@ -15,7 +15,7 @@ function ProfilePage() {
   const handleChangePassword = () => {
     navigate('/changepassword');
   };
-
+  //TODO-delete this!!!
   const onSuccess = (data) => {
     console.log({ data });
   };
@@ -45,14 +45,14 @@ function ProfilePage() {
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
 
   if (userDataLoading) {
-    return <div> userDataLoading Loading...</div>;
+    return <div>Loading...</div>;
   }
   if (userIsError) {
     console.log(userError);
   }
   //========wait for data==============
   if (adminDataLoading) {
-    return <div> adminDataLoading Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (adminIsError) {
