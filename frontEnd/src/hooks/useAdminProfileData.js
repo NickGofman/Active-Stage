@@ -5,8 +5,8 @@ const fetchAdminProfileData = (userId) => {
   //axios request
   return makeRequest.get(`/admin/profile/${userId}`);
 };
-const updateAdminProfileData = (data) => {
-  console.log('IN updateAdminProfileData, userId: ', data);
+ const updateAdminProfileData = (data) => {
+  console.log('IN updateAdminProfileData, data: ', data);
   //axios request
   return makeRequest.post('/admin/updateProfile', data);
 };

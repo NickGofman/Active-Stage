@@ -1,6 +1,5 @@
 import React from 'react';
 import { Fragment, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
 import {
   Button,
   Dialog,
@@ -13,9 +12,13 @@ import {
   Select,
   Option,
 } from '@material-tailwind/react';
+import { FaPlus } from 'react-icons/fa';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { useCreateNewEvent } from '../../hooks/useAdminEvents';
 
 function CreateNewEvent() {
+  const [err, setErr] = useState('');
+
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState({
     startDate: new Date(),
@@ -56,7 +59,11 @@ function CreateNewEvent() {
     }));
   };
   const handleChangeStyle = (e) => {
-    setInputs((prevState) => ({ ...prevState, musicalStyle: e }));
+    //get the index
+    const selectedIndex = musicalTypes.findIndex((style) => style === e);
+
+    console.log('INDEX', selectedIndex);
+    setInputs((prevState) => ({ ...prevState, musicalTypeId: selectedIndex }));
   };
   const handleDateChange = (newValue) => {
     console.log('newValue:', newValue);
@@ -65,26 +72,44 @@ function CreateNewEvent() {
 
     // setInputs(newValue);
   };
+  const {
+    mutate: createEvent,
+    isError,
+    error,
+    isLoading,
+  } = useCreateNewEvent(inputs);
+
   //create new event
   const handleCreateEvent = () => {
-    const { date, time } = inputs;
+    const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
     console.log(dateTime);
 
-    // Perform actions with the dateTime value, such as saving to the database
+    if (isLoading) {
+      return <div>Loading....</div>;
+    }
 
-    // Reset the inputs
-    setInputs({
-      date: '',
-      time: '10:00',
-      musicalStyle: '',
-      description: '',
-    });
-
-    // Close the dialog
-    setOpen(false);
+    if (isError) {
+      return error;
+    }
+    // add the dataTime to the object to send
+    otherInput.dateTime = dateTime;
+    console.log('inputs.musicalTypeId', inputs.musicalTypeId);
+    if (date !== '' && time !== '' && inputs.musicalTypeId !== '') {
+      createEvent(otherInput);
+      setInputs({
+        date: '',
+        time: '10:00',
+        musicalStyle: '',
+        description: '',
+      });
+      setOpen(false);
+    } else {
+      setErr('Must select a Date & time');
+      console.log('INPUTS:', inputs);
+      return;
+    }
   };
-  console.log('INPUTS:', inputs);
 
   //use axios assign user to event
   return (
@@ -143,6 +168,7 @@ function CreateNewEvent() {
               label="Description"
               onChange={handleChange}
             />
+            {err && err}
           </div>
         </DialogBody>
         <DialogFooter>
