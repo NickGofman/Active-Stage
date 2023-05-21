@@ -13,7 +13,8 @@ const createEvent = (req, res) => {
     if (data.length > 0) {
       return res.status(409).json('Event Already exist');
     }
-    const qCreateNewEvent = 'INSERT INTO event () WHERE Date = ?';
+    const qCreateNewEvent =
+      'INSERT INTO typesdescription (MusicalTypeName)WHERE Date = ?';
   });
 };
 

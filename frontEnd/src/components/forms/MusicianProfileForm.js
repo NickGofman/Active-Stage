@@ -18,7 +18,7 @@ function MusicianProfileForm(props) {
     Photo,
     Email,
     BandName,
-  } = props?.data.data[0];
+  } = props?.data?.data[0];
   // useState handle use file
   const [file, setFile] = useState(null);
   // useState handle user profile Update

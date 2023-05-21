@@ -1,7 +1,6 @@
 import React from 'react';
 import { Fragment, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-
 import {
   Button,
   Dialog,
@@ -11,26 +10,82 @@ import {
   Input,
   Typography,
   Textarea,
+  Select,
+  Option,
 } from '@material-tailwind/react';
 import Datepicker from 'react-tailwindcss-datepicker';
 
-function CreateNewEvent(props) {
-  const { EventDate, EventID, MusicalType, disabled } = props;
+function CreateNewEvent() {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState({
     startDate: new Date(),
   });
-  const [time, setTime] = useState('10:00');
-  const [description, setDescription] = useState('');
+  const [inputs, setInputs] = useState({
+    date: '',
+    description: '',
+    musicalStyle: '',
+    time: '',
+  });
+
+  //get musical style from DB, table typesdescription
+  const musicalTypes = [
+    'Classical',
+    'Jazz',
+    'Rock',
+    'Hip Hop',
+    'Pop',
+    'Blues',
+    'Country',
+    'Reggae',
+    'Electronic',
+    'Folk',
+    'Metal',
+    'Punk',
+    'R&B',
+    'Soul',
+    'Alternative',
+    'Gospel',
+  ];
+
   const handleOpen = () => setOpen(!open);
-  // get users that assign to event
-  const usersList = function getUsres(EventID) {
-    // handle cancel button click
+
+  const handleChange = (e) => {
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const handleChangeStyle = (e) => {
+    setInputs((prevState) => ({ ...prevState, musicalStyle: e }));
   };
   const handleDateChange = (newValue) => {
     console.log('newValue:', newValue);
     setDate(newValue);
+    setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
+
+    // setInputs(newValue);
   };
+  //create new event
+  const handleCreateEvent = () => {
+    const { date, time } = inputs;
+    const dateTime = `${date} ${time}`;
+    console.log(dateTime);
+
+    // Perform actions with the dateTime value, such as saving to the database
+
+    // Reset the inputs
+    setInputs({
+      date: '',
+      time: '10:00',
+      musicalStyle: '',
+      description: '',
+    });
+
+    // Close the dialog
+    setOpen(false);
+  };
+  console.log('INPUTS:', inputs);
+
   //use axios assign user to event
   return (
     <Fragment>
@@ -52,7 +107,7 @@ function CreateNewEvent(props) {
         <DialogHeader>Create New Event</DialogHeader>
         <DialogBody divider>
           <div className="flex flex-col w-72  gap-2">
-            <Typography variant="small">Pick A Date: {EventDate}</Typography>
+            <Typography variant="small">Pick A Date: {}</Typography>
             <Datepicker
               minDate={new Date()}
               containerClassName=" relative max-w-sm"
@@ -62,23 +117,31 @@ function CreateNewEvent(props) {
               onChange={handleDateChange}
               displayFormat={'DD/MM/YYYY'}
             />
-
             <Input
+              name="time"
               type="time"
               size="lg"
               label="time"
-              onChange={(e) => setTime(e.target.value)}
+              onChange={handleChange}
             />
-            <Input
-              type="text"
-              size="lg"
-              label="Musical Style"
-              onChange={(e) => setTime(e.target.value)}
-            />
+
+            <Select
+              className="col-span-1"
+              label="Select band name"
+              name="musicalStyle"
+              onChange={handleChangeStyle}
+            >
+              {musicalTypes.map((style, index) => (
+                <Option name="musicalStyle" key={index} value={style}>
+                  {style}
+                </Option>
+              ))}
+            </Select>
             <Textarea
+              name="description"
               variant="outlined"
               label="Description"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleChange}
             />
           </div>
         </DialogBody>
@@ -91,7 +154,7 @@ function CreateNewEvent(props) {
           >
             <span>Cancel</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
+          <Button variant="gradient" color="green" onClick={handleCreateEvent}>
             <span>Create</span>
           </Button>
         </DialogFooter>
