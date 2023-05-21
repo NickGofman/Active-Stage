@@ -16,6 +16,8 @@ function MusicianProfileForm(props) {
     YearsOfExperience,
     URL,
     Photo,
+    Email,
+    BandName,
   } = props?.data.data[0];
   // useState handle use file
   const [file, setFile] = useState(null);
@@ -28,6 +30,8 @@ function MusicianProfileForm(props) {
     experience: YearsOfExperience,
     youtubeURL: URL,
     description: Description,
+    email: Email,
+    bandName: BandName,
   });
 
   console.log('INPUSTS:', inputs);
@@ -43,13 +47,10 @@ function MusicianProfileForm(props) {
     e.preventDefault();
     //update profile
     if (
-      !/^05\d([-]{0,1})\d{7}$/.test(inputs.phone) &&
+      /^05\d([-]{0,1})\d{7}$/.test(inputs.phone) &&
       inputs.firstName !== '' &&
       inputs.lastName !== ''
     ) {
-      setErr("Phone number ,First Name , Last name shouldn't be empty");
-      return;
-    } else {
       //upload to backend localStorage
       if (file) {
         let imgURL = '';
@@ -62,6 +63,9 @@ function MusicianProfileForm(props) {
         withCredentials: true,
       });
       setErr('');
+    } else {
+      setErr("Phone number ,First Name , Last name shouldn't be empty");
+      return;
     }
   };
   // handle file upload

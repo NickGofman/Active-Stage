@@ -41,15 +41,15 @@ const updateProfile = (req, res) => {
 };
 const getProfile = (req, res) => {
   const userId = req.params.id;
-  
+
   console.log('IN BACKEND getProfile');
   const q =
-    'SELECT m.FirstName,m.LastName,u.PhoneNumber,m.YearsOfExperience,m.URL,m.Photo,m.Description FROM musician as m JOIN user as u ON m.UserId = u.UserId WHERE m.UserId = ?';
-    pool.query(q, userId, (err, data) => {
-      if (err) return res.status(500).json(err);
-        console.log('IN BACKEND getProfile DATA:', data);
-      return res.status(200).json(data);
-    });
+    'SELECT m.FirstName,m.LastName,u.PhoneNumber,m.YearsOfExperience,m.URL,m.Photo,m.Description, m.Email,m.BandName FROM musician as m JOIN user as u ON m.UserId = u.UserId WHERE m.UserId = ?';
+  pool.query(q, userId, (err, data) => {
+    if (err) return res.status(500).json(err);
+    console.log('IN BACKEND getProfile DATA:', data);
+    return res.status(200).json(data);
+  });
 };
 
 //#endregion

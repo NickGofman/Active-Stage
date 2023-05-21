@@ -1,29 +1,25 @@
 import { makeRequest } from '../axios';
-import { useQuery,Mutation, useQueryClient, useMutation } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 const fetchAdminProfileData = (userId) => {
   console.log('IN fetchAdminProfileData, userId: ', userId);
   //axios request
-  return makeRequest(`/admin/profile/${userId}`);
+  return makeRequest.get(`/admin/profile/${userId}`);
 };
 const updateAdminProfileData = (data) => {
   console.log('IN updateAdminProfileData, userId: ', data);
   //axios request
-  // return makeRequest(`/admin/profile/${data}`);
+  return makeRequest.post('/admin/updateProfile', data);
 };
 
-export const useAdminProfileData = (onError, onSuccess, userId) => {
+export const useAdminProfileData = (onError, onSuccess, userId, isUser) => {
   console.log('IN useAdminProfileData, userId: ', userId);
-  return useQuery('getProfile', () => fetchAdminProfileData(userId), {
+  return useQuery('getAdminProfile', () => fetchAdminProfileData(userId), {
     onSuccess,
     onError,
-    
+    enabled: !isUser,
   });
 };
 
-
-export const useUpdateAdminData = (data) => {
-  console.log('IN useGetAdminData: ', data);
-   const queryClient = useQueryClient();
-   return useMutation(updateAdminProfileData,);
-
+export const useUpdateAdminData = () => {
+  return useMutation('updateAdminProfile', updateAdminProfileData);
 };

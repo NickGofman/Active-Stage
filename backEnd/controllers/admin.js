@@ -25,7 +25,7 @@ const getAdminData = (req, res) => {
 
   console.log('IN BACKEND getProfile');
   const q =
-    'SELECT businessName, address, phone, managerName  FROM business as b JOIN user as u ON b.UserId = u.UserId WHERE b.UserId = ?';
+    'SELECT businessName, address, PhoneNumber, managerName,b.Email  FROM business as b JOIN user as u ON b.UserId = u.UserId WHERE b.UserId = ?';
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
     console.log('IN BACKEND getProfile DATA:', data);
@@ -33,7 +33,10 @@ const getAdminData = (req, res) => {
   });
   //
 };
+
+
 module.exports = {
   updateProfile,
   getAdminData,
+ 
 };
