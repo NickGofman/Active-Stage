@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
-const transporter = require('../nodeMailer');
+const transporter = require('../nodeMailer.js');
 
 require('dotenv').config();
 
