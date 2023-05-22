@@ -1,7 +1,8 @@
 'use strict';
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
-//#region ================updateProfile================
+//#region ================UPDATE PROFILE================
+
 const updateProfile = (req, res) => {
   const token = req.cookies.accessToken;
   console.log('CONTROLLERS BACKEND updateProfile');
@@ -39,6 +40,10 @@ const updateProfile = (req, res) => {
 
   //
 };
+//#endregion
+
+//#region ================GET PROFILE================
+
 const getProfile = (req, res) => {
   const userId = req.params.id;
 
@@ -51,6 +56,7 @@ const getProfile = (req, res) => {
     return res.status(200).json(data);
   });
 };
-
 //#endregion
+
+
 module.exports = { updateProfile, getProfile };
