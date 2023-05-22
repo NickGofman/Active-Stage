@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
-const nodeMailer = require('nodemailer');
+const transporter = require('../nodeMailer');
 
 require('dotenv').config();
 
@@ -48,9 +48,9 @@ const register = async (req, res) => {
       for (let i = 0; i < result.length; i++) {
         const user = result[i];
         if (user.Email === email) {
-          return res.status(400).json({ error: 'User already exists.' });
+          return res.status(409).json({ error: 'User already exists.' });
         } else if (user.BandName === bandName) {
-          return res.status(400).json({ error: 'Band name already exists.' });
+          return res.status(409).json({ error: 'Band name already exists.' });
         }
       }
     }
@@ -135,8 +135,8 @@ const login = (req, res) => {
       console.log('USER ID:', user.UserId);
       //assign TOKEN
       const token = jwt.sign({ id: user.UserId }, 'secretKey');
-      //add to cookies
       const { Password, ...others } = user;
+      //add token to cookies
       res
         .cookie('accessToken', token, {
           httpOnly: true,
@@ -173,10 +173,10 @@ const forgotPassword = async (req, res) => {
   let newPassword = generatePassword();
   // Hash password
   let hashedPassword = await bcrypt.hash(newPassword, 10);
-  let userEmail = req.body;
+  let userEmail = req.body.email;
   const qUserExists = `SELECT * FROM user WHERE Email = ?`;
   // Check if user exists
-  pool.query(qUserExists, userEmail.email, (err, result) => {
+  pool.query(qUserExists, userEmail, (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -188,32 +188,22 @@ const forgotPassword = async (req, res) => {
     // Update user password in the database
     pool.query(
       qUpdateUserPassword,
-      [hashedPassword, userEmail.email],
+      [hashedPassword, userEmail],
       (err, result) => {
         if (err) {
           return res.status(500).json({ error: err.message });
         }
-        let transporter = nodeMailer.createTransport({
-          host: 'smtp.gmail.com',
-          port: 465,
-          secure: true,
-          auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD,
-          },
-        });
 
+        //send email with new password to the user
         let mailOptions = {
           from: process.env.EMAIL_USERNAME,
           to: userEmail.email,
-          subject: 'Sending Email using Node.js',
-          html: `<h1>Hello ${userEmail.email} </h1> <p>you new password is ${newPassword}</p>`,
+          subject: 'Your new Password',
+          html: `<h1>Hello ${userEmail.email} </h1> <p>your new password is: ${newPassword}</p>`,
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
-            console.log(error);
-
             return res.status(500).json({ error: error.message });
           }
           console.log(`Email sent to ${email}: ${info.response}`);

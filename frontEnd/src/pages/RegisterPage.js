@@ -26,7 +26,6 @@ function RegisterPage() {
   const [err, setErr] = useState(null);
   const [errMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  //check use password
 
   //send data to backEnd
   const handleRegistration = (e) => {
@@ -36,12 +35,10 @@ function RegisterPage() {
     if (Object.values(errors).some((current) => current !== '')) {
       return;
     } else {
-      console.log('In ELSE');
       makeRequest
         .post('/auth/register', inputs)
         .then((response) => {
           // Handle successful registration
-          console.log('Response:', response);
           setErrorMessage('');
           navigate('/');
         })
@@ -200,7 +197,6 @@ function RegisterPage() {
       confirmPassword: '',
       birthDate: '',
       yearsOfExperience: '',
-
       phoneNumber: '',
       bandName: '',
     };

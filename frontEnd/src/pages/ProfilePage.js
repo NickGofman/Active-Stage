@@ -24,7 +24,6 @@ function ProfilePage() {
     console.log({ error });
   };
   const isUser = currentUser.Role === 'user';
-  console.log('USER ID', userId);
 
   //make a request for user data
   const {
@@ -34,8 +33,7 @@ function ProfilePage() {
     error: userError,
   } = useMusicianProfileData(onError, onSuccess, userId);
 
-  //========wait for data==============
-
+  
   //make a request for admin data
   const {
     isLoading: adminDataLoading,
@@ -43,7 +41,8 @@ function ProfilePage() {
     isError: adminIsError,
     error: adminError,
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
-
+  
+  //========wait for data==============
   if (userDataLoading) {
     return <div>Loading...</div>;
   }

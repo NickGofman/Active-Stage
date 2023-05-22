@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const handleRegistration = (e) => {
     e.preventDefault();
     // Validate form data
-
+    //TODO-delete this validation ??
     //   if (inputs === '') {
 
     //     return;
@@ -27,12 +27,10 @@ const ForgotPassword = () => {
       .post('/auth/forgotPassword', inputs)
       .then((response) => {
         // Handle successful registration
-        console.log('Response:', response);
         setErrorMessage('');
         navigate('/');
       })
       .catch((err) => {
-        console.log(err)
         setErrorMessage(err.response.data.error);
       });
   };

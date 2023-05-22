@@ -1,6 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
 const app = express();
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -10,19 +8,22 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const { unlink } = require('fs');
-const { promises: fsPromises } = require('fs');
 
 const port = process.env.port || 3001;
+//middleware to allow sending cookies in request
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
+//middleware to able getting json in req.body
 app.use(express.json());
+//middleware that allow http://localhost:3000 (frontend) make requests to the api(backend)
 app.use(
   cors({
     origin: 'http://localhost:3000',
   })
 );
+//middleware to attached cookies to req.body
 app.use(cookieParser());
 
 const storage = multer.diskStorage({

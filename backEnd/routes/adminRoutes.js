@@ -2,7 +2,10 @@
 
 const express = require('express');
 const router = express.Router();
-const { updateProfile, getAdminData } = require('../controllers/admin.js');
+const {
+  updateProfile,
+  getAdminData,
+} = require('../controllers/adminProfile.js');
 const {
   createEvent,
   getMusicalStyles,
