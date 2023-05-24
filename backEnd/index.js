@@ -98,5 +98,5 @@ app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
 
 app.listen(port, () => {
-  console.log(`WE ARE RUNNING PORT: ${port}`);
+  console.log(`WE ARE RUNNING ON PORT: ${port}`);
 });

@@ -14,7 +14,10 @@ import {
 } from '@material-tailwind/react';
 import { FaPlus } from 'react-icons/fa';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { useCreateNewEvent } from '../../hooks/useAdminEvents';
+import {
+  useCreateNewEvent,
+  useGetMusicalStyles,
+} from '../../hooks/useAdminEvents';
 
 function CreateNewEvent() {
   const [err, setErr] = useState('');
@@ -49,6 +52,24 @@ function CreateNewEvent() {
     'Alternative',
     'Gospel',
   ];
+  const {
+    isLoading: musicalStyleLoading,
+    data: musicalStyleList,
+    isError: musicalStyleIsError,
+    error: musicalStyleError,
+  } = useGetMusicalStyles();
+  const {
+    mutate: createEvent,
+    isError,
+    error,
+    isLoading,
+  } = useCreateNewEvent(inputs);
+  if (musicalStyleLoading) {
+    return <div>musicalStyleLoading...</div>;
+  }
+  if (musicalStyleIsError) {
+    console.log(musicalStyleError);
+  }
 
   const handleOpen = () => setOpen(!open);
 
@@ -59,11 +80,8 @@ function CreateNewEvent() {
     }));
   };
   const handleChangeStyle = (e) => {
-    //get the index
-    const selectedIndex = musicalTypes.findIndex((style) => style === e);
-
-    console.log('INDEX', selectedIndex);
-    setInputs((prevState) => ({ ...prevState, musicalTypeId: selectedIndex }));
+    // console.log('INDEX', selectedIndex);
+    setInputs((prevState) => ({ ...prevState, musicalTypeId: e }));
   };
   const handleDateChange = (newValue) => {
     console.log('newValue:', newValue);
@@ -72,12 +90,6 @@ function CreateNewEvent() {
 
     // setInputs(newValue);
   };
-  const {
-    mutate: createEvent,
-    isError,
-    error,
-    isLoading,
-  } = useCreateNewEvent(inputs);
 
   //create new event
   const handleCreateEvent = () => {
@@ -97,12 +109,14 @@ function CreateNewEvent() {
     console.log('inputs.musicalTypeId', inputs.musicalTypeId);
     if (date !== '' && time !== '' && inputs.musicalTypeId !== '') {
       createEvent(otherInput);
+      //reset inputs
       setInputs({
         date: '',
         time: '10:00',
         musicalStyle: '',
         description: '',
       });
+
       setOpen(false);
     } else {
       setErr('Must select a Date & time');
@@ -156,9 +170,13 @@ function CreateNewEvent() {
               name="musicalStyle"
               onChange={handleChangeStyle}
             >
-              {musicalTypes.map((style, index) => (
-                <Option name="musicalStyle" key={index} value={style}>
-                  {style}
+              {musicalStyleList?.data?.map((style) => (
+                <Option
+                  name="musicalStyle"
+                  key={style.MusicalTypeID}
+                  value={style.MusicalTypeID.toString()}
+                >
+                  {style.MusicalTypeName}
                 </Option>
               ))}
             </Select>

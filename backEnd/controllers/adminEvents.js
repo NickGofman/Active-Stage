@@ -52,10 +52,12 @@ const createEvent = (req, res) => {
 };
 const getMusicalStyles = (req, res) => {
   const q = 'Select * FROM typesdescription';
+  console.log('BACKEND getMusicalStyles');
   pool.query(q, (err, data) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
+
     return res.status(200).json(data);
   });
 };
