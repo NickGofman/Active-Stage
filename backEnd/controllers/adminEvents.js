@@ -10,6 +10,7 @@ const createEvent = (req, res) => {
   const date = dateTime.split(' ')[0];
 
   // Check if event already exists on the specified date
+  //TODO-should we delete the date validation (we have disabled dates)
   const qCheckIfExist = 'SELECT * FROM event WHERE Date LIKE ?';
   pool.query(qCheckIfExist, [`${date}%`], (err, data) => {
     if (err) {
@@ -20,7 +21,7 @@ const createEvent = (req, res) => {
       // Event already exists
       return res
         .status(409)
-        .json({ error: 'Event already exists on the specified date.' });
+        .json('Event already exists on the specified date.');
     }
 
     // Event does not exist, create a new event
@@ -61,8 +62,18 @@ const getMusicalStyles = (req, res) => {
     return res.status(200).json(data);
   });
 };
-
+const getEventsDate=(req,res)=>{
+  const q=`SELECT DATE_FORMAT(Date, '%Y-%m-%d') AS startDate FROM event`
+  pool.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log("inEventDates")
+    return res.status(200).json(data);
+  });
+}
 module.exports = {
   createEvent,
   getMusicalStyles,
+  getEventsDate,
 };

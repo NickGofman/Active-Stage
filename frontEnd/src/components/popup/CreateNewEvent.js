@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Fragment, useState } from 'react';
 import {
   Button,
@@ -17,23 +17,33 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import {
   useCreateNewEvent,
   useGetMusicalStyles,
+  useGetEventDates,
 } from '../../hooks/useAdminEvents';
-
 function CreateNewEvent() {
   const [err, setErr] = useState('');
-
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState({
-    startDate: new Date(),
+    startDate: ' ',
   });
   const [inputs, setInputs] = useState({
     date: '',
     description: '',
-    musicalStyle: '',
     time: '',
   });
-
-  //get musical style from DB, table typesdescription
+  const handleOpen = () => {
+    setOpen(!open);
+    setErr("");
+  };
+  const {
+    data: eventDates,
+    isError: datesIsError,
+    isLoading: datesIsLoading,
+    error: datesError,
+  } = useGetEventDates();
+  //map over the dates to disable days that have events
+  const modifiedEventDates = eventDates?.data.map((item) => {
+    return { startDate: item.startDate, endDate: item.startDate };
+  });
 
   const {
     isLoading: musicalStyleLoading,
@@ -41,20 +51,10 @@ function CreateNewEvent() {
     isError: musicalStyleIsError,
     error: musicalStyleError,
   } = useGetMusicalStyles();
-  const {
-    mutate: createEvent,
-    isError,
-    error,
-    isLoading,
-  } = useCreateNewEvent(inputs);
-  if (musicalStyleLoading) {
-    return <div>musicalStyleLoading...</div>;
-  }
+  const { mutate: createEvent, isError, error } =useCreateNewEvent();
   if (musicalStyleIsError) {
     console.log(musicalStyleError);
   }
-
-  const handleOpen = () => setOpen(!open);
 
   const handleChange = (e) => {
     setInputs((prev) => ({
@@ -78,36 +78,45 @@ function CreateNewEvent() {
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
-    console.log('inputs.musicalTypeId', inputs.musicalTypeId);
     if (date !== '' && time !== '' && inputs.musicalTypeId !== undefined) {
       otherInput.dateTime = dateTime;
       createEvent(otherInput);
-      //reset inputs
-      // setOpen(false);
     } else {
       console.log('else:');
-      setErr('Must select a Date & time & Style');
+      setErr('Must select a Date, Time and Musical style');
       return;
     }
-
-    if (isLoading) {
-      return <div>Loading....</div>;
-    }
-
+    console.log(isError);
     if (isError) {
+      setInputs({
+        date: '',
+        description: '',
+        musicalStyle: '',
+        time: '',
+      });
+      setDate({ startDate: ' ', endDate: ' ' });
       console.log('IN ERROR');
+      //TODO-delete if (we have disabled dates- no need of date validation)
       if (error.response.status === 409) {
         // Event already exists on the specified date
-        setErr('Event already exists on the specified date.');
+        setErr(error.response.data);
       } else {
         // Other error occurred
         setErr('Failed to create a new event.');
       }
       console.log('CREATE EVENT ERROR:', error);
+    } else {
+      setErr('Event Created');
+      setInputs({
+        date: '',
+        description: '',
+        musicalStyle: '',
+        time: '',
+      });
+      setDate({ startDate: ' ', endDate: ' ' });
     }
-    // add the dataTime to the object to send
-    otherInput.dateTime = dateTime;
   };
+
 
   //use axios assign user to event
   return (
@@ -130,7 +139,7 @@ function CreateNewEvent() {
         <DialogHeader>Create New Event</DialogHeader>
         <DialogBody divider>
           <div className="flex flex-col w-72  gap-2">
-            <Typography variant="small">Pick A Date: {}</Typography>
+            <Typography variant="small">Pick A Date:</Typography>
             <Datepicker
               minDate={new Date()}
               containerClassName=" relative max-w-sm"
@@ -139,12 +148,14 @@ function CreateNewEvent() {
               asSingle={true}
               onChange={handleDateChange}
               displayFormat={'DD/MM/YYYY'}
+              disabledDates={modifiedEventDates}
             />
             <Input
               name="time"
               type="time"
               size="lg"
               label="time"
+              value={inputs.time}
               onChange={handleChange}
             />
 
@@ -168,9 +179,12 @@ function CreateNewEvent() {
               name="description"
               variant="outlined"
               label="Description"
+              value={inputs.description}
               onChange={handleChange}
             />
-            {err && err}
+            <Typography variant="h6" color="red">
+              {err && err}
+            </Typography>
           </div>
         </DialogBody>
         <DialogFooter>

@@ -9,11 +9,13 @@ const {
 const {
   createEvent,
   getMusicalStyles,
+  getEventsDate,
 } = require('../controllers/adminEvents.js');
 
 router.post('/updateProfile', updateProfile);
 router.post('/createEvent', createEvent);
 router.get('/getMusicalStyles', getMusicalStyles);
 router.get('/profile/:id', getAdminData);
+router.get('/eventsDates', getEventsDate);
 
 module.exports = router;

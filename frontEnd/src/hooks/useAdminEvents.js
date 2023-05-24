@@ -1,29 +1,42 @@
 import { makeRequest } from '../axios';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation,useQueryClient } from 'react-query';
 
 //#region ==============CreateNewEvent==============
 
-export const useCreateNewEvent = (data) => {
-  console.log('IN useCreateNewEvent ', data);
-  return useMutation('createNewEvent', createNewEvent);
-};
+export const useCreateNewEvent = () => {
+  // console.log('IN useCreateNewEvent ', data);
+  const queryClient=useQueryClient();
+  return useMutation(createNewEvent, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('getEventDates');
+    },
+  });
+}
+
 const createNewEvent = (data) => {
-  console.log('IN createNewEvent, data: ', data);
+  // console.log('IN createNewEvent, data: ', data);
   //axios request
-  return makeRequest.post('/admin/createEvent', data);
+  return makeRequest.post('/admin/createEventt', data);
 };
 //#endregion
 
 
 //#region ==============get musical type list==============
-
-export const useGetMusicalStyles = () => {
-  console.log('IN getMusicalStyles ');
-  return useQuery('getMusicalStyles', getMusicalStyles);
-};
-
 const getMusicalStyles = () => {
   return makeRequest.get('/admin/getMusicalStyles');
 };
+
+export const useGetMusicalStyles = () => {
+  // console.log('IN getMusicalStyles ');
+  return useQuery('getMusicalStyles', getMusicalStyles);
+};
+
+const getEventDates = () => {
+  console.log('getEEventsDate');
+  return makeRequest.get('/admin/eventsDates');
+};
+export const useGetEventDates=()=>{
+   return useQuery('getEventDates', getEventDates);
+}
 
 //#endregion
