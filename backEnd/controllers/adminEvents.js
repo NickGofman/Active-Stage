@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const createEvent = (req, res) => {
   const { description, dateTime, musicalTypeId } = req.body;
-  console.log('BACKEND:', description, dateTime);
+  console.log('BACKEND:', req.body);
 
   // Extract the date component from the dateTime
   const date = dateTime.split(' ')[0];

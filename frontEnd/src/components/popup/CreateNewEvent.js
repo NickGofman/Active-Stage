@@ -34,24 +34,7 @@ function CreateNewEvent() {
   });
 
   //get musical style from DB, table typesdescription
-  const musicalTypes = [
-    'Classical',
-    'Jazz',
-    'Rock',
-    'Hip Hop',
-    'Pop',
-    'Blues',
-    'Country',
-    'Reggae',
-    'Electronic',
-    'Folk',
-    'Metal',
-    'Punk',
-    'R&B',
-    'Soul',
-    'Alternative',
-    'Gospel',
-  ];
+
   const {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
@@ -84,7 +67,7 @@ function CreateNewEvent() {
     setInputs((prevState) => ({ ...prevState, musicalTypeId: e }));
   };
   const handleDateChange = (newValue) => {
-    console.log('newValue:', newValue);
+    // console.log('newValue:', newValue);
     setDate(newValue);
     setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
 
@@ -95,34 +78,35 @@ function CreateNewEvent() {
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
-    console.log(dateTime);
+    console.log('inputs.musicalTypeId', inputs.musicalTypeId);
+    if (date !== '' && time !== '' && inputs.musicalTypeId !== undefined) {
+      otherInput.dateTime = dateTime;
+      createEvent(otherInput);
+      //reset inputs
+      // setOpen(false);
+    } else {
+      console.log('else:');
+      setErr('Must select a Date & time & Style');
+      return;
+    }
 
     if (isLoading) {
       return <div>Loading....</div>;
     }
 
     if (isError) {
-      return error;
+      console.log('IN ERROR');
+      if (error.response.status === 409) {
+        // Event already exists on the specified date
+        setErr('Event already exists on the specified date.');
+      } else {
+        // Other error occurred
+        setErr('Failed to create a new event.');
+      }
+      console.log('CREATE EVENT ERROR:', error);
     }
     // add the dataTime to the object to send
     otherInput.dateTime = dateTime;
-    console.log('inputs.musicalTypeId', inputs.musicalTypeId);
-    if (date !== '' && time !== '' && inputs.musicalTypeId !== '') {
-      createEvent(otherInput);
-      //reset inputs
-      setInputs({
-        date: '',
-        time: '10:00',
-        musicalStyle: '',
-        description: '',
-      });
-
-      setOpen(false);
-    } else {
-      setErr('Must select a Date & time');
-      console.log('INPUTS:', inputs);
-      return;
-    }
   };
 
   //use axios assign user to event
