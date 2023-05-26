@@ -62,18 +62,36 @@ const getMusicalStyles = (req, res) => {
     return res.status(200).json(data);
   });
 };
-const getEventsDate=(req,res)=>{
-  const q=`SELECT DATE_FORMAT(Date, '%Y-%m-%d') AS startDate FROM event`
+const getEventsDate = (req, res) => {
+  const q = `SELECT DATE_FORMAT(Date, '%Y-%m-%d') AS startDate FROM event`;
   pool.query(q, (err, data) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log("inEventDates")
+    console.log('inEventDates');
     return res.status(200).json(data);
   });
-}
+};
+
+const getAllAssignMusicians = (req, res) => {
+  const q = `SELECT m.BandName, e.Date, mu.Photo
+              FROM event AS e
+              JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+              JOIN musician AS m ON mre.UserId = m.UserId
+              JOIN user AS u ON m.Email = u.Email
+              WHERE e.Status = 'active'`;
+  pool.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log('getAllAssignMusicians');
+    return res.status(200).json(data);
+  });
+};
+
 module.exports = {
   createEvent,
   getMusicalStyles,
   getEventsDate,
+  getAllAssignMusicians,
 };

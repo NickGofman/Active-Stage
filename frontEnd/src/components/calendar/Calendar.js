@@ -16,6 +16,7 @@ import {
   startOfToday,
 } from 'date-fns';
 import { Fragment, useState } from 'react';
+import { useAllAssignMusicians } from '../../hooks/useAdminEvents';
 
 const meetings = [
   {
@@ -65,6 +66,15 @@ function classNames(...classes) {
 }
 
 export default function Calendar() {
+  //get all get All Assign Musicians
+
+  // const { isLoading, data, isError, error } = useAllAssignMusicians();
+  // if (isLoading) {
+  // }
+  // if (isError) {
+  //   console.log(error);
+  // }
+
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));

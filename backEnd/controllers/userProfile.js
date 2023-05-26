@@ -58,5 +58,24 @@ const getProfile = (req, res) => {
 };
 //#endregion
 
+const getOpenEvents = (req, res) => {
+  const userId = req.params.id;
 
-module.exports = { updateProfile, getProfile };
+  console.log('IN BACKEND getOpenEvents', userId);
+  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
+FROM event AS e
+JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
+WHERE e.Status = 'Published'
+AND e.EventID NOT IN (
+  SELECT EventID
+  FROM musician_register_event
+  WHERE UserId = ?
+);`;
+  pool.query(q, userId, (err, data) => {
+    if (err) return res.status(500).json(err);
+    console.log('IN BACKEND getOpenEvents DATA:', data);
+    return res.status(200).json(data);
+  });
+};
+
+module.exports = { updateProfile, getProfile, getOpenEvents };

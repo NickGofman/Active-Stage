@@ -6,13 +6,15 @@ import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../cards/EventCardMusician';
 
 const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
+
   const [itemOffset, setItemOffset] = useState(0); //initial state
   const endOffset = itemOffset + itemsPerPage; //last item to present
-  const currentItems = events.slice(itemOffset, endOffset); //array of current items
-  const pageCount = Math.ceil(events.length / itemsPerPage);
+  const currentItems = events?.data?.slice(itemOffset, endOffset); //array of current items
+  console.log(currentItems);
+  const pageCount = Math.ceil(events?.data?.length / itemsPerPage);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % events.length;
+    const newOffset = (event.selected * itemsPerPage) % events?.data?.length;
     setItemOffset(newOffset);
   };
   //make query to check if user already registered to event if true change the text in the button and disabled the button
@@ -41,14 +43,13 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
             {header}
           </Typography>
           <div className="grid lg:grid-rows-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
-            {currentItems.map((event) => (
+            {currentItems?.map((event) => (
               <EventCardMusician
-                key={event.id}
-                id={event.id}
-                date={event.date}
-                hour={event.hour}
-                type={event.type}
-                description={event.description}
+                key={event.EventID}
+                id={event.EventID}
+                date={event.Date}
+                type={event.MusicalTypeName}
+                description={event.Description}
               />
             ))}
           </div>
@@ -59,15 +60,13 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
             {header}
           </Typography>
           <div className="grid lg:grid-rows-1 md:grid-cols-2  lg:grid-cols-3 gap-4 sm:grid-cols-1">
-            {currentItems.map((event) => (
+            {currentItems?.map((event) => (
               <EventCardMusician
-                key={event.id}
-                id={event.id}
-                date={event.date}
-                hour={event.hour}
-                type={event.type}
-                description={event.description}
-                isRegistered={true}
+                key={event.EventID}
+                id={event.EventID}
+                date={event.Date}
+                type={event.MusicalTypeName}
+                description={event.Description}
               />
             ))}
           </div>

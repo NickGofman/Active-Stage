@@ -8,7 +8,9 @@ import {
 import { useLocation } from 'react-router-dom';
 import RegisterToEvent from '../popup/RegisterToEvent';
 function EventCardMusician(props) {
-  const { date, hour, type, description, id } = props;
+  const { date, type, description, id } = props;
+  const dateEvent = date.split('T')[0];
+  const time = date.split('T')[1].substring(0, 5);
   // Register user to event
   const handleRegister = (id, userId) => {};
   const location = useLocation();
@@ -17,9 +19,9 @@ function EventCardMusician(props) {
     <Card className=" mt-6 w-96 justify-between text-center text-gray-700 rounded-md border-2">
       <CardBody className=" space-y-2">
         <Typography className="mt-1  text-s" variant="h3">
-          {date}
+          {dateEvent}
         </Typography>
-        <Typography variant="h3">{hour}</Typography>
+        <Typography variant="h4">{time}</Typography>
         <Typography variant="h4">{type}</Typography>
 
         <Typography className="text-center " variant="paragraph">
@@ -27,10 +29,10 @@ function EventCardMusician(props) {
         </Typography>
       </CardBody>
       <CardFooter className="">
-        {location.pathname !== '/user/myevents' && (
+        {location?.pathname !== '/user/myevents' && (
           <RegisterToEvent
-            date={date}
-            hour={hour}
+            date={dateEvent}
+            hour={time}
             type={type}
             description={description}
             handleClick={handleRegister}

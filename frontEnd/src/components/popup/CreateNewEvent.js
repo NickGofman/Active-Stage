@@ -28,7 +28,7 @@ function CreateNewEvent() {
   const [inputs, setInputs] = useState({
     date: '',
     description: '',
-    time: '',
+    time: '21:00',
   });
   const handleOpen = () => {
     setOpen(!open);
@@ -161,7 +161,7 @@ function CreateNewEvent() {
 
             <Select
               className="col-span-1"
-              label="Select band name"
+              label="Select Musical Type"
               name="musicalStyle"
               onChange={handleChangeStyle}
             >

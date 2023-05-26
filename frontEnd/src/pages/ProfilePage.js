@@ -31,7 +31,7 @@ function ProfilePage() {
     data: userData,
     isError: userIsError,
     error: userError,
-  } = useMusicianProfileData(onError, onSuccess, userId);
+  } = useMusicianProfileData(onError, onSuccess, userId, isUser);
 
   
   //make a request for admin data

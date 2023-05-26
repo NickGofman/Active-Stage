@@ -40,3 +40,13 @@ export const useGetEventDates=()=>{
 }
 
 //#endregion
+
+
+export const useAllAssignMusicians = () => {
+  console.log('getAllAssignMusicians');
+  return useQuery('getAllEvent', getAllAssignMusicians);
+};
+
+const getAllAssignMusicians = () => {
+  return makeRequest.get('/admin/getAllAssignMusicians');
+};
