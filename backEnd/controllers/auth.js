@@ -246,6 +246,9 @@ const changePassword = async (req, res) => {
 };
 //#endregion ================ CHANGE-PASSWORD======================
 
+
+
+
 //generate random new Password
 function generatePassword() {
   const length = 12;
@@ -259,4 +262,12 @@ function generatePassword() {
   return password;
 }
 
-module.exports = { register, login, logout, forgotPassword, changePassword };
+
+module.exports = {
+  register,
+  login,
+  logout,
+  forgotPassword,
+  changePassword,
+  
+};

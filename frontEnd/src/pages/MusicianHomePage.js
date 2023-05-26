@@ -1,10 +1,12 @@
 import React from 'react';
 import PaginationEvents from '../components/pagination/PaginationEvents';
 import { Card, Typography, CardBody } from '@material-tailwind/react';
-import { useAllPublishedEvents } from '../hooks/useMusicianEvnets';
+import { useAllPublishedEvents } from '../hooks/useMusicianEvents';
 import { useLocation } from 'react-router-dom';
 function MusicianHomePage() {
-  const userId = parseInt(useLocation().key.split('/'));
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user ? user.UserId : null;
+  const userEmail = user ? user.Email : null;
   console.log('userId:', userId);
   const { isLoading, data, isError, error } = useAllPublishedEvents(userId);
   // make sure the musician is'nt already registered to the current event,
@@ -38,6 +40,8 @@ function MusicianHomePage() {
       </Card>
       <div>
         <PaginationEvents
+          userEmail={userEmail}
+          userId={userId}
           events={data}
           itemsPerPage={6}
           header="Upcoming Events"

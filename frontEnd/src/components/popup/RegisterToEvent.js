@@ -7,11 +7,19 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import React, { Fragment, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRegisterToEvent } from '../../hooks/useMusicianEvents';
 
-function RegisterToEvent({ date, hour, type, description, handleClick }) {
+function RegisterToEvent({ date, hour, type, register }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
+
+  // Register user to event
+  const handleRegister = () => {
+    register();
+  };
+
   // axios request for assign
   return (
     <Fragment>
@@ -48,7 +56,7 @@ function RegisterToEvent({ date, hour, type, description, handleClick }) {
             variant="outlined"
             size="sm"
             className="max-w-sm"
-            onClick={handleClick}
+            onClick={handleRegister}
           >
             Register
           </Button>

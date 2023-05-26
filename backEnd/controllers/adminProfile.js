@@ -37,6 +37,7 @@ const getAdminData = (req, res) => {
   });
   //
 };
+
 //#endregion
 
 module.exports = {

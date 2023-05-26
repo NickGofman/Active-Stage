@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMusicianProfileData } from '../hooks/useMusicianProfileData';
 import { useLocation } from 'react-router-dom';
-import { useAdminProfileData } from '../hooks/useAdminProfileData';
+import { useAdminProfileData, useGetPhoto } from '../hooks/useAdminProfileData';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -42,6 +42,7 @@ function ProfilePage() {
     error: adminError,
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
   
+  
   //========wait for data==============
   if (userDataLoading) {
     return <div>Loading...</div>;
@@ -62,12 +63,8 @@ function ProfilePage() {
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">
         <div className="flex flex-col space-y-5  items-center">
-          {/* <img
-            alt={userData?.data[0].Photo}
-            src={`../../../backEnd/UploadImages/1684245555705documents.png`}
-            className="shadow-xl rounded-full h-auto align-middle border-none "
-            style={{ maxWidth: '150px' }}
-          /> */}
+          {/* <img src={data?.url} alt={data?.name} /> */}
+
           <Button
             onClick={handleChangePassword}
             variant="gradient"

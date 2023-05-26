@@ -5,8 +5,16 @@ import { useState } from 'react';
 import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../cards/EventCardMusician';
 
-const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
-
+const PaginationEvents = ({
+  itemsPerPage,
+  events,
+  header,
+  isHome,
+  userId,
+  userEmail,
+}) => {
+  
+  console.log('ppppp ', events);
   const [itemOffset, setItemOffset] = useState(0); //initial state
   const endOffset = itemOffset + itemsPerPage; //last item to present
   const currentItems = events?.data?.slice(itemOffset, endOffset); //array of current items
@@ -45,6 +53,8 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome }) => {
           <div className="grid lg:grid-rows-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
             {currentItems?.map((event) => (
               <EventCardMusician
+                userEmail={userEmail}
+                userId={userId}
                 key={event.EventID}
                 id={event.EventID}
                 date={event.Date}

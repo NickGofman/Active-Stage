@@ -1,69 +1,59 @@
 import React from 'react';
 
 import PaginationEvents from '../components/pagination/PaginationEvents';
+import { useAllAssignedEvents, useAllRegisteredEvents } from '../hooks/useMusicianEvents';
 
 function MusicianMyEventsPage() {
-  const events = [
-    {
-      id: 1,
-      date: '2023-05-01',
-      hour: '22:00',
-      type: 'Spring Festival',
-      description:
-        'Join us for our annual Spring Festival with live music, food trucks, and activities for the whole family.',
-    },
-    {
-      id: 2,
-      date: '2023-06-15',
-      hour: '22:00',
-      type: 'Jazz Night',
-      description:
-        'Enjoy an evening of live jazz music and cocktails at our rooftop lounge.',
-    },
-    {
-      id: 3,
-      date: '2023-07-04',
-      hour: '22:00',
-      type: 'Independence Day Celebration',
-      description:
-        "Celebrate America's independence with fireworks, live music, and food vendors.",
-    },
-    {
-      id: 4,
-      date: '2023-08-21',
-      hour: '22:00',
-      type: 'Solar Eclipse Viewing Party',
-      description:
-        'Join us for a once-in-a-lifetime event as we watch the solar eclipse together with special telescopes and glasses.',
-    },
-    {
-      id: 5,
-      date: '2023-09-10',
-      hour: '22:00',
-      type: 'Charity Walk',
-      description:
-        'Participate in our annual charity walk to raise funds for local non-profit organizations.',
-    },
-    {
-      id: 6,
-      date: '2023-11-25',
-      hour: '22:00',
-      type: 'Holiday Market',
-      description:
-        'Get in the holiday spirit and shop for unique gifts at our outdoor market featuring local artisans and vendors.',
-    },
-  ];
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user ? user.UserId : null;
+  const userEmail = user ? user.Email : null;
+  // const {
+  //   isLoading: isLoadingAllAssigned,
+  //   data: dataAllAssigned,
+  //   isError: isErrorAllAssigned,
+  //  error: errorAllAssigned,
+  // } = useAllAssignedEvents(userId);
+  // make sure the musician is'nt already registered to the current event,
+  //TODO- make sure each pagination gets his data
+  const {
+    isLoading: isLoadingRegisteredEvent,
+    data: dataRegisteredEvent,
+    isError: isErrorRegisteredEvent,
+    error: errorRegisteredEvent,
+  } = useAllRegisteredEvents(userId);
+  // make sure the musician is'nt already registered to the current event,
+
+  if (isLoadingRegisteredEvent) {
+    return <div>Loading...</div>;
+  }
+
+  // if (isErrorRegisteredEvent) {
+  //   return <div>Error: {errorRegisteredEvent}</div>;
+  // }
+  //   if (isLoadingAllAssigned) {
+  //     return <div>Loading...</div>;
+  //   }
+
+  //   if (isErrorAllAssigned) {
+  //     return <div>Error: {errorAllAssigned}</div>;
+  //   }
+  // console.log('dataAllAssigned', dataAllAssigned);
+  console.log('dataRegisteredEvent', dataRegisteredEvent);
 
   return (
     <>
       <PaginationEvents
-        events={events}
+        userId={userId}
+        userEmail={userEmail}
+        events={dataRegisteredEvent}
         itemsPerPage={3}
         header={'Registered Events'}
         isHome={false}
       />
       <PaginationEvents
-        events={events}
+        userId={userId}
+        userEmail={userEmail}
+        // events={dataAllAssigned}
         itemsPerPage={3}
         header={'Assigned Events'}
         isHome={false}
