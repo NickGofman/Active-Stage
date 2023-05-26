@@ -12,7 +12,7 @@ function RegisterToEvent({ date, hour, type, description, handleClick }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
-
+  // axios request for assign
   return (
     <Fragment>
       <Button onClick={handleOpen} size="sm" color="blue">

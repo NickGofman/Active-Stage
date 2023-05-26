@@ -32,7 +32,7 @@ function CreateNewEvent() {
   });
   const handleOpen = () => {
     setOpen(!open);
-    setErr("");
+    setErr('');
   };
   const {
     data: eventDates,
@@ -51,7 +51,15 @@ function CreateNewEvent() {
     isError: musicalStyleIsError,
     error: musicalStyleError,
   } = useGetMusicalStyles();
-  const { mutate: createEvent, isError, error } =useCreateNewEvent();
+  const {
+    mutate: createEvent,
+   
+    isError,
+    error,
+  } = useCreateNewEvent();
+  if (musicalStyleLoading) {
+    return <div>musicalStyleLoading...</div>;
+  }
   if (musicalStyleIsError) {
     console.log(musicalStyleError);
   }
@@ -78,21 +86,23 @@ function CreateNewEvent() {
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
+
     if (date !== '' && time !== '' && inputs.musicalTypeId !== undefined) {
       otherInput.dateTime = dateTime;
+      console.log('otherInput', otherInput);
       createEvent(otherInput);
     } else {
       console.log('else:');
       setErr('Must select a Date, Time and Musical style');
       return;
     }
+ 
     console.log(isError);
     if (isError) {
       setInputs({
         date: '',
         description: '',
-        musicalStyle: '',
-        time: '',
+        time: '21:00',
       });
       setDate({ startDate: ' ', endDate: ' ' });
       console.log('IN ERROR');
@@ -106,17 +116,15 @@ function CreateNewEvent() {
       }
       console.log('CREATE EVENT ERROR:', error);
     } else {
-      setErr('Event Created');
+      
       setInputs({
         date: '',
         description: '',
-        musicalStyle: '',
-        time: '',
+        time: '21:00',
       });
       setDate({ startDate: ' ', endDate: ' ' });
     }
   };
-
 
   //use axios assign user to event
   return (
