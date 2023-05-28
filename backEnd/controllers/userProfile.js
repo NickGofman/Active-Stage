@@ -60,8 +60,6 @@ const getProfile = (req, res) => {
 
 const getOpenEvents = (req, res) => {
   const userId = req.params.id;
-
-  console.log('IN BACKEND getOpenEvents', req);
   const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
 FROM event AS e
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
@@ -80,25 +78,21 @@ AND e.EventID NOT IN (
 
 const registerToEvent = (req, res) => {
   const userId = req.params.id;
+  const eventId = req.params.eventId;
+  const userEmail = req.params.email;
 
-  console.log('IN BACKEND registerToEvent', req);
-  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
-FROM event AS e
-JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
-WHERE e.Status = 'Published'
-AND e.EventID NOT IN (
-  SELECT EventID
-  FROM musician_register_event
-  WHERE UserId = ?
-);`;
-  pool.query(q, userId, (err, data) => {
+  console.log('IN BACKEND registerToEvent', userId, eventId, userEmail);
+  console.log('IN BACKEND registerToEvent', req.params);
+
+  const q = `INSERT INTO musician_register_event (EventID, UserId, Email)
+VALUES (?, ?, ?);
+`;
+  pool.query(q, [eventId, userId, userEmail], (err, data) => {
     if (err) return res.status(500).json(err);
 
     return res.status(200).json(data);
   });
 };
-
-
 
 const getAssignedEvents = (req, res) => {
   const userId = req.params.id;
@@ -113,31 +107,31 @@ WHERE e.UserId = ?
   `;
   console.log('req.params', req.params);
 
-  pool.query(q, userId, (err,data) => {
+  pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
     console.log('BACkEND getAssignedEvents');
-    console.log('getAssignedEvents',data);
+    console.log('getAssignedEvents', data);
     return res.status(200).json(data);
   });
 };
 //TODO- make sure that the events are not assign only registered
 const getRegisteredEvents = (req, res) => {
-   const userId = req.params.id;
+  const userId = req.params.id;
 
-   const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
+  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
 FROM event AS e
 LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
 WHERE mre.UserId IS NULL
 
 `;
-   console.log('req.params', req.params);
+  console.log('req.params', req.params);
 
-   pool.query(q, (err, data) => {
-     if (err) return res.status(500).json(err);
-     console.log('BACkEND getAssignedEvents');
-     return res.status(200).json(data);
-   });
+  pool.query(q, (err, data) => {
+    if (err) return res.status(500).json(err);
+    console.log('BACkEND getAssignedEvents');
+    return res.status(200).json(data);
+  });
 };
 module.exports = {
   updateProfile,

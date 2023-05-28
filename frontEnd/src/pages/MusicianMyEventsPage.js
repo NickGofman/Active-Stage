@@ -7,12 +7,12 @@ function MusicianMyEventsPage() {
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user ? user.UserId : null;
   const userEmail = user ? user.Email : null;
-  // const {
-  //   isLoading: isLoadingAllAssigned,
-  //   data: dataAllAssigned,
-  //   isError: isErrorAllAssigned,
-  //  error: errorAllAssigned,
-  // } = useAllAssignedEvents(userId);
+  const {
+    isLoading: isLoadingAllAssigned,
+    data: dataAllAssigned,
+    isError: isErrorAllAssigned,
+   error: errorAllAssigned,
+  } = useAllAssignedEvents(userId);
   // make sure the musician is'nt already registered to the current event,
   //TODO- make sure each pagination gets his data
   const {
@@ -27,16 +27,16 @@ function MusicianMyEventsPage() {
     return <div>Loading...</div>;
   }
 
-  // if (isErrorRegisteredEvent) {
-  //   return <div>Error: {errorRegisteredEvent}</div>;
-  // }
-  //   if (isLoadingAllAssigned) {
-  //     return <div>Loading...</div>;
-  //   }
+  if (isErrorRegisteredEvent) {
+    return <div>Error: {errorRegisteredEvent}</div>;
+  }
+    if (isLoadingAllAssigned) {
+      return <div>Loading...</div>;
+    }
 
-  //   if (isErrorAllAssigned) {
-  //     return <div>Error: {errorAllAssigned}</div>;
-  //   }
+    if (isErrorAllAssigned) {
+      return <div>Error: {errorAllAssigned}</div>;
+    }
   // console.log('dataAllAssigned', dataAllAssigned);
   console.log('dataRegisteredEvent', dataRegisteredEvent);
 
@@ -53,7 +53,7 @@ function MusicianMyEventsPage() {
       <PaginationEvents
         userId={userId}
         userEmail={userEmail}
-        // events={dataAllAssigned}
+         events={dataAllAssigned}
         itemsPerPage={3}
         header={'Assigned Events'}
         isHome={false}

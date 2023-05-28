@@ -7,7 +7,7 @@ function MusicianHomePage() {
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user ? user.UserId : null;
   const userEmail = user ? user.Email : null;
-  console.log('userId:', userId);
+  // console.log('userId:', userId);
   const { isLoading, data, isError, error } = useAllPublishedEvents(userId);
   // make sure the musician is'nt already registered to the current event,
 

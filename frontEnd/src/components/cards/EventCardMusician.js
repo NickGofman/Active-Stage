@@ -11,7 +11,6 @@ import { useRegisterToEvent } from '../../hooks/useMusicianEvents';
 function EventCardMusician(props) {
   const { date, type, description, id, userId, userEmail } = props;
   const location = useLocation();
-  console.log('ghghghhg', id, userId, userEmail);
 
   const {
     mutate: register,
@@ -20,13 +19,13 @@ function EventCardMusician(props) {
     isLoading,
   } = useRegisterToEvent(userId, id, userEmail);
 
-//  if (isLoading) {
-//    return <div>Loading....</div>;
-//  }
+ if (isLoading) {
+   return <div>Loading....</div>;
+ }
 
-//  if (isError) {
-//    return error;
-//  }
+ if (isError) {
+   return error;
+ }
 
   const dateEvent = date.split('T')[0];
   const time = date.split('T')[1].substring(0, 5);

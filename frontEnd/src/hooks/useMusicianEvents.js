@@ -2,6 +2,7 @@ import { makeRequest } from '../axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 export const useAllPublishedEvents = (userId) => {
+  console.log('userId', userId);
   return useQuery(['getAllPublishedEvents', userId], () =>
     getAllPublishedEvents(userId)
   );
@@ -14,6 +15,8 @@ const getAllPublishedEvents = (UserId) => {
 //register to event
 
 export const useRegisterToEvent = (userId, EventId, email) => {
+    console.log('userId:', userId, 'EventId', EventId);
+
   const queryClient = useQueryClient();
 
   console.log('useRegisterToEvent', userId, EventId, email);
