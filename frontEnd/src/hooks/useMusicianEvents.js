@@ -51,7 +51,7 @@ const getAllAssignedEvents = (UserId) => {
 
 
 export const useAllRegisteredEvents = (userId) => {
-  return useQuery(['useAllAssignedEvents', userId], () =>
+  return useQuery(['useAllRegisteredEvents', userId], () =>
     getAllRegisteredEvents(userId)
   );
 };

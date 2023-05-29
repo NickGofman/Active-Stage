@@ -33,6 +33,13 @@ export default function NavBar() {
 
   let navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      <Avatar
+        variant="circular"
+        size="lg"
+        alt="candice wu"
+        className="border border-blue-500 p-0.5 hidden lg:block"
+        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+      />
       <Typography
         as="li"
         variant="small"
@@ -97,43 +104,20 @@ export default function NavBar() {
           </Link>
         </Typography>
       )}
-      <Avatar
-        variant="circular"
-        size="lg"
-        alt="candice wu"
-        className="border border-blue-500 p-0.5 hidden lg:block"
-        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-      />
     </ul>
   );
 
   return (
-    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 mb-10 ">
-      <div className="flex items-center justify-between text-blue-gray-900">
-        <div className="flex flex-col ">
-          <img
-            src={MainLogo}
-            alt="Active-Stage Logo"
-            className="w-[150px] h-[100px]"
-          />
-          <Button
-            onClick={handleLogout}
-            variant="text"
-            color="red"
-            size="sm"
-            className="text-sm"
-          >
-            Logout
-          </Button>
-        </div>
-        <div className="hidden lg:flex lg:flex-col lg:gap-1">{navList}</div>
-        {/* toggle icons */}
-        <IconButton
-          variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          ripple={false}
-          onClick={() => setOpenNav(!openNav)}
-        >
+<Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 mb-10">
+    <div className="flex items-center justify-between text-blue-gray-900">
+      <div className="hidden lg:flex lg:flex-col lg:gap-1">{navList}</div>
+      {/* toggle icons */}
+      <IconButton
+        variant="text"
+        className="mr-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+        ripple={false}
+        onClick={() => setOpenNav(!openNav)}
+      >
           {openNav ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +149,24 @@ export default function NavBar() {
             </svg>
           )}
         </IconButton>
+        <div className="flex flex-col ">
+          <img
+            src={MainLogo}
+            alt="Active-Stage Logo"
+            className="w-[150px] h-[100px]"
+          />
+          <Button
+            onClick={handleLogout}
+            variant="text"
+            color="red"
+            size="sm"
+            className="text-sm"
+          >
+            Logout
+          </Button>
+        </div>
       </div>
+
       <MobileNav open={openNav}>
         <div className="container mx-auto">{navList}</div>
       </MobileNav>

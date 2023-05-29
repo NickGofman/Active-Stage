@@ -1,6 +1,8 @@
 'use strict';
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const fs = require('fs');
 //#region ================UPDATE PROFILE================
 
 const updateProfile = (req, res) => {
@@ -133,6 +135,55 @@ WHERE mre.UserId IS NULL
     return res.status(200).json(data);
   });
 };
+const getUserPhoto = (req, res) => {
+  const userId = req.params.id;
+
+  // Query to retrieve the user's photo path from the database
+  const q = `
+    SELECT m.Photo
+    FROM musician AS m
+    JOIN user AS u ON m.UserId = u.UserId
+    WHERE m.UserId = ?
+  `;
+  pool.query(q, userId, (err, result) => {
+    if (err) {
+      console.log('Error retrieving user photo:', err);
+      return res.status(500).json(err);
+    }
+
+    // Check if a photo path exists for the user
+    if (result.length === 0 || !result[0].Photo) {
+      // Return the default photo file if the user's photo is null or doesn't exist
+            const defaultPhotoFile = path.join(
+              __dirname,
+              '..',
+              'UploadImages',
+              'ProfileImg.jpg'
+            );
+
+      return res.sendFile(defaultPhotoFile);
+    }
+
+    const photoPath = result[0].Photo;
+
+    // Read the user's photo file as a blob
+    const photoFile = path.join('UploadImages', photoPath);
+    fs.readFile(photoFile, (err, data) => {
+      if (err) {
+        console.log('Error reading user photo file:', err);
+        return res.status(500).json(err);
+      }
+
+      // Set the appropriate headers for the response
+      res.setHeader('Content-Type', 'image/jpg');
+      res.setHeader('Content-Length', data.length);
+
+      // Send the user's photo data as a blob in the response
+      res.send(data);
+    });
+  });
+};
+
 module.exports = {
   updateProfile,
   getProfile,
@@ -140,4 +191,5 @@ module.exports = {
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,
+  getUserPhoto,
 };

@@ -84,7 +84,9 @@ function MusicianProfileForm(props) {
   };
   return (
     <div className="max-w-lg w-auto md:w-full px-6 py-12 bg-white shadow-md rounded-md">
-      <Typography color='blue' className='mb-2' variant='h5'>Here You Can Edit Your Profile</Typography>
+      <Typography color="blue" className="mb-2" variant="h5">
+        Here You Can Edit Your Profile
+      </Typography>
       <form method="post" className="space-y-6">
         <Input
           name="firstName"
@@ -96,7 +98,7 @@ function MusicianProfileForm(props) {
         <Input
           name="lastName"
           label="Last Name"
-          id="inputOrgName"
+          id="inputOrglastName"
           value={inputs.lastName}
           onChange={handleChange}
         />

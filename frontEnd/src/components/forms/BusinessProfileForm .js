@@ -112,7 +112,7 @@ function BusinessProfileForm(props) {
         <Input
           type="text"
           label="Manager Name"
-          id="inputOrgPhone"
+          id="inputOrgManagerName"
           required={true}
           name="managerName"
           value={inputs.managerName}
