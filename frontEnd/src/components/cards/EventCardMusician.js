@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Card,
   CardBody,
@@ -8,28 +8,31 @@ import {
 import { useLocation } from 'react-router-dom';
 import RegisterToEvent from '../popup/RegisterToEvent';
 import { useRegisterToEvent } from '../../hooks/useMusicianEvents';
-function EventCardMusician(props) {
-  const { date, type, description, id, userId, userEmail } = props;
-  const location = useLocation();
+import { AuthContext } from '../context/authContext';
 
+function EventCardMusician(props) {
+  const { currentUser } = useContext(AuthContext);
+  const { date, type, description, eventId, userId } = props;
+  const userEmail = currentUser ? currentUser.Email : null;
   const {
     mutate: register,
     isError,
     error,
     isLoading,
-  } = useRegisterToEvent(userId, id, userEmail);
+  } = useRegisterToEvent(userId, eventId, userEmail);
+  const location = useLocation();
 
- if (isLoading) {
-   return <div>Loading....</div>;
- }
+  if (isLoading) {
+    return <div>Loading....</div>;
+  }
 
- if (isError) {
-   return error;
- }
+  if (isError) {
+    return error;
+  }
 
   const dateEvent = date.split('T')[0];
   const time = date.split('T')[1].substring(0, 5);
-
+  console.log('userId, eventId, userEmail', userId, eventId, userEmail);
   return (
     //  className="flex flex-col   text-center text-gray-700 rounded-md border-2 py-8 max-w-sm"
     <Card className=" mt-6 w-96 justify-between text-center text-gray-700 rounded-md border-2">
@@ -47,7 +50,7 @@ function EventCardMusician(props) {
       <CardFooter className="">
         {location?.pathname !== '/user/myevents' && (
           <RegisterToEvent
-            EventId={id}
+            EventId={eventId}
             date={dateEvent}
             hour={time}
             type={type}

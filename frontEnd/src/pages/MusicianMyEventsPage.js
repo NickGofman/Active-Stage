@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import PaginationEvents from '../components/pagination/PaginationEvents';
 import {
   useAllAssignedEvents,
   useAllRegisteredEvents,
 } from '../hooks/useMusicianEvents';
+import { Typography } from '@material-tailwind/react';
+import { AuthContext } from '../components/context/authContext';
+//TODO REMOVE ALL DRILLING userID and Email -> USE USeContext
 
 function MusicianMyEventsPage() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const userId = user ? user.UserId : null;
-  const userEmail = user ? user.Email : null;
+  const { currentUser } = useContext(AuthContext);
+  const userId = currentUser ? currentUser.UserId : null;
   //TODO- make sure each pagination gets his data
   const { isLoading, data, isError, error } = useAllRegisteredEvents(userId);
   const {
@@ -18,7 +20,6 @@ function MusicianMyEventsPage() {
     isError: isErrorAllAssigned,
     error: errorAllAssigned,
   } = useAllAssignedEvents(userId);
-
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -30,30 +31,30 @@ function MusicianMyEventsPage() {
     return <div>Loading...</div>;
   }
 
-
   if (isErrorAllAssigned) {
     return <div>Error: {errorAllAssigned}</div>;
   }
 
   return (
-    <>
+    <div>
       <PaginationEvents
         userId={userId}
-        userEmail={userEmail}
+     
         events={data}
         itemsPerPage={3}
         header={'Registered Events'}
         isHome={false}
       />
+
       <PaginationEvents
         userId={userId}
-        userEmail={userEmail}
+        
         events={dataAllAssigned}
         itemsPerPage={3}
         header={'Assigned Events'}
         isHome={false}
       />
-    </>
+    </div>
   );
 }
 

@@ -19,12 +19,15 @@ import {
   useGetMusicalStyles,
   useGetEventDates,
 } from '../../hooks/useAdminEvents';
+import { useQueryClient } from 'react-query';
 function CreateNewEvent() {
   const [err, setErr] = useState('');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState({
-    startDate: ' ',
+    startDate: '',
   });
+  const queryClient = useQueryClient();
+
   const [inputs, setInputs] = useState({
     date: '',
     description: '',
@@ -51,12 +54,25 @@ function CreateNewEvent() {
     isError: musicalStyleIsError,
     error: musicalStyleError,
   } = useGetMusicalStyles();
+
+  const onSuccess = () => {
+    setErr('Event Created!');
+    setInputs({
+      description: '',
+      time: '21:00',
+    });
+
+    queryClient.invalidateQueries('getEventDates');
+  };
+  const onError = () => {
+    setErr('Fail To Create Event');
+  };
   const {
     mutate: createEvent,
-   
+
     isError,
     error,
-  } = useCreateNewEvent();
+  } = useCreateNewEvent(onSuccess, onError);
   if (musicalStyleLoading) {
     return <div>musicalStyleLoading...</div>;
   }
@@ -96,34 +112,23 @@ function CreateNewEvent() {
       setErr('Must select a Date, Time and Musical style');
       return;
     }
- 
+
     console.log(isError);
-    if (isError) {
-      setInputs({
-        date: '',
-        description: '',
-        time: '21:00',
-      });
-      setDate({ startDate: ' ', endDate: ' ' });
-      console.log('IN ERROR');
-      //TODO-delete if (we have disabled dates- no need of date validation)
-      if (error.response.status === 409) {
-        // Event already exists on the specified date
-        setErr(error.response.data);
-      } else {
-        // Other error occurred
-        setErr('Failed to create a new event.');
-      }
-      console.log('CREATE EVENT ERROR:', error);
-    } else {
-      
-      setInputs({
-        date: '',
-        description: '',
-        time: '21:00',
-      });
-      setDate({ startDate: ' ', endDate: ' ' });
-    }
+    // if (isError) {
+    //   console.log('IN ERROR');
+    //   //TODO-delete if (we have disabled dates- no need of date validation)
+
+    //   // Other error occurred
+    //   setErr('Failed to create a new event.');
+    // } else {
+    //   setErr('Event Created');
+    //   setInputs({
+    //     date: '',
+    //     description: '',
+    //     time: '21:00',
+    //   });
+    //   setDate({ startDate: ' ', endDate: ' ' });
+    // }
   };
 
   //use axios assign user to event
@@ -157,6 +162,7 @@ function CreateNewEvent() {
               onChange={handleDateChange}
               displayFormat={'DD/MM/YYYY'}
               disabledDates={modifiedEventDates}
+              popoverDirection="down"
             />
             <Input
               name="time"

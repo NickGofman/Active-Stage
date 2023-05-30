@@ -5,15 +5,7 @@ import { useState } from 'react';
 import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../cards/EventCardMusician';
 
-const PaginationEvents = ({
-  itemsPerPage,
-  events,
-  header,
-  isHome,
-  userId,
-  userEmail,
-}) => {
-  
+const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
   console.log('ppppp ', events);
   const [itemOffset, setItemOffset] = useState(0); //initial state
   const endOffset = itemOffset + itemsPerPage; //last item to present
@@ -42,7 +34,9 @@ const PaginationEvents = ({
       },
     },
   };
-
+  console.log('events?.data?', events?.data);
+  console.log('ASFSAF ', userId);
+  
   return (
     <>
       {isHome ? (
@@ -50,36 +44,47 @@ const PaginationEvents = ({
           <Typography variant="h2" className="text-center mb-5  ">
             {header}
           </Typography>
-          <div className="grid lg:grid-rows-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
-            {currentItems?.map((event) => (
-              <EventCardMusician
-                userEmail={userEmail}
-                userId={userId}
-                key={event.EventID}
-                id={event.EventID}
-                date={event.Date}
-                type={event.MusicalTypeName}
-                description={event.Description}
-              />
-            ))}
-          </div>
+          {events?.data?.length !== 0 ? (
+            <div className="grid lg:grid-rows-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
+              {currentItems?.map((event) => (
+                <EventCardMusician
+                  userId={userId}
+                  key={event.EventID}
+                  eventId={event.EventID}
+                  date={event.Date}
+                  type={event.MusicalTypeName}
+                  description={event.Description}
+                />
+              ))}
+            </div>
+          ) : (
+            <Typography variant="h4" className="text-center">
+              NO Open Events
+            </Typography>
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center  mt-10">
           <Typography variant="h2" className="text-center mb-5  ">
             {header}
           </Typography>
-          <div className="grid lg:grid-rows-1 md:grid-cols-2  lg:grid-cols-3 gap-4 sm:grid-cols-1">
-            {currentItems?.map((event) => (
-              <EventCardMusician
-                key={event.EventID}
-                id={event.EventID}
-                date={event.Date}
-                type={event.MusicalTypeName}
-                description={event.Description}
-              />
-            ))}
-          </div>
+          {events?.data?.length !== 0 ? (
+            <div className="grid lg:grid-rows-1 md:grid-cols-2  lg:grid-cols-3 gap-4 sm:grid-cols-1">
+              {currentItems?.map((event) => (
+                <EventCardMusician
+                  key={event.EventID}
+                  id={event.EventID}
+                  date={event.Date}
+                  type={event.MusicalTypeName}
+                  description={event.Description}
+                />
+              ))}
+            </div>
+          ) : (
+            <Typography variant="h4" className="text-center">
+              No Events
+            </Typography>
+          )}
         </div>
       )}
 
@@ -113,3 +118,35 @@ const PaginationEvents = ({
   );
 };
 export default PaginationEvents;
+// {
+//   data?.data?.length !== 0 ? (
+//     <PaginationEvents
+//       userId={userId}
+//       userEmail={userEmail}
+//       events={data}
+//       itemsPerPage={3}
+//       header={'Registered Events'}
+//       isHome={false}
+//     />
+//   ) : (
+//     <Typography variant="h4" className="text-center">
+//       NO Registered Events
+//     </Typography>
+//   );
+// }
+// {
+//   dataAllAssigned?.data?.length !== 0 ? (
+//     <PaginationEvents
+//       userId={userId}
+//       userEmail={userEmail}
+//       events={dataAllAssigned}
+//       itemsPerPage={3}
+//       header={'Assigned Events'}
+//       isHome={false}
+//     />
+//   ) : (
+//     <Typography variant="h4" className="text-center">
+//       NO Assigned Events
+//     </Typography>
+//   );
+// }

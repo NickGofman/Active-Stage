@@ -120,7 +120,7 @@ export default function Calendar() {
               )}
             </ol>
           </section>
-          <div>
+          <div >
             <div className="flex items-center ">
               <h2 className="flex-auto font-semibold text-gray-900">
                 {format(firstDayCurrentMonth, 'MMMM yyyy')}
@@ -151,7 +151,7 @@ export default function Calendar() {
               <div>F</div>
               <div>S</div>
             </div>
-            <div className="grid grid-cols-7 mt-2 text-sm">
+            <div className="grid grid-cols-7 mt-2 text-xl">
               {days.map((day, dayIdx) => (
                 <div
                   key={day.toString()}

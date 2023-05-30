@@ -26,6 +26,9 @@ export const useRegisterToEvent = (userId, EventId, email) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('getAllPublishedEvents');
+        //update 
+        queryClient.invalidateQueries('useAllRegisteredEvents');
+        
       },
     }
   );
@@ -51,8 +54,11 @@ const getAllAssignedEvents = (UserId) => {
 
 
 export const useAllRegisteredEvents = (userId) => {
-  return useQuery(['useAllRegisteredEvents', userId], () =>
-    getAllRegisteredEvents(userId)
+
+  return useQuery(
+    ['useAllRegisteredEvents', userId],
+    () => getAllRegisteredEvents(userId),
+   
   );
 };
 

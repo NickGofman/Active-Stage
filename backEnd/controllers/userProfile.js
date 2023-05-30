@@ -60,17 +60,9 @@ const getProfile = (req, res) => {
 };
 //#endregion
 
-const getOpenEvents = (req, res) => {
+const getPublishedEvents = (req, res) => {
   const userId = req.params.id;
-  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
-FROM event AS e
-JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
-WHERE e.Status = 'Published'
-AND e.EventID NOT IN (
-  SELECT EventID
-  FROM musician_register_event
-  WHERE UserId = ?
-);`;
+  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName FROM event AS e JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID WHERE e.Status = 'Published' AND e.EventID NOT IN ( SELECT EventID FROM musician_register_event WHERE UserId = ? ) ORDER BY e.Date;`;
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
 
@@ -121,15 +113,18 @@ const getRegisteredEvents = (req, res) => {
   const userId = req.params.id;
 
   const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
-FROM event AS e
-LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+FROM musician_register_event AS mre
+JOIN event AS e ON mre.EventID = e.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
-WHERE mre.UserId IS NULL
+WHERE e.UserID IS NULL
+  AND mre.UserID = ?
+
+    ORDER BY e.Date
 
 `;
   console.log('req.params', req.params);
 
-  pool.query(q, (err, data) => {
+  pool.query(q, userId,(err, data) => {
     if (err) return res.status(500).json(err);
     console.log('BACkEND getAssignedEvents');
     return res.status(200).json(data);
@@ -154,18 +149,19 @@ const getUserPhoto = (req, res) => {
     // Check if a photo path exists for the user
     if (result.length === 0 || !result[0].Photo) {
       // Return the default photo file if the user's photo is null or doesn't exist
-            const defaultPhotoFile = path.join(
-              __dirname,
-              '..',
-              'UploadImages',
-              'ProfileImg.jpg'
-            );
+      const defaultPhotoFile = path.join(
+        __dirname,
+        '..',
+        'UploadImages',
+        'ProfileImg.jpg'
+      );
 
       return res.sendFile(defaultPhotoFile);
     }
 
     const photoPath = result[0].Photo;
-
+    const format = photoPath.split('.');
+    console.log('format', format);
     // Read the user's photo file as a blob
     const photoFile = path.join('UploadImages', photoPath);
     fs.readFile(photoFile, (err, data) => {
@@ -173,9 +169,13 @@ const getUserPhoto = (req, res) => {
         console.log('Error reading user photo file:', err);
         return res.status(500).json(err);
       }
-
+      if (format[1] === 'jpg') {
+        res.setHeader('Content-Type', 'image/jpeg');
+      }
+      if (format[1] === 'png') {
+        res.setHeader('Content-Type', 'image/png');
+      }
       // Set the appropriate headers for the response
-      res.setHeader('Content-Type', 'image/jpg');
       res.setHeader('Content-Length', data.length);
 
       // Send the user's photo data as a blob in the response
@@ -187,7 +187,7 @@ const getUserPhoto = (req, res) => {
 module.exports = {
   updateProfile,
   getProfile,
-  getOpenEvents,
+  getPublishedEvents,
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,

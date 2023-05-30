@@ -5,7 +5,7 @@ const router = express.Router();
 const {
   updateProfile,
   getProfile,
-  getOpenEvents,
+  getPublishedEvents,
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,
@@ -16,7 +16,7 @@ router.post('/updateProfile', updateProfile);
 router.post('/registerToEvent/:id/:eventId/:email', registerToEvent);
 
 router.get('/profile/:id', getProfile);
-router.get('/getAllPublishedEvents/:id', getOpenEvents);
+router.get('/getAllPublishedEvents/:id', getPublishedEvents);
 router.get('/getAllAssignedEvents/:id', getAssignedEvents);
 
 router.get('/getAllRegisteredEvents/:id', getRegisteredEvents);

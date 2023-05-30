@@ -3,13 +3,11 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 //#region ==============CreateNewEvent==============
 
-export const useCreateNewEvent = () => {
+export const useCreateNewEvent = (onSuccess, onError) => {
   console.log('IN useCreateNewEvent ');
-  const queryClient = useQueryClient();
   return useMutation(createNewEvent, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('getEventDates');
-    },
+    onSuccess,
+    onError,
   });
 };
 
