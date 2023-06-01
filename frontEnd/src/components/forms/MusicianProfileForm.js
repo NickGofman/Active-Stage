@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, Textarea, Button, Typography } from '@material-tailwind/react';
 
 import { useState } from 'react';
@@ -23,16 +23,29 @@ function MusicianProfileForm(props) {
   const [file, setFile] = useState(null);
   // useState handle user profile Update
   const [inputs, setInputs] = useState({
-    firstName: FirstName,
-    lastName: LastName,
-    phone: PhoneNumber,
-    file: Photo,
-    experience: YearsOfExperience,
-    youtubeURL: URL,
-    description: Description,
-    email: Email,
-    bandName: BandName,
+    firstName: '',
+    lastName: '',
+    phone: '',
+    file: file,
+    experience: '',
+    youtubeURL: '',
+    description: '',
+    email: '',
+    bandName: '',
   });
+  useEffect(() => {
+    setInputs({
+      firstName: FirstName || '',
+      lastName: LastName || '',
+      phone: PhoneNumber || '',
+      file: Photo || null,
+      experience: YearsOfExperience || '',
+      youtubeURL: URL || '',
+      description: Description || '',
+      email: Email || '',
+      bandName: BandName || '',
+    });
+  }, [props?.data?.data[0]]);
 
   console.log('INPUSTS:', inputs);
   const handleChange = (e) => {

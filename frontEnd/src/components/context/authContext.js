@@ -24,7 +24,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [currentUser]);
   //clean user localStorage
   const logout = async () => {
-    const res = await makeRequest.post('/auth/logout');
+    await makeRequest.post('/auth/logout');
     localStorage.removeItem('user');
     setCurrentUser(null);
   };
