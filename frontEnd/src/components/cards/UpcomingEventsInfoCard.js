@@ -1,37 +1,34 @@
 import { Card, Typography, CardHeader } from '@material-tailwind/react';
 import EventIncome from '../popup/EventIncome';
 import AssignMusician from '../popup/AssignMusician';
-const UpcomingEventsInfoCard = ({
-  isAssign,
-  isAssignIncome,
-  handleClick,
-  data,
-}) => {
-  console.log("data",data)
+const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
+  console.log('data', data);
   return (
     <>
       {isAssign ? (
         <Card
           className=" shadow-lg 
         hover:shadow-cyan-300
-        shadow-cyan-200 space-y-6 p-6  text-center flex-1 "
+        shadow-cyan-200 space-y-6 p-6  text-center flex-1 min-h-48"
         >
           <CardHeader>
             <Typography variant="paragraph" color="light-blue">
               Upcoming Events
             </Typography>
           </CardHeader>
-          {data?.map(({ date, eventId }) => (
+          {data?.map(({ Date, EventID }) => (
             <div
-              key={eventId}
+              key={EventID}
               className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer "
             >
-              <Typography variant="paragraph">{date}</Typography>
+              <Typography variant="paragraph">
+                {Date.replace('T', ' ').replace('Z', '')}
+              </Typography>
             </div>
           ))}
         </Card>
       ) : isAssignIncome ? (
-        <Card className=" shadow-lg hover:shadow-green-300  shadow-green-200 space-y-6 p-6 text-center flex-2 ">
+        <Card className=" shadow-lg hover:shadow-green-300  shadow-green-200 space-y-6 p-6 text-center flex-2 min-h-48">
           <CardHeader>
             <Typography variant="paragraph" color="green">
               Assign Musician
@@ -47,7 +44,7 @@ const UpcomingEventsInfoCard = ({
 
               <AssignMusician
                 EventId={EventID}
-                EventDate={Date.slice(0, 10)}
+                EventDate={Date}
                 disabled={true}
               />
             </div>
@@ -56,25 +53,25 @@ const UpcomingEventsInfoCard = ({
       ) : (
         <Card
           className="shadow-lg shadow-deep-orange-200
-        hover:shadow-deep-orange-300 space-y-6 p-6 text-center flex-1 "
+        hover:shadow-deep-orange-300 space-y-6 p-6 text-center flex-1 min-h-48"
         >
           <CardHeader>
             <Typography variant="paragraph" color="red">
               Assign Income
             </Typography>
           </CardHeader>
-          {data?.map(({ date, bandName, eventId }) => (
+          {data?.map(({ Date, EventID, BandName }) => (
             <div
-              key={eventId}
+              key={EventID}
               className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer "
             >
               <EventIncome
-                EventId={eventId}
-                bandName={bandName}
-                EventDate={date}
+                EventId={EventID}
+                bandName={BandName}
+                EventDate={Date.slice(0, 10)}
                 disabled={true}
               />
-              <Typography variant="paragraph">{date}</Typography>
+              <Typography variant="paragraph">{Date.slice(0, 10)}</Typography>
             </div>
           ))}
         </Card>

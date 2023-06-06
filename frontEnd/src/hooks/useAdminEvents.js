@@ -73,6 +73,8 @@ export const useAssignMusicianById = () => {
       // Invalidate relevant queries
       queryClient.invalidateQueries('getAllAssignMusicians');
       queryClient.invalidateQueries('getThreeUpcomingEvents');
+      queryClient.invalidateQueries('getUpcomingEvents');
+      
       // Add any other relevant operations after successful mutation
     },
     // Add any other mutation options if needed
@@ -87,3 +89,38 @@ const assignMusicianById = (data) => {
 };
 
 //#endregion
+export const useGetEventsPassedWithoutIncome = () => {
+  return useQuery('getEventsPassedWithoutIncome', getEventsPassedWithoutIncome);
+};
+
+const getEventsPassedWithoutIncome = () => {
+  return makeRequest.get('/admin/getEventsPassedWithoutIncome');
+};
+
+export const useAddIncome = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((data) => addIncome(data), {
+    onSuccess: () => {
+      // Invalidate relevant queries
+   
+      queryClient.invalidateQueries('getEventsPassedWithoutIncome');
+      
+      // Add any other relevant operations after successful mutation
+    },
+    // Add any other mutation options if needed
+  });
+};
+
+const addIncome = (data) => {
+  console.log(data)
+  const { eventId, income } = data;
+  return makeRequest.post(`/admin/addIncome/${eventId}`, { income });
+};
+
+export const useGetUpcomingEvents = ()=>{
+  return useQuery('getUpcomingEvents', getUpcomingEvents);
+}
+const getUpcomingEvents = () =>{
+  return makeRequest.get('/admin/getUpcomingEvents');
+}

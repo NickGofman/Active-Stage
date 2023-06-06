@@ -27,33 +27,39 @@ function MusicianHomePage() {
     isError: isErrorAllAssigned,
     error: errorAllAssigned,
   } = useAllAssignedEvents(userId);
-  if (isLoadingPublishedEvents) {
-    return <div>Loading...</div>;
-  }
-  if (isErrorPublishedEvents) {
-    return <div>Error: {errorPublishedEvents}</div>;
-  }
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error: {error}</div>;
-  }
-  if (isLoadingAllAssigned) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoadingPublishedEvents) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (isErrorPublishedEvents) {
+  //   return <div>Error: {errorPublishedEvents}</div>;
+  // }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (isError) {
+  //   return <div>Error: {error}</div>;
+  // }
+  // if (isLoadingAllAssigned) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (isErrorAllAssigned) {
-    return <div>Error: {errorAllAssigned}</div>;
-  }
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isErrorAllAssigned) {
+  //   return <div>Error: {errorAllAssigned}</div>;
+  // }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (isError) {
-    return <div>Error: {error}</div>;
-  }
+  // if (isError) {
+  //   return <div>Error: {error}</div>;
+  // }
+if (isLoadingPublishedEvents || isLoading || isLoadingAllAssigned) {
+  return <div>Loading...</div>;
+}
 
+if (isErrorPublishedEvents || isError || isErrorAllAssigned) {
+  return <div>Error: {errorPublishedEvents || error || errorAllAssigned}</div>;
+}
   const numberOfEvents = data?.data?.length;
 
   const nextEventDate = dataAllAssigned?.data[0]?.Date.split('T')[0];

@@ -108,11 +108,29 @@ const getThreeUpcomingEvents = (req, res) => {
     return res.status(200).json(data);
   });
 };
+const getEventsPassedWithoutIncome = (req, res) => {
+  const q = `
+    SELECT e.EventID, e.Date, m.BandName AS BandName
+FROM event AS e
+LEFT JOIN musician AS m ON e.UserId = m.UserId
+WHERE e.Status = 'Assigned' AND e.Date < CURDATE() AND e.Income = 0
+GROUP BY e.EventID, e.Date
+ORDER BY e.Date ASC
+LIMIT 3;
+
+  `;
+  pool.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log('getEventsWithoutIncome');
+    return res.status(200).json(data);
+  });
+};
 
 const getAllUsersPerEvent = (req, res) => {
   const { EventID } = req.params;
   console.log('EventID', EventID);
-  
 
   const q = `
     SELECT m.BandName, m.Description, m.YearsOfExperience ,m.UserId
@@ -131,9 +149,9 @@ const getAllUsersPerEvent = (req, res) => {
   });
 };
 const assignMusicianToEventById = (req, res) => {
-  const { EventID, UserId } = req.params; 
-console.log('Test:', EventID);
-const qAssignMusician = `
+  const { EventID, UserId } = req.params;
+  console.log('Test:', EventID);
+  const qAssignMusician = `
   UPDATE event AS e
   JOIN musician_register_event AS mre ON e.EventID = mre.EventID
   SET e.UserId = ?,
@@ -155,6 +173,46 @@ const qAssignMusician = `
     return res.status(200).json({ message: 'Musician assigned to event.' });
   });
 };
+const addIncome = (req, res) => {
+  const { EventID } = req.params;
+  const { income } = req.body;
+  console.log(EventID, '-', income);
+    const updateQuery = `UPDATE event SET Income = ?, Status = 'Closed' WHERE EventID = ?`;
+  pool.query(updateQuery, [income, EventID], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    return res
+      .status(200)
+      .json({ message: 'Income updated successfully. Event closed.' });
+  });
+};
+const getUpcomingEvents = (req, res) => {
+  const q = `
+    SELECT e.EventID, e.Date, m.BandName AS BandName 
+    FROM event AS e
+    LEFT JOIN musician AS m ON e.UserId = m.UserId
+    WHERE e.Status = 'Assigned' AND e.Date > CURDATE()
+    GROUP BY e.EventID, e.Date
+    ORDER BY e.Date ASC
+    LIMIT 3
+  `;
+
+  // Execute the query to fetch upcoming events from the database
+  pool.query(q, (err, result) => {
+    if (err) {
+      // Handle the error
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      // Send the result as the response
+      res.json(result);
+    }
+  });
+};
+
+
 module.exports = {
   createEvent,
   getMusicalStyles,
@@ -163,7 +221,7 @@ module.exports = {
   getThreeUpcomingEvents,
   getAllUsersPerEvent,
   assignMusicianToEventById,
+  getEventsPassedWithoutIncome,
+  addIncome,
+  getUpcomingEvents,
 };
-
-
-

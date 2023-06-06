@@ -1,16 +1,15 @@
-
 import Calendar from '../components/calendar/Calendar';
 import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
 import CreateNewEvent from '../components/popup/CreateNewEvent';
-import { useGetThreeUpcomingEvents } from '../hooks/useAdminEvents';
+import {
+  useGetEventsPassedWithoutIncome,
+  useGetThreeUpcomingEvents,
+  useGetUpcomingEvents,
+} from '../hooks/useAdminEvents';
 const BusinessHomePage = () => {
   // create function for handelClick for all 3 use cases
   // get the upcoming event
-  const getLatestUpcomingEvent = (evetID) => {};
-  // get the  EventToAssign
-  const getLatestEventToAssign = (evetID) => {};
-  // get Events that need to assign Income
-  const getIncomeUpdating = (evetID) => {};
+
   //get the 3 first events with status assign, date not pass,
   const {
     data: dataAssign,
@@ -18,72 +17,28 @@ const BusinessHomePage = () => {
     isError,
     isLoading,
   } = useGetThreeUpcomingEvents();
-  if(isLoading)
-  {
+  const {
+    error: errorIncome,
+    data: dataIncome,
+    isError: isErrorIncome,
+    isLoading: isLoadingIncome,
+  } = useGetEventsPassedWithoutIncome();
+  const {
+    error: errorUpcoming,
+    data: dataUpcoming,
+    isError: isErrorUpcoming,
+    isLoading: isLoadingUpcoming,
+  } = useGetUpcomingEvents();
+
+  if (isLoading || isLoadingIncome || isLoadingUpcoming) {
     return <div>Loading...</div>;
   }
-  if (isError) {
+  if (isError || isErrorIncome || isErrorUpcoming) {
     return <div>{error}</div>;
   }
-  
-  const dataUpcoming = [
-    {
-      date: '19-6-2023 19:29',
-      bandName: 'assadc',
-      eventId: '1',
-    },
-    {
-      date: '18-6-2023 19:29',
-      bandName: 'assadc',
-      eventId: '2',
-    },
-    {
-      date: '16-6-2023 19:29',
-      bandName: 'assadc',
-      eventId: '3',
-    },
-  ];
-  //get the 3 first events with status published, date not pass,
-  // const dataAssign = [
-  //   {
-  //     date: '19-6-2023 19:29',
-  //     registered: 2,
-  //     userId: 1,
-  //     eventId: '1',
-  //   },
-  //   {
-  //     date: '18-6-2023 19:29',
-  //     registered: 5,
-  //     userId: 12,
-  //     eventId: '2',
-  //   },
-  //   {
-  //     date: '16-6-2023 19:29',
-  //     registered: 3,
-  //     userId: 14,
-  //     eventId: '3',
-  //   },
-  // ];
-  //get the 3 first events with status assign, date pass(need income)
-  const dataIncome = [
-    {
-      date: '19-6-2023 19:29',
-      bandName: 'assadc',
-      eventId: '1',
-    },
-    {
-      date: '18-6-2023 19:29',
-      bandName: 'assadc',
-      eventId: '2',
-    },
-    {
-      date: '16-6-2023 19:29',
-      bandName: 'assadc',
-      eventId: '3',
-    },
-  ];
 
   console.log('dataAssign?.data', dataAssign?.data);
+  console.log('dataIncome?.data', dataIncome?.data);
 
   return (
     <div className=" flex flex-grow px-5 py-24 pt-0 mx-auto flex-col justify-center items-center ">
@@ -95,24 +50,21 @@ const BusinessHomePage = () => {
             header="Events for income updating"
             isAssign={false}
             isAssignIncome={false}
-            handleClick={getIncomeUpdating}
-            data={dataIncome}
+            data={dataIncome?.data}
           />
 
           <UpcomingEventsInfoCard
             header="Upcoming Event to assign"
             isAssign={false}
             isAssignIncome={true}
-            handleClick={getLatestEventToAssign}
             data={dataAssign?.data}
           />
-          {/* <UpcomingEventsInfoCard
+          <UpcomingEventsInfoCard
             header="Upcoming Event"
             isAssign={true}
             isAssignIncome={false}
-            handleClick={getLatestUpcomingEvent}
-            data={dataUpcoming}
-          /> */}
+            data={dataUpcoming?.data}
+          />
         </div>
       </div>
     </div>
