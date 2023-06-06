@@ -15,12 +15,15 @@ import MainLogo from '../../logo/NJs0uK01.svg';
 import { AuthContext } from '../../components/context/authContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
   const { logout, currentUser } = useContext(AuthContext);
+  
+  const handleLogout = async() => {
 
-  const handleLogout = async () => {
     await logout();
+
   };
   useEffect(() => {
     window.addEventListener(

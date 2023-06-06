@@ -46,6 +46,8 @@ export const useAllAssignMusicians = () => {
 const getAllAssignMusicians = () => {
   return makeRequest.get('/admin/getAllAssignMusicians');
 };
+//all events data with status assign
+// export getAll
 
 export const useGetThreeUpcomingEvents = () => {
   return useQuery('getThreeUpcomingEvents', getThreeUpcomingEvents);

@@ -14,7 +14,7 @@ import { useAdminProfileData, useGetPhoto } from '../hooks/useAdminProfileData';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const userId = parseInt(useLocation().pathname.split('/')[3]);
+  const userId = currentUser?.UserId
   const handleChangePassword = () => {
     navigate('/changepassword');
   };
@@ -26,7 +26,8 @@ function ProfilePage() {
   const onError = (error) => {
     console.log({ error });
   };
-  const isUser = currentUser.Role === 'user';
+  const isUser = currentUser.Role === 'user'
+  console.log(isUser);
 
   //make a request for user data
   const {
@@ -74,6 +75,7 @@ function ProfilePage() {
     console.log(adminError);
   }
   console.log('ADMIN DATA PROFILE PAGE  ', adminData);
+  console.log('user DATA PROFILE PAGE  ', userData);
   return (
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">
