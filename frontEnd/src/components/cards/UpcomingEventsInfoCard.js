@@ -7,6 +7,7 @@ const UpcomingEventsInfoCard = ({
   handleClick,
   data,
 }) => {
+  console.log("data",data)
   return (
     <>
       {isAssign ? (
@@ -20,7 +21,7 @@ const UpcomingEventsInfoCard = ({
               Upcoming Events
             </Typography>
           </CardHeader>
-          {data.map(({ date, eventId }) => (
+          {data?.map(({ date, eventId }) => (
             <div
               key={eventId}
               className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer "
@@ -36,19 +37,17 @@ const UpcomingEventsInfoCard = ({
               Assign Musician
             </Typography>
           </CardHeader>
-          {data.map(({ date, registered, eventId }) => (
+          {data?.map(({ EventID, Date, RCount }) => (
             <div
-              key={eventId}
+              key={EventID}
               className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer"
-              onClick={handleClick}
             >
-              <Typography variant="paragraph">{date}</Typography>
-              <Typography variant="paragraph">
-                Registered: {registered}
-              </Typography>
+              <Typography variant="paragraph">{Date.slice(0, 10)}</Typography>
+              <Typography variant="paragraph">Registered: {RCount}</Typography>
+
               <AssignMusician
-                EventId={eventId}
-                EventDate={date}
+                EventId={EventID}
+                EventDate={Date.slice(0, 10)}
                 disabled={true}
               />
             </div>
@@ -64,7 +63,7 @@ const UpcomingEventsInfoCard = ({
               Assign Income
             </Typography>
           </CardHeader>
-          {data.map(({ date, bandName, eventId }) => (
+          {data?.map(({ date, bandName, eventId }) => (
             <div
               key={eventId}
               className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer "

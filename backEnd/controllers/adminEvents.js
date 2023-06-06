@@ -88,10 +88,82 @@ const getAllAssignMusicians = (req, res) => {
     return res.status(200).json(data);
   });
 };
+const getThreeUpcomingEvents = (req, res) => {
+  const q = `
+    SELECT e.EventID, e.Date, COUNT(mre.UserId) AS RCount
+    FROM event AS e
+    JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+    JOIN musician AS m ON mre.UserId = m.UserId
+    JOIN user AS u ON m.Email = u.Email
+    WHERE e.Status = 'Published'
+    GROUP BY e.EventID, e.Date
+    ORDER BY RCount DESC
+    LIMIT 3
+  `;
+  pool.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log('getAllAssignMusicians');
+    return res.status(200).json(data);
+  });
+};
 
+const getAllUsersPerEvent = (req, res) => {
+  const { EventID } = req.params;
+  console.log('EventID', EventID);
+  
+
+  const q = `
+    SELECT m.BandName, m.Description, m.YearsOfExperience ,m.UserId
+    FROM musician AS m
+    JOIN musician_register_event AS mre ON m.UserId = mre.UserId
+    JOIN event AS e ON mre.EventID = e.EventID
+    WHERE e.EventID = ?
+  `;
+
+  pool.query(q, EventID, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log('getAllUsersPerEvent');
+    return res.status(200).json(data);
+  });
+};
+const assignMusicianToEventById = (req, res) => {
+  const { EventID, UserId } = req.params; 
+console.log('Test:', EventID);
+const qAssignMusician = `
+  UPDATE event AS e
+  JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+  SET e.UserId = ?,
+      e.Status = 'Assigned'
+  WHERE e.EventID = ?;
+`;
+
+  pool.query(qAssignMusician, [UserId, EventID], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(400)
+        .json({ error: 'Failed to assign musician to event.' });
+    }
+
+    return res.status(200).json({ message: 'Musician assigned to event.' });
+  });
+};
 module.exports = {
   createEvent,
   getMusicalStyles,
   getEventsDate,
   getAllAssignMusicians,
+  getThreeUpcomingEvents,
+  getAllUsersPerEvent,
+  assignMusicianToEventById,
 };
+
+
+

@@ -18,11 +18,9 @@ import { Link } from 'react-router-dom';
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
   const { logout, currentUser } = useContext(AuthContext);
-  
-  const handleLogout = async() => {
 
+  const handleLogout = async () => {
     await logout();
-
   };
   useEffect(() => {
     window.addEventListener(
@@ -84,7 +82,7 @@ export default function NavBar() {
           className="flex flex-row-reverse gap-1 items-center"
         >
           <BsCalendar4Event />
-          {currentUser.role === 'admin' ? 'Events' : 'My Events'}
+          {currentUser.Role === 'admin' ? 'All Events' : 'My Events'}
         </Link>
       </Typography>
 
@@ -108,16 +106,16 @@ export default function NavBar() {
   );
 
   return (
-<Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 mb-10">
-    <div className="flex items-center justify-between text-blue-gray-900">
-      <div className="hidden lg:flex lg:flex-col lg:gap-1">{navList}</div>
-      {/* toggle icons */}
-      <IconButton
-        variant="text"
-        className="mr-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-        ripple={false}
-        onClick={() => setOpenNav(!openNav)}
-      >
+    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 mb-10">
+      <div className="flex items-center justify-between text-blue-gray-900">
+        <div className="hidden lg:flex lg:flex-col lg:gap-1">{navList}</div>
+        {/* toggle icons */}
+        <IconButton
+          variant="text"
+          className="mr-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+          ripple={false}
+          onClick={() => setOpenNav(!openNav)}
+        >
           {openNav ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"

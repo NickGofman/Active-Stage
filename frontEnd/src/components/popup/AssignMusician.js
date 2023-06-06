@@ -8,20 +8,26 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import MusicianAssignCard from '../cards/MusicianAssignCard';
+import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
 function AssignMusician(props) {
-  const { EventDate, EventID, disabled } = props;
+  const { EventDate, EventId, disabled } = props;
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
-  // get users that assign to event
-  const usersList = function getUsres(EventID) {
-    // handle cancel button click
-  };
+  //TODO get users that assign to event axios
+  
+
 
   //use axios assign user to event
-  function handleCancel(EventID, userID) {
+  function handleAssign(EventID, userID) {
     // handle cancel button click
   }
+  const {
+    data: dataRegistered,
+    error,
+    isError,
+    isLoading,
+  } = useGetAllUsersPerEvent(EventId);
   const dummyData = [
     {
       id: 1,
@@ -101,6 +107,15 @@ function AssignMusician(props) {
       description: 'A pioneer of progressive rock music',
     },
   ];
+  
+if(isLoading)
+{
+  return <div>Loading...</div>
+}
+if(isError)
+{
+   console.error(error)
+}
 
   return (
     <Fragment>
@@ -108,7 +123,7 @@ function AssignMusician(props) {
         Assign
       </Button>
       <Dialog
-        size="xxl"
+        size="xl"
         open={open}
         handler={handleOpen}
         animate={{
@@ -130,13 +145,15 @@ function AssignMusician(props) {
         </DialogHeader>
         <DialogBody divider className="h-[40rem] overflow-scroll">
           {/* map throw the usersList  for each user add button with onclick*/}
-          <div className="grid grid-cols-3 ">
-            {dummyData.map((data) => (
+          <div className="flex flex-col flex-auto items-center">
+            {dataRegistered?.data?.map((data) => (
               <MusicianAssignCard
-                key={data.id}
-                bandName={data.bandName}
-                experience={data.experience}
-                description={data.description}
+                key={data.UserId}
+                eventId={EventId}
+                userId={data.UserId}
+                bandName={data.BandName}
+                experience={data.YearsOfExperience}
+                description={data.Description}
               />
             ))}
           </div>

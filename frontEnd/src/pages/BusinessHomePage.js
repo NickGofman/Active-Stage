@@ -2,6 +2,7 @@
 import Calendar from '../components/calendar/Calendar';
 import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
 import CreateNewEvent from '../components/popup/CreateNewEvent';
+import { useGetThreeUpcomingEvents } from '../hooks/useAdminEvents';
 const BusinessHomePage = () => {
   // create function for handelClick for all 3 use cases
   // get the upcoming event
@@ -11,6 +12,20 @@ const BusinessHomePage = () => {
   // get Events that need to assign Income
   const getIncomeUpdating = (evetID) => {};
   //get the 3 first events with status assign, date not pass,
+  const {
+    data: dataAssign,
+    error,
+    isError,
+    isLoading,
+  } = useGetThreeUpcomingEvents();
+  if(isLoading)
+  {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>{error}</div>;
+  }
+  
   const dataUpcoming = [
     {
       date: '19-6-2023 19:29',
@@ -29,25 +44,26 @@ const BusinessHomePage = () => {
     },
   ];
   //get the 3 first events with status published, date not pass,
-  const dataAssign = [
-    {
-      date: '19-6-2023 19:29',
-      registered: 2,
-      eventId: '1',
-    },
-    {
-      date: '18-6-2023 19:29',
-      registered: 5,
-
-      eventId: '2',
-    },
-    {
-      date: '16-6-2023 19:29',
-      registered: 3,
-
-      eventId: '3',
-    },
-  ];
+  // const dataAssign = [
+  //   {
+  //     date: '19-6-2023 19:29',
+  //     registered: 2,
+  //     userId: 1,
+  //     eventId: '1',
+  //   },
+  //   {
+  //     date: '18-6-2023 19:29',
+  //     registered: 5,
+  //     userId: 12,
+  //     eventId: '2',
+  //   },
+  //   {
+  //     date: '16-6-2023 19:29',
+  //     registered: 3,
+  //     userId: 14,
+  //     eventId: '3',
+  //   },
+  // ];
   //get the 3 first events with status assign, date pass(need income)
   const dataIncome = [
     {
@@ -67,7 +83,7 @@ const BusinessHomePage = () => {
     },
   ];
 
-  
+  console.log('dataAssign?.data', dataAssign?.data);
 
   return (
     <div className=" flex flex-grow px-5 py-24 pt-0 mx-auto flex-col justify-center items-center ">
@@ -88,15 +104,15 @@ const BusinessHomePage = () => {
             isAssign={false}
             isAssignIncome={true}
             handleClick={getLatestEventToAssign}
-            data={dataAssign}
+            data={dataAssign?.data}
           />
-          <UpcomingEventsInfoCard
+          {/* <UpcomingEventsInfoCard
             header="Upcoming Event"
             isAssign={true}
             isAssignIncome={false}
             handleClick={getLatestUpcomingEvent}
             data={dataUpcoming}
-          />
+          /> */}
         </div>
       </div>
     </div>

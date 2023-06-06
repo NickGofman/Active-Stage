@@ -46,3 +46,42 @@ export const useAllAssignMusicians = () => {
 const getAllAssignMusicians = () => {
   return makeRequest.get('/admin/getAllAssignMusicians');
 };
+
+export const useGetThreeUpcomingEvents = () => {
+  return useQuery('getThreeUpcomingEvents', getThreeUpcomingEvents);
+};
+const getThreeUpcomingEvents = () => {
+  return makeRequest.get('/admin/getThreeUpcomingEvents');
+};
+export const useGetAllUsersPerEvent = (EventID) => {
+  return useQuery(['getAllUsersPerEvent', EventID], () =>
+    getAllUsersPerEvent(EventID)
+  );
+};
+const getAllUsersPerEvent = (EventID) => {
+  console.log(EventID);
+  return makeRequest.get(`/admin/getAllUsersPerEvent/${EventID}`);
+};
+//#region ==============Assign musician to event==============
+export const useAssignMusicianById = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((data) => assignMusicianById(data), {
+    onSuccess: () => {
+      // Invalidate relevant queries
+      queryClient.invalidateQueries('getAllAssignMusicians');
+      queryClient.invalidateQueries('getThreeUpcomingEvents');
+      // Add any other relevant operations after successful mutation
+    },
+    // Add any other mutation options if needed
+  });
+};
+
+const assignMusicianById = (data) => {
+  const { eventId, userId } = data;
+  return makeRequest.post(
+    `/admin/assignMusicianToEventById/${eventId}/${userId}`
+  );
+};
+
+//#endregion
