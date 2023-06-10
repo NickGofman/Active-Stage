@@ -6,89 +6,68 @@ const adminRoutes = require('./routes/adminRoutes');
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const multer = require('multer');
 const { unlink } = require('fs');
+const path = require('path');
+const bodyParser = require('body-parser');
 
-const port = process.env.port || 3001;
-//middleware to allow sending cookies in request
+const port = process.env.PORT || 3001;
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
-//middleware to able getting json in req.body
+
 app.use(express.json());
-//middleware that allow http://localhost:3000 (frontend) make requests to the api(backend)
 app.use(
   cors({
     origin: 'http://localhost:3000',
   })
 );
-//middleware to attached cookies to req.body
-app.use(cookieParser());
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './UploadImages');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'UploadImages')));
+// Parse JSON bodies
+app.use(bodyParser.json());
+
+// Parse URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const uploadDir = path.join(__dirname, 'UploadImages');
 const maxSize = 1 * 1024 * 1024; //~1MB
 
 const handleMulterErrors = (err, req, res, next) => {
-  if (err instanceof multer.MulterError) {
-    // A Multer error occurred when uploading.
-    return res.status(400).json({ message: err.message });
-  } else if (err) {
-    // An unknown error occurred when uploading.
-    return res.status(500).json({ message: err.message });
+  if (err) {
+    res.status(400).json({ message: err.message });
+  } else {
+    next();
   }
-  next();
 };
 
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    if (
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/jpg' ||
-      file.mimetype === 'image/jpeg'
-    ) {
-      cb(null, true);
-    } else {
-      cb(null, false);
-      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-    }
-  },
-  limits: { fileSize: maxSize },
-}).single('file');
-
 app.post('/upload', (req, res, next) => {
-  upload(req, res, (err) => {
+  if (!req.files || !req.files.file) {
+    return res.status(400).json({ message: 'No file provided.' });
+  }
+
+  const file = req.files.file;
+  const oldPhoto = req.body.oldPhoto;
+
+  file.mv(path.join(uploadDir, file.name), (err) => {
     if (err) {
-      handleMulterErrors(err, req, res, next);
+      return res.status(500).json({ message: 'Error uploading file.' });
+    }
+
+    if (oldPhoto) {
+      unlink(path.join(uploadDir, oldPhoto), (error) => {
+        if (error) {
+          console.log('Error deleting old photo:', error);
+          return res.status(500).json({ message: 'Error deleting old photo.' });
+        }
+
+        console.log(`./UploadImages/${oldPhoto} was deleted`);
+        res.status(200).json(file.name);
+      });
     } else {
-      const file = req.file;
-      const oldPhoto = req.body.oldPhoto;
-      console.log("In '/upload' INDEX: ", oldPhoto);
-
-      // Delete the old photo
-      if (!oldPhoto === '') {
-        console.log("In '/upload' oldPhoto: ", oldPhoto);
-
-        unlink(`./UploadImages/${oldPhoto}`, (error) => {
-          if (error) {
-            console.log('Error deleting old photo:', error);
-            res.status(500).json('Error deleting old photo');
-          } else {
-            console.log(`./UploadImages/${oldPhoto} was deleted`);
-            res.status(200).json(file.filename);
-          }
-        });
-      } else {
-        res.status(200).json(file.filename);
-      }
+      res.status(200).json(file.name);
     }
   });
 });
@@ -98,5 +77,5 @@ app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
 
 app.listen(port, () => {
-  console.log(`WE ARE RUNNING ON PORT: ${port}`);
+  console.log(`Server is running on port ${port}`);
 });

@@ -38,14 +38,14 @@ export const useGetEventDates = () => {
 
 //#endregion
 
-export const useAllAssignMusicians = () => {
-  console.log('getAllAssignMusicians');
-  return useQuery('getAllEvent', getAllAssignMusicians);
-};
+// export const useAllAssignMusicians = () => {
+//   console.log('getAllAssignMusicians');
+//   return useQuery('getAllAssignMusicians', getAllAssignMusicians);
+// };
 
-const getAllAssignMusicians = () => {
-  return makeRequest.get('/admin/getAllAssignMusicians');
-};
+// const getAllAssignMusicians = () => {
+//   return makeRequest.get('/admin/getAllAssignMusicians');
+// };
 //all events data with status assign
 // export getAll
 
@@ -71,7 +71,7 @@ export const useAssignMusicianById = () => {
   return useMutation((data) => assignMusicianById(data), {
     onSuccess: () => {
       // Invalidate relevant queries
-      queryClient.invalidateQueries('getAllAssignMusicians');
+      //queryClient.invalidateQueries('getAllAssignMusicians');
       queryClient.invalidateQueries('getThreeUpcomingEvents');
       queryClient.invalidateQueries('getUpcomingEvents');
       
@@ -124,3 +124,18 @@ export const useGetUpcomingEvents = ()=>{
 const getUpcomingEvents = () =>{
   return makeRequest.get('/admin/getUpcomingEvents');
 }
+export const useSortedEventDataByType = (data,isChanged) => {
+  return useQuery(['getSortedEventDataByType',data], () =>
+    getSortedEventDataByType(data)
+    
+  );
+};
+
+const getSortedEventDataByType = (data) => {
+  console.log('getSortedEventDataByType', data);
+  const {sortType,startDate,endDate} = data;
+  return makeRequest.get(
+    `/admin/getSortedEventDataByType/${sortType}/${startDate}/${endDate}`
+  );
+};
+

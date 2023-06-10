@@ -73,21 +73,21 @@ const getEventsDate = (req, res) => {
   });
 };
 
-const getAllAssignMusicians = (req, res) => {
-  const q = `SELECT m.BandName, e.Date, mu.Photo
-              FROM event AS e
-              JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-              JOIN musician AS m ON mre.UserId = m.UserId
-              JOIN user AS u ON m.Email = u.Email
-              WHERE e.Status = 'active'`;
-  pool.query(q, (err, data) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    console.log('getAllAssignMusicians');
-    return res.status(200).json(data);
-  });
-};
+// const getAllAssignMusicians = (req, res) => {
+//   const q = `SELECT m.BandName, e.Date, m.Photo, e.UserId
+//            FROM event AS e
+//            JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+//            JOIN musician AS m ON mre.UserId = m.UserId
+//            JOIN user AS u ON m.Email = u.Email
+//            WHERE e.Status = 'Assigned'`;
+//   pool.query(q, (err, data) => {
+//     if (err) {
+//       return res.status(500).json({ error: err.message });
+//     }
+//     console.log('getAllAssignMusicians');
+//     return res.status(200).json(data);
+//   });
+// };
 const getThreeUpcomingEvents = (req, res) => {
   const q = `
     SELECT e.EventID, e.Date, COUNT(mre.UserId) AS RCount
@@ -177,7 +177,7 @@ const addIncome = (req, res) => {
   const { EventID } = req.params;
   const { income } = req.body;
   console.log(EventID, '-', income);
-    const updateQuery = `UPDATE event SET Income = ?, Status = 'Closed' WHERE EventID = ?`;
+  const updateQuery = `UPDATE event SET Income = ?, Status = 'Closed' WHERE EventID = ?`;
   pool.query(updateQuery, [income, EventID], (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -190,13 +190,13 @@ const addIncome = (req, res) => {
 };
 const getUpcomingEvents = (req, res) => {
   const q = `
-    SELECT e.EventID, e.Date, m.BandName AS BandName 
+    SELECT e.EventID, e.Date, m.BandName AS BandName ,m.Photo
     FROM event AS e
     LEFT JOIN musician AS m ON e.UserId = m.UserId
     WHERE e.Status = 'Assigned' AND e.Date > CURDATE()
     GROUP BY e.EventID, e.Date
     ORDER BY e.Date ASC
-    LIMIT 3
+   
   `;
 
   // Execute the query to fetch upcoming events from the database
@@ -211,17 +211,71 @@ const getUpcomingEvents = (req, res) => {
     }
   });
 };
+const getSortedEventDataByType = (req, res) => {
+  const { sortType, endDate, startDate } = req.params;
+  console.log('req.params', req.params);
+  let query = '';
+  let queryParams = [];
+
+  switch (sortType) {
+    case 'all':
+      query = 'SELECT * FROM event WHERE Date >= ? AND Date <= ? order by Status  ';
+      queryParams = [startDate, endDate];
+      break;
+    case 'Closed':
+      query =
+        'SELECT * FROM event WHERE Date >= ? AND Date <= ? AND Status = ?';
+      queryParams = [startDate, endDate, 'Closed'];
+      break;
+    case 'WithoutIncome':
+      query =
+        'SELECT * FROM event WHERE Date >= ? AND Date <= ? AND Status = ? AND Income = ?';
+      queryParams = [startDate, endDate, 'Assigned', 0];
+      break;
+    case 'Assigned':
+      query = ` SELECT e.*, COUNT(mre.UserId) AS NumberOfRegisters, m.BandName
+        FROM event AS e
+        LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+        LEFT JOIN musician AS m ON mre.UserId = m.UserId
+        WHERE e.Date >= ? AND e.Date <= ? AND e.Status = ?
+        GROUP BY e.EventID`;
+      queryParams = [startDate, endDate, 'Assigned'];
+      break;
+    case 'Published':
+      query = `
+        SELECT e.*, COUNT(mre.UserId) AS NumberOfRegisters, m.BandName
+        FROM event AS e
+        LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+        LEFT JOIN musician AS m ON mre.UserId = m.UserId
+        WHERE e.Date >= ? AND e.Date <= ? AND e.Status = ?
+        GROUP BY e.EventID
+      `;
+      queryParams = [startDate, endDate, 'Published'];
+      break;
+    default:
+      return res.status(400).json({ error: 'Invalid sort type' });
+  }
+
+  pool.query(query, queryParams, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    return res.status(200).json(data);
+  });
+};
 
 
 module.exports = {
   createEvent,
   getMusicalStyles,
   getEventsDate,
-  getAllAssignMusicians,
+  //getAllAssignMusicians,
   getThreeUpcomingEvents,
   getAllUsersPerEvent,
   assignMusicianToEventById,
   getEventsPassedWithoutIncome,
   addIncome,
   getUpcomingEvents,
+  getSortedEventDataByType,
 };

@@ -1,27 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import EventTableView from '../components/eventTable/EventTableView';
 import { useState } from 'react';
 import { Radio } from '@material-tailwind/react';
 import { events } from '../constants/index';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { useSortedEventDataByType } from '../hooks/useAdminEvents';
 
 function BusinessAllEvents() {
+  const [isChanged, setIsChanged] = useState(false);
+
   //get all events
   const [sortType, setSortType] = useState('all');
   const [date, setDate] = useState({
-    startDate: new Date().setMonth(-3),
-    endDate: new Date().setMonth(11),
+    startDate: new Date(),
+    endDate: new Date(),
   });
   //axios will be here we wil have 4 routes that get sortType and date
+  const sortData = {
+    sortType: sortType,
+    startDate: date.startDate,
+    endDate: date.endDate,
+  };
+  // Fetch events based on sort type and date range
+
+  const { data, error, isError, isLoading } = useSortedEventDataByType(
+    sortData,
+    isChanged
+  );
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return error;
+  }
+  console.log('data', data);
 
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
     setSortType(event.target.value);
+    setIsChanged(true);
     // send a query to the database based on the selected sort type
   };
   const handleDateChange = (newValue) => {
     console.log('newValue:', newValue);
     setDate(newValue);
+    setIsChanged(true);
   };
 
   return (
@@ -41,6 +64,7 @@ function BusinessAllEvents() {
           <Radio
             label="All"
             type="radio"
+            id="sortType-all"
             name="sortType"
             value="all"
             checked={sortType === 'all'}
@@ -50,34 +74,38 @@ function BusinessAllEvents() {
           <Radio
             label="Closed Events"
             type="radio"
+            id="sortType-closed"
             name="sortType"
-            value="closedEvents"
-            checked={sortType === 'closedEvents'}
+            value="Closed"
+            checked={sortType === 'Closed'}
             onChange={handleSortTypeChange}
           />
 
           <Radio
             label="Without Income"
             type="radio"
+            id="sortType-withoutIncome"
             name="sortType"
-            value="withoutIncome"
-            checked={sortType === 'withoutIncome'}
+            value="WithoutIncome"
+            checked={sortType === 'WithoutIncome'}
             onChange={handleSortTypeChange}
           />
           <Radio
             label="Assigned Events"
             type="radio"
+            id="sortType-assigned"
             name="sortType"
-            value="assignedEvents"
-            checked={sortType === 'assignedEvents'}
+            value="Assigned"
+            checked={sortType === 'Assigned'}
             onChange={handleSortTypeChange}
           />
           <Radio
             label="Published Events"
             type="radio"
+            id="sortType-published"
             name="sortType"
-            value="publishedEvents"
-            checked={sortType === 'publishedEvents'}
+            value="Published"
+            checked={sortType === 'Published'}
             onChange={handleSortTypeChange}
           />
         </div>
@@ -86,7 +114,7 @@ function BusinessAllEvents() {
             <thead className=" sticky top-0 text-xs text-gray-700 uppercase bg-gray-50  ">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Band Name
+                  Assigned Band
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Registered
@@ -104,16 +132,16 @@ function BusinessAllEvents() {
             </thead>
             {/* map throw the data from DB */}
             <tbody className="">
-              {events.map((event) => {
+              {data?.data?.map((event) => {
                 return (
                   <EventTableView
-                    key={event.id}
-                    EventId={event.id}
-                    status={event.status}
+                    key={event.EventID}
+                    EventId={event.EventID}
+                    status={event.Status}
                     MusicalType={event.MusicalType}
-                    BandName={event.bandName}
+                    BandName={event.BandName}
                     Registered={event.registered}
-                    Date={event.date}
+                    eventDate={event.Date}
                   />
                 );
               })}

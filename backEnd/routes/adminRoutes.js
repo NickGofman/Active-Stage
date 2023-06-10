@@ -11,12 +11,12 @@ const {
   createEvent,
   getMusicalStyles,
   getEventsDate,
-  getAllAssignMusicians,
+  //getAllAssignMusicians,
   getThreeUpcomingEvents,
   getAllUsersPerEvent,
   assignMusicianToEventById,
   getEventsPassedWithoutIncome,
-
+getSortedEventDataByType,
   addIncome,
   getUpcomingEvents,
 } = require('../controllers/adminEvents.js');
@@ -30,11 +30,13 @@ router.post('/addIncome/:EventID', addIncome);
 router.get('/getMusicalStyles', getMusicalStyles);
 router.get('/profile/:id', getAdminData);
 router.get('/eventsDates', getEventsDate);
-router.get('/getAllAssignMusician', getAllAssignMusicians);
+// router.get('/getAllAssignMusicians', getAllAssignMusicians);
 router.get('/getThreeUpcomingEvents', getThreeUpcomingEvents);
 router.get('/getAllUsersPerEvent/:EventID', getAllUsersPerEvent);
 router.get('/getEventsPassedWithoutIncome', getEventsPassedWithoutIncome);
 router.get('/getUpcomingEvents', getUpcomingEvents);
+router.get('/getSortedEventDataByType/:sortType/:startDate/:endDate', getSortedEventDataByType);
+
 
 getUpcomingEvents;
 module.exports = router;
