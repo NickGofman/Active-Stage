@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const { unlink } = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 
 const port = process.env.PORT || 3001;
 
@@ -35,43 +36,71 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const uploadDir = path.join(__dirname, 'UploadImages');
 const maxSize = 1 * 1024 * 1024; //~1MB
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './UploadImages');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
 const handleMulterErrors = (err, req, res, next) => {
-  if (err) {
-    res.status(400).json({ message: err.message });
-  } else {
-    next();
+  if (err instanceof multer.MulterError) {
+    // A Multer error occurred when uploading.
+    return res.status(400).json({ message: err.message });
+  } else if (err) {
+    // An unknown error occurred when uploading.
+    return res.status(500).json({ message: err.message });
   }
+  next();
 };
 
-app.post('/upload', (req, res, next) => {
-  if (!req.files || !req.files.file) {
-    return res.status(400).json({ message: 'No file provided.' });
-  }
-
-  const file = req.files.file;
-  const oldPhoto = req.body.oldPhoto;
-
-  file.mv(path.join(uploadDir, file.name), (err) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error uploading file.' });
-    }
-
-    if (oldPhoto) {
-      unlink(path.join(uploadDir, oldPhoto), (error) => {
-        if (error) {
-          console.log('Error deleting old photo:', error);
-          return res.status(500).json({ message: 'Error deleting old photo.' });
-        }
-
-        console.log(`./UploadImages/${oldPhoto} was deleted`);
-        res.status(200).json(file.name);
-      });
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
+    ) {
+      cb(null, true);
     } else {
-      res.status(200).json(file.name);
+      cb(null, false);
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
+  },
+  limits: { fileSize: maxSize },
+}).single('file');
+
+app.post('/upload', (req, res, next) => {
+  upload(req, res, (err) => {
+    if (err) {
+      handleMulterErrors(err, req, res, next);
+    } else {
+      const file = req.file;
+      const oldPhoto = req.body.oldPhoto;
+      console.log("In '/upload' INDEX: ", oldPhoto);
+
+      // Delete the old photo
+      if (!oldPhoto === '') {
+        console.log("In '/upload' oldPhoto: ", oldPhoto);
+
+        unlink(`./UploadImages/${oldPhoto}`, (error) => {
+          if (error) {
+            console.log('Error deleting old photo:', error);
+            res.status(500).json('Error deleting old photo');
+          } else {
+            console.log(`./UploadImages/${oldPhoto} was deleted`);
+            res.status(200).json(file.filename);
+          }
+        });
+      } else {
+        res.status(200).json(file.filename);
+      }
     }
   });
 });
-
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);

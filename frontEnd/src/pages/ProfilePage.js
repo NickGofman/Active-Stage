@@ -14,7 +14,7 @@ import { useAdminProfileData, useGetPhoto } from '../hooks/useAdminProfileData';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const userId = currentUser?.UserId
+  const userId = currentUser?.UserId;
   const handleChangePassword = () => {
     navigate('/changepassword');
   };
@@ -26,7 +26,7 @@ function ProfilePage() {
   const onError = (error) => {
     console.log({ error });
   };
-  const isUser = currentUser.Role === 'user'
+  const isUser = currentUser.Role === 'user';
   console.log(isUser);
 
   //make a request for user data
@@ -44,6 +44,8 @@ function ProfilePage() {
     isError: adminIsError,
     error: adminError,
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
+
+  //TODO remove the hooks and routes, and change the get profile query
   const {
     isLoading: photoBlobLoading,
     isError: photoBlobIsError,
@@ -74,18 +76,20 @@ function ProfilePage() {
   if (adminIsError) {
     console.log(adminError);
   }
-  console.log('ADMIN DATA PROFILE PAGE  ', adminData);
-  console.log('user DATA PROFILE PAGE  ', userData);
+  // console.log('ADMIN DATA PROFILE PAGE  ', adminData);
+  console.log('user DATA PROFILE PAGE  ', userData?.data[0].Photo);
   return (
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">
         <div className="flex flex-col space-y-5  items-center">
-          {/* <img src={data?.url} alt={data?.name} /> */}
           <img
-            src={photoUrl}
-            alt="ProfilePhoto"
+            src={
+              userData?.data[0].Photo != null
+                ? `http://localhost:3001/${userData?.data[0].Photo}`
+                : `http://localhost:3001/ProfileImg.jpg`
+            }
+            alt=""
             className="h-64 w-64 rounded-full object-cover min-w-min"
-            
           />
           <Button
             onClick={handleChangePassword}

@@ -47,7 +47,7 @@ function MusicianProfileForm(props) {
     });
   }, [props?.data?.data[0]]);
 
-  console.log('INPUSTS:', inputs);
+  //console.log('INPUSTS:', inputs);
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
@@ -72,6 +72,7 @@ function MusicianProfileForm(props) {
         inputs.file = imgURL;
       }
       //send data to database
+      //TODO convert to react query
       await makeRequest.post('/user/updateProfile', inputs, {
         withCredentials: true,
       });
@@ -86,7 +87,7 @@ function MusicianProfileForm(props) {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      console.log('UploadImage OLD:', Photo);
+      console.log('UploadImage file:', file);
       formData.append('oldPhoto', Photo);
       const res = await makeRequest.post('/upload', formData);
       setErr('');
