@@ -132,13 +132,22 @@ const getAllUsersPerEvent = (req, res) => {
   const { EventID } = req.params;
   console.log('EventID', EventID);
 
+  // const q = `
+  //   SELECT m.BandName, m.Description, m.YearsOfExperience ,m.UserId
+  //   FROM musician AS m
+  //   JOIN musician_register_event AS mre ON m.UserId = mre.UserId
+  //   JOIN event AS e ON mre.EventID = e.EventID
+  //   WHERE e.EventID = ? and u.Status = 'Active'
+  // `;
+
   const q = `
-    SELECT m.BandName, m.Description, m.YearsOfExperience ,m.UserId
-    FROM musician AS m
-    JOIN musician_register_event AS mre ON m.UserId = mre.UserId
-    JOIN event AS e ON mre.EventID = e.EventID
-    WHERE e.EventID = ?
-  `;
+  SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId
+  FROM musician AS m
+  JOIN musician_register_event AS mre ON m.UserId = mre.UserId
+  JOIN event AS e ON mre.EventID = e.EventID
+  JOIN user AS u ON m.UserId = u.UserId
+  WHERE e.EventID = ? AND u.Status = 'Active'
+`;
 
   pool.query(q, EventID, (err, data) => {
     if (err) {
@@ -169,6 +178,7 @@ const assignMusicianToEventById = (req, res) => {
         .status(400)
         .json({ error: 'Failed to assign musician to event.' });
     }
+    //TODO send mail to user, make a query for the mail by userId
 
     return res.status(200).json({ message: 'Musician assigned to event.' });
   });

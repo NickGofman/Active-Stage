@@ -111,6 +111,7 @@ const register = async (req, res) => {
 
 const login = (req, res) => {
   console.log('IN /auth/login BACKEND');
+  //TODO check if user status is Banned
   const qLogin = `SELECT * FROM user WHERE email = ?`;
   //check if user already exist
   pool.query(qLogin, [req.body.email], async (err, results) => {
