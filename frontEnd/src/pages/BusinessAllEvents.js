@@ -7,13 +7,17 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import { useSortedEventDataByType } from '../hooks/useAdminEvents';
 
 function BusinessAllEvents() {
-  const [isChanged, setIsChanged] = useState(false);
-
   //get all events
   const [sortType, setSortType] = useState('all');
+  const currentDate = new Date();
+
   const [date, setDate] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: new Date(
+      currentDate.getFullYear() - 1,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    ),
+    endDate: currentDate,
   });
   //axios will be here we wil have 4 routes that get sortType and date
   const sortData = {
@@ -23,10 +27,9 @@ function BusinessAllEvents() {
   };
   // Fetch events based on sort type and date range
 
-  const { data, error, isError, isLoading } = useSortedEventDataByType(
-    sortData,
-    isChanged
-  );
+  const { data, error, isError, isLoading } =
+    useSortedEventDataByType(sortData);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -38,14 +41,15 @@ function BusinessAllEvents() {
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
     setSortType(event.target.value);
-    setIsChanged(true);
+
     // send a query to the database based on the selected sort type
   };
   const handleDateChange = (newValue) => {
     console.log('newValue:', newValue);
     setDate(newValue);
-    setIsChanged(true);
   };
+  console.log('date', date);
+  console.log('sortData', sortData);
 
   return (
     <div className="flex flex-col items-center space-y-9 mt-10">
@@ -140,7 +144,7 @@ function BusinessAllEvents() {
                     status={event.Status}
                     MusicalType={event.MusicalType}
                     BandName={event.BandName}
-                    Registered={event.registered}
+                    Registered={event.NumberOfRegisters}
                     eventDate={event.Date}
                   />
                 );

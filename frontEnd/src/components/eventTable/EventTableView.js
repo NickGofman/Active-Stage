@@ -37,11 +37,12 @@ function EventTableView(props) {
 
   return (
     <tr className={color}>
+      
       <th
         scope="row"
         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
       >
-        {BandName}
+        {status!=='Published'&&BandName}
       </th>
       <td className="px-6 py-4">{Registered}</td>
       <td className="px-6 py-4">

@@ -3,7 +3,7 @@ import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
 import CreateNewEvent from '../components/popup/CreateNewEvent';
 import {
   useGetEventsPassedWithoutIncome,
-  useGetThreeUpcomingEvents,
+  useGetThreeEventsToAssign,
   useGetUpcomingEvents,
 } from '../hooks/useAdminEvents';
 const BusinessHomePage = () => {
@@ -16,7 +16,7 @@ const BusinessHomePage = () => {
     error,
     isError,
     isLoading,
-  } = useGetThreeUpcomingEvents();
+  } = useGetThreeEventsToAssign();
   const {
     error: errorIncome,
     data: dataIncome,

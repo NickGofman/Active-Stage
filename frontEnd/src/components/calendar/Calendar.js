@@ -16,14 +16,13 @@ import {
   startOfToday,
 } from 'date-fns';
 import { Fragment, useState } from 'react';
-import { useAllAssignMusicians, useGetUpcomingEvents } from '../../hooks/useAdminEvents';
+import { useGetUpcomingEvents } from '../../hooks/useAdminEvents';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Calendar() {
-  
   const { isLoading, data, isError, error } = useGetUpcomingEvents();
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
@@ -58,7 +57,7 @@ export default function Calendar() {
     // Return an error state or component
     return <div>Error loading calendar data.</div>;
   }
-console.log("DATA: ",data.data)
+  console.log('DATA: ', data.data);
   return (
     <div className="pt-16 rounded-md text-xl border-4">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
@@ -76,7 +75,7 @@ console.log("DATA: ",data.data)
                   <Meeting
                     meeting={meeting}
                     selectedDay={selectedDay} // Pass the selectedDay as a prop
-                    key={meeting.UserId}
+                    key={meeting.EventID}
                   />
                 ))
               ) : (
@@ -189,6 +188,7 @@ function Meeting({ meeting }) {
       />
       <div className="flex-auto">
         <p className="text-gray-900">{meeting.BandName}</p>
+        <p className="text-gray-900">{meeting.PhoneNumber}</p>
         <p className="mt-0.5">
           <time dateTime={meeting.Date}>{format(date, 'HH:mm')}</time>
         </p>

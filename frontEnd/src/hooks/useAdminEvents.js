@@ -49,11 +49,11 @@ export const useGetEventDates = () => {
 //all events data with status assign
 // export getAll
 
-export const useGetThreeUpcomingEvents = () => {
-  return useQuery('getThreeUpcomingEvents', getThreeUpcomingEvents);
+export const useGetThreeEventsToAssign = () => {
+  return useQuery('getThreeEventsToAssign', getThreeEventsToAssign);
 };
-const getThreeUpcomingEvents = () => {
-  return makeRequest.get('/admin/getThreeUpcomingEvents');
+const getThreeEventsToAssign = () => {
+  return makeRequest.get('/admin/getThreeEventsToAssign');
 };
 export const useGetAllUsersPerEvent = (EventID) => {
   return useQuery(['getAllUsersPerEvent', EventID], () =>
@@ -124,7 +124,7 @@ export const useGetUpcomingEvents = ()=>{
 const getUpcomingEvents = () =>{
   return makeRequest.get('/admin/getUpcomingEvents');
 }
-export const useSortedEventDataByType = (data,isChanged) => {
+export const useSortedEventDataByType = (data) => {
   return useQuery(['getSortedEventDataByType',data], () =>
     getSortedEventDataByType(data)
     

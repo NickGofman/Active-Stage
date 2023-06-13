@@ -88,13 +88,14 @@ const getEventsDate = (req, res) => {
 //     return res.status(200).json(data);
 //   });
 // };
-const getThreeUpcomingEvents = (req, res) => {
+const getThreeEventsToAssign = (req, res) => {
   const q = `
     SELECT e.EventID, e.Date, COUNT(mre.UserId) AS RCount
     FROM event AS e
     JOIN musician_register_event AS mre ON e.EventID = mre.EventID
     JOIN musician AS m ON mre.UserId = m.UserId
     JOIN user AS u ON m.Email = u.Email
+    AND u.Status = 'Active'
     WHERE e.Status = 'Published'
     GROUP BY e.EventID, e.Date
     ORDER BY RCount DESC
@@ -200,9 +201,10 @@ const addIncome = (req, res) => {
 };
 const getUpcomingEvents = (req, res) => {
   const q = `
-    SELECT e.EventID, e.Date, m.BandName AS BandName ,m.Photo
+    SELECT e.EventID, e.Date, m.BandName AS BandName ,m.Photo,u.PhoneNumber
     FROM event AS e
     LEFT JOIN musician AS m ON e.UserId = m.UserId
+    LEFT JOIN user AS u ON u.UserId = m.UserId
     WHERE e.Status = 'Assigned' AND e.Date > CURDATE()
     GROUP BY e.EventID, e.Date
     ORDER BY e.Date ASC
@@ -226,39 +228,99 @@ const getSortedEventDataByType = (req, res) => {
   console.log('req.params', req.params);
   let query = '';
   let queryParams = [];
-
+  //SELECT BandName,Count(),Date,status
+  // FROM event WHERE Date >= ? AND Date <= ? order by Status
   switch (sortType) {
     case 'all':
-      query = 'SELECT * FROM event WHERE Date >= ? AND Date <= ? order by Status  ';
+      query = `
+SELECT DISTINCT
+  e.EventID,
+  e.UserID,
+  e.MusicalTypeID,
+  e.Date,
+  e.Income,
+  e.Description,
+  e.Status,
+  (
+    SELECT COUNT(mre.UserId)
+    FROM musician_register_event AS mre
+    LEFT JOIN musician AS m ON mre.UserId = m.UserId
+      LEFT JOIN user AS u ON u.UserId = m.UserId
+    WHERE mre.EventID = e.EventID
+    AND u.Status = 'Active'
+  ) AS NumberOfRegisters,
+  (
+    SELECT m.BandName
+    FROM musician_register_event AS mre
+    LEFT JOIN musician AS m ON mre.UserId = m.UserId
+      LEFT JOIN user AS u ON u.UserId = m.UserId
+    WHERE mre.EventID = e.EventID
+    AND u.Status = 'Active'
+    LIMIT 1
+  ) AS BandName
+FROM
+  event AS e
+WHERE
+  DATE(e.Date) >= DATE(?)
+  AND DATE(e.Date) <= DATE(?)
+  AND (
+    e.Status = 'Closed'
+    OR (e.Status = 'WithoutIncome' AND e.Income = 0)
+    OR e.Status = 'Assigned'
+    OR e.Status = 'Published'
+   
+  )
+ORDER BY
+  Status;
+`;
       queryParams = [startDate, endDate];
       break;
     case 'Closed':
-      query =
-        'SELECT * FROM event WHERE Date >= ? AND Date <= ? AND Status = ?';
+      query = ` SELECT e.*, m.BandName
+    FROM event AS e
+    LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
+    LEFT JOIN musician AS m ON mre.UserId = m.UserId 
+    LEFT JOIN user AS u ON u.UserId = m.UserId 
+    WHERE DATE(e.Date) >= DATE(?)
+      AND DATE(e.Date) <= DATE(?)
+      AND e.Status = ?
+    GROUP BY e.EventID;`;
       queryParams = [startDate, endDate, 'Closed'];
       break;
     case 'WithoutIncome':
-      query =
-        'SELECT * FROM event WHERE Date >= ? AND Date <= ? AND Status = ? AND Income = ?';
-      queryParams = [startDate, endDate, 'Assigned', 0];
+      query = ` SELECT e.*, m.BandName
+FROM event AS e
+LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+LEFT JOIN musician AS m ON mre.UserId = m.UserId
+LEFT JOIN user AS u ON u.UserId = m.UserId
+       WHERE DATE(e.Date) < CURDATE() AND e.Status = ? AND e.Income = ?
+  
+GROUP BY e.EventID`;
+      queryParams = ['Assigned', 0];
       break;
     case 'Assigned':
       query = ` SELECT e.*, COUNT(mre.UserId) AS NumberOfRegisters, m.BandName
-        FROM event AS e
-        LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-        LEFT JOIN musician AS m ON mre.UserId = m.UserId
-        WHERE e.Date >= ? AND e.Date <= ? AND e.Status = ?
-        GROUP BY e.EventID`;
+FROM event AS e
+LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+LEFT JOIN musician AS m ON mre.UserId = m.UserId
+LEFT JOIN user AS u ON u.UserId = m.UserId
+WHERE DATE(e.Date) >= CURDATE() and DATE(e.Date) >= DATE(?) and DATE(e.Date) <= DATE(?)
+  AND e.Status = ? AND u.Status = 'Active'
+GROUP BY e.EventID`;
       queryParams = [startDate, endDate, 'Assigned'];
       break;
     case 'Published':
       query = `
-        SELECT e.*, COUNT(mre.UserId) AS NumberOfRegisters, m.BandName
-        FROM event AS e
-        LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-        LEFT JOIN musician AS m ON mre.UserId = m.UserId
-        WHERE e.Date >= ? AND e.Date <= ? AND e.Status = ?
-        GROUP BY e.EventID
+     SELECT e.*, COUNT(mre.UserId) AS NumberOfRegisters, m.BandName
+FROM event AS e
+LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
+LEFT JOIN musician AS m ON mre.UserId = m.UserId 
+LEFT JOIN user AS u ON u.UserId = m.UserId 
+WHERE DATE(e.Date) >= DATE(?)
+  AND DATE(e.Date) <= DATE(?)
+  AND (u.Status = 'Active' OR u.Status IS NULL)
+  AND e.Status = ?
+GROUP BY e.EventID;
       `;
       queryParams = [startDate, endDate, 'Published'];
       break;
@@ -275,13 +337,12 @@ const getSortedEventDataByType = (req, res) => {
   });
 };
 
-
 module.exports = {
   createEvent,
   getMusicalStyles,
   getEventsDate,
   //getAllAssignMusicians,
-  getThreeUpcomingEvents,
+  getThreeEventsToAssign,
   getAllUsersPerEvent,
   assignMusicianToEventById,
   getEventsPassedWithoutIncome,
