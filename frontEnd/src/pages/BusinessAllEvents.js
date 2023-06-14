@@ -44,8 +44,7 @@ function BusinessAllEvents() {
   const handleDateChange = (newValue) => {
     setDate(newValue);
   };
-  console.log('sortData: ', sortData);
-
+console.log('BusinessAllEvents',data?.data);
   return (
     <div className="flex flex-col items-center space-y-9 mt-10">
       <div className=" shadow-md sm:rounded-lg">
@@ -130,7 +129,7 @@ function BusinessAllEvents() {
               </tr>
             </thead>
             {/* map throw the data from DB */}
-            <tbody className="">
+            <tbody className="overflow-y-scroll">
               {data?.data?.map((event) => {
                 return (
                   <EventTableView

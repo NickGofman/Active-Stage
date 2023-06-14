@@ -15,8 +15,8 @@ function EventIncome(props) {
   const { EventDate, BandName, EventId, disabled } = props;
   const [open, setOpen] = useState(false);
   const [income, setIncome] = useState('');
+  // update income
   const { isLoading, error, mutate } = useAddIncome();
-
   const handleOpen = () => setOpen(!open);
   if (isLoading) {
     return <div>Loading...</div>;
@@ -27,6 +27,7 @@ function EventIncome(props) {
   }
 
  const handleAddIncome = () => {
+  console.log('handleAddIncome', income);
    const parsedIncome = +income; // Parse the income value to a number
    if (!isNaN(parsedIncome)) {
      const data = { eventId: EventId, income: parsedIncome };

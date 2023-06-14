@@ -11,18 +11,18 @@ import {
 } from '@material-tailwind/react';
 import Datepicker from 'react-tailwindcss-datepicker';
 function UpdateEvent(props) {
-  const { EventDate, EventID, MusicalType, disabled } = props;
+  const { EventDate, EventId, MusicalType, disabled } = props;
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState({
     startDate: new Date(),
   });
   const handleOpen = () => setOpen(!open);
   // get users that assign to event
-  const usersList = function getUsres(EventID) {
+  const usersList = function getUsres(EventId) {
     // handle cancel button click
   };
   const handleDateChange = (newValue) => {
-    console.log('newValue:', newValue);
+   
     setDate(newValue);
   };
   //use axios assign user to event

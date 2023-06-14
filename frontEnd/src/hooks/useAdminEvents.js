@@ -98,15 +98,15 @@ const getEventsPassedWithoutIncome = () => {
 };
 
 export const useAddIncome = () => {
+  console.log('useAddIncome');
   const queryClient = useQueryClient();
 
   return useMutation((data) => addIncome(data), {
-    onSuccess: () => {
-      // Invalidate relevant queries
-   
+    onSettled: () => {
+      // Invalidate queries for both getEventsPassedWithoutIncome and getSortedEventDataByType
       queryClient.invalidateQueries('getEventsPassedWithoutIncome');
-      
-      // Add any other relevant operations after successful mutation
+      queryClient.invalidateQueries('getSortedEventDataByType');
+      // Add any other relevant operations after the mutation is settled
     },
     // Add any other mutation options if needed
   });

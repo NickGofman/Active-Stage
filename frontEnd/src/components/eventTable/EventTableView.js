@@ -5,9 +5,8 @@ import AssignMusician from '../popup/AssignMusician';
 import UpdateEvent from '../popup/UpdateEvent';
 
 function EventTableView(props) {
-  const { status, BandName, Registered, eventDate, EventID, MusicalTypeID } =
+  const { status, BandName, Registered, eventDate, EventId, MusicalTypeID } =
     props;
-  console.log(status, BandName, Registered, eventDate, EventID, MusicalTypeID);
   let color = '';
   // switch color by status
   switch (status) {
@@ -23,7 +22,6 @@ function EventTableView(props) {
     default:
       color = 'text-center rounded shadow-blue-100 bg-blue-100';
   }
-
 
   const [date, time] = eventDate.split('T'); // separate date and time components
   const [year, month, day] = date.split('-'); // extract year, month, and day values
@@ -45,7 +43,7 @@ function EventTableView(props) {
         {status !== 'Published' && BandName}
       </th>
       <td className="px-6 py-4">{Registered}</td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 text-gray-900">
         {formattedDate} {formattedTime}
       </td>
       <td>{status}</td>
@@ -55,7 +53,7 @@ function EventTableView(props) {
             status === 'Published' ||
             (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
           }
-          EventID={EventID}
+          EventId={EventId}
         />
         <UpdateEvent
           disabled={
@@ -63,15 +61,15 @@ function EventTableView(props) {
             (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
           }
           EventDate={formattedDate}
-          EventID={EventID}
+          EventId={EventId}
           MusicalType={MusicalTypeID}
         />
         <AssignMusician
           EventDate={formattedDate}
-          EventID={EventID}
+          EventId={EventId}
           disabled={
-            status === 'Published' ||
-            (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
+            
+            (status === 'Published' && !isBefore(eventDateObject, new Date()))
           }
         />
         <EventIncome
@@ -80,7 +78,7 @@ function EventTableView(props) {
           disabled={
             status === 'Assigned' && isBefore(eventDateObject, new Date())
           }
-          EventID={EventID}
+          EventId={EventId}
         />
       </td>
     </tr>

@@ -28,85 +28,7 @@ function AssignMusician(props) {
     isError,
     isLoading,
   } = useGetAllUsersPerEvent(EventId);
-  const dummyData = [
-    {
-      id: 1,
-      bandName: 'The Beatles',
-      experience: 'Legendary',
-      description: 'One of the most influential bands in the history of music',
-    },
-    {
-      id: 2,
-      bandName: 'Led Zeppelin',
-      experience: 'Legendary',
-      description: 'One of the greatest rock bands of all time',
-    },
-    {
-      id: 3,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description: 'A pioneer of progressive rock music',
-    },
-    {
-      id: 4,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description:
-        'A pioneer progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicprogressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicof progressive rock music',
-    },
-    {
-      id: 6,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description: 'A pioneer of progressive rock music',
-    },
-    {
-      id: 5,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description:
-        'A pioneer oprogressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicprogressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicf progressive rock music',
-    },
-    {
-      id: 7,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description: 'A pioneer of progressive rock music',
-    },
-    {
-      id: 8,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description:
-        'A pioneeprogressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicprogressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicprogressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicr of progressive rock music',
-    },
-    {
-      id: 9,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description: 'A pioneer of progressive rock music',
-    },
-    {
-      id: 10,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description:
-        'Aprogressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock music pioneer of progressive rock music',
-    },
-    {
-      id: 11,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description:
-        'A pioneer of progressive rock music A pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock musicA pioneer of progressive rock music',
-    },
-    {
-      id: 12,
-      bandName: 'Pink Floyd',
-      experience: 'Legendary',
-      description: 'A pioneer of progressive rock music',
-    },
-  ];
+  
   
 if(isLoading)
 {
@@ -144,19 +66,22 @@ if(isError)
           </Button>
         </DialogHeader>
         <DialogBody divider className="h-[40rem] overflow-scroll">
-          {/* map throw the usersList  for each user add button with onclick*/}
-          <div className="flex flex-col flex-auto items-center">
-            {dataRegistered?.data?.map((data) => (
-              <MusicianAssignCard
-                key={data.UserId}
-                eventId={EventId}
-                userId={data.UserId}
-                bandName={data.BandName}
-                experience={data.YearsOfExperience}
-                description={data.Description}
-              />
-            ))}
-          </div>
+          {dataRegistered?.data?.length === 0 ? (
+            <div>No musicians assigned.</div>
+          ) : (
+            <div className="flex flex-col flex-auto items-center">
+              {dataRegistered?.data?.map((data) => (
+                <MusicianAssignCard
+                  key={data.UserId}
+                  eventId={EventId}
+                  userId={data.UserId}
+                  bandName={data.BandName}
+                  experience={data.YearsOfExperience}
+                  description={data.Description}
+                />
+              ))}
+            </div>
+          )}
         </DialogBody>
       </Dialog>
     </Fragment>
