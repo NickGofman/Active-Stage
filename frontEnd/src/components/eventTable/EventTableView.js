@@ -24,6 +24,7 @@ function EventTableView(props) {
       color = 'text-center rounded shadow-blue-100 bg-blue-100';
   }
 
+
   const [date, time] = eventDate.split('T'); // separate date and time components
   const [year, month, day] = date.split('-'); // extract year, month, and day values
   const [hour, minute] = time.split(':'); // extract hour and minute values
@@ -33,16 +34,15 @@ function EventTableView(props) {
 
   const eventDateObject = eventDate;
 
-  const isBefore = (dateA, dateB) => dateA < dateB;
+  const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
 
   return (
     <tr className={color}>
-      
       <th
         scope="row"
         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
       >
-        {status!=='Published'&&BandName}
+        {status !== 'Published' && BandName}
       </th>
       <td className="px-6 py-4">{Registered}</td>
       <td className="px-6 py-4">

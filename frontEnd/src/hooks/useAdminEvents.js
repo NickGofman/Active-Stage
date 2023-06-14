@@ -132,7 +132,7 @@ export const useSortedEventDataByType = (data) => {
 };
 
 const getSortedEventDataByType = (data) => {
-  console.log('getSortedEventDataByType', data);
+  
   const {sortType,startDate,endDate} = data;
   return makeRequest.get(
     `/admin/getSortedEventDataByType/${sortType}/${startDate}/${endDate}`

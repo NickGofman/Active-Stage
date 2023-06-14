@@ -5,20 +5,18 @@ import { Radio } from '@material-tailwind/react';
 import { events } from '../constants/index';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { useSortedEventDataByType } from '../hooks/useAdminEvents';
+import dayjs from 'dayjs';
 
 function BusinessAllEvents() {
   //get all events
   const [sortType, setSortType] = useState('all');
   const currentDate = new Date();
 
-  const [date, setDate] = useState({
-    startDate: new Date(
-      currentDate.getFullYear() - 1,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    ),
-    endDate: currentDate,
-  });
+ const [date, setDate] = useState({
+   startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
+   endDate: dayjs(currentDate).add(1, 'year').format('YYYY-MM-DD'),
+ });
+
   //axios will be here we wil have 4 routes that get sortType and date
   const sortData = {
     sortType: sortType,
@@ -36,7 +34,6 @@ function BusinessAllEvents() {
   if (isError) {
     return error;
   }
-  console.log('data', data);
 
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
@@ -45,11 +42,9 @@ function BusinessAllEvents() {
     // send a query to the database based on the selected sort type
   };
   const handleDateChange = (newValue) => {
-    console.log('newValue:', newValue);
     setDate(newValue);
   };
-  console.log('date', date);
-  console.log('sortData', sortData);
+  console.log('sortData: ', sortData);
 
   return (
     <div className="flex flex-col items-center space-y-9 mt-10">
