@@ -8,14 +8,17 @@ import {
 } from '@material-tailwind/react';
 import React from 'react';
 import { useAssignMusicianById } from '../../hooks/useAdminEvents';
+
 function MusicianAssignCard(props) {
-  const { userId, eventId,bandName, experience, description } = props;
-const { mutate } = useAssignMusicianById();
+  const { userId, eventId, bandName, experience, description, setOpen } = props;
+  const { mutate } = useAssignMusicianById();
 
   const handleAssign = () => {
- const data = { eventId, userId };
- mutate(data);
+    const data = { eventId, userId };
+    mutate(data);
+    setOpen(false); // Activate the setOpen function to close the dialog
   };
+
   return (
     <Card className="mt-6 w-96 items-center">
       <CardHeader>

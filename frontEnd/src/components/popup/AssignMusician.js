@@ -78,6 +78,7 @@ if(isError)
                   bandName={data.BandName}
                   experience={data.YearsOfExperience}
                   description={data.Description}
+                  setOpen={setOpen}
                 />
               ))}
             </div>

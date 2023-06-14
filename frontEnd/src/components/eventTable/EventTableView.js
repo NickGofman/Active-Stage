@@ -54,6 +54,7 @@ function EventTableView(props) {
             (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
           }
           EventId={EventId}
+          EventDate={formattedDate}
         />
         <UpdateEvent
           disabled={
@@ -68,8 +69,7 @@ function EventTableView(props) {
           EventDate={formattedDate}
           EventId={EventId}
           disabled={
-            
-            (status === 'Published' && !isBefore(eventDateObject, new Date()))
+            status === 'Published' && !isBefore(eventDateObject, new Date())
           }
         />
         <EventIncome

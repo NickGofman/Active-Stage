@@ -95,8 +95,7 @@ const getAssignedEvents = (req, res) => {
 FROM event AS e
 JOIN musician_register_event AS mre ON e.EventID = mre.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
-WHERE e.UserId = ?
-
+WHERE mre.UserID = ? AND e.Status <> 'Cancelled'
 
   `;
   console.log('req.params', req.params);
@@ -117,14 +116,14 @@ FROM musician_register_event AS mre
 JOIN event AS e ON mre.EventID = e.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
 WHERE e.UserID IS NULL
-  AND mre.UserID = ?
+  AND mre.UserID = ? AND e.Status <> 'Cancelled'
 
     ORDER BY e.Date
 
 `;
   console.log('req.params', req.params);
 
-  pool.query(q, userId,(err, data) => {
+  pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
     console.log('BACkEND getAssignedEvents');
     return res.status(200).json(data);

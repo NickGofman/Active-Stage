@@ -336,6 +336,24 @@ GROUP BY e.EventID;
     return res.status(200).json(data);
   });
 };
+const cancelEvent = (req, res) => {
+  const { eventId } = req.params;
+  console.log('cancelEvent', eventId);
+  // Update the event status to 'Canceled'
+  const qCancelEvent = 'UPDATE event SET Status = ? WHERE EventID = ?';
+
+  pool.query(qCancelEvent, ['Cancelled', eventId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(400).json({ error: 'Failed to cancel the event.' });
+    }
+
+    return res.status(200).json({ message: 'Event canceled successfully.' });
+  });
+};
 
 module.exports = {
   createEvent,
@@ -349,4 +367,5 @@ module.exports = {
   addIncome,
   getUpcomingEvents,
   getSortedEventDataByType,
+  cancelEvent,
 };

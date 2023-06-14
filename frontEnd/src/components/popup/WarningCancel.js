@@ -6,16 +6,28 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
+  Typography,
 } from '@material-tailwind/react';
+import { useCancelEvent } from '../../hooks/useAdminEvents';
 
-function WarningCancel({ disabled }) {
+function WarningCancel({ disabled, EventDate, EventId }) {
   const [open, setOpen] = useState(false);
-
+  const { isLoading, error, mutate } = useCancelEvent();
   const handleOpen = () => setOpen(!open);
   //use axios to change the event status to cancel
-  function handleCancel(EventID) {
+  function handleCancel() {
+    mutate(EventId);
+    setOpen(false);
     // handle cancel button click
   }
+   if (isLoading) {
+     return <div>Loading...</div>;
+   }
+
+   if (error) {
+     return <div>Error: {error.message}</div>;
+   }
+
   return (
     <Fragment>
       <Button disabled={!disabled} onClick={handleOpen} size="sm" color="red">
@@ -29,12 +41,11 @@ function WarningCancel({ disabled }) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Its a simple dialog.</DialogHeader>
+        <DialogHeader>Cancel Event {EventDate}</DialogHeader>
         <DialogBody divider>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus ad
-          reprehenderit omnis perspiciatis aut odit! Unde architecto
-          perspiciatis, dolorum dolorem iure quia saepe autem accusamus eum
-          praesentium magni corrupti explicabo!
+          <Typography variant="h5" color="red" className="mb-2">
+            Are you sure you want to cancel this event?!
+          </Typography>
         </DialogBody>
         <DialogFooter>
           <Button
@@ -45,7 +56,7 @@ function WarningCancel({ disabled }) {
           >
             <span>Cancel</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
+          <Button variant="gradient" color="green" onClick={handleCancel}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>

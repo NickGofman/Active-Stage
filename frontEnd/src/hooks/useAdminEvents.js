@@ -60,6 +60,7 @@ export const useGetAllUsersPerEvent = (EventID) => {
     getAllUsersPerEvent(EventID)
   );
 };
+
 const getAllUsersPerEvent = (EventID) => {
   console.log(EventID);
   return makeRequest.get(`/admin/getAllUsersPerEvent/${EventID}`);
@@ -69,12 +70,12 @@ export const useAssignMusicianById = () => {
   const queryClient = useQueryClient();
 
   return useMutation((data) => assignMusicianById(data), {
-    onSuccess: () => {
+    onSettled: () => {
       // Invalidate relevant queries
       //queryClient.invalidateQueries('getAllAssignMusicians');
       queryClient.invalidateQueries('getThreeUpcomingEvents');
       queryClient.invalidateQueries('getUpcomingEvents');
-      
+      queryClient.invalidateQueries('getSortedEventDataByType');
       // Add any other relevant operations after successful mutation
     },
     // Add any other mutation options if needed
@@ -137,5 +138,23 @@ const getSortedEventDataByType = (data) => {
   return makeRequest.get(
     `/admin/getSortedEventDataByType/${sortType}/${startDate}/${endDate}`
   );
+};
+
+export const useCancelEvent = () => {
+    console.log('useCancelEvent');
+
+  const queryClient = useQueryClient();
+
+  return useMutation((eventId) => cancelEvent(eventId), {
+ 
+  });
+};
+
+const cancelEvent = (eventId) => {
+      console.log('useCancelEvent saasdasfas', eventId);
+
+  console.log('eventId', eventId);
+
+  return makeRequest.post(`/admin/cancelEvent/${eventId}`);
 };
 
