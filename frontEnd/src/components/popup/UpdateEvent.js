@@ -8,22 +8,90 @@ import {
   DialogFooter,
   Input,
   Typography,
+  Select,
+  Textarea,
+  Option,
 } from '@material-tailwind/react';
+import {
+  useGetMusicalStyles,
+  useGetEventDates,
+  useUpdateEvent,
+} from '../../hooks/useAdminEvents';
 import Datepicker from 'react-tailwindcss-datepicker';
 function UpdateEvent(props) {
   const { EventDate, EventId, MusicalType, disabled } = props;
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState({
-    startDate: new Date(),
+  const [inputs, setInputs] = useState({
+    date: '',
+    description: '',
+    time: '21:00',
   });
-  const handleOpen = () => setOpen(!open);
-  // get users that assign to event
-  const usersList = function getUsres(EventId) {
-    // handle cancel button click
+    const [date, setDate] = useState({
+      startDate: '',
+    });
+     const {
+       mutate: updateEvent,
+
+       isError,
+       error,
+     } = useUpdateEvent();
+  const {
+    isLoading: musicalStyleLoading,
+    data: musicalStyleList,
+    isError: musicalStyleIsError,
+    error: musicalStyleError,
+  } = useGetMusicalStyles();
+  const {
+    data: eventDates,
+    isError: datesIsError,
+    isLoading: datesIsLoading,
+    error: datesError,
+  } = useGetEventDates();
+  //map over the dates to disable days that have events
+  const modifiedEventDates = eventDates?.data.map((item) => {
+    return { startDate: item.startDate, endDate: item.startDate };
+  });
+  if (musicalStyleLoading) {
+    return <div>musicalStyleLoading...</div>;
+  }
+  if (musicalStyleIsError) {
+    console.log(musicalStyleError);
+  }
+
+  const handleChange = (e) => {
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
-  const handleDateChange = (newValue) => {
-   
-    setDate(newValue);
+   const handleDateChange = (newValue) => {
+     // console.log('newValue:', newValue);
+     setDate(newValue);
+     setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
+
+     // setInputs(newValue);
+   };
+ const handleChangeStyle = (e) => {
+   setInputs((prevState) => ({ ...prevState, musicalType: e }));
+ };
+  const handleOpen = () => setOpen(!open);
+
+  const handleConfirm = () => {
+    // TODO: Perform update logic with the new date and time values
+  const updatedEvent = {
+    date: inputs.date !== '' ? inputs.date : EventDate, // Use the new date value if provided, otherwise use the existing EventDate
+    time: inputs.time !== '' ? inputs.time : '21:00', // Use the new time value if provided, otherwise use the default value
+    //TODO get the index of the musical style of the original event if the user don't change it (or set default -> if we don't choose any style the program crash)
+    musicalTypeId: inputs.musicalType !== '' ? inputs.musicalType : 1,
+    description: inputs.description !== '' ? inputs.description : '', // Use the new description value if provided, otherwise use an empty string
+  };
+   const dateTime = `${inputs.date} ${inputs.time}`;
+    updatedEvent.dateTime = dateTime;
+
+    updatedEvent.eventId = EventId;
+updateEvent(updatedEvent);
+    // Close the dialog 
+    setOpen(false);
   };
   //use axios assign user to event
   return (
@@ -51,10 +119,40 @@ function UpdateEvent(props) {
               asSingle={true}
               onChange={handleDateChange}
               displayFormat={'DD/MM/YYYY'}
+              popoverDirection="down"
+              disabledDates={modifiedEventDates}
             />
-            <Input size="lg" label="time" />
-
-            <Input size="lg" label={MusicalType} />
+            <Input
+              name="time"
+              type="time"
+              size="lg"
+              label="Time"
+              value={inputs.time}
+              onChange={handleChange}
+            />
+            <Select
+              className="col-span-1"
+              label="Select Musical Type"
+              name="musicalStyle"
+              onChange={handleChangeStyle}
+            >
+              {musicalStyleList?.data?.map((style) => (
+                <Option
+                  name="musicalStyle"
+                  key={style.MusicalTypeID}
+                  value={style.MusicalTypeID.toString()}
+                >
+                  {style.MusicalTypeName}
+                </Option>
+              ))}
+            </Select>
+            <Textarea
+              name="description"
+              variant="outlined"
+              label="Description"
+              value={inputs.description}
+              onChange={handleChange}
+            />
           </div>
         </DialogBody>
         <DialogFooter>
@@ -66,7 +164,7 @@ function UpdateEvent(props) {
           >
             <span>Cancel</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
+          <Button variant="gradient" color="green" onClick={handleConfirm}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>

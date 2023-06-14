@@ -354,6 +354,39 @@ const cancelEvent = (req, res) => {
     return res.status(200).json({ message: 'Event canceled successfully.' });
   });
 };
+const updateEvent = (req, res) => {
+  const { eventId } = req.params;
+  const updatedEvent = req.body;
+
+  // Extract the updated values from the request body
+  const { description, dateTime, musicalTypeId } = updatedEvent;
+  console.log('updateEvent eventId', eventId);
+  console.log('updateEvent updatedEvent', updatedEvent);
+  // Construct the update query
+  const updateQuery = `
+    UPDATE event
+    SET Description = ?,
+        Date = ?,
+        MusicalTypeID = ?
+    WHERE EventID = ?
+  `;
+
+  pool.query(
+    updateQuery,
+    [description, dateTime, musicalTypeId, eventId],
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(400).json({ error: 'Failed to update the event.' });
+      }
+
+      return res.status(200).json({ message: 'Event updated successfully.' });
+    }
+  );
+};
 
 module.exports = {
   createEvent,
@@ -368,4 +401,5 @@ module.exports = {
   getUpcomingEvents,
   getSortedEventDataByType,
   cancelEvent,
+  updateEvent,
 };

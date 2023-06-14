@@ -19,6 +19,7 @@ const {
   addIncome,
   getUpcomingEvents,
   cancelEvent,
+  updateEvent,
 } = require('../controllers/adminEvents.js');
 
 router.post('/updateProfile', updateProfile);
@@ -42,6 +43,9 @@ router.get(
   getSortedEventDataByType
 );
 router.post('/cancelEvent/:eventId', cancelEvent);
+router.post('/updateEvent/:eventId', updateEvent);
+
+
 
 getUpcomingEvents;
 module.exports = router;

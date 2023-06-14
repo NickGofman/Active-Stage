@@ -114,47 +114,52 @@ export const useAddIncome = () => {
 };
 
 const addIncome = (data) => {
-  console.log(data)
+  console.log(data);
   const { eventId, income } = data;
   return makeRequest.post(`/admin/addIncome/${eventId}`, { income });
 };
 
-export const useGetUpcomingEvents = ()=>{
+export const useGetUpcomingEvents = () => {
   return useQuery('getUpcomingEvents', getUpcomingEvents);
-}
-const getUpcomingEvents = () =>{
+};
+const getUpcomingEvents = () => {
   return makeRequest.get('/admin/getUpcomingEvents');
-}
+};
 export const useSortedEventDataByType = (data) => {
-  return useQuery(['getSortedEventDataByType',data], () =>
+  return useQuery(['getSortedEventDataByType', data], () =>
     getSortedEventDataByType(data)
-    
   );
 };
 
 const getSortedEventDataByType = (data) => {
-  
-  const {sortType,startDate,endDate} = data;
+  const { sortType, startDate, endDate } = data;
   return makeRequest.get(
     `/admin/getSortedEventDataByType/${sortType}/${startDate}/${endDate}`
   );
 };
 
 export const useCancelEvent = () => {
-    console.log('useCancelEvent');
+  console.log('useCancelEvent');
 
-  const queryClient = useQueryClient();
-
-  return useMutation((eventId) => cancelEvent(eventId), {
- 
-  });
+  return useMutation((eventId) => cancelEvent(eventId), {});
 };
 
 const cancelEvent = (eventId) => {
-      console.log('useCancelEvent saasdasfas', eventId);
+  console.log('useCancelEvent saasdasfas', eventId);
 
   console.log('eventId', eventId);
 
   return makeRequest.post(`/admin/cancelEvent/${eventId}`);
 };
 
+export const useUpdateEvent = () => {
+  console.log('IN useUpdateEvent');
+  return useMutation((data) => updateEvent(data), {});
+};
+
+const updateEvent = (data) => {
+  const { eventId, ...others } = data;
+  console.log('updateEvent eventId', eventId);
+  console.log('updateEvent updatedEvent', data);
+  return makeRequest.post(`/admin/updateEvent/${eventId}`, others);
+};
