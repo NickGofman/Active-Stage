@@ -5,11 +5,7 @@ const fetchAdminProfileData = (userId) => {
   //axios request
   return makeRequest.get(`/admin/profile/${userId}`);
 };
-const updateAdminProfileData = (data) => {
-  console.log('IN updateAdminProfileData, data: ', data);
-  //axios request
-  return makeRequest.post('/admin/updateProfile', data);
-};
+
 
 export const useAdminProfileData = (onError, onSuccess, userId, isUser) => {
   console.log('IN useAdminProfileData, userId: ', userId);
@@ -22,5 +18,10 @@ export const useAdminProfileData = (onError, onSuccess, userId, isUser) => {
 
 export const useUpdateAdminData = () => {
   return useMutation('updateAdminProfile', updateAdminProfileData);
+};
+const updateAdminProfileData = (data) => {
+  console.log('IN updateAdminProfileData, data: ', data);
+  //axios request
+  return makeRequest.post('/admin/updateProfile', data);
 };
 

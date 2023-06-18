@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Calendar from '../components/calendar/Calendar';
 import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
 import CreateNewEvent from '../components/popup/CreateNewEvent';
@@ -5,6 +6,7 @@ import {
   useGetEventsPassedWithoutIncome,
   useGetThreeEventsToAssign,
   useGetUpcomingEvents,
+  useCancelPassedEvents,
 } from '../hooks/useAdminEvents';
 const BusinessHomePage = () => {
   // create function for handelClick for all 3 use cases
@@ -30,15 +32,25 @@ const BusinessHomePage = () => {
     isLoading: isLoadingUpcoming,
   } = useGetUpcomingEvents();
 
-  if (isLoading || isLoadingIncome || isLoadingUpcoming) {
+  const { mutate: cancelPassedEvents, isLoadingCancelPassedEvents } =
+    useCancelPassedEvents();
+
+  useEffect(() => {
+    // Call the cancelPassedEvents function when the component mounts
+    cancelPassedEvents();
+  }, []);
+
+  if (
+    isLoading ||
+    isLoadingIncome ||
+    isLoadingUpcoming ||
+    isLoadingCancelPassedEvents
+  ) {
     return <div>Loading...</div>;
   }
   if (isError || isErrorIncome || isErrorUpcoming) {
     return <div>{error}</div>;
   }
-
-  console.log('dataAssign?.data', dataAssign?.data);
-  console.log('dataIncome?.data', dataIncome?.data);
 
   return (
     <div className=" flex flex-grow px-5 py-24 pt-0 mx-auto flex-col justify-center items-center ">

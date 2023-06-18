@@ -5,9 +5,18 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 export const useCreateNewEvent = (onSuccess, onError) => {
   console.log('IN useCreateNewEvent ');
+  const queryClient = useQueryClient();
+
   return useMutation(createNewEvent, {
     onSuccess,
     onError,
+    onSettled: () => {
+      // Invalidate queries for both getEventsPassedWithoutIncome and getSortedEventDataByType
+      queryClient.invalidateQueries('getEventsPassedWithoutIncome');
+      queryClient.invalidateQueries('getSortedEventDataByType');
+
+      // Add any other relevant operations after the mutation is settled
+    },
   });
 };
 
@@ -72,8 +81,7 @@ export const useAssignMusicianById = () => {
   return useMutation((data) => assignMusicianById(data), {
     onSettled: () => {
       // Invalidate relevant queries
-      //queryClient.invalidateQueries('getAllAssignMusicians');
-      queryClient.invalidateQueries('getThreeUpcomingEvents');
+      queryClient.invalidateQueries('getThreeEventsToAssign');
       queryClient.invalidateQueries('getUpcomingEvents');
       queryClient.invalidateQueries('getSortedEventDataByType');
       // Add any other relevant operations after successful mutation
@@ -140,8 +148,14 @@ const getSortedEventDataByType = (data) => {
 
 export const useCancelEvent = () => {
   console.log('useCancelEvent');
+  const queryClient = useQueryClient();
 
-  return useMutation((eventId) => cancelEvent(eventId), {});
+  return useMutation((eventId) => cancelEvent(eventId), {
+    onSettled: () => {
+      queryClient.invalidateQueries('getSortedEventDataByType');
+    },
+    // Add any other mutation options if needed
+  });
 };
 
 const cancelEvent = (eventId) => {
@@ -154,7 +168,19 @@ const cancelEvent = (eventId) => {
 
 export const useUpdateEvent = () => {
   console.log('IN useUpdateEvent');
-  return useMutation((data) => updateEvent(data), {});
+  const queryClient = useQueryClient();
+
+  return useMutation((data) => updateEvent(data), {
+    onSettled: () => {
+      // Invalidate relevant queries
+      //queryClient.invalidateQueries('getAllAssignMusicians');
+
+      queryClient.invalidateQueries('getUpcomingEvents');
+      queryClient.invalidateQueries('getSortedEventDataByType');
+      // Add any other relevant operations after successful mutation
+    },
+    // Add any other mutation options if needed
+  });
 };
 
 const updateEvent = (data) => {
@@ -162,4 +188,12 @@ const updateEvent = (data) => {
   console.log('updateEvent eventId', eventId);
   console.log('updateEvent updatedEvent', data);
   return makeRequest.post(`/admin/updateEvent/${eventId}`, others);
+};
+export const useCancelPassedEvents = () => {
+  return useMutation('cancelPassedEvents', cancelPassedEvents);
+};
+const cancelPassedEvents = () => {
+  console.log('IN cancelPassedEvents ', );
+  //axios request
+  return makeRequest.post('/admin/cancelPassedEvents');
 };

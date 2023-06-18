@@ -10,7 +10,7 @@ const {
   createEvent,
   getMusicalStyles,
   getEventsDate,
-  //getAllAssignMusicians,
+cancelPassedEvents,
   getThreeEventsToAssign,
   getAllUsersPerEvent,
   assignMusicianToEventById,
@@ -44,8 +44,9 @@ router.get(
 );
 router.post('/cancelEvent/:eventId', cancelEvent);
 router.post('/updateEvent/:eventId', updateEvent);
+router.post('/cancelPassedEvents', cancelPassedEvents);
 
 
-
+;
 getUpcomingEvents;
 module.exports = router;

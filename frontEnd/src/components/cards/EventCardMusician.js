@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
@@ -7,19 +8,29 @@ import {
 } from '@material-tailwind/react';
 import { useLocation } from 'react-router-dom';
 import RegisterToEvent from '../popup/RegisterToEvent';
-import { useRegisterToEvent } from '../../hooks/useMusicianEvents';
+import {
+  useRegisterToEvent,
+  useUnregisterToEvent,
+} from '../../hooks/useMusicianEvents';
 import { AuthContext } from '../context/authContext';
 
 function EventCardMusician(props) {
   const { currentUser } = useContext(AuthContext);
-  const { date, type, description, eventId, userId } = props;
+  const { date, type, description, eventId, userId, header } = props;
   const userEmail = currentUser ? currentUser.Email : null;
+  console.log(eventId, userId);
   const {
     mutate: register,
     isError,
     error,
     isLoading,
   } = useRegisterToEvent(userId, eventId, userEmail);
+  const {
+    mutate: unregister,
+    isError: isErrorUnregister,
+    error: errorUnregister,
+    isLoading: isLoadingUnregister,
+  } = useUnregisterToEvent(userId, eventId);
   const location = useLocation();
 
   if (isLoading) {
@@ -29,6 +40,16 @@ function EventCardMusician(props) {
   if (isError) {
     return error;
   }
+  if (isLoadingUnregister) {
+    return <div>Loading....</div>;
+  }
+
+  if (isErrorUnregister) {
+    return errorUnregister;
+  }
+  const UnRegister = () => {
+    unregister();
+  };
 
   const dateEvent = date.split('T')[0];
   const time = date.split('T')[1].substring(0, 5);
@@ -57,6 +78,9 @@ function EventCardMusician(props) {
             description={description}
             register={register}
           />
+        )}
+        {header === 'Registered Events' && (
+          <Button onClick={UnRegister}>Unregister</Button>
         )}
       </CardFooter>
     </Card>

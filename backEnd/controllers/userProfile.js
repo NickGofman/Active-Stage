@@ -62,7 +62,8 @@ const getProfile = (req, res) => {
 
 const getPublishedEvents = (req, res) => {
   const userId = req.params.id;
-  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName FROM event AS e JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID WHERE e.Status = 'Published' AND e.EventID NOT IN ( SELECT EventID FROM musician_register_event WHERE UserId = ? ) ORDER BY e.Date;`;
+  const q = `SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
+, e.Description, td.MusicalTypeName FROM event AS e JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID WHERE e.Status = 'Published' AND e.EventID NOT IN ( SELECT EventID FROM musician_register_event WHERE UserId = ? ) ORDER BY e.Date;`;
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
 
@@ -91,11 +92,11 @@ VALUES (?, ?, ?);
 const getAssignedEvents = (req, res) => {
   const userId = req.params.id;
 
-  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
+  const q = `SELECT e.EventID, CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
 FROM event AS e
 JOIN musician_register_event AS mre ON e.EventID = mre.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
-WHERE mre.UserID = ? AND e.Status <> 'Cancelled'
+WHERE e.UserID = ? AND e.Status <> 'Cancelled'
 
   `;
   console.log('req.params', req.params);
@@ -111,7 +112,7 @@ WHERE mre.UserID = ? AND e.Status <> 'Cancelled'
 const getRegisteredEvents = (req, res) => {
   const userId = req.params.id;
 
-  const q = `SELECT e.EventID, e.Date, e.Description, td.MusicalTypeName
+  const q = `SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
 FROM musician_register_event AS mre
 JOIN event AS e ON mre.EventID = e.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
@@ -129,57 +130,24 @@ WHERE e.UserID IS NULL
     return res.status(200).json(data);
   });
 };
-const getUserPhoto = (req, res) => {
-  const userId = req.params.id;
 
-  // Query to retrieve the user's photo path from the database
-  const q = `
-    SELECT m.Photo
-    FROM musician AS m
-    JOIN user AS u ON m.UserId = u.UserId
-    WHERE m.UserId = ?
-  `;
-  pool.query(q, userId, (err, result) => {
-    if (err) {
-      console.log('Error retrieving user photo:', err);
-      return res.status(500).json(err);
-    }
+const unregisterToEvent = (req, res) => {
+    const userId = req.params.userId;
+    const eventId = req.params.eventId;
 
-    // Check if a photo path exists for the user
-    if (result.length === 0 || !result[0].Photo) {
-      // Return the default photo file if the user's photo is null or doesn't exist
-      const defaultPhotoFile = path.join(
-        __dirname,
-        '..',
-        'UploadImages',
-        'ProfileImg.jpg'
-      );
+  console.log('IN BACKEND unregisterToEvent', userId);
+  
+  console.log('IN BACKEND unregisterToEvent', eventId);
+  
+  
 
-      return res.sendFile(defaultPhotoFile);
-    }
 
-    const photoPath = result[0].Photo;
-    const format = photoPath.split('.');
-    console.log('format', format);
-    // Read the user's photo file as a blob
-    const photoFile = path.join('UploadImages', photoPath);
-    fs.readFile(photoFile, (err, data) => {
-      if (err) {
-        console.log('Error reading user photo file:', err);
-        return res.status(500).json(err);
-      }
-      if (format[1] === 'jpg') {
-        res.setHeader('Content-Type', 'image/jpeg');
-      }
-      if (format[1] === 'png') {
-        res.setHeader('Content-Type', 'image/png');
-      }
-      // Set the appropriate headers for the response
-      res.setHeader('Content-Length', data.length);
+  const q = `DELETE FROM musician_register_event WHERE EventID = ? AND UserID = ?`;
 
-      // Send the user's photo data as a blob in the response
-      res.send(data);
-    });
+  pool.query(q, [eventId, userId], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data);
   });
 };
 
@@ -190,5 +158,6 @@ module.exports = {
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,
-  getUserPhoto,
+  
+  unregisterToEvent,
 };

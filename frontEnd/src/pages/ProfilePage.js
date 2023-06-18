@@ -9,8 +9,7 @@ import {
   useMusicianProfileData,
   useProfilePhoto,
 } from '../hooks/useMusicianProfileData';
-import { useLocation } from 'react-router-dom';
-import { useAdminProfileData, useGetPhoto } from '../hooks/useAdminProfileData';
+import { useAdminProfileData } from '../hooks/useAdminProfileData';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -45,22 +44,8 @@ function ProfilePage() {
     error: adminError,
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
 
-  //TODO remove the hooks and routes, and change the get profile query
-  const {
-    isLoading: photoBlobLoading,
-    isError: photoBlobIsError,
-    error: photoBlobError,
-    data: photoBlob,
-  } = useProfilePhoto(userId);
-  if (photoBlobLoading) {
-    return <div>Loading...</div>;
-  }
-  if (photoBlobIsError) {
-    console.log(photoBlobError);
-  }
-  console.log(photoBlob); // Inspect the photoBlob data
-
-  const photoUrl = photoBlob && URL.createObjectURL(photoBlob);
+ 
+  
   //========wait for data==============
   if (userDataLoading) {
     return <div>Loading...</div>;

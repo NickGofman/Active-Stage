@@ -26,15 +26,15 @@ function UpdateEvent(props) {
     description: '',
     time: '21:00',
   });
-    const [date, setDate] = useState({
-      startDate: '',
-    });
-     const {
-       mutate: updateEvent,
+  const [date, setDate] = useState({
+    startDate: '',
+  });
+  const {
+    mutate: updateEvent,
 
-       isError,
-       error,
-     } = useUpdateEvent();
+    isError,
+    error,
+  } = useUpdateEvent();
   const {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
@@ -64,33 +64,34 @@ function UpdateEvent(props) {
       [e.target.name]: e.target.value,
     }));
   };
-   const handleDateChange = (newValue) => {
-     // console.log('newValue:', newValue);
-     setDate(newValue);
-     setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
+  const handleDateChange = (newValue) => {
+    // console.log('newValue:', newValue);
+    setDate(newValue);
+    setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
 
-     // setInputs(newValue);
-   };
- const handleChangeStyle = (e) => {
-   setInputs((prevState) => ({ ...prevState, musicalType: e }));
- };
+    // setInputs(newValue);
+  };
+  const handleChangeStyle = (e) => {
+    setInputs((prevState) => ({ ...prevState, musicalType: e }));
+  };
   const handleOpen = () => setOpen(!open);
 
   const handleConfirm = () => {
     // TODO: Perform update logic with the new date and time values
-  const updatedEvent = {
-    date: inputs.date !== '' ? inputs.date : EventDate, // Use the new date value if provided, otherwise use the existing EventDate
-    time: inputs.time !== '' ? inputs.time : '21:00', // Use the new time value if provided, otherwise use the default value
-    //TODO get the index of the musical style of the original event if the user don't change it (or set default -> if we don't choose any style the program crash)
-    musicalTypeId: inputs.musicalType !== '' ? inputs.musicalType : 1,
-    description: inputs.description !== '' ? inputs.description : '', // Use the new description value if provided, otherwise use an empty string
-  };
-   const dateTime = `${inputs.date} ${inputs.time}`;
+    const updatedEvent = {
+      date: inputs.date !== '' ? inputs.date : EventDate, // Use the new date value if provided, otherwise use the existing EventDate
+      time: inputs.time !== '' ? inputs.time : '21:00', // Use the new time value if provided, otherwise use the default value
+      //TODO get the index of the musical style of the original event if the user don't change it (or set default -> if we don't choose any style the program crash)
+      musicalTypeId:
+        inputs.musicalType !== '' ? inputs.musicalType : MusicalType,
+      description: inputs.description !== '' ? inputs.description : '', // Use the new description value if provided, otherwise use an empty string
+    };
+    const dateTime = `${inputs.date} ${inputs.time}`;
     updatedEvent.dateTime = dateTime;
 
     updatedEvent.eventId = EventId;
-updateEvent(updatedEvent);
-    // Close the dialog 
+    updateEvent(updatedEvent);
+    // Close the dialog
     setOpen(false);
   };
   //use axios assign user to event

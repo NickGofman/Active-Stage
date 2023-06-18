@@ -9,7 +9,8 @@ const {
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,
-  getUserPhoto,
+
+  unregisterToEvent,
 } = require('../controllers/userProfile.js');
 
 router.post('/updateProfile', updateProfile);
@@ -21,9 +22,6 @@ router.get('/getAllAssignedEvents/:id', getAssignedEvents);
 
 router.get('/getAllRegisteredEvents/:id', getRegisteredEvents);
 
-;
-router.get('/profile/photo/:id', getUserPhoto);
-
-;
+router.post('/unregisterToEvent/:userId/:eventId', unregisterToEvent);
 
 module.exports = router;

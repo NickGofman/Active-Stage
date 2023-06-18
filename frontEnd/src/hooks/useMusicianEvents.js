@@ -15,7 +15,7 @@ const getAllPublishedEvents = (UserId) => {
 //register to event
 
 export const useRegisterToEvent = (userId, EventId, email) => {
-    console.log('userId:', userId, 'EventId', EventId);
+  console.log('userId:', userId, 'EventId', EventId);
 
   const queryClient = useQueryClient();
 
@@ -26,9 +26,8 @@ export const useRegisterToEvent = (userId, EventId, email) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('getAllPublishedEvents');
-        //update 
+        //update
         queryClient.invalidateQueries('useAllRegisteredEvents');
-        
       },
     }
   );
@@ -52,16 +51,32 @@ const getAllAssignedEvents = (UserId) => {
   return makeRequest.get(`/user/getAllAssignedEvents/${UserId}`);
 };
 
-
 export const useAllRegisteredEvents = (userId) => {
-
-  return useQuery(
-    ['useAllRegisteredEvents', userId],
-    () => getAllRegisteredEvents(userId),
-   
+  return useQuery(['useAllRegisteredEvents', userId], () =>
+    getAllRegisteredEvents(userId)
   );
 };
 
 const getAllRegisteredEvents = (UserId) => {
   return makeRequest.get(`/user/getAllRegisteredEvents/${UserId}`);
+};
+
+export const useUnregisterToEvent = (userId, EventId) => {
+  const queryClient = useQueryClient();
+
+  console.log('useUnregisterToEvent', userId, EventId);
+  return useMutation(
+    ['useUnregisterToEvent', userId, EventId],
+    () => unregisterToEvent(userId, EventId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('useAllRegisteredEvents');
+      },
+    }
+  );
+};
+
+const unregisterToEvent = (userId, eventId) => {
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAA",userId, eventId);
+  return makeRequest.post(`/user/unregisterToEvent/${userId}/${eventId}`);
 };

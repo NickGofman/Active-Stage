@@ -73,24 +73,10 @@ const getEventsDate = (req, res) => {
   });
 };
 
-// const getAllAssignMusicians = (req, res) => {
-//   const q = `SELECT m.BandName, e.Date, m.Photo, e.UserId
-//            FROM event AS e
-//            JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-//            JOIN musician AS m ON mre.UserId = m.UserId
-//            JOIN user AS u ON m.Email = u.Email
-//            WHERE e.Status = 'Assigned'`;
-//   pool.query(q, (err, data) => {
-//     if (err) {
-//       return res.status(500).json({ error: err.message });
-//     }
-//     console.log('getAllAssignMusicians');
-//     return res.status(200).json(data);
-//   });
-// };
 const getThreeEventsToAssign = (req, res) => {
   const q = `
-    SELECT e.EventID, e.Date, COUNT(mre.UserId) AS RCount
+    SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
+, COUNT(mre.UserId) AS RCount
     FROM event AS e
     JOIN musician_register_event AS mre ON e.EventID = mre.EventID
     JOIN musician AS m ON mre.UserId = m.UserId
@@ -111,7 +97,8 @@ const getThreeEventsToAssign = (req, res) => {
 };
 const getEventsPassedWithoutIncome = (req, res) => {
   const q = `
-    SELECT e.EventID, e.Date, m.BandName AS BandName
+    SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
+, m.BandName AS BandName
 FROM event AS e
 LEFT JOIN musician AS m ON e.UserId = m.UserId
 WHERE e.Status = 'Assigned' AND e.Date < CURDATE() AND e.Income = 0
@@ -132,14 +119,6 @@ LIMIT 3;
 const getAllUsersPerEvent = (req, res) => {
   const { EventID } = req.params;
   console.log('EventID', EventID);
-
-  // const q = `
-  //   SELECT m.BandName, m.Description, m.YearsOfExperience ,m.UserId
-  //   FROM musician AS m
-  //   JOIN musician_register_event AS mre ON m.UserId = mre.UserId
-  //   JOIN event AS e ON mre.EventID = e.EventID
-  //   WHERE e.EventID = ? and u.Status = 'Active'
-  // `;
 
   const q = `
   SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId
@@ -201,7 +180,8 @@ const addIncome = (req, res) => {
 };
 const getUpcomingEvents = (req, res) => {
   const q = `
-    SELECT e.EventID, e.Date, m.BandName AS BandName ,m.Photo,u.PhoneNumber
+    SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+ m.BandName AS BandName ,m.Photo,u.PhoneNumber
     FROM event AS e
     LEFT JOIN musician AS m ON e.UserId = m.UserId
     LEFT JOIN user AS u ON u.UserId = m.UserId
@@ -237,7 +217,7 @@ SELECT DISTINCT
   e.EventID,
   e.UserID,
   e.MusicalTypeID,
-  e.Date,
+  CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
   e.Income,
   e.Description,
   e.Status,
@@ -245,7 +225,7 @@ SELECT DISTINCT
     SELECT COUNT(mre.UserId)
     FROM musician_register_event AS mre
     LEFT JOIN musician AS m ON mre.UserId = m.UserId
-      LEFT JOIN user AS u ON u.UserId = m.UserId
+    LEFT JOIN user AS u ON u.UserId = m.UserId
     WHERE mre.EventID = e.EventID
     AND u.Status = 'Active'
   ) AS NumberOfRegisters,
@@ -253,7 +233,7 @@ SELECT DISTINCT
     SELECT m.BandName
     FROM musician_register_event AS mre
     LEFT JOIN musician AS m ON mre.UserId = m.UserId
-      LEFT JOIN user AS u ON u.UserId = m.UserId
+    LEFT JOIN user AS u ON u.UserId = m.UserId
     WHERE mre.EventID = e.EventID
     AND u.Status = 'Active'
     LIMIT 1
@@ -268,7 +248,6 @@ WHERE
     OR (e.Status = 'WithoutIncome' AND e.Income = 0)
     OR e.Status = 'Assigned'
     OR e.Status = 'Published'
-   
   )
 ORDER BY
   Status;
@@ -276,7 +255,12 @@ ORDER BY
       queryParams = [startDate, endDate];
       break;
     case 'Closed':
-      query = ` SELECT e.*, m.BandName
+      query = ` SELECT  e.EventID,
+    e.MusicalTypeID,
+    CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+    e.Income,
+    e.Status,
+    m.BandName
     FROM event AS e
     LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
     LEFT JOIN musician AS m ON mre.UserId = m.UserId 
@@ -288,7 +272,14 @@ ORDER BY
       queryParams = [startDate, endDate, 'Closed'];
       break;
     case 'WithoutIncome':
-      query = ` SELECT e.*, m.BandName
+      query = ` SELECT e.EventID,
+    e.UserID,
+    e.MusicalTypeID,
+    CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+    e.Income,
+    e.Description,
+    e.Status,
+    m.BandName
 FROM event AS e
 LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
 LEFT JOIN musician AS m ON mre.UserId = m.UserId
@@ -299,7 +290,15 @@ GROUP BY e.EventID`;
       queryParams = ['Assigned', 0];
       break;
     case 'Assigned':
-      query = ` SELECT e.*, COUNT(mre.UserId) AS NumberOfRegisters, m.BandName
+      query = ` SELECT e.EventID,
+    e.UserID,
+    e.MusicalTypeID,
+    CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+    e.Income,
+    e.Description,
+    e.Status,
+    COUNT(mre.UserId) AS NumberOfRegisters,
+    m.BandName
 FROM event AS e
 LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
 LEFT JOIN musician AS m ON mre.UserId = m.UserId
@@ -311,7 +310,15 @@ GROUP BY e.EventID`;
       break;
     case 'Published':
       query = `
-     SELECT e.*, COUNT(mre.UserId) AS NumberOfRegisters, m.BandName
+     SELECT  e.EventID,
+    e.UserID,
+    e.MusicalTypeID,
+    CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+    e.Income,
+    e.Description,
+    e.Status,
+    COUNT(mre.UserId) AS NumberOfRegisters,
+    m.BandName
 FROM event AS e
 LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
 LEFT JOIN musician AS m ON mre.UserId = m.UserId 
@@ -332,7 +339,7 @@ GROUP BY e.EventID;
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-
+    console.log('datadata', data);
     return res.status(200).json(data);
   });
 };
@@ -387,6 +394,17 @@ const updateEvent = (req, res) => {
     }
   );
 };
+const cancelPassedEvents = () => {
+  const selectQuery = `UPDATE event SET status = 'Cancelled'  WHERE status = 'Published' AND event.Date < CURDATE()`;
+  pool.query(selectQuery, (error, result) => {
+    if (error) {
+      console.error(`Error updating event:`, error);
+      return;
+    }
+
+    console.log(`Updated events to 'Cancelled'.`);
+  });
+};
 
 module.exports = {
   createEvent,
@@ -402,4 +420,5 @@ module.exports = {
   getSortedEventDataByType,
   cancelEvent,
   updateEvent,
+  cancelPassedEvents,
 };

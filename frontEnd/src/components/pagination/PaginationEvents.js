@@ -6,11 +6,9 @@ import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../cards/EventCardMusician';
 
 const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
-  console.log('ppppp ', events);
   const [itemOffset, setItemOffset] = useState(0); //initial state
   const endOffset = itemOffset + itemsPerPage; //last item to present
   const currentItems = events?.data?.slice(itemOffset, endOffset); //array of current items
-  console.log(currentItems);
   const pageCount = Math.ceil(events?.data?.length / itemsPerPage);
 
   const handlePageClick = (event) => {
@@ -34,9 +32,7 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
       },
     },
   };
-  console.log('events?.data?', events?.data);
-  console.log('ASFSAF ', userId);
-  
+
   return (
     <>
       {isHome ? (
@@ -73,10 +69,12 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
               {currentItems?.map((event) => (
                 <EventCardMusician
                   key={event.EventID}
-                  id={event.EventID}
+                  eventId={event.EventID}
+                  userId={userId}
                   date={event.Date}
                   type={event.MusicalTypeName}
                   description={event.Description}
+                  header={header}
                 />
               ))}
             </div>
