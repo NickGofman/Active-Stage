@@ -22,77 +22,76 @@ const ReportTable = (props) => {
     console.log(reportsNameError);
   }
 
- const handleExportToExcel = () => {
-   const workbook = new ExcelJS.Workbook();
-   const worksheet = workbook.addWorksheet('Events');
+  const handleExportToExcel = () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Events');
 
-   // Styling
-   const headerRow = worksheet.addRow(TABLE_HEAD);
-   headerRow.eachCell((cell) => {
-     cell.font = { bold: true, color: { argb: 'FFFFFF' }, size: 14 };
-     cell.fill = {
-       type: 'pattern',
-       pattern: 'solid',
-       fgColor: { argb: '336699' },
-     };
-     cell.alignment = { horizontal: 'center' };
-   });
+    // Styling
+    const headerRow = worksheet.addRow(TABLE_HEAD);
+    headerRow.eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFF' }, size: 14 }; // Change the font size to 12
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '336699' },
+      };
+      cell.alignment = { horizontal: 'center' };
+    });
 
-   // Add data rows
-   reportsNameList?.data?.forEach((event) => {
-     const rowData = [
-       event.BandName, // Replace with the actual property name in your data
-       event.date, // Replace with the actual property name in your data
-       event.Income, // Replace with the actual property name in your data
-       event.MusicalTypeName, // Replace with the actual property name in your data
-     ];
-     const row = worksheet.addRow(rowData);
-     row.eachCell((cell) => {
-       cell.font = { size: 12 };
-       cell.alignment = { horizontal: 'center' };
-     });
-   });
+    // Add data rows
+    reportsNameList?.data?.forEach((event) => {
+      const rowData = [
+        event.BandName, // Replace with the actual property name in your data
+        event.date, // Replace with the actual property name in your data
+        event.Income, // Replace with the actual property name in your data
+        event.MusicalTypeName, // Replace with the actual property name in your data
+      ];
+      const row = worksheet.addRow(rowData);
+      row.eachCell((cell) => {
+        cell.font = { size: 12 };
+        cell.alignment = { horizontal: 'center' };
+      });
+    });
 
-   // Calculate total revenue
-   const totalRevenueFormula = `SUM(C2:C${reportsNameList?.data?.length + 1})`;
-   const totalRevenueRow = worksheet.addRow(['Total Revenue', '']);
-   totalRevenueRow.getCell(1).font = {
-     bold: true,
-     size: 14,
-   };
-   totalRevenueRow.getCell(2).font = {
-     bold: true,
-     size: 14,
-   };
-   totalRevenueRow.getCell(2).numFmt = '0,000.00';
-   totalRevenueRow.getCell(1).alignment = { horizontal: 'right' };
-   totalRevenueRow.getCell(2).alignment = { horizontal: 'center' };
+    // Calculate total revenue
+    const totalRevenueFormula = `SUM(C2:C${reportsNameList?.data?.length + 1})`;
+    const totalRevenueRow = worksheet.insertRow(7, [
+      'Total Revenue',
+      { formula: totalRevenueFormula },
+    ]);
+    totalRevenueRow.getCell(2).font = {
+      bold: true,
+    };
+    totalRevenueRow.font = { size: 18 };
 
-   // Adjust column widths based on content length
-   worksheet.columns.forEach((column) => {
-     let maxLength = 0;
-     column.eachCell({ includeEmpty: true }, (cell) => {
-       const columnWidth = cell.value ? cell.value.toString().length + 5 : 10;
-       if (columnWidth > maxLength) {
-         maxLength = columnWidth;
-       }
-     });
-     column.width = maxLength < 20 ? 20 : maxLength;
-   });
+    totalRevenueRow.getCell(2).numFmt = '0,000.00';
+    totalRevenueRow.getCell(1).alignment = { horizontal: 'center' };
+    totalRevenueRow.getCell(2).alignment = { horizontal: 'center' };
 
-   // Save workbook as XLSX file
-   workbook.xlsx.writeBuffer().then((buffer) => {
-     const blob = new Blob([buffer], {
-       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-     });
-     const url = URL.createObjectURL(blob);
-     const link = document.createElement('a');
-     link.href = url;
-     link.download = 'event_reports.xlsx';
-     link.click();
-     URL.revokeObjectURL(url);
-   });
- };
+    // Adjust column widths based on content length
+    worksheet.columns.forEach((column) => {
+      let maxLength = 0;
+      column.eachCell({ includeEmpty: true }, (cell) => {
+        const columnWidth = cell.value ? cell.value.toString().length + 5 : 10;
+        if (columnWidth > maxLength) {
+          maxLength = columnWidth;
+        }
+      });
+      column.width = maxLength < 20 ? 20 : maxLength;
+    });
+    // Save workbook as XLSX file
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Event_reports_${data.startDate}-${data.endDate}.xlsx`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+  };
 
   return (
     <div>
