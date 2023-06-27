@@ -10,7 +10,7 @@ const {
   createEvent,
   getMusicalStyles,
   getEventsDate,
-cancelPassedEvents,
+  cancelPassedEvents,
   getThreeEventsToAssign,
   getAllUsersPerEvent,
   assignMusicianToEventById,
@@ -22,6 +22,10 @@ cancelPassedEvents,
   updateEvent,
 } = require('../controllers/adminEvents.js');
 
+const {
+  getBandNames,
+  getFilteredReports,
+} = require('../controllers/adminReports.js');
 router.post('/updateProfile', updateProfile);
 router.post('/createEvent', createEvent);
 router.post(
@@ -42,11 +46,13 @@ router.get(
   '/getSortedEventDataByType/:sortType/:startDate/:endDate',
   getSortedEventDataByType
 );
+router.post('/getFilteredReports', getFilteredReports);
+
+router.get('/getBandNames/:startDate/:endDate', getBandNames);
+getBandNames;
 router.post('/cancelEvent/:eventId', cancelEvent);
 router.post('/updateEvent/:eventId', updateEvent);
 router.post('/cancelPassedEvents', cancelPassedEvents);
 
-
-;
 getUpcomingEvents;
 module.exports = router;

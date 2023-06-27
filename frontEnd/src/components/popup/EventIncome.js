@@ -27,7 +27,6 @@ function EventIncome(props) {
   }
 
  const handleAddIncome = () => {
-  console.log('handleAddIncome', income);
    const parsedIncome = +income; // Parse the income value to a number
    if (!isNaN(parsedIncome)) {
      const data = { eventId: EventId, income: parsedIncome };

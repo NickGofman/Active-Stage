@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
-import EventTableView from '../components/eventTable/EventTableView';
+import EventTableView from '../components/tables/EventTableView';
 import { useState } from 'react';
 import { Radio } from '@material-tailwind/react';
 import { events } from '../constants/index';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { useSortedEventDataByType } from '../hooks/useAdminEvents';
+import {
+  useGetMusicalStyles,
+  useSortedEventDataByType,
+} from '../hooks/useAdminEvents';
 import dayjs from 'dayjs';
 
 function BusinessAllEvents() {
@@ -12,10 +15,10 @@ function BusinessAllEvents() {
   const [sortType, setSortType] = useState('all');
   const currentDate = new Date();
 
- const [date, setDate] = useState({
-   startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
-   endDate: dayjs(currentDate).add(1, 'year').format('YYYY-MM-DD'),
- });
+  const [date, setDate] = useState({
+    startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
+    endDate: dayjs(currentDate).add(1, 'year').format('YYYY-MM-DD'),
+  });
 
   //axios will be here we wil have 4 routes that get sortType and date
   const sortData = {
@@ -27,7 +30,12 @@ function BusinessAllEvents() {
 
   const { data, error, isError, isLoading } =
     useSortedEventDataByType(sortData);
-
+  const {
+    isLoading: musicalStyleLoading,
+    data: musicalStyleList,
+    isError: musicalStyleIsError,
+    error: musicalStyleError,
+  } = useGetMusicalStyles();
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -35,6 +43,12 @@ function BusinessAllEvents() {
     return error;
   }
 
+  if (musicalStyleLoading) {
+    return <p>musicalStyleLoading...</p>;
+  }
+  if (musicalStyleIsError) {
+    console.log(musicalStyleError);
+  }
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
     setSortType(event.target.value);
@@ -44,7 +58,6 @@ function BusinessAllEvents() {
   const handleDateChange = (newValue) => {
     setDate(newValue);
   };
-console.log('BusinessAllEvents',data?.data);
   return (
     <div className="flex flex-col items-center space-y-9 mt-10">
       <div className=" shadow-md sm:rounded-lg">
@@ -136,10 +149,12 @@ console.log('BusinessAllEvents',data?.data);
                     key={event.EventID}
                     EventId={event.EventID}
                     status={event.Status}
-                    MusicalType={event.MusicalType}
+                    MusicalTypeId={event.MusicalTypeID}
                     BandName={event.BandName}
                     Registered={event.NumberOfRegisters}
                     eventDate={event.Date}
+                    Description={event.Description}
+                    musicalStyleList={musicalStyleList?.data}
                   />
                 );
               })}

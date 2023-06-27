@@ -57,7 +57,6 @@ export default function Calendar() {
     // Return an error state or component
     return <div>Error loading calendar data.</div>;
   }
-  console.log('DATA: ', data.data);
   return (
     <div className="pt-16 rounded-md text-xl border-4">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
@@ -173,7 +172,6 @@ export default function Calendar() {
 
 function Meeting({ meeting }) {
   const date = parseISO(meeting.Date);
-  console.log(date);
 
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">

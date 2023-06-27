@@ -18,7 +18,6 @@ function EventCardMusician(props) {
   const { currentUser } = useContext(AuthContext);
   const { date, type, description, eventId, userId, header } = props;
   const userEmail = currentUser ? currentUser.Email : null;
-  console.log(eventId, userId);
   const {
     mutate: register,
     isError,
@@ -53,7 +52,6 @@ function EventCardMusician(props) {
 
   const dateEvent = date.split('T')[0];
   const time = date.split('T')[1].substring(0, 5);
-  console.log('userId, eventId, userEmail', userId, eventId, userEmail);
   return (
     //  className="flex flex-col   text-center text-gray-700 rounded-md border-2 py-8 max-w-sm"
     <Card className=" mt-6 w-96 justify-between text-center text-gray-700 rounded-md border-2">

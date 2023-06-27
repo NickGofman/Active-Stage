@@ -105,15 +105,12 @@ function CreateNewEvent() {
 
     if (date !== '' && time !== '' && inputs.musicalTypeId !== undefined) {
       otherInput.dateTime = dateTime;
-      console.log('otherInput', otherInput);
       createEvent(otherInput);
     } else {
-      console.log('else:');
       setErr('Must select a Date, Time and Musical style');
       return;
     }
 
-    console.log(isError);
     // if (isError) {
     //   console.log('IN ERROR');
     //   //TODO-delete if (we have disabled dates- no need of date validation)

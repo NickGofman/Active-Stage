@@ -3,10 +3,19 @@ import WarningCancel from '../popup/WarningCancel';
 import EventIncome from '../popup/EventIncome';
 import AssignMusician from '../popup/AssignMusician';
 import UpdateEvent from '../popup/UpdateEvent';
+import { useGetMusicalStyles } from '../../hooks/useAdminEvents';
 
 function EventTableView(props) {
-  const { status, BandName, Registered, eventDate, EventId, MusicalTypeID } =
-    props;
+  const {
+    status,
+    BandName,
+    Registered,
+    eventDate,
+    EventId,
+    MusicalTypeId,
+    Description,
+    musicalStyleList,
+  } = props;
   let color = '';
   // switch color by status
   switch (status) {
@@ -33,7 +42,11 @@ function EventTableView(props) {
   const eventDateObject = eventDate;
 
   const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
-
+ 
+  let musicalTypeName = musicalStyleList.filter((style) => {
+    return style.MusicalTypeID === MusicalTypeId;
+  });
+  musicalTypeName = musicalTypeName[0].MusicalTypeName;
   return (
     <tr className={color}>
       <th
@@ -62,8 +75,12 @@ function EventTableView(props) {
             (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
           }
           EventDate={formattedDate}
+          EventTime={formattedTime}
           EventId={EventId}
-          MusicalType={MusicalTypeID}
+          MusicalTypeId={MusicalTypeId}
+          Description={Description}
+          musicalStyleList={musicalStyleList}
+          musicalTypeName={musicalTypeName}
         />
         <AssignMusician
           EventDate={formattedDate}

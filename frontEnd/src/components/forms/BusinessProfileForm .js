@@ -5,7 +5,6 @@ import { useUpdateAdminData } from '../../hooks/useAdminProfileData';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 
 function BusinessProfileForm(props) {
-  console.log('PROPS ADMIN', props?.data?.data[0]);
   const { businessName, address, PhoneNumber, managerName, Email } =
     props?.data?.data[0];
   const [err, setErr] = useState('');
@@ -18,7 +17,6 @@ function BusinessProfileForm(props) {
     managerName: managerName,
     businessEmail: Email,
   });
-  console.log('inputs ADMIN', inputs);
 
   // send data to backEnd to update user profile
 

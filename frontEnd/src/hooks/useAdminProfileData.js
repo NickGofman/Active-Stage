@@ -1,14 +1,12 @@
 import { makeRequest } from '../axios';
 import { useQuery, useMutation } from 'react-query';
 const fetchAdminProfileData = (userId) => {
-  console.log('IN fetchAdminProfileData, userId: ', userId);
   //axios request
   return makeRequest.get(`/admin/profile/${userId}`);
 };
 
 
 export const useAdminProfileData = (onError, onSuccess, userId, isUser) => {
-  console.log('IN useAdminProfileData, userId: ', userId);
   return useQuery('getAdminProfile', () => fetchAdminProfileData(userId), {
     onSuccess,
     onError,
@@ -20,7 +18,6 @@ export const useUpdateAdminData = () => {
   return useMutation('updateAdminProfile', updateAdminProfileData);
 };
 const updateAdminProfileData = (data) => {
-  console.log('IN updateAdminProfileData, data: ', data);
   //axios request
   return makeRequest.post('/admin/updateProfile', data);
 };

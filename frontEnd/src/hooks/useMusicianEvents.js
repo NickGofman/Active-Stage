@@ -2,7 +2,6 @@ import { makeRequest } from '../axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 export const useAllPublishedEvents = (userId) => {
-  console.log('userId', userId);
   return useQuery(['getAllPublishedEvents', userId], () =>
     getAllPublishedEvents(userId)
   );
@@ -15,11 +14,9 @@ const getAllPublishedEvents = (UserId) => {
 //register to event
 
 export const useRegisterToEvent = (userId, EventId, email) => {
-  console.log('userId:', userId, 'EventId', EventId);
 
   const queryClient = useQueryClient();
 
-  console.log('useRegisterToEvent', userId, EventId, email);
   return useMutation(
     ['RegisterToEvent', userId, EventId, email],
     () => RegisterToEvent(userId, EventId, email),
@@ -34,7 +31,6 @@ export const useRegisterToEvent = (userId, EventId, email) => {
 };
 
 const RegisterToEvent = (userId, EventId, email) => {
-  console.log('RegisterToEvent', userId, EventId, email);
 
   return makeRequest.post(
     `/user/registerToEvent/${userId}/${EventId}/${email}`
@@ -64,7 +60,6 @@ const getAllRegisteredEvents = (UserId) => {
 export const useUnregisterToEvent = (userId, EventId) => {
   const queryClient = useQueryClient();
 
-  console.log('useUnregisterToEvent', userId, EventId);
   return useMutation(
     ['useUnregisterToEvent', userId, EventId],
     () => unregisterToEvent(userId, EventId),
@@ -77,6 +72,5 @@ export const useUnregisterToEvent = (userId, EventId) => {
 };
 
 const unregisterToEvent = (userId, eventId) => {
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAA",userId, eventId);
   return makeRequest.post(`/user/unregisterToEvent/${userId}/${eventId}`);
 };

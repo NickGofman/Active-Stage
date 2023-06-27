@@ -19,11 +19,9 @@ function ProfilePage() {
   };
   //TODO-delete this!!!
   const onSuccess = (data) => {
-    console.log({ data });
   };
 
   const onError = (error) => {
-    console.log({ error });
   };
   const isUser = currentUser.Role === 'user';
   console.log(isUser);
@@ -34,7 +32,7 @@ function ProfilePage() {
     data: userData,
     isError: userIsError,
     error: userError,
-  } = useMusicianProfileData(onError, onSuccess, userId, isUser);
+  } = useMusicianProfileData( userId, isUser);
 
   //make a request for admin data
   const {
@@ -62,7 +60,6 @@ function ProfilePage() {
     console.log(adminError);
   }
   // console.log('ADMIN DATA PROFILE PAGE  ', adminData);
-  console.log('user DATA PROFILE PAGE  ', userData?.data[0].Photo);
   return (
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">

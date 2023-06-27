@@ -14,6 +14,8 @@ import {
   MusicianHomePage,
 } from './pages/exportPages.js';
 import { ThemeProvider } from '@material-tailwind/react';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -120,6 +122,7 @@ function App() {
       <ThemeProvider>
         <RouterProvider router={router} />
       </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
     </QueryClientProvider>
   );
 }

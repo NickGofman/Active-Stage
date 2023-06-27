@@ -42,7 +42,6 @@ function LoginPage() {
       await login(inputs);
       
     } catch (error) {
-      console.log('InCartch');
       setErr(error.response.data.error);
     }
   };

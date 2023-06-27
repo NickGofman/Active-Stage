@@ -4,7 +4,6 @@ import AssignMusician from '../popup/AssignMusician';
 import { format, parseISO } from 'date-fns';
 
 const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
-  console.log('data', data);
   const upcomingEvents = data?.slice(0, 3); // Get the first three events
 
   return (

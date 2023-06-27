@@ -19,45 +19,59 @@ import {
 } from '../../hooks/useAdminEvents';
 import Datepicker from 'react-tailwindcss-datepicker';
 function UpdateEvent(props) {
-  const { EventDate, EventId, MusicalType, disabled } = props;
+  const {
+    EventDate,
+    EventId,
+    MusicalTypeId,
+    disabled,
+    EventTime,
+    Description,
+    musicalStyleList,
+    musicalTypeName,
+  } = props;
+ 
+   const [inputs, setInputs] = useState({
+     date: '',
+     description: Description,
+     time: EventTime,
+   });
   const [open, setOpen] = useState(false);
-  const [inputs, setInputs] = useState({
-    date: '',
-    description: '',
-    time: '21:00',
-  });
+
   const [date, setDate] = useState({
     startDate: '',
   });
+
   const {
     mutate: updateEvent,
 
     isError,
     error,
   } = useUpdateEvent();
-  const {
-    isLoading: musicalStyleLoading,
-    data: musicalStyleList,
-    isError: musicalStyleIsError,
-    error: musicalStyleError,
-  } = useGetMusicalStyles();
+  // const {
+  //   isLoading: musicalStyleLoading,
+  //   data: musicalStyleList,
+  //   isError: musicalStyleIsError,
+  //   error: musicalStyleError,
+  // } = useGetMusicalStyles();
   const {
     data: eventDates,
     isError: datesIsError,
     isLoading: datesIsLoading,
     error: datesError,
   } = useGetEventDates();
+
+
   //map over the dates to disable days that have events
   const modifiedEventDates = eventDates?.data.map((item) => {
     return { startDate: item.startDate, endDate: item.startDate };
   });
-  if (musicalStyleLoading) {
-    return <div>musicalStyleLoading...</div>;
-  }
-  if (musicalStyleIsError) {
-    console.log(musicalStyleError);
-  }
-
+  // if (musicalStyleLoading) {
+  //   return <div>musicalStyleLoading...</div>;
+  // }
+  // if (musicalStyleIsError) {
+  //   console.log(musicalStyleError);
+  // }
+ 
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
@@ -72,21 +86,22 @@ function UpdateEvent(props) {
     // setInputs(newValue);
   };
   const handleChangeStyle = (e) => {
-    setInputs((prevState) => ({ ...prevState, musicalType: e }));
+    setInputs((prevState) => ({ ...prevState, MusicalTypeId: e }));
   };
   const handleOpen = () => setOpen(!open);
-
   const handleConfirm = () => {
     // TODO: Perform update logic with the new date and time values
     const updatedEvent = {
       date: inputs.date !== '' ? inputs.date : EventDate, // Use the new date value if provided, otherwise use the existing EventDate
-      time: inputs.time !== '' ? inputs.time : '21:00', // Use the new time value if provided, otherwise use the default value
+      time: inputs.time !== '' ? inputs.time : EventTime, // Use the new time value if provided, otherwise use the default value
       //TODO get the index of the musical style of the original event if the user don't change it (or set default -> if we don't choose any style the program crash)
       musicalTypeId:
-        inputs.musicalType !== '' ? inputs.musicalType : MusicalType,
+        inputs.MusicalTypeId !== undefined
+          ? inputs.MusicalTypeId
+          : MusicalTypeId,
       description: inputs.description !== '' ? inputs.description : '', // Use the new description value if provided, otherwise use an empty string
     };
-    const dateTime = `${inputs.date} ${inputs.time}`;
+    const dateTime = `${updatedEvent.date} ${updatedEvent.time}`;
     updatedEvent.dateTime = dateTime;
 
     updatedEvent.eventId = EventId;
@@ -133,11 +148,11 @@ function UpdateEvent(props) {
             />
             <Select
               className="col-span-1"
-              label="Select Musical Type"
+              label={musicalTypeName}
               name="musicalStyle"
               onChange={handleChangeStyle}
             >
-              {musicalStyleList?.data?.map((style) => (
+              {musicalStyleList.map((style) => (
                 <Option
                   name="musicalStyle"
                   key={style.MusicalTypeID}

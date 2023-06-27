@@ -4,7 +4,6 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 //#region ==============CreateNewEvent==============
 
 export const useCreateNewEvent = (onSuccess, onError) => {
-  console.log('IN useCreateNewEvent ');
   const queryClient = useQueryClient();
 
   return useMutation(createNewEvent, {
@@ -21,7 +20,6 @@ export const useCreateNewEvent = (onSuccess, onError) => {
 };
 
 const createNewEvent = (data) => {
-  // console.log('IN createNewEvent, data: ', data);
   //axios request
   return makeRequest.post('/admin/createEvent', data);
 };
@@ -33,12 +31,10 @@ const getMusicalStyles = () => {
 };
 
 export const useGetMusicalStyles = () => {
-  // console.log('IN getMusicalStyles ');
   return useQuery('getMusicalStyles', getMusicalStyles);
 };
 
 const getEventDates = () => {
-  console.log('getEEventsDate');
   return makeRequest.get('/admin/eventsDates');
 };
 export const useGetEventDates = () => {
@@ -71,7 +67,6 @@ export const useGetAllUsersPerEvent = (EventID) => {
 };
 
 const getAllUsersPerEvent = (EventID) => {
-  console.log(EventID);
   return makeRequest.get(`/admin/getAllUsersPerEvent/${EventID}`);
 };
 //#region ==============Assign musician to event==============
@@ -107,7 +102,6 @@ const getEventsPassedWithoutIncome = () => {
 };
 
 export const useAddIncome = () => {
-  console.log('useAddIncome');
   const queryClient = useQueryClient();
 
   return useMutation((data) => addIncome(data), {
@@ -122,7 +116,6 @@ export const useAddIncome = () => {
 };
 
 const addIncome = (data) => {
-  console.log(data);
   const { eventId, income } = data;
   return makeRequest.post(`/admin/addIncome/${eventId}`, { income });
 };
@@ -147,7 +140,6 @@ const getSortedEventDataByType = (data) => {
 };
 
 export const useCancelEvent = () => {
-  console.log('useCancelEvent');
   const queryClient = useQueryClient();
 
   return useMutation((eventId) => cancelEvent(eventId), {
@@ -159,15 +151,10 @@ export const useCancelEvent = () => {
 };
 
 const cancelEvent = (eventId) => {
-  console.log('useCancelEvent saasdasfas', eventId);
-
-  console.log('eventId', eventId);
-
   return makeRequest.post(`/admin/cancelEvent/${eventId}`);
 };
 
 export const useUpdateEvent = () => {
-  console.log('IN useUpdateEvent');
   const queryClient = useQueryClient();
 
   return useMutation((data) => updateEvent(data), {
@@ -185,15 +172,32 @@ export const useUpdateEvent = () => {
 
 const updateEvent = (data) => {
   const { eventId, ...others } = data;
-  console.log('updateEvent eventId', eventId);
-  console.log('updateEvent updatedEvent', data);
+
   return makeRequest.post(`/admin/updateEvent/${eventId}`, others);
 };
 export const useCancelPassedEvents = () => {
   return useMutation('cancelPassedEvents', cancelPassedEvents);
 };
 const cancelPassedEvents = () => {
-  console.log('IN cancelPassedEvents ', );
   //axios request
   return makeRequest.post('/admin/cancelPassedEvents');
+};
+
+export const useSortedEventReports = (data) => {
+  return useQuery(['getSortedEventReports', data], () =>
+    getSortedEventReports(data)
+  );
+};
+
+const getSortedEventReports = (data) => {
+  return makeRequest.post('/admin/getFilteredReports', data); // Use makeRequest.post instead of makeRequest.get
+};
+
+export const useGetBandNames = (data) => {
+  return useQuery(['getBandNames', data], () => getBandNames(data));
+};
+
+const getBandNames = (data) => {
+  const { startDate, endDate } = data;
+  return makeRequest.get(`/admin/getBandNames/${startDate}/${endDate}`);
 };

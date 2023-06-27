@@ -87,7 +87,6 @@ function MusicianProfileForm(props) {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      console.log('UploadImage file:', file);
       formData.append('oldPhoto', Photo);
       const res = await makeRequest.post('/upload', formData);
       setErr('');
