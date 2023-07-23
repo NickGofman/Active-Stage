@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const createEvent = (req, res) => {
   const { description, dateTime, musicalTypeId } = req.body;
-  console.log('BACKEND:', req.body);
+  console.log('BACKEND createEvent');
 
   // Extract the date component from the dateTime
   const date = dateTime.split(' ')[0];
@@ -37,8 +37,6 @@ const createEvent = (req, res) => {
         if (err) {
           return res.status(500).json({ error: err.message });
         }
-
-        console.log('RESULT: ', result);
 
         if (result.affectedRows === 0) {
           return res
@@ -74,6 +72,8 @@ const getEventsDate = (req, res) => {
 };
 
 const getThreeEventsToAssign = (req, res) => {
+  console.log('getAllAssignMusicians');
+
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
 , COUNT(mre.UserId) AS RCount
@@ -91,11 +91,12 @@ const getThreeEventsToAssign = (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('getAllAssignMusicians');
     return res.status(200).json(data);
   });
 };
 const getEventsPassedWithoutIncome = (req, res) => {
+  console.log('getEventsWithoutIncome');
+
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
 , m.BandName AS BandName
@@ -111,14 +112,13 @@ LIMIT 3;
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('getEventsWithoutIncome');
     return res.status(200).json(data);
   });
 };
 
 const getAllUsersPerEvent = (req, res) => {
   const { EventID } = req.params;
-  console.log('EventID', EventID);
+  console.log('getAllUsersPerEvent EventID:', EventID);
 
   const q = `
   SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId,m.URL
@@ -133,13 +133,12 @@ const getAllUsersPerEvent = (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('getAllUsersPerEvent');
     return res.status(200).json(data);
   });
 };
 const assignMusicianToEventById = (req, res) => {
   const { EventID, UserId } = req.params;
-  console.log('Test:', EventID);
+  console.log('assignMusicianToEventById: EventID:', EventID);
   const qAssignMusician = `
   UPDATE event AS e
   JOIN musician_register_event AS mre ON e.EventID = mre.EventID
@@ -166,7 +165,7 @@ const assignMusicianToEventById = (req, res) => {
 const addIncome = (req, res) => {
   const { EventID } = req.params;
   const { income } = req.body;
-  console.log(EventID, '-', income);
+  console.log('addIncome: EventID-income => ', EventID, '-', income);
   const updateQuery = `UPDATE event SET Income = ?, Status = 'Closed' WHERE EventID = ?`;
   pool.query(updateQuery, [income, EventID], (err, result) => {
     if (err) {
@@ -179,6 +178,8 @@ const addIncome = (req, res) => {
   });
 };
 const getUpcomingEvents = (req, res) => {
+  console.log('getUpcomingEvents');
+
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
  m.BandName AS BandName ,m.Photo,u.PhoneNumber
@@ -205,7 +206,7 @@ const getUpcomingEvents = (req, res) => {
 };
 const getSortedEventDataByType = (req, res) => {
   const { sortType, endDate, startDate } = req.params;
-  console.log('req.params', req.params);
+  console.log('getSortedEventDataByType');
   let query = '';
   let queryParams = [];
   //SELECT BandName,Count(),Date,status
@@ -339,7 +340,6 @@ GROUP BY e.EventID;
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('datadata', data);
     return res.status(200).json(data);
   });
 };
@@ -367,8 +367,7 @@ const updateEvent = (req, res) => {
 
   // Extract the updated values from the request body
   const { description, dateTime, musicalTypeId } = updatedEvent;
-  console.log('updateEvent eventId', eventId);
-  console.log('updateEvent updatedEvent', updatedEvent);
+  console.log('updateEvent eventId: ', eventId);
   // Construct the update query
   const updateQuery = `
     UPDATE event
@@ -395,14 +394,14 @@ const updateEvent = (req, res) => {
   );
 };
 const cancelPassedEvents = () => {
+  console.log(`Updated events to 'Cancelled'.`);
+
   const selectQuery = `UPDATE event SET status = 'Cancelled'  WHERE status = 'Published' AND event.Date < CURDATE()`;
   pool.query(selectQuery, (error, result) => {
     if (error) {
       console.error(`Error updating event:`, error);
       return;
     }
-
-    console.log(`Updated events to 'Cancelled'.`);
   });
 };
 

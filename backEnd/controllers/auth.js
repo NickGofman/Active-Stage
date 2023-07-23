@@ -19,9 +19,13 @@ const roleEnum = {
 //#region ================ REGISTER ======================
 
 const register = async (req, res) => {
-  console.log('HERE STATUS', statusEnum.ACTIVE, roleEnum.MUSICIAN);
+  console.log(
+    ' IN /auth/register BACKEND HERE STATUS',
+    statusEnum.ACTIVE,
+    roleEnum.MUSICIAN
+  );
   //get data from frontEND
-  console.log('IN /auth/register BACKEND');
+  
   const {
     email,
     password,
@@ -56,7 +60,6 @@ const register = async (req, res) => {
     }
 
     // insert into user table
-    console.log(` STATUS: ${statusEnum.ACTIVE} ${roleEnum.MUSICIAN}`);
     pool.query(
       'INSERT INTO user (Email, Password, PhoneNumber, Status, Role) VALUES (?, ?, ?, ?, ?)',
       [
@@ -118,7 +121,6 @@ const login = (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log(JSON.stringify(results));
     if (results.length === 0) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
@@ -184,7 +186,6 @@ const forgotPassword = async (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('RESULT: ', result);
     if (result.length === 0) {
       return res.status(400).json({ error: 'User does not exist.' });
     }

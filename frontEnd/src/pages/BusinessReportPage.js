@@ -7,6 +7,7 @@ import {
   useGetMusicalStyles,
   useGetBandNames,
   useSortedEventReports,
+  
 } from '../hooks/useAdminEvents';
 import ReportTable from '../components/tables/ReportTable';
 function BusinessReportPage() {
@@ -32,50 +33,48 @@ function BusinessReportPage() {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
     isError: musicalStyleIsError,
-    error: musicalStyleError,
+   
   } = useGetMusicalStyles();
+ const {
+  isLoading: bandNameLoading,
+  data: bandNameList,
+  isError: bandNameIsError,
+} = useGetBandNames({ startDate: date.startDate, endDate: date.endDate });
+
   const {
-    isLoading: bandNameLoading,
-    data: bandNameList,
-    isError: bandNameIsError,
-    error: bandNameError,
-  } = useGetBandNames(date); // Pass the startDate and endDate to the hook
+    isLoading: reportsLoading,
+    data: reportsNameList,
+    isError: reportsNameIsError,
+   
+  } = useSortedEventReports(sortData);
+ if (bandNameLoading || musicalStyleLoading || reportsLoading) {
+   return <div>Loading...</div>;
+ }
 
-  if (bandNameLoading) {
-    return <div>Loading band names...</div>;
-  }
+ if (bandNameIsError || musicalStyleIsError || reportsNameIsError) {
+   return (
+     <div>Error occurred while fetching data. Please try again later.</div>
+   );
+ }  
+ const handleChangeStyle = (selectedMusicalTypeId) => {
+   const selectedMusicalType = musicalStyleList.data.find(
+     (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
+   );
 
-  if (bandNameIsError) {
-    console.log(bandNameError);
-  }
+   if (selectedMusicalType) {
+     setMusicalTypeName(selectedMusicalType.MusicalTypeName);
+   } else {
+    //  setMusicalTypeName('');
+   }
 
-  if (musicalStyleLoading) {
-    return <div>musicalStyleLoading...</div>;
-  }
-  if (musicalStyleIsError) {
-    console.log(musicalStyleError);
-  }
-
-  const handleChangeStyle = (e) => {
-    const selectedMusicalTypeId = e;
-    const selectedMusicalType = musicalStyleList.data.find(
-      (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
-    );
-
-    if (selectedMusicalType) {
-      setMusicalTypeName(selectedMusicalType.MusicalTypeName);
-    } else {
-      setMusicalTypeName('');
-    }
-
-    setInputs((prevState) => ({
-      ...prevState,
-      musicalTypeId: selectedMusicalTypeId,
-    }));
-  };
-  const handleBandNameChange = (e) => {
-    console.log('EEEE', e);
-    setInputs((prevState) => ({ ...prevState, bandName: e }));
+   setInputs((prevState) => ({
+     ...prevState,
+     musicalTypeId: selectedMusicalTypeId,
+   }));
+ };
+  const handleBandNameChange = (selectedBandName) => {
+    setInputs((prevState) => ({ ...prevState, bandName: selectedBandName }));
+  
     // const selectedBandName = event.target.value;
     // setInputs((prevInputs) => ({
     //   ...prevInputs,
@@ -93,9 +92,7 @@ function BusinessReportPage() {
     setMusicalTypeName('');
 
     setDate(newValue);
-  };
-  console.log(inputs, 'sortData', sortData);
-  return (
+  };  return (
     <>
       <div className="grid grid-cols-3 gap-4 mt-10 mr-16 ml-16">
         <div>
@@ -111,6 +108,7 @@ function BusinessReportPage() {
           className="col-span-1"
           label="Select band name"
           name="bandName"
+          value={inputs.bandName}
           onChange={handleBandNameChange}
         >
           {bandNameList?.data?.bandNames?.map((band, index) => (
@@ -124,6 +122,7 @@ function BusinessReportPage() {
           className="col-span-1"
           label="Select Musical Type"
           name="musicalStyle"
+          value={inputs.musicalTypeId}
           onChange={handleChangeStyle}
         >
           {musicalStyleList?.data?.map((style) => (
@@ -138,10 +137,10 @@ function BusinessReportPage() {
         </Select>
       </div>
       <div className="flex flex-col mt-10 mr-16 ml-16">
-        <ReportTable data={sortData} />
+        <ReportTable data={sortData} reportsNameList={reportsNameList} />
       </div>
     </>
-  );
+  );  
 }
 
 export default BusinessReportPage;

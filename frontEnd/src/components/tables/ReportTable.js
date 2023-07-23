@@ -1,26 +1,12 @@
 import React from 'react';
 import ExcelJS from 'exceljs';
 import { Button, Card, Typography } from '@material-tailwind/react';
-import { useSortedEventReports } from '../../hooks/useAdminEvents';
 
 const TABLE_HEAD = ['Band Name', 'Date', 'Income', 'Musical Style'];
 
 const ReportTable = (props) => {
-  const { data } = props;
-  const {
-    isLoading: reportsLoading,
-    data: reportsNameList,
-    isError: reportsNameIsError,
-    error: reportsNameError,
-  } = useSortedEventReports(data);
+  const { data, reportsNameList } = props;
 
-  if (reportsLoading) {
-    return <div>Reports Loading...</div>;
-  }
-
-  if (reportsNameIsError) {
-    console.log(reportsNameError);
-  }
 
   const handleExportToExcel = () => {
     const workbook = new ExcelJS.Workbook();
@@ -64,7 +50,7 @@ const ReportTable = (props) => {
     };
     totalRevenueRow.font = { size: 18 };
 
-    totalRevenueRow.getCell(2).numFmt = '0,000.00';
+    totalRevenueRow.getCell(2).numFmt = '0,00.00';
     totalRevenueRow.getCell(1).alignment = { horizontal: 'center' };
     totalRevenueRow.getCell(2).alignment = { horizontal: 'center' };
 
