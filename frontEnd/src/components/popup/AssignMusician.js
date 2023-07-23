@@ -1,5 +1,4 @@
-import React from 'react';
-import { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -9,35 +8,35 @@ import {
 } from '@material-tailwind/react';
 import MusicianAssignCard from '../cards/MusicianAssignCard';
 import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
+
 function AssignMusician(props) {
   const { EventDate, EventId, disabled } = props;
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(!open);
-  //TODO get users that assign to event axios
-  
-
-
-  //use axios assign user to event
-  function handleAssign(EventID, userID) {
-    // handle cancel button click
-  }
+  // Fetch the list of musicians assigned to the event when the dialog is opened
   const {
     data: dataRegistered,
     error,
     isError,
     isLoading,
-  } = useGetAllUsersPerEvent(EventId);
-  
-  
-if(isLoading)
-{
-  return <div>Loading...</div>
-}
-if(isError)
-{
-   console.error(error)
-}
+  } = useGetAllUsersPerEvent(EventId, {
+    enabled: open, // Only fetch data when the dialog is open
+  });
+
+  const handleOpen = () => setOpen(!open);
+
+  //use axios assign user to event
+  function handleAssign(EventID, userID) {
+    // handle assign button click
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    console.error(error);
+  }
 
   return (
     <Fragment>
@@ -60,7 +59,7 @@ if(isError)
             variant="text"
             color="red"
             onClick={handleOpen}
-            className="mr-1 "
+            className="mr-1"
           >
             <span>Cancel</span>
           </Button>

@@ -50,6 +50,7 @@ router.post('/getFilteredReports', getFilteredReports);
 
 router.get('/getBandNames/:startDate/:endDate', getBandNames);
 getBandNames;
+
 router.post('/cancelEvent/:eventId', cancelEvent);
 router.post('/updateEvent/:eventId', updateEvent);
 router.post('/cancelPassedEvents', cancelPassedEvents);

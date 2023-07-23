@@ -1,7 +1,7 @@
 'use strict';
 const pool = require('../database');
 const getBandNames = (req, res) => {
-  console.log('getBandNames getBandNames');
+  console.log('BACK END getBandNames');
   const { startDate, endDate } = req.params;
   const query = `
     SELECT DISTINCT musician.BandName
@@ -29,7 +29,7 @@ const getBandNames = (req, res) => {
 };
 const getFilteredReports = (req, res) => {
   const { startDate, endDate, musicalTypeId, bandName } = req.body;
-  console.log('getFilteredReports getFilteredReports');
+  console.log('BACKEND getFilteredReports');
   let query = `
     SELECT e.EventID,mt.MusicalTypeName, DATE_FORMAT(e.date, '%d - %m - %Y') AS date , e.Income, e.Status, m.BandName
     FROM event AS e
@@ -56,12 +56,11 @@ const getFilteredReports = (req, res) => {
   }
 
   query += ' GROUP BY e.EventID ORDER BY e.Date ASC';
-  console.log(query);
   pool.query(query, queryParams, (err, data) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('data:', data);
+   
     return res.status(200).json(data);
   });
 };

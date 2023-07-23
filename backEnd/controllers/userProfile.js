@@ -54,7 +54,6 @@ const getProfile = (req, res) => {
     'SELECT m.FirstName,m.LastName,u.PhoneNumber,m.YearsOfExperience,m.URL,m.Photo,m.Description, m.Email,m.BandName FROM musician as m JOIN user as u ON m.UserId = u.UserId WHERE m.UserId = ?';
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
-    console.log('IN BACKEND getProfile DATA:', data);
     return res.status(200).json(data);
   });
 };
@@ -77,7 +76,6 @@ const registerToEvent = (req, res) => {
   const userEmail = req.params.email;
 
   console.log('IN BACKEND registerToEvent', userId, eventId, userEmail);
-  console.log('IN BACKEND registerToEvent', req.params);
 
   const q = `INSERT INTO musician_register_event (EventID, UserId, Email)
 VALUES (?, ?, ?);
@@ -91,6 +89,7 @@ VALUES (?, ?, ?);
 
 const getAssignedEvents = (req, res) => {
   const userId = req.params.id;
+  console.log('BACkEND getAssignedEvents');
 
   const q = `SELECT e.EventID, CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
 FROM event AS e
@@ -99,17 +98,16 @@ JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
 WHERE e.UserID = ? AND e.Status <> 'Cancelled'
 
   `;
-  console.log('req.params', req.params);
 
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
-    console.log('BACkEND getAssignedEvents');
-    console.log('getAssignedEvents', data);
     return res.status(200).json(data);
   });
 };
 //TODO- make sure that the events are not assign only registered
 const getRegisteredEvents = (req, res) => {
+  console.log('BACkEND getAssignedEvents');
+
   const userId = req.params.id;
 
   const q = `SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
@@ -122,25 +120,16 @@ WHERE e.UserID IS NULL
     ORDER BY e.Date
 
 `;
-  console.log('req.params', req.params);
 
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
-    console.log('BACkEND getAssignedEvents');
     return res.status(200).json(data);
   });
 };
 
 const unregisterToEvent = (req, res) => {
-    const userId = req.params.userId;
-    const eventId = req.params.eventId;
-
-  console.log('IN BACKEND unregisterToEvent', userId);
-  
-  console.log('IN BACKEND unregisterToEvent', eventId);
-  
-  
-
+  const userId = req.params.userId;
+  const eventId = req.params.eventId;
 
   const q = `DELETE FROM musician_register_event WHERE EventID = ? AND UserID = ?`;
 
@@ -158,6 +147,6 @@ module.exports = {
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,
-  
+
   unregisterToEvent,
 };
