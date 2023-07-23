@@ -9,6 +9,7 @@ import ForgotPassword from './ForgotPassword';
 import BusinessHomePage from './BusinessHomePage';
 import BusinessAllEvents from './BusinessAllEvents';
 import BusinessReportPage from './BusinessReportPage';
+import Page404 from './Page404';
 export {
   LoginPage,
   RegisterPage,
@@ -21,4 +22,5 @@ export {
   BusinessHomePage,
   BusinessReportPage,
   MusicianHomePage,
+  Page404,
 };

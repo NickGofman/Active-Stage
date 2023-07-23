@@ -13,7 +13,7 @@ import {
   Option,
 } from '@material-tailwind/react';
 import {
-  useGetMusicalStyles,
+  
   useGetEventDates,
   useUpdateEvent,
 } from '../../hooks/useAdminEvents';

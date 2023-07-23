@@ -91,7 +91,7 @@ const getAssignedEvents = (req, res) => {
   const userId = req.params.id;
   console.log('BACkEND getAssignedEvents');
 
-  const q = `SELECT e.EventID, CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
+  const q = `SELECT DISTINCT e.EventID, CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
 FROM event AS e
 JOIN musician_register_event AS mre ON e.EventID = mre.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID

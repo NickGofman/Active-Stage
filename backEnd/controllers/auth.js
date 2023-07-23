@@ -25,7 +25,7 @@ const register = async (req, res) => {
     roleEnum.MUSICIAN
   );
   //get data from frontEND
-  
+
   const {
     email,
     password,
@@ -97,7 +97,8 @@ const register = async (req, res) => {
             if (err) {
               return res.status(500).json({ error: err.message });
             }
-
+            // Send the welcome email to the musician
+            sendWelcomeEmail(email);
             res
               .status(200)
               .json({ message: 'Musician registered successfully.' });
@@ -107,7 +108,26 @@ const register = async (req, res) => {
     );
   });
 };
+const sendWelcomeEmail = (userEmail) => {
+  let mailOptions = {
+    from: process.env.EMAIL_USERNAME,
+    to: userEmail,
+    subject: 'Welcome to our platform',
+    html: `
+      <h1>Welcome to our platform</h1>
+      <p>Thank you for registering as a musician. We are excited to have you on board!</p>
+      <p>Have a great day!</p>
+    `,
+  };
 
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error(`Failed to send welcome email to ${userEmail}:`, error);
+    } else {
+      console.log(`Welcome email sent to ${userEmail}: ${info.response}`);
+    }
+  });
+};
 //#endregion
 
 //#region  ================ LOGIN ======================
@@ -132,7 +152,7 @@ const login = (req, res) => {
         req.body.password,
         user.Password
       );
-      if(user.Status===statusEnum.BANNED){
+      if (user.Status === statusEnum.BANNED) {
         return res.status(401).json({ error: 'User Banned' });
       }
       if (!isPasswordValid) {
@@ -251,9 +271,6 @@ const changePassword = async (req, res) => {
 };
 //#endregion ================ CHANGE-PASSWORD======================
 
-
-
-
 //generate random new Password
 function generatePassword() {
   const length = 12;
@@ -267,12 +284,10 @@ function generatePassword() {
   return password;
 }
 
-
 module.exports = {
   register,
   login,
   logout,
   forgotPassword,
   changePassword,
-  
 };

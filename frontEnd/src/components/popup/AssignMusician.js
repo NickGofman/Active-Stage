@@ -6,6 +6,7 @@ import {
   DialogBody,
   Typography,
 } from '@material-tailwind/react';
+import { subHours, format } from 'date-fns';
 import MusicianAssignCard from '../cards/MusicianAssignCard';
 import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
 function AssignMusician(props) {
@@ -17,8 +18,6 @@ function AssignMusician(props) {
 
   const handleOpen = () => setOpen(!open);
   //TODO get users that assign to event axios
-  
-
 
   //use axios assign user to event
   function handleAssign(EventID, userID) {
@@ -29,16 +28,7 @@ function AssignMusician(props) {
     error,
     isError,
     isLoading,
-  } = useGetAllUsersPerEvent(EventId, {
-    enabled: open, // Only fetch data when the dialog is open
-  });
-
-  const handleOpen = () => setOpen(!open);
-
-  //use axios assign user to event
-  function handleAssign(EventID, userID) {
-    // handle assign button click
-  }
+  } = useGetAllUsersPerEvent(EventId);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -64,10 +54,7 @@ function AssignMusician(props) {
       >
         <DialogHeader className="flex justify-between">
           Assign Musician
-          <Typography variant="lead">
-            Event Date:{formattedDate}
-            
-          </Typography>
+          <Typography variant="lead">Event Date:{formattedDate}</Typography>
           <Button
             variant="text"
             color="red"
@@ -81,7 +68,7 @@ function AssignMusician(props) {
           {dataRegistered?.data?.length === 0 ? (
             <div>No musicians assigned.</div>
           ) : (
-            <div className="flex flex-col flex-auto items-center gap-2">
+            <div className="flex flex-row justify-center flex-wrap  gap-4">
               {dataRegistered?.data?.map((data) => (
                 <MusicianAssignCard
                   key={data.UserId}

@@ -1,6 +1,4 @@
-import { Menu, Transition } from '@headlessui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
-import { DotsVerticalIcon } from '@heroicons/react/outline';
 import {
   add,
   eachDayOfInterval,

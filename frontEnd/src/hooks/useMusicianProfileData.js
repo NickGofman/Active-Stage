@@ -1,5 +1,5 @@
 import { makeRequest } from '../axios';
-import { useQuery, Mutation } from 'react-query';
+import { useQuery } from 'react-query';
 const fetchMusicianProfileData = (userId) => {
   console.log('fetchMusicianProfileData');  
   //axios request

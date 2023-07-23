@@ -21,7 +21,7 @@ function MusicianAssignCard(props) {
 
   return (
     <Card className="mt-6 w-96 items-center">
-      <CardHeader>
+      <CardHeader className='text-xl'>
         <h2 className="font-semibold text-gray-900">{bandName}</h2>
       </CardHeader>
       <CardBody className="flex-1">
@@ -42,6 +42,9 @@ function MusicianAssignCard(props) {
         <Button color="red">Block User</Button>
       </CardFooter>
     </Card>
+
+
+
   );
 }
 

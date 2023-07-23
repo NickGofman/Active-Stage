@@ -1,6 +1,7 @@
 'use strict';
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
+const transporter = require('../nodeMailer.js');
 
 const createEvent = (req, res) => {
   const { description, dateTime, musicalTypeId } = req.body;
@@ -140,12 +141,12 @@ const assignMusicianToEventById = (req, res) => {
   const { EventID, UserId } = req.params;
   console.log('assignMusicianToEventById: EventID:', EventID);
   const qAssignMusician = `
-  UPDATE event AS e
-  JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-  SET e.UserId = ?,
-      e.Status = 'Assigned'
-  WHERE e.EventID = ?;
-`;
+    UPDATE event AS e
+    JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+    SET e.UserId = ?,
+        e.Status = 'Assigned'
+    WHERE e.EventID = ?;
+  `;
 
   pool.query(qAssignMusician, [UserId, EventID], (err, result) => {
     if (err) {
@@ -157,11 +158,67 @@ const assignMusicianToEventById = (req, res) => {
         .status(400)
         .json({ error: 'Failed to assign musician to event.' });
     }
-    //TODO send mail to user, make a query for the mail by userId
 
-    return res.status(200).json({ message: 'Musician assigned to event.' });
+    // Retrieve the musician's email using their UserId
+    const getEmailQuery = 'SELECT Email FROM musician WHERE UserId = ?';
+    pool.query(getEmailQuery, [UserId], (getEmailError, emails) => {
+      if (getEmailError) {
+        return res.status(500).json({ error: getEmailError.message });
+      }
+
+      if (emails.length === 0) {
+        return res.status(400).json({ error: 'Musician not found.' });
+      }
+
+      const userEmail = emails[0].Email;
+
+      // Retrieve the event date using the EventID
+      const getEventDateQuery = 'SELECT Date FROM event WHERE EventID = ?';
+      pool.query(getEventDateQuery, [EventID], (getDateError, dates) => {
+        if (getDateError) {
+          return res.status(500).json({ error: getDateError.message });
+        }
+
+        if (dates.length === 0) {
+          return res.status(400).json({ error: 'Event not found.' });
+        }
+
+        const eventDate = dates[0].Date;
+
+        // Send an email to the musician with the event date
+        sendEmailWithAssignedEvent(userEmail, eventDate);
+
+        return res.status(200).json({ message: 'Musician assigned to event.' });
+      });
+    });
   });
 };
+
+// Function to send an email to the musician with the assigned event date
+const sendEmailWithAssignedEvent = (userEmail, eventDate) => {
+  // Format the eventDate as needed (e.g., convert to a more readable format)
+  const formattedEventDate = new Date(eventDate).toLocaleString('en-US');
+
+  let mailOptions = {
+    from: process.env.EMAIL_USERNAME,
+    to: userEmail,
+    subject: 'Assigned to Event',
+    html: `
+      <h1>Assigned to Event</h1>
+      <p>Congratulations! You have been assigned to the event on ${formattedEventDate}.</p>
+      <p>We look forward to seeing you at the event.</p>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error(`Failed to send assignment email to ${userEmail}:`, error);
+    } else {
+      console.log(`Assignment email sent to ${userEmail}: ${info.response}`);
+    }
+  });
+};
+
 const addIncome = (req, res) => {
   const { EventID } = req.params;
   const { income } = req.body;
@@ -343,10 +400,8 @@ GROUP BY e.EventID;
     return res.status(200).json(data);
   });
 };
-const cancelEvent = (req, res) => {
-  const { eventId } = req.params;
-  console.log('cancelEvent', eventId);
-  // Update the event status to 'Canceled'
+const cancel = (eventId, res) => {
+  // Construct the update query
   const qCancelEvent = 'UPDATE event SET Status = ? WHERE EventID = ?';
 
   pool.query(qCancelEvent, ['Cancelled', eventId], (err, result) => {
@@ -357,17 +412,181 @@ const cancelEvent = (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(400).json({ error: 'Failed to cancel the event.' });
     }
+  });
+};
+
+const cancelEvent = (req, res) => {
+  const { eventId } = req.params;
+
+  // Retrieve the list of registered musicians' emails for the canceled event
+  const getEmailQuery = `SELECT mre.Email, e.date FROM musician_register_event as mre join event as e on e.EventId = mre.EventID and e.EventID = ?`;
+  pool.query(getEmailQuery, [eventId], (err, emails) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log('emails', emails);
+    if (emails.length === 0) cancel(eventId, res);
+    else {
+      // Extract the list of emails from the result
+      const userEmails = emails.map((row) => row.Email);
+      const eventDate = emails.map((row) => row.date);
+      console.log('emails', eventDate);
+
+      // Send emails to all the registered musicians about the event cancellation
+      userEmails.forEach((userEmails) => {
+        sendEmailWithEventCancellation(userEmails, eventDate[0]);
+      });
+      cancel(eventId, res);
+    }
 
     return res.status(200).json({ message: 'Event canceled successfully.' });
   });
 };
+// Function to send email notification to users about the event cancellation
+const sendEmailWithEventCancellation = (userEmail, eventDate) => {
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false, // Set this to false to display time in 24-hour format
+  };
+
+  // Assuming oldDateTime is in ISO 8601 format (e.g., '2023-08-03T09:00:00.000Z')
+  // Convert it to a Date object first
+  const dateObject = new Date(eventDate);
+
+  const date = dateObject.toLocaleTimeString('en-US', options);
+  let mailOptions = {
+    from: process.env.EMAIL_USERNAME,
+    to: userEmail,
+    subject: 'Event Cancellation',
+    html: `
+      <h1>Event Cancellation</h1>
+      <p>We regret to inform you that the event at ${date} has been canceled.</p>
+      <p>Thank you for your understanding, and we hope to see you at our future events.</p>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error(
+        `Failed to send cancellation email to ${userEmail}:`,
+        error
+      );
+    } else {
+      console.log(`Cancellation email sent to ${userEmail}: ${info.response}`);
+    }
+  });
+};
+
+const sendEmailWithEventChange = (userEmail, newDateTime, oldDateTime, res) => {
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false, // Set this to false to display time in 24-hour format
+  };
+
+  // Assuming oldDateTime is in ISO 8601 format (e.g., '2023-08-03T09:00:00.000Z')
+  // Convert it to a Date object first
+  const oldDateObject = new Date(oldDateTime);
+
+  const oldDate = oldDateObject.toLocaleTimeString('en-US', options);
+  const formattedNewDateTime = new Date(newDateTime).toLocaleString(
+    'en-US',
+    options
+  );
+  let mailOptions = {
+    from: process.env.EMAIL_USERNAME,
+    to: userEmail,
+    subject: 'Change in the Event',
+    html: `
+      <h1>Important Update From Eli's pub</h1>
+      <p>The event you registered for has undergone a change.</p>
+      <p><b>Old</b> date and time for the event were: ${oldDate}</p>
+      <p>The <b>NEW</b> date and time for the event are: <span style="font-weight:bold;font-size:20px">${formattedNewDateTime}</span></p>
+      <p>Thank you for your understanding, and we look forward to seeing you at the event!</p>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    console.log(`Email sent to ${userEmail}: ${info.response}`);
+    // If the email is sent successfully, you can return a success message or any relevant response.
+    return res
+      .status(200)
+      .json({ message: 'Email sent to users about the event change.' });
+  });
+};
+
 const updateEvent = (req, res) => {
   const { eventId } = req.params;
   const updatedEvent = req.body;
 
   // Extract the updated values from the request body
   const { description, dateTime, musicalTypeId } = updatedEvent;
-  console.log('updateEvent eventId: ', eventId);
+  console.log('updateEvent eventId', eventId);
+  console.log('updateEvent updatedEvent', updatedEvent);
+
+  const getEmail = `SELECT Email FROM musician_register_event WHERE EventId = ?`;
+  pool.query(getEmail, [eventId], (err, Emails) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (Emails.length === 0) {
+      // If there are no registered musicians, we don't need to retrieve the old date and time
+      // Continue with the event update
+      updateEventInDatabase(eventId, description, dateTime, musicalTypeId, res);
+    } else {
+      // If there are registered musicians, retrieve the old date and time from the database
+      const selectQuery = `SELECT  Date FROM event as e WHERE EventID = ?`;
+      pool.query(selectQuery, [eventId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+
+        if (result.length === 0) {
+          return res.status(400).json({ error: 'Event not found.' });
+        }
+
+        const oldDateTime = result[0].Date; // Assuming the date is stored in the "Date" column
+
+        // Extract the list of emails from the result
+        const userEmails = Emails.map((row) => row.Email);
+
+        // Send emails to all the users with the old and new date and time
+        userEmails.forEach((userEmail) => {
+          // Call the function to send an email with the event change details to the user
+          sendEmailWithEventChange(userEmail, dateTime, oldDateTime, res);
+        });
+
+        // Continue with the event update
+        updateEventInDatabase(
+          eventId,
+          description,
+          dateTime,
+          musicalTypeId,
+          res
+        );
+      });
+    }
+  });
+};
+// Helper function to update the event in the database
+const updateEventInDatabase = (
+  eventId,
+  description,
+  dateTime,
+  musicalTypeId,
+  res
+) => {
   // Construct the update query
   const updateQuery = `
     UPDATE event
@@ -393,7 +612,8 @@ const updateEvent = (req, res) => {
     }
   );
 };
-const cancelPassedEvents = () => {
+
+const cancelPassedEvents = (req, res) => {
   console.log(`Updated events to 'Cancelled'.`);
 
   const selectQuery = `UPDATE event SET status = 'Cancelled'  WHERE status = 'Published' AND event.Date < CURDATE()`;
@@ -402,6 +622,11 @@ const cancelPassedEvents = () => {
       console.error(`Error updating event:`, error);
       return;
     }
+    if (result.affectedRows === 0) {
+      return;
+    }
+
+    return res.status(200).json({ message: 'Event updated successfully.' });
   });
 };
 

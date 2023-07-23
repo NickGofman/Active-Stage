@@ -11,6 +11,7 @@ import {
 import { AuthContext } from '../components/context/authContext';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCancelPassedEvents } from '../hooks/useAdminEvents';
 function LoginPage() {
   const { login, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -27,6 +28,11 @@ function LoginPage() {
       currentUser?.Role === 'admin' ? navigate('/admin') : navigate('/user');
     }
   }, [currentUser, navigate]);
+  const { mutate: cancelPassedEvents } =
+    useCancelPassedEvents();
+  if (currentUser !== null && currentUser?.Role === 'admin') {
+    cancelPassedEvents();
+  }
 
   // if (currentUser !== null) {
   //   currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
@@ -40,7 +46,6 @@ function LoginPage() {
 
     try {
       await login(inputs);
-      
     } catch (error) {
       setErr(error.response.data.error);
     }
@@ -55,15 +60,14 @@ function LoginPage() {
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">
-      <Typography variant="h3">Welcome to Active Stage</Typography>
       <Card className="w-96 mt-10">
         <CardHeader
           variant="gradient"
-          color="blue"
+          color="light-blue"
           className="mb-4 grid h-28 place-items-center"
         >
           <Typography variant="h3" color="white">
-            Sign In
+            Active Stage
           </Typography>
         </CardHeader>
         <CardBody>
@@ -93,7 +97,7 @@ function LoginPage() {
           </Typography>
 
           <Button onClick={handleLogin} variant="gradient" fullWidth>
-            Sign In
+            Log In
           </Button>
           <Link
             to="/forgetpassword"

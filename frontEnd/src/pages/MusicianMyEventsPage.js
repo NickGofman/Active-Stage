@@ -5,7 +5,6 @@ import {
   useAllAssignedEvents,
   useAllRegisteredEvents,
 } from '../hooks/useMusicianEvents';
-import { Typography } from '@material-tailwind/react';
 import { AuthContext } from '../components/context/authContext';
 //TODO REMOVE ALL DRILLING userID and Email -> USE USeContext
 

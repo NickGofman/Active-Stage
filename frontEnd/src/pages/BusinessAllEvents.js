@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import EventTableView from '../components/tables/EventTableView';
 import { useState } from 'react';
 import { Radio } from '@material-tailwind/react';

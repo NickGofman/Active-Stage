@@ -26,6 +26,7 @@ export default function NavBar() {
 
   };
   useEffect(() => {
+    console.log('useEffect NAV' );
     window.addEventListener(
       'resize',
       () => window.innerWidth >= 960 && setOpenNav(false)

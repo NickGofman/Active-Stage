@@ -7,8 +7,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import React, { Fragment, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useRegisterToEvent } from '../../hooks/useMusicianEvents';
+
 
 function RegisterToEvent({ date, hour, type, register }) {
   const [open, setOpen] = useState(false);

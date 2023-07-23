@@ -12,6 +12,7 @@ import {
   BusinessHomePage,
   BusinessReportPage,
   MusicianHomePage,
+  Page404,
 } from './pages/exportPages.js';
 import { ThemeProvider } from '@material-tailwind/react';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -27,16 +28,16 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 const queryClient = new QueryClient();
 
 function App() {
+ 
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
     console.log('isAdmin:', isAdmin, 'isMusician"', isMusician);
     if (!currentUser) {
-
       return <Navigate to="/" />;
     }
     if (isAdmin) {
       console.log('isAdmin');
-
+      
       return currentUser.Role === 'admin' ? children : <Navigate to="/*" />;
     }
     if (isMusician) {
@@ -114,7 +115,7 @@ function App() {
     },
     {
       path: '/*',
-      element: <div>Page not found</div>,
+      element: <Page404 />,
     },
   ]);
   return (
@@ -122,7 +123,7 @@ function App() {
       <ThemeProvider>
         <RouterProvider router={router} />
       </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient} from "react-query";
+import { useQuery} from "react-query";
 import { makeRequest } from "../axios";
 
 const logout = () => {
@@ -7,7 +7,5 @@ const logout = () => {
 
 export const useLogout = () => 
 {
-
   return useQuery('logoutUser', logout);
-
 };

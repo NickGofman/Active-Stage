@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, Button, Typography } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useUpdateAdminData } from '../../hooks/useAdminProfileData';
@@ -17,7 +17,15 @@ function BusinessProfileForm(props) {
     managerName: managerName,
     businessEmail: Email,
   });
-
+  useEffect(() => {
+    setInputs({
+      businessName: businessName || '',
+      address: address || '',
+      phone: PhoneNumber || '',
+      managerName: managerName || '',
+      businessEmail: Email || '',
+    });
+  }, [props?.data?.data[0]]);
   // send data to backEnd to update user profile
 
   const {

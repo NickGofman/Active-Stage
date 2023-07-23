@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@material-tailwind/react';
 import MusicianProfileForm from '../components/forms/MusicianProfileForm';
 import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   useMusicianProfileData,
-  useProfilePhoto,
+  
 } from '../hooks/useMusicianProfileData';
 import { useAdminProfileData } from '../hooks/useAdminProfileData';
 function ProfilePage() {
