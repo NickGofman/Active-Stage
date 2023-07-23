@@ -130,6 +130,9 @@ const login = (req, res) => {
         req.body.password,
         user.Password
       );
+      if(user.Status===statusEnum.BANNED){
+        return res.status(401).json({ error: 'User Banned' });
+      }
       if (!isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password.' });
       }

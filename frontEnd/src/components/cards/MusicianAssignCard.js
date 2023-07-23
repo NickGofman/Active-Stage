@@ -10,7 +10,7 @@ import React from 'react';
 import { useAssignMusicianById } from '../../hooks/useAdminEvents';
 
 function MusicianAssignCard(props) {
-  const { userId, eventId, bandName, experience, description, setOpen } = props;
+  const { userId, eventId, bandName, experience, description, setOpen,Url } = props;
   const { mutate } = useAssignMusicianById();
 
   const handleAssign = () => {
@@ -25,12 +25,17 @@ function MusicianAssignCard(props) {
         <h2 className="font-semibold text-gray-900">{bandName}</h2>
       </CardHeader>
       <CardBody className="flex-1">
-        <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
+        <div className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
           <Typography variant="h5" color="blue-gray" className="mb-2">
             Preforming Already {experience} Years
           </Typography>
+          {Url && (
+            <a href={Url} target="_blank"  rel='noreferrer' className="mb-2 text-black font-bold">
+              Youtube Channel: {Url}
+            </a>
+          )}
           <Typography variant="small">{description}</Typography>
-        </ol>
+        </div>
       </CardBody>
       <CardFooter className="pt-0">
         <Button onClick={handleAssign}>Assign</Button>

@@ -121,7 +121,7 @@ const getAllUsersPerEvent = (req, res) => {
   console.log('EventID', EventID);
 
   const q = `
-  SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId
+  SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId,m.URL
   FROM musician AS m
   JOIN musician_register_event AS mre ON m.UserId = mre.UserId
   JOIN event AS e ON mre.EventID = e.EventID

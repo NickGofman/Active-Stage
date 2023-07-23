@@ -1,10 +1,11 @@
 import { Card, Typography, CardHeader } from '@material-tailwind/react';
 import EventIncome from '../popup/EventIncome';
 import AssignMusician from '../popup/AssignMusician';
-import { format, parseISO } from 'date-fns';
+import { subHours, format, parseISO } from 'date-fns';
 
 const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
-  const upcomingEvents = data?.slice(0, 3); // Get the first three events
+  const upcomingEvents = data?.slice(0, 3);// Get the first three events
+  
 
   return (
     <>
@@ -15,20 +16,26 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
               Upcoming Events
             </Typography>
           </CardHeader>
-          {upcomingEvents?.map(({ Date, EventID }) => (
-            <div
-              key={EventID}
-              className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer"
-            >
-              <Typography variant="paragraph">
-                <time dateTime={Date}>
-                  {format(parseISO(Date), 'HH:mm dd/MM/yyyy')}
-                </time>
-              </Typography>
-            </div>
-          ))}
+
+          {upcomingEvents?.map(({ Date, EventID }) => {
+            const eventDate = parseISO(Date);
+            const threeHoursBehindDate = subHours(eventDate, 3);
+
+            return (
+              <div
+                key={EventID}
+                className="flex justify-center space-x-6 hover:bg-cyan-50 rounded-xl cursor-pointer"
+              >
+                <Typography variant="paragraph">
+                  <time dateTime={Date}>
+                    {format(threeHoursBehindDate, 'HH:mm dd/MM/yyyy')}
+                  </time>
+                </Typography>
+              </div>
+            );
+          })}
           {upcomingEvents?.length === 0 && (
-            <div className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer">
+            <div className="flex justify-center space-x-6 hover:bg-cyan-50 rounded-xl cursor-pointer">
               <Typography variant="paragraph">No upcoming events</Typography>
             </div>
           )}

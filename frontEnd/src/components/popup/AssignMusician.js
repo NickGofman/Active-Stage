@@ -9,19 +9,19 @@ import {
 } from '@material-tailwind/react';
 import MusicianAssignCard from '../cards/MusicianAssignCard';
 import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
+import { format} from 'date-fns';
+import { subHours } from 'date-fns';
 function AssignMusician(props) {
   const { EventDate, EventId, disabled } = props;
+  const dateObj = new Date(Date.parse(EventDate));
+  const newDate = subHours(dateObj, 3);
+  const formattedDate = format(newDate, 'HH:mm dd/MM/yyyy');
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(!open);
-  //TODO get users that assign to event axios
   
 
 
   //use axios assign user to event
-  function handleAssign(EventID, userID) {
-    // handle cancel button click
-  }
   const {
     data: dataRegistered,
     error,
@@ -55,7 +55,10 @@ if(isError)
       >
         <DialogHeader className="flex justify-between">
           Assign Musician
-          <Typography variant="lead">Event Date: {EventDate}</Typography>
+          <Typography variant="lead">
+            Event Date:{formattedDate}
+            
+          </Typography>
           <Button
             variant="text"
             color="red"
@@ -69,7 +72,7 @@ if(isError)
           {dataRegistered?.data?.length === 0 ? (
             <div>No musicians assigned.</div>
           ) : (
-            <div className="flex flex-col flex-auto items-center">
+            <div className="flex flex-col flex-auto items-center gap-2">
               {dataRegistered?.data?.map((data) => (
                 <MusicianAssignCard
                   key={data.UserId}
@@ -77,6 +80,7 @@ if(isError)
                   userId={data.UserId}
                   bandName={data.BandName}
                   experience={data.YearsOfExperience}
+                  Url={data.URL}
                   description={data.Description}
                   setOpen={setOpen}
                 />
