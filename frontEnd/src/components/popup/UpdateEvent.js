@@ -47,12 +47,6 @@ function UpdateEvent(props) {
     isError,
     error,
   } = useUpdateEvent();
-  // const {
-  //   isLoading: musicalStyleLoading,
-  //   data: musicalStyleList,
-  //   isError: musicalStyleIsError,
-  //   error: musicalStyleError,
-  // } = useGetMusicalStyles();
   const {
     data: eventDates,
     isError: datesIsError,
@@ -109,7 +103,6 @@ function UpdateEvent(props) {
     // Close the dialog
     setOpen(false);
   };
-  //use axios assign user to event
   return (
     <Fragment>
       <Button onClick={handleOpen} disabled={!disabled} size="sm">

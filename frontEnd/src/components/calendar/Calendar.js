@@ -12,8 +12,9 @@ import {
   parse,
   parseISO,
   startOfToday,
+  subHours,
 } from 'date-fns';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { useGetUpcomingEvents } from '../../hooks/useAdminEvents';
 
 function classNames(...classes) {
@@ -51,7 +52,6 @@ export default function Calendar() {
     return <div>Loading...</div>;
   }
   if (isError) {
-    console.log(error);
     // Return an error state or component
     return <div>Error loading calendar data.</div>;
   }
@@ -61,9 +61,9 @@ export default function Calendar() {
         <div className="md:grid md:grid-cols-2 space-x-5 md:divide-gray-200">
           <section className="mt-12 md:mt-0 md:pl-14">
             <h2 className="font-semibold text-gray-900">
-              Schedule for{' '}
+              Schedule for
               <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
-                {format(selectedDay, 'MMM dd, yyy')}
+                {format(selectedDay, ' dd MMM, yyy')}
               </time>
             </h2>
             <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
@@ -76,7 +76,7 @@ export default function Calendar() {
                   />
                 ))
               ) : (
-                <p>No meetings for today.</p>
+                <p>No Assigned Musician.</p>
               )}
             </ol>
           </section>
@@ -170,7 +170,9 @@ export default function Calendar() {
 
 function Meeting({ meeting }) {
   const date = parseISO(meeting.Date);
+  const subHour=subHours(date,3);
 
+  
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
       <img
@@ -186,7 +188,7 @@ function Meeting({ meeting }) {
         <p className="text-gray-900">{meeting.BandName}</p>
         <p className="text-gray-900">{meeting.PhoneNumber}</p>
         <p className="mt-0.5">
-          <time dateTime={meeting.Date}>{format(date, 'HH:mm')}</time>
+          <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
         </p>
       </div>
     </li>

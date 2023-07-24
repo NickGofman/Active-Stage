@@ -4,8 +4,7 @@ import AssignMusician from '../popup/AssignMusician';
 import { subHours, format, parseISO } from 'date-fns';
 
 const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
-  const upcomingEvents = data?.slice(0, 3);// Get the first three events
-  
+  const upcomingEvents = data?.slice(0, 3); // Get the first three events
 
   return (
     <>
@@ -28,7 +27,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
               >
                 <Typography variant="paragraph">
                   <time dateTime={Date}>
-                    {format(threeHoursBehindDate, 'HH:mm dd/MM/yyyy')}
+                    {format(threeHoursBehindDate, 'dd-MM-yyyy HH:mm')}
                   </time>
                 </Typography>
               </div>
@@ -47,20 +46,30 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
               Assign Musician
             </Typography>
           </CardHeader>
-          {data?.map(({ EventID, Date, RCount }) => (
-            <div
-              key={EventID}
-              className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer"
-            >
-              <Typography variant="paragraph">{Date.slice(0, 10)}</Typography>
-              <Typography variant="paragraph">Registered: {RCount}</Typography>
-              <AssignMusician
-                EventId={EventID}
-                EventDate={Date}
-                disabled={true}
-              />
-            </div>
-          ))}
+          {data?.map(({ EventID, Date: date, RCount }) => {
+            console.log(
+              'date',
+              format(new Date(date.slice(0, 10)), 'dd-MM-yyyy')
+            );
+            return (
+              <div
+                key={EventID}
+                className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer"
+              >
+                <Typography variant="paragraph">
+                  {format(new Date(date.slice(0, 10)), 'dd-MM-yyyy')}
+                </Typography>
+                <Typography variant="paragraph">
+                  Registered: {RCount}
+                </Typography>
+                <AssignMusician
+                  EventId={EventID}
+                  EventDate={date}
+                  disabled={true}
+                />
+              </div>
+            );
+          })}
           {data?.length === 0 && (
             <div className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer">
               <Typography variant="paragraph">
@@ -76,20 +85,24 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
               Assign Income
             </Typography>
           </CardHeader>
-          {data?.map(({ Date, EventID, BandName }) => (
-            <div
-              key={EventID}
-              className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer"
-            >
-              <EventIncome
-                EventId={EventID}
-                bandName={BandName}
-                EventDate={Date.slice(0, 10)}
-                disabled={true}
-              />
-              <Typography variant="paragraph">{Date.slice(0, 10)}</Typography>
-            </div>
-          ))}
+          {data?.map(({ Date: date, EventID, BandName }) => {
+            return (
+              <div
+                key={EventID}
+                className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer"
+              >
+                <EventIncome
+                  EventId={EventID}
+                  bandName={BandName}
+                  EventDate={format(new Date(date.slice(0, 10)), 'dd-MM-yyyy')}
+                  disabled={true}
+                />
+                <Typography variant="paragraph">
+                  {format(new Date(date.slice(0, 10)), 'dd-MM-yyyy')}
+                </Typography>
+              </div>
+            );
+          })}
           {data?.length === 0 && (
             <div className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer">
               <Typography variant="paragraph">

@@ -15,7 +15,6 @@ import MainLogo from '../../logo/NJs0uK01.svg';
 import { AuthContext } from '../../components/context/authContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
   const { logout, currentUser } = useContext(AuthContext);
@@ -31,17 +30,29 @@ export default function NavBar() {
       'resize',
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
+    return () =>{
+      window.removeEventListener(
+        'resize',
+        () => window.innerWidth >= 960 && setOpenNav(false)
+      );
+    }
   }, []);
 
   let navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Avatar
-        variant="circular"
-        size="lg"
-        alt="candice wu"
-        className="border border-blue-500 p-0.5 hidden lg:block"
-        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-      />
+      {currentUser.Role === 'admin' || (
+        <Avatar
+          variant="circular"
+          size="lg"
+          alt="candice wu"
+          className="border border-blue-500 p-0.5 hidden lg:block"
+          src={
+            currentUser.Photo
+              ? `http://localhost:3001/${currentUser.Photo}`
+              : `http://localhost:3001/ProfileImg.jpg`
+          }
+        />
+      )}
       <Typography
         as="li"
         variant="small"

@@ -134,8 +134,12 @@ const sendWelcomeEmail = (userEmail) => {
 
 const login = (req, res) => {
   console.log('IN /auth/login BACKEND');
-  //TODO check if user status is Banned
-  const qLogin = `SELECT * FROM user WHERE email = ?`;
+  const qLogin = `
+    SELECT u.*, m.Photo
+    FROM user u
+    LEFT JOIN musician m ON u.UserId = m.UserId
+    WHERE u.email = ?
+  `;
   //check if user already exist
   pool.query(qLogin, [req.body.email], async (err, results) => {
     if (err) {

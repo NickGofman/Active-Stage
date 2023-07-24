@@ -3,6 +3,7 @@
   import EventIncome from '../popup/EventIncome';
   import AssignMusician from '../popup/AssignMusician';
   import UpdateEvent from '../popup/UpdateEvent';
+import { format } from 'date-fns';
   // import { / } from '../../hooks/useAdminEvents';
 
   function EventTableView(props) {
@@ -37,7 +38,7 @@
 
     const formattedDate = `${year}-${month}-${day}`;
     const formattedTime = `${hour}:${minute}`;
-
+    const newDateObj = format(new Date(formattedDate), 'dd-MM-yyyy');
     const eventDateObject = eventDate;
 
     const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
@@ -57,7 +58,7 @@
         </th>
         <td className="px-6 py-4">{Registered}</td>
         <td className="px-6 py-4 text-gray-900">
-          {formattedDate} {formattedTime}
+          {newDateObj} {formattedTime}
         </td>
         <td>{status}</td>
         <td className="grid grid-cols-2 gap-3 m-3 lg:flex lg:flex-row">
@@ -67,14 +68,14 @@
               (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
             }
             EventId={EventId}
-            EventDate={formattedDate}
+            EventDate={newDateObj}
           />
           <UpdateEvent
             disabled={
               status === 'Published' ||
               (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
             }
-            EventDate={formattedDate}
+            EventDate={newDateObj}
             EventTime={formattedTime}
             EventId={EventId}
             MusicalTypeId={MusicalTypeId}
@@ -90,7 +91,7 @@
             }
           />
           <EventIncome
-            EventDate={formattedDate}
+            EventDate={eventDate}
             BandName={BandName}
             disabled={
               status === 'Assigned' && isBefore(eventDateObject, new Date())

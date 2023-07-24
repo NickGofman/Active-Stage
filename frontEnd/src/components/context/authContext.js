@@ -14,7 +14,6 @@ export const AuthContextProvider = ({ children }) => {
   }, [currentUser]);
 
   const login = async (inputs) => {
-    //we need to use axios here to ge the user details and
     console.log('In authContext');
     const res = await makeRequest.post('/auth/login', inputs, {
       withCredentials: true,
