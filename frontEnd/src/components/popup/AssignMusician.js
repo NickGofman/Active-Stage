@@ -9,26 +9,27 @@ import {
 import { subHours, format } from 'date-fns';
 import MusicianAssignCard from '../cards/MusicianAssignCard';
 import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
+
 function AssignMusician(props) {
   const { EventDate, EventId, disabled } = props;
+  console.log("assign",EventDate)
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
-  //TODO get users that assign to event axios
 
-  //use axios assign user to event
-  function handleAssign(EventID, userID) {
-    // handle cancel button click
-  }
   const {
     data: dataRegistered,
     error,
     isError,
     isLoading,
   } = useGetAllUsersPerEvent(EventId);
+
+  
+
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -66,7 +67,7 @@ function AssignMusician(props) {
         </DialogHeader>
         <DialogBody divider className="h-[40rem] overflow-scroll">
           {dataRegistered?.data?.length === 0 ? (
-            <div>No musicians assigned.</div>
+            <div className='font-bold'>No musicians to assign.</div>
           ) : (
             <div className="flex flex-row justify-center flex-wrap  gap-4">
               {dataRegistered?.data?.map((data) => (

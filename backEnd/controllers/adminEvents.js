@@ -271,99 +271,139 @@ const getSortedEventDataByType = (req, res) => {
   switch (sortType) {
     case 'all':
       query = `
-SELECT DISTINCT
-  e.EventID,
-  e.UserID,
-  e.MusicalTypeID,
-  CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
-  e.Income,
-  e.Description,
-  e.Status,
-  (
-    SELECT COUNT(mre.UserId)
-    FROM musician_register_event AS mre
-    LEFT JOIN musician AS m ON mre.UserId = m.UserId
-    LEFT JOIN user AS u ON u.UserId = m.UserId
-    WHERE mre.EventID = e.EventID
-    AND u.Status = 'Active'
-  ) AS NumberOfRegisters,
-  (
-    SELECT m.BandName
-    FROM musician_register_event AS mre
-    LEFT JOIN musician AS m ON mre.UserId = m.UserId
-    LEFT JOIN user AS u ON u.UserId = m.UserId
-    WHERE mre.EventID = e.EventID
-    AND u.Status = 'Active'
-    LIMIT 1
-  ) AS BandName
-FROM
-  event AS e
-WHERE
-  DATE(e.Date) >= DATE(?)
-  AND DATE(e.Date) <= DATE(?)
-  AND (
-    e.Status = 'Closed'
-    OR (e.Status = 'WithoutIncome' AND e.Income = 0)
-    OR e.Status = 'Assigned'
-    OR e.Status = 'Published'
-  )
-ORDER BY
-  Status;
-`;
+        SELECT
+          e.EventID,
+          e.UserID,
+          e.MusicalTypeID,
+          CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+          e.Income,
+          e.Description,
+          e.Status,
+          (
+            SELECT COUNT(mre.UserId)
+            FROM musician_register_event AS mre
+            LEFT JOIN musician AS m ON mre.UserId = m.UserId
+            LEFT JOIN user AS u ON u.UserId = m.UserId
+            WHERE mre.EventID = e.EventID
+            AND u.Status = 'Active'
+          ) AS NumberOfRegisters,
+          (
+            SELECT m.BandName
+            FROM musician_register_event AS mre
+            LEFT JOIN musician AS m ON mre.UserId = m.UserId
+            LEFT JOIN user AS u ON u.UserId = m.UserId
+            WHERE mre.EventID = e.EventID
+            AND u.Status = 'Active'
+            AND mre.UserId = e.UserID
+            LIMIT 1
+          ) AS BandName
+        FROM
+          event AS e
+        WHERE
+          DATE(e.Date) >= DATE(?)
+          AND DATE(e.Date) <= DATE(?)
+          AND (
+            e.Status = 'Closed'
+            OR (e.Status = 'WithoutIncome' AND e.Income = 0)
+            OR e.Status = 'Assigned'
+            OR e.Status = 'Published'
+          )
+        ORDER BY e.Status, Date;
+      `;
       queryParams = [startDate, endDate];
       break;
     case 'Closed':
-      query = ` SELECT  e.EventID,
-    e.MusicalTypeID,
-    CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
-    e.Income,
-    e.Status,
-    m.BandName
-    FROM event AS e
-    LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
-    LEFT JOIN musician AS m ON mre.UserId = m.UserId 
-    LEFT JOIN user AS u ON u.UserId = m.UserId 
-    WHERE DATE(e.Date) >= DATE(?)
-      AND DATE(e.Date) <= DATE(?)
-      AND e.Status = ?
-    GROUP BY e.EventID;`;
+      query = `
+        SELECT
+          e.EventID,
+          e.MusicalTypeID,
+          CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+          e.Income,
+          e.Status,
+          (
+            SELECT m.BandName
+            FROM musician_register_event AS mre
+            LEFT JOIN musician AS m ON mre.UserId = m.UserId
+            LEFT JOIN user AS u ON u.UserId = m.UserId
+            WHERE mre.EventID = e.EventID
+            AND u.Status = 'Active'
+            AND mre.UserId = e.UserID  -- Update this line to match the UserId in the event
+            LIMIT 1
+          ) AS BandName
+        FROM event AS e
+        LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+        LEFT JOIN musician AS m ON mre.UserId = m.UserId
+        LEFT JOIN user AS u ON u.UserId = m.UserId
+        WHERE DATE(e.Date) >= DATE(?)
+          AND DATE(e.Date) <= DATE(?)
+          AND e.Status = ?
+        GROUP BY e.EventID
+        ORDER BY Date;
+      `;
       queryParams = [startDate, endDate, 'Closed'];
       break;
     case 'WithoutIncome':
-      query = ` SELECT e.EventID,
-    e.UserID,
-    e.MusicalTypeID,
-    CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
-    e.Income,
-    e.Description,
-    e.Status,
-    m.BandName
-FROM event AS e
-LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-LEFT JOIN musician AS m ON mre.UserId = m.UserId
-LEFT JOIN user AS u ON u.UserId = m.UserId
-       WHERE DATE(e.Date) < CURDATE() AND e.Status = ? AND e.Income = ?
-  
-GROUP BY e.EventID`;
+      query = `
+        SELECT
+          e.EventID,
+          e.UserID,
+          e.MusicalTypeID,
+          CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+          e.Income,
+          e.Description,
+          e.Status,
+          COUNT(mre.UserId) AS NumberOfRegisters,
+          (
+            SELECT m.BandName
+            FROM musician_register_event AS mre
+            LEFT JOIN musician AS m ON mre.UserId = m.UserId
+            LEFT JOIN user AS u ON u.UserId = m.UserId
+            WHERE mre.EventID = e.EventID
+            AND u.Status = 'Active'
+            AND mre.UserId = e.UserID  -- Update this line to match the UserId in the event
+            LIMIT 1
+          ) AS BandName
+        FROM event AS e
+        LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+        LEFT JOIN musician AS m ON mre.UserId = m.UserId
+        LEFT JOIN user AS u ON u.UserId = m.UserId
+        WHERE DATE(e.Date) < CURDATE() AND e.Status = ? AND e.Income = ?
+        GROUP BY e.EventID
+        ORDER BY Date;
+      `;
       queryParams = ['Assigned', 0];
       break;
     case 'Assigned':
-      query = ` SELECT e.EventID,
-    e.UserID,
-    e.MusicalTypeID,
-    CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
-    e.Income,
-    e.Description,
-    e.Status,
-    COUNT(mre.UserId) AS NumberOfRegisters,
-    m.BandName
-FROM event AS e
-LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-LEFT JOIN musician AS m ON mre.UserId = m.UserId
-LEFT JOIN user AS u ON u.UserId = m.UserId
-WHERE DATE(e.Date) >= CURDATE() and DATE(e.Date) >= DATE(?) and DATE(e.Date) <= DATE(?)
-  AND e.Status = ? AND u.Status = 'Active'
-GROUP BY e.EventID`;
+      query = `
+        SELECT
+          e.EventID,
+          e.UserID,
+          e.MusicalTypeID,
+          CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+          e.Income,
+          e.Description,
+          e.Status,
+          COUNT(mre.UserId) AS NumberOfRegisters,
+          (
+            SELECT m.BandName
+            FROM musician_register_event AS mre
+            LEFT JOIN musician AS m ON mre.UserId = m.UserId
+            LEFT JOIN user AS u ON u.UserId = m.UserId
+            WHERE mre.EventID = e.EventID
+            AND u.Status = 'Active'
+            AND mre.UserId = e.UserID  -- Update this line to match the UserId in the event
+            LIMIT 1
+          ) AS BandName
+        FROM event AS e
+        LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+        LEFT JOIN musician AS m ON mre.UserId = m.UserId
+        LEFT JOIN user AS u ON u.UserId = m.UserId
+        WHERE DATE(e.Date) >= CURDATE() AND DATE(e.Date) >= DATE(?)
+        AND DATE(e.Date) <= DATE(?)
+        AND e.Status = ? AND u.Status = 'Active'
+        GROUP BY e.EventID
+        ORDER BY Date;
+      `;
       queryParams = [startDate, endDate, 'Assigned'];
       break;
     case 'Published':
@@ -377,15 +417,16 @@ GROUP BY e.EventID`;
     e.Status,
     COUNT(mre.UserId) AS NumberOfRegisters,
     m.BandName
-FROM event AS e
-LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
-LEFT JOIN musician AS m ON mre.UserId = m.UserId 
-LEFT JOIN user AS u ON u.UserId = m.UserId 
-WHERE DATE(e.Date) >= DATE(?)
-  AND DATE(e.Date) <= DATE(?)
-  AND (u.Status = 'Active' OR u.Status IS NULL)
-  AND e.Status = ?
-GROUP BY e.EventID;
+    FROM event AS e
+    LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
+    LEFT JOIN musician AS m ON mre.UserId = m.UserId 
+    LEFT JOIN user AS u ON u.UserId = m.UserId 
+    WHERE DATE(e.Date) >= DATE(?)
+    AND DATE(e.Date) <= DATE(?)
+    AND (u.Status = 'Active' OR u.Status IS NULL)
+    AND e.Status = ?
+    GROUP BY e.EventID
+    ORDER BY Date;
       `;
       queryParams = [startDate, endDate, 'Published'];
       break;
@@ -450,11 +491,10 @@ const sendEmailWithEventCancellation = (userEmail, eventDate) => {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false, // Set this to false to display time in 24-hour format
+    hour12: false, 
   };
 
-  // Assuming oldDateTime is in ISO 8601 format (e.g., '2023-08-03T09:00:00.000Z')
-  // Convert it to a Date object first
+
   const dateObject = new Date(eventDate);
 
   const date = dateObject.toLocaleTimeString('en-US', options);
@@ -488,11 +528,9 @@ const sendEmailWithEventChange = (userEmail, newDateTime, oldDateTime, res) => {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false, // Set this to false to display time in 24-hour format
+    hour12: false,
   };
 
-  // Assuming oldDateTime is in ISO 8601 format (e.g., '2023-08-03T09:00:00.000Z')
-  // Convert it to a Date object first
   const oldDateObject = new Date(oldDateTime);
 
   const oldDate = oldDateObject.toLocaleTimeString('en-US', options);
@@ -531,8 +569,6 @@ const updateEvent = (req, res) => {
 
   // Extract the updated values from the request body
   const { description, dateTime, musicalTypeId } = updatedEvent;
-  console.log('updateEvent eventId', eventId);
-  console.log('updateEvent updatedEvent', updatedEvent);
 
   const getEmail = `SELECT Email FROM musician_register_event WHERE EventId = ?`;
   pool.query(getEmail, [eventId], (err, Emails) => {
@@ -556,7 +592,7 @@ const updateEvent = (req, res) => {
           return res.status(400).json({ error: 'Event not found.' });
         }
 
-        const oldDateTime = result[0].Date; // Assuming the date is stored in the "Date" column
+        const oldDateTime = result[0].Date; 
 
         // Extract the list of emails from the result
         const userEmails = Emails.map((row) => row.Email);

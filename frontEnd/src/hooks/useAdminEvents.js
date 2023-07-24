@@ -164,12 +164,9 @@ export const useUpdateEvent = () => {
   return useMutation((data) => updateEvent(data), {
     onSettled: () => {
       // Invalidate relevant queries
-      //queryClient.invalidateQueries('getAllAssignMusicians');
       queryClient.invalidateQueries('getUpcomingEvents');
       queryClient.invalidateQueries('getSortedEventDataByType');
-      // Add any other relevant operations after successful mutation
     },
-    // Add any other mutation options if needed
   });
 };
 

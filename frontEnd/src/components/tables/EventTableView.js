@@ -4,7 +4,6 @@
   import AssignMusician from '../popup/AssignMusician';
   import UpdateEvent from '../popup/UpdateEvent';
 import { format } from 'date-fns';
-  // import { / } from '../../hooks/useAdminEvents';
 
   function EventTableView(props) {
     const {
@@ -40,7 +39,7 @@ import { format } from 'date-fns';
     const dateObj=new Date(formattedDate);
     const newDateObj = format(dateObj, 'dd-MM-yyyy');
     const eventDateObject = eventDate;
-
+    console.log('table', eventDate);
     const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
   
     let musicalTypeName = musicalStyleList.filter((style) => {
@@ -68,14 +67,14 @@ import { format } from 'date-fns';
               (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
             }
             EventId={EventId}
-            EventDate={newDateObj}
+            EventDate={eventDate}
           />
           <UpdateEvent
             disabled={
               status === 'Published' ||
               (status === 'Assigned' && !isBefore(eventDateObject, new Date()))
             }
-            EventDate={newDateObj}
+            EventDate={formattedDate}
             EventTime={formattedTime}
             EventId={EventId}
             MusicalTypeId={MusicalTypeId}
@@ -87,7 +86,8 @@ import { format } from 'date-fns';
             EventDate={eventDate}
             EventId={EventId}
             disabled={
-              status === 'Published' && !isBefore(eventDateObject, new Date())
+              (status === 'Published' || status === 'Assigned') &&
+              !isBefore(eventDateObject, new Date())
             }
           />
           <EventIncome

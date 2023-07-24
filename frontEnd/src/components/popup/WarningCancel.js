@@ -9,8 +9,12 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import { useCancelEvent } from '../../hooks/useAdminEvents';
+import { format, subHours } from 'date-fns';
 
 function WarningCancel({ disabled, EventDate, EventId }) {
+    const dateObj = new Date(EventDate);
+    const newDate = subHours(dateObj, 3);
+    const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
   const [open, setOpen] = useState(false);
   const { isLoading, error, mutate } = useCancelEvent();
   const handleOpen = () => setOpen(!open);
@@ -41,7 +45,7 @@ function WarningCancel({ disabled, EventDate, EventId }) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Cancel Event at: {EventDate}</DialogHeader>
+        <DialogHeader>Cancel Event at: {formattedDate}</DialogHeader>
         <DialogBody divider>
           <Typography variant="h5" color="red" className="mb-2">
             Are you sure you want to cancel this event?!

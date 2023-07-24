@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Fragment, useState } from 'react';
 import {
   Button,
@@ -18,6 +18,7 @@ import {
   useUpdateEvent,
 } from '../../hooks/useAdminEvents';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { format } from 'date-fns';
 function UpdateEvent(props) {
   const {
     EventDate,
@@ -29,31 +30,27 @@ function UpdateEvent(props) {
     musicalStyleList,
     musicalTypeName,
   } = props;
- 
-   const [inputs, setInputs] = useState({
-     date: '',
-     description: Description,
-     time: EventTime,
-   });
-  const [open, setOpen] = useState(false);
-
-  const [date, setDate] = useState({
-    startDate: '',
+  const dateObj = new Date(EventDate);
+  const newDateObj = format(dateObj, 'dd-MM-yyyy');
+  const [inputs, setInputs] = useState({
+    date: EventDate,
+    description: Description,
+    time: EventTime,
   });
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState({
+    startDate: EventDate,
+    endDate: EventDate,
+  });
+  const [message, setMessage] = useState('');
 
-  const {
-    mutate: updateEvent,
-
-    isError,
-    error,
-  } = useUpdateEvent();
+  const { mutate: updateEvent, isError, error } = useUpdateEvent();
   const {
     data: eventDates,
     isError: datesIsError,
     isLoading: datesIsLoading,
     error: datesError,
   } = useGetEventDates();
-
 
   //map over the dates to disable days that have events
   const modifiedEventDates = eventDates?.data.map((item) => {
@@ -65,7 +62,7 @@ function UpdateEvent(props) {
   // if (musicalStyleIsError) {
   //   console.log(musicalStyleError);
   // }
- 
+
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
@@ -99,6 +96,10 @@ function UpdateEvent(props) {
     updatedEvent.dateTime = dateTime;
 
     updatedEvent.eventId = EventId;
+    if (inputs.date === null) {
+      setMessage('Date must be fulfilled');
+      return;
+    }
     updateEvent(updatedEvent);
     // Close the dialog
     setOpen(false);
@@ -118,7 +119,7 @@ function UpdateEvent(props) {
       >
         <DialogHeader>Update Event Info</DialogHeader>
         <DialogBody divider>
-          <Typography variant="lead">Event Date: {EventDate}</Typography>
+          <Typography variant="lead">Event Date: {newDateObj} {EventTime}</Typography>
           <div className="flex flex-col w-72  gap-6">
             <Datepicker
               minDate={new Date()}
@@ -162,6 +163,7 @@ function UpdateEvent(props) {
               value={inputs.description}
               onChange={handleChange}
             />
+            <p className="text-red-500">{message}</p>
           </div>
         </DialogBody>
         <DialogFooter>
