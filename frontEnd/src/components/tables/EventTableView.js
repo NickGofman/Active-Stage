@@ -35,10 +35,10 @@ import { format } from 'date-fns';
     const [date, time] = eventDate.split('T'); // separate date and time components
     const [year, month, day] = date.split('-'); // extract year, month, and day values
     const [hour, minute] = time.split(':'); // extract hour and minute values
-
     const formattedDate = `${year}-${month}-${day}`;
     const formattedTime = `${hour}:${minute}`;
-    const newDateObj = format(new Date(formattedDate), 'dd-MM-yyyy');
+    const dateObj=new Date(formattedDate);
+    const newDateObj = format(dateObj, 'dd-MM-yyyy');
     const eventDateObject = eventDate;
 
     const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
@@ -84,7 +84,7 @@ import { format } from 'date-fns';
             musicalTypeName={musicalTypeName}
           />
           <AssignMusician
-            EventDate={formattedDate}
+            EventDate={eventDate}
             EventId={EventId}
             disabled={
               status === 'Published' && !isBefore(eventDateObject, new Date())

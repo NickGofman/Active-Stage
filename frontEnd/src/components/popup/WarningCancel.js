@@ -41,7 +41,7 @@ function WarningCancel({ disabled, EventDate, EventId }) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Cancel Event {EventDate}</DialogHeader>
+        <DialogHeader>Cancel Event at: {EventDate}</DialogHeader>
         <DialogBody divider>
           <Typography variant="h5" color="red" className="mb-2">
             Are you sure you want to cancel this event?!

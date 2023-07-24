@@ -11,7 +11,6 @@ import MusicianAssignCard from '../cards/MusicianAssignCard';
 import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
 function AssignMusician(props) {
   const { EventDate, EventId, disabled } = props;
-  console.log("ddd",EventDate)
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');

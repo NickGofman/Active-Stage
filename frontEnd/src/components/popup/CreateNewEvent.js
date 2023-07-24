@@ -65,7 +65,7 @@ function CreateNewEvent() {
     queryClient.invalidateQueries('getEventDates');
   };
   const onError = () => {
-    setErr('Fail To Create Event');
+    setErr('Failed To Create Event');
   };
   const {
     mutate: createEvent,

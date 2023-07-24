@@ -47,10 +47,6 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             </Typography>
           </CardHeader>
           {data?.map(({ EventID, Date: date, RCount }) => {
-            console.log(
-              'date',
-              format(new Date(date.slice(0, 10)), 'dd-MM-yyyy')
-            );
             return (
               <div
                 key={EventID}

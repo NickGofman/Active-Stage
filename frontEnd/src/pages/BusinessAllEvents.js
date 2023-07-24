@@ -2,7 +2,6 @@ import React from 'react';
 import EventTableView from '../components/tables/EventTableView';
 import { useState } from 'react';
 import { Radio } from '@material-tailwind/react';
-import { events } from '../constants/index';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {
   useGetMusicalStyles,
