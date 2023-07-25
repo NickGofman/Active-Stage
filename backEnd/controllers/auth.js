@@ -225,28 +225,31 @@ const forgotPassword = async (req, res) => {
         //send email with new password to the user
         let mailOptions = {
           from: process.env.EMAIL_USERNAME,
-          to: userEmail.email,
+          to: userEmail, // Corrected to userEmail
           subject: 'Your new Password',
-          html: `<h1>Hello ${userEmail.email} </h1> <p>your new password is: ${newPassword}</p>`,
+          html: `<h1>Hello ${userEmail} </h1>
+          <p>your new password is:</p>
+          <2> ${newPassword}</2>
+          `,
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
-            return res.status(500).json({ error: error.message });
+            console.error(`Failed to send email to ${userEmail}:`, error);
+            // Although an error occurred sending the email, continue and return a response to the client
+          } else {
+            console.log(`Email sent to ${userEmail}: ${info.response}`);
           }
-          console.log(`Email sent to ${email}: ${info.response}`);
+          // Only one response should be sent after the query execution and the email sending are complete
           return res
             .status(200)
             .json({ message: 'New password sent to your email.' });
         });
-
-        return res
-          .status(200)
-          .json({ message: 'New password sent to your email.' });
       }
     );
   });
 };
+
 //#endregion ================ Forgot Password ======================
 
 //#region ================ CHANGE-PASSWORD======================

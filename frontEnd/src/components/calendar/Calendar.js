@@ -43,7 +43,7 @@ export default function Calendar(props) {
   }
 
   let selectedDayMeetings = data.filter((meeting) =>
-    isSameDay(parseISO(meeting.Date), selectedDay)
+    isSameDay(subHours(parseISO(meeting.Date), 3), selectedDay)
   );
 
   return (
@@ -67,7 +67,7 @@ export default function Calendar(props) {
                   />
                 ))
               ) : (
-                <p>No Assigned Musician.</p>
+                <p>No Event.</p>
               )}
             </ol>
           </section>
@@ -144,12 +144,12 @@ export default function Calendar(props) {
 
                   <div className="w-1 h-1 mx-auto mt-1">
                     {data.some((meeting) =>
-                      isSameDay(parseISO(meeting.Date), day)
+                      isSameDay(subHours(parseISO(meeting.Date), 3), day)
                     ) && (
                       <>
                         {data
                           .filter((meeting) =>
-                            isSameDay(parseISO(meeting.Date), day)
+                            isSameDay(subHours(parseISO(meeting.Date), 3), day)
                           )
                           .map((meeting) => (
                             <div
@@ -178,15 +178,18 @@ function Meeting({ meeting }) {
   const date = parseISO(meeting.Date);
   const subHour = subHours(date, 3);
 
-  return (
-    meeting.Status==='Published'?
-    (<li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
-      <div className="flex-auto">
-        <p className="mt-0.5">
-          <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
-        </p>
+  return meeting.Status === 'Published' ? (
+    <li className="flex flex-col items-start  px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100  text-gray-900 hover:bg-gray-100">
+      <div>
+        <p className="font-semibold">You Haven't Assign anyone</p>
       </div>
-    </li>):(<li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+      <div className=" flex flex-row flex-2 w-full space-x-2 ">
+        <p className="font-semibold">Time:</p>
+        <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
+      </div>
+    </li>
+  ) : (
+    <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
       <img
         src={
           meeting.Photo
@@ -196,14 +199,15 @@ function Meeting({ meeting }) {
         alt=""
         className="flex-none w-20 h-20 rounded-full object-cover"
       />
-      <div className="flex-auto">
-        <p className="text-gray-900">{meeting.BandName}</p>
-        <p className="text-gray-900">{meeting.PhoneNumber}</p>
-        <p className="mt-0.5">
+      <div className="flex-auto text-gray-900">
+        <p>{meeting.BandName}</p>
+        <p>{meeting.PhoneNumber}</p>
+        <div className=" flex flex-row space-x-2">
+          <p>Time:</p>
           <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
-        </p>
+        </div>
       </div>
-    </li>)
+    </li>
   );
 }
 

@@ -21,17 +21,17 @@ function MusicianAssignCard(props) {
     Url,
     phoneNumber,
   } = props;
-  const { mutate:assignMusician } = useAssignMusicianById();
+  const { mutate: assignMusician } = useAssignMusicianById();
 
   const handleAssign = () => {
     const data = { eventId, userId };
     assignMusician(data);
     setOpen(false); // Activate the setOpen function to close the dialog
   };
-const { mutate: blockUser } = useBlockUser();
-const handleBlock = () => {
-  blockUser(userId);
-};
+  const { mutate: blockUser } = useBlockUser();
+  const handleBlock = () => {
+    blockUser(userId);
+  };
 
   return (
     <Card className="mt-6 w-96 items-center">
@@ -43,7 +43,11 @@ const handleBlock = () => {
           <Typography variant="h5" color="blue-gray" className="mb-2">
             Preforming Already {experience} Years
           </Typography>
-          <Typography variant="p" color="blue-gray" className="mb-2 font-bold text-sm">
+          <Typography
+            variant="small"
+            color="blue-gray"
+            className="mb-2 font-bold text-sm"
+          >
             Phone Number: {phoneNumber}
           </Typography>
           {Url && (

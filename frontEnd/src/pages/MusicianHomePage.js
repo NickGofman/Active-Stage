@@ -60,6 +60,7 @@ function MusicianHomePage() {
           <Typography>My Next Show</Typography>
         </CardBody>
       </Card>
+      
       <div className="flex flex-col">
         {dataPublishedEvents?.data?.length !== 0 ? (
           <PaginationEvents
