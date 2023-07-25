@@ -52,7 +52,6 @@ function MusicianProfileForm(props) {
 
 
 
-  //console.log('INPUSTS:', inputs);
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,

@@ -34,15 +34,9 @@ function LoginPage() {
     cancelPassedEvents();
   }
 
-  // if (currentUser !== null) {
-  //   currentUser?.role === 'admin' ? navigate('/admin') : navigate('/user');
-  // }
-
   //send to login function the email and password
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Validate form data
-    // Check email
 
     try {
       await login(inputs);

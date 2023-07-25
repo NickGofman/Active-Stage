@@ -229,7 +229,7 @@ const forgotPassword = async (req, res) => {
           subject: 'Your new Password',
           html: `<h1>Hello ${userEmail} </h1>
           <p>your new password is:</p>
-          <2> ${newPassword}</2>
+          <p> ${newPassword}</p>
           `,
         };
 

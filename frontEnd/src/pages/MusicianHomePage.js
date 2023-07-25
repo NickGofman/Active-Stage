@@ -7,6 +7,7 @@ import {
   useAllRegisteredEvents,
 } from '../hooks/useMusicianEvents';
 import { format, subHours } from 'date-fns';
+import Loader from '../components/loader/Loader';
 function MusicianHomePage() {
   //TODO REMOVE ALL DRILLING userID and Email -> USE USeContext
   const user = JSON.parse(localStorage.getItem('user'));
@@ -27,7 +28,7 @@ function MusicianHomePage() {
     error: errorAllAssigned,
   } = useAllAssignedEvents(userId);
   if (isLoadingPublishedEvents || isLoading || isLoadingAllAssigned) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (isErrorPublishedEvents || isError || isErrorAllAssigned) {

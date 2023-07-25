@@ -56,12 +56,7 @@ function UpdateEvent(props) {
   const modifiedEventDates = eventDates?.data.map((item) => {
     return { startDate: item.startDate, endDate: item.startDate };
   });
-  // if (musicalStyleLoading) {
-  //   return <div>musicalStyleLoading...</div>;
-  // }
-  // if (musicalStyleIsError) {
-  //   console.log(musicalStyleError);
-  // }
+
 
   const handleChange = (e) => {
     setInputs((prev) => ({

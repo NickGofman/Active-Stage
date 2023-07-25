@@ -39,7 +39,6 @@ import { format } from 'date-fns';
     const dateObj=new Date(formattedDate);
     const newDateObj = format(dateObj, 'dd-MM-yyyy');
     const eventDateObject = eventDate;
-    console.log('table', eventDate);
     const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
   
     let musicalTypeName = musicalStyleList.filter((style) => {

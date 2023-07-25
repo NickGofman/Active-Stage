@@ -1,5 +1,6 @@
 import Calendar from '../components/calendar/Calendar';
 import UpcomingEventsInfoCard from '../components/cards/UpcomingEventsInfoCard';
+import Loader from '../components/loader/Loader';
 import CreateNewEvent from '../components/popup/CreateNewEvent';
 import {
   useGetEventsPassedWithoutIncome,
@@ -7,16 +8,13 @@ import {
   useGetUpcomingEvents,
 } from '../hooks/useAdminEvents';
 const BusinessHomePage = () => {
-  // create function for handelClick for all 3 use cases
-  // get the upcoming event
-
-  //get the 3 first events with status assign, date not pass,
   const {
     data: dataAssign,
     error,
     isError,
     isLoading,
   } = useGetThreeEventsToAssign();
+  
   const {
     error: errorIncome,
     data: dataIncome,
@@ -31,7 +29,7 @@ const BusinessHomePage = () => {
   } = useGetUpcomingEvents();
 
   if (isLoading || isLoadingIncome || isLoadingUpcoming) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   if (isError || isErrorIncome || isErrorUpcoming) {
     return <div>{error}</div>;

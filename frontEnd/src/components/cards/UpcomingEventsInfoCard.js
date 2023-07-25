@@ -4,7 +4,7 @@ import AssignMusician from '../popup/AssignMusician';
 import { subHours, format, parseISO } from 'date-fns';
 
 const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
-  const upcomingEvents = data?.slice(0, 3); // Get the first three events
+  const upcomingEvents = data?.filter(({ Status }) => Status === 'Assigned').slice(0,3);//get the three assigned events
 
   return (
     <>

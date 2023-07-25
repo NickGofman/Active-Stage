@@ -47,8 +47,16 @@ export default function Calendar(props) {
   );
 
   return (
-    <div className="pt-16 rounded-md text-xl border-4">
-      <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
+    <div className="rounded-md text-xl border-4 flex flex-col">
+        <div className="flex items-center mb-2">
+          <div className="text-sm mr-4 font-semibold">Published events</div>
+          <div className={'w-3 h-3 rounded-full bg-green-500'}></div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-sm mr-5 font-semibold">Assigned events</div>
+          <div className={'w-3 h-3 rounded-full bg-yellow-700'}></div>
+        </div>
+      <div className="pt-12 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 space-x-5 md:divide-gray-200">
           <section className="mt-12 md:mt-0 md:pl-14">
             <h2 className="font-semibold text-gray-900">
@@ -179,12 +187,12 @@ function Meeting({ meeting }) {
   const subHour = subHours(date, 3);
 
   return meeting.Status === 'Published' ? (
-    <li className="flex flex-col items-start  px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100  text-gray-900 hover:bg-gray-100">
+    <li className="flex flex-col items-start  px-4 py-2 group rounded-xl focus-within:bg-gray-100  text-gray-900 hover:bg-gray-100">
       <div>
         <p className="font-semibold">You Haven't Assign anyone</p>
       </div>
-      <div className=" flex flex-row flex-2 w-full space-x-2 ">
-        <p className="font-semibold">Time:</p>
+      <div className=" flex  w-full">
+        <p className="font-semibold mr-3 ">Event Time:</p>
         <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
       </div>
     </li>
@@ -196,14 +204,14 @@ function Meeting({ meeting }) {
             ? `http://localhost:3001/${meeting.Photo}`
             : `http://localhost:3001/ProfileImg.jpg`
         }
-        alt=""
+        alt="avatar"
         className="flex-none w-20 h-20 rounded-full object-cover"
       />
       <div className="flex-auto text-gray-900">
         <p>{meeting.BandName}</p>
         <p>{meeting.PhoneNumber}</p>
         <div className=" flex flex-row space-x-2">
-          <p>Time:</p>
+          <p>Event Time:</p>
           <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
         </div>
       </div>

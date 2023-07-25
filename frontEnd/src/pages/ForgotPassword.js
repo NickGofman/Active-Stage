@@ -7,13 +7,11 @@ const ForgotPassword = () => {
   const [inputs, setInputs] = useState({
     email: '',
   });
+  //TODO- we need to delete this state? (err)
   const [err, setErr] = useState(null);
   const [errMessage, setErrMessage] = useState('');
   const navigate = useNavigate();
   const mut = useForgotPassword();
-  const handleBackToLogin = () => {
-    navigate('/');
-  };
   const handleRegistration = async (e) => {
     e.preventDefault();
     // Validate form data
@@ -27,6 +25,7 @@ const ForgotPassword = () => {
         try {
           await mut.mutateAsync(inputs);
           setErrMessage('Check Your Mail Box');
+          navigate('/')
         } catch (error) {
           setErrMessage(error.response.data.error);
         }
@@ -75,9 +74,6 @@ const ForgotPassword = () => {
           to remember, but difficult for others to guess. If you have any
           trouble resetting your password, please don't hesitate to contact our
           support team for assistance.
-          <Button size="sm" color="amber" onClick={handleBackToLogin}>
-            Go To Login
-          </Button>
         </Typography>
       </div>
     </div>

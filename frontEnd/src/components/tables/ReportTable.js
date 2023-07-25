@@ -27,10 +27,10 @@ const ReportTable = (props) => {
     // Add data rows
     reportsNameList?.data?.forEach((event) => {
       const rowData = [
-        event.BandName, // Replace with the actual property name in your data
-        event.date, // Replace with the actual property name in your data
-        event.Income, // Replace with the actual property name in your data
-        event.MusicalTypeName, // Replace with the actual property name in your data
+        event.BandName, 
+        event.date, 
+        event.Income, 
+        event.MusicalTypeName, 
       ];
       const row = worksheet.addRow(rowData);
       row.eachCell((cell) => {
@@ -106,7 +106,7 @@ const ReportTable = (props) => {
           </thead>
           <tbody>
             {reportsNameList?.data?.map(
-              ({ EventID, BandName, date, Income, MusicalTypeName }, index) => {
+              ({ EventID, BandName, Date, Income, MusicalTypeName }, index) => {
                 const isLast = index === reportsNameList?.data?.length - 1;
                 const classes = isLast
                   ? 'p-4'
@@ -129,7 +129,7 @@ const ReportTable = (props) => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {date}
+                        {Date}
                       </Typography>
                     </td>
                     <td className={classes}>

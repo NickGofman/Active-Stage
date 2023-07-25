@@ -14,6 +14,7 @@ import {
 } from '../../hooks/useMusicianEvents';
 import { AuthContext } from '../context/authContext';
 import { format,subHours} from 'date-fns';
+import Loader from '../loader/Loader';
 
 function EventCardMusician(props) {
   const { currentUser } = useContext(AuthContext);
@@ -34,14 +35,14 @@ function EventCardMusician(props) {
   const location = useLocation();
 
   if (isLoading) {
-    return <div>Loading....</div>;
+    return <Loader />;
   }
 
   if (isError) {
     return error;
   }
   if (isLoadingUnregister) {
-    return <div>Loading....</div>;
+    return <Loader/>;
   }
 
   if (isErrorUnregister) {

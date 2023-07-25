@@ -6,7 +6,6 @@ const currentYear = date.getFullYear();
 
 function Footer() {
   const { currentUser } = useContext(AuthContext);
-  console.log('currentUser', currentUser);
   return (
     <footer>
       {currentUser.Role !== 'admin' ? (

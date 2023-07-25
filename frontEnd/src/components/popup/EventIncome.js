@@ -10,22 +10,21 @@ import {
 } from '@material-tailwind/react';
 import {format,subHours} from 'date-fns';
 import { useAddIncome } from '../../hooks/useAdminEvents';
+import Loader from '../loader/Loader';
 
 
 function EventIncome(props) {
   const { EventDate, BandName, EventId, disabled } = props;
   const [open, setOpen] = useState(false);
   const [income, setIncome] = useState('');
-  console.log("income",EventDate)
   const dateObj = new Date(EventDate);
-  console.log("income2",dateObj)
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
   // update income
   const { isLoading, error, mutate } = useAddIncome();
   const handleOpen = () => setOpen(!open);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (error) {

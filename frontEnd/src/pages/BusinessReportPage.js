@@ -1,15 +1,15 @@
 import React from 'react';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { useState } from 'react';
-import { Select, Option } from '@material-tailwind/react';
+import { Select, Option, Typography } from '@material-tailwind/react';
 import dayjs from 'dayjs';
 import {
   useGetMusicalStyles,
   useGetBandNames,
   useSortedEventReports,
-  
 } from '../hooks/useAdminEvents';
 import ReportTable from '../components/tables/ReportTable';
+import Loader from '../components/loader/Loader';
 function BusinessReportPage() {
   const currentDate = new Date();
   const [musicalTypeName, setMusicalTypeName] = useState('');
@@ -33,48 +33,46 @@ function BusinessReportPage() {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
     isError: musicalStyleIsError,
-   
   } = useGetMusicalStyles();
- const {
-  isLoading: bandNameLoading,
-  data: bandNameList,
-  isError: bandNameIsError,
-} = useGetBandNames({ startDate: date.startDate, endDate: date.endDate });
+  const {
+    isLoading: bandNameLoading,
+    data: bandNameList,
+    isError: bandNameIsError,
+  } = useGetBandNames({ startDate: date.startDate, endDate: date.endDate });
 
   const {
     isLoading: reportsLoading,
     data: reportsNameList,
     isError: reportsNameIsError,
-   
   } = useSortedEventReports(sortData);
- if (bandNameLoading || musicalStyleLoading || reportsLoading) {
-   return <div>Loading...</div>;
- }
+  if (bandNameLoading || musicalStyleLoading || reportsLoading) {
+    return (
+        <Loader />
+    );
+  }
 
- if (bandNameIsError || musicalStyleIsError || reportsNameIsError) {
-   return (
-     <div>Error occurred while fetching data. Please try again later.</div>
-   );
- }  
- const handleChangeStyle = (selectedMusicalTypeId) => {
-   const selectedMusicalType = musicalStyleList.data.find(
-     (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
-   );
+  if (bandNameIsError || musicalStyleIsError || reportsNameIsError) {
+    return (
+      <div>Error occurred while fetching data. Please try again later.</div>
+    );
+  }
+  const handleChangeStyle = (selectedMusicalTypeId) => {
+    const selectedMusicalType = musicalStyleList.data.find(
+      (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
+    );
 
-   if (selectedMusicalType) {
-     setMusicalTypeName(selectedMusicalType.MusicalTypeName);
-   } else {
-    //  setMusicalTypeName('');
-   }
+    if (selectedMusicalType) {
+      setMusicalTypeName(selectedMusicalType.MusicalTypeName);
+    }
 
-   setInputs((prevState) => ({
-     ...prevState,
-     musicalTypeId: selectedMusicalTypeId,
-   }));
- };
+    setInputs((prevState) => ({
+      ...prevState,
+      musicalTypeId: selectedMusicalTypeId,
+    }));
+  };
   const handleBandNameChange = (selectedBandName) => {
     setInputs((prevState) => ({ ...prevState, bandName: selectedBandName }));
-  
+
     // const selectedBandName = event.target.value;
     // setInputs((prevInputs) => ({
     //   ...prevInputs,
@@ -92,7 +90,12 @@ function BusinessReportPage() {
     setMusicalTypeName('');
 
     setDate(newValue);
-  };  return (
+  };
+  let totalRevenue = 0;
+  reportsNameList?.data.forEach((elem) => {
+    totalRevenue += elem.Income;
+  });
+  return (
     <>
       <div className="grid grid-cols-3 gap-4 mt-10 mr-16 ml-16">
         <div>
@@ -138,9 +141,15 @@ function BusinessReportPage() {
       </div>
       <div className="flex flex-col mt-10 mr-16 ml-16">
         <ReportTable data={sortData} reportsNameList={reportsNameList} />
+        <Typography
+          variant="lead"
+          className="font-bold mt-2 border-2 rounded-lg"
+        >
+          Total Revenue: {totalRevenue}
+        </Typography>
       </div>
     </>
-  );  
+  );
 }
 
 export default BusinessReportPage;

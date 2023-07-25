@@ -65,6 +65,8 @@ function ChangePassword() {
               name="newPassword"
               required={true}
               onChange={handleChange}
+              error={!/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/.test(inputs.newPassword)}
+              success={/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/.test(inputs.newPassword)}
             />
             <Input
               label="Confirm New password"
@@ -72,6 +74,11 @@ function ChangePassword() {
               name="confirmNewPassword"
               required={true}
               onChange={handleChange}
+              error={!/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/.test(inputs.newPassword)}
+              success={
+                inputs.newPassword === inputs.confirmNewPassword &&
+                inputs.confirmNewPassword !== ''
+              }
             />
             <Typography
               variant="small"

@@ -116,35 +116,3 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
   );
 };
 export default PaginationEvents;
-// {
-//   data?.data?.length !== 0 ? (
-//     <PaginationEvents
-//       userId={userId}
-//       userEmail={userEmail}
-//       events={data}
-//       itemsPerPage={3}
-//       header={'Registered Events'}
-//       isHome={false}
-//     />
-//   ) : (
-//     <Typography variant="h4" className="text-center">
-//       NO Registered Events
-//     </Typography>
-//   );
-// }
-// {
-//   dataAllAssigned?.data?.length !== 0 ? (
-//     <PaginationEvents
-//       userId={userId}
-//       userEmail={userEmail}
-//       events={dataAllAssigned}
-//       itemsPerPage={3}
-//       header={'Assigned Events'}
-//       isHome={false}
-//     />
-//   ) : (
-//     <Typography variant="h4" className="text-center">
-//       NO Assigned Events
-//     </Typography>
-//   );
-// }

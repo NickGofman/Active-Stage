@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMusicianProfileData } from '../hooks/useMusicianProfileData';
 import { useAdminProfileData } from '../hooks/useAdminProfileData';
+import Loader from '../components/loader/Loader';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -39,18 +40,18 @@ function ProfilePage() {
 
   //========wait for data==============
   if (userDataLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   if (userIsError) {
-    console.log(userError);
+    return <div>ERROR</div>;
   }
   //========wait for data==============
   if (adminDataLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (adminIsError) {
-    console.log(adminError);
+    return <div>ERROR</div>;
   }
   return (
     <>

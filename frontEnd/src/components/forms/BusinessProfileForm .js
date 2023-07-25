@@ -3,6 +3,7 @@ import { Input, Button, Typography } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useUpdateAdminData } from '../../hooks/useAdminProfileData';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import Loader from '../loader/Loader'
 
 function BusinessProfileForm(props) {
   const { businessName, address, PhoneNumber, managerName, Email } =
@@ -36,7 +37,7 @@ function BusinessProfileForm(props) {
   } = useUpdateAdminData(inputs);
 
   if (isLoading) {
-    return <div>Loading....</div>;
+    return <Loader/>;
   }
 
   if (isError) {

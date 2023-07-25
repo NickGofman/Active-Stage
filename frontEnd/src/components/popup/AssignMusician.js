@@ -9,10 +9,10 @@ import {
 import { subHours, format } from 'date-fns';
 import MusicianAssignCard from '../cards/MusicianAssignCard';
 import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
+import Loader from '../loader/Loader';
 
 function AssignMusician(props) {
   const { EventDate, EventId, disabled } = props;
-  console.log("assign",EventDate)
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
@@ -32,7 +32,7 @@ function AssignMusician(props) {
 
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (isError) {
@@ -81,6 +81,7 @@ function AssignMusician(props) {
                   description={data.Description}
                   setOpen={setOpen}
                   phoneNumber={data.PhoneNumber}
+                  Photo={data.Photo}
                 />
               ))}
             </div>

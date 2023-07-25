@@ -10,6 +10,7 @@ import {
 } from '@material-tailwind/react';
 import { useCancelEvent } from '../../hooks/useAdminEvents';
 import { format, subHours } from 'date-fns';
+import Loader from '../loader/Loader';
 
 function WarningCancel({ disabled, EventDate, EventId }) {
     const dateObj = new Date(EventDate);
@@ -25,7 +26,7 @@ function WarningCancel({ disabled, EventDate, EventId }) {
     // handle cancel button click
   }
    if (isLoading) {
-     return <div>Loading...</div>;
+     return <Loader/>;
    }
 
    if (error) {

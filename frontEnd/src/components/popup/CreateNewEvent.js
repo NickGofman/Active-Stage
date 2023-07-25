@@ -20,6 +20,8 @@ import {
   useGetEventDates,
 } from '../../hooks/useAdminEvents';
 import { useQueryClient } from 'react-query';
+import Loader from '../loader/Loader';
+
 function CreateNewEvent() {
   const [err, setErr] = useState('');
   const [open, setOpen] = useState(false);
@@ -74,10 +76,10 @@ function CreateNewEvent() {
     error,
   } = useCreateNewEvent(onSuccess, onError);
   if (musicalStyleLoading) {
-    return <div>musicalStyleLoading...</div>;
+    return <Loader/>;
   }
   if (musicalStyleIsError) {
-    console.log(musicalStyleError);
+    return <div>ERROR</div>;
   }
 
   const handleChange = (e) => {
@@ -111,24 +113,8 @@ function CreateNewEvent() {
       return;
     }
 
-    // if (isError) {
-    //   console.log('IN ERROR');
-    //   //TODO-delete if (we have disabled dates- no need of date validation)
-
-    //   // Other error occurred
-    //   setErr('Failed to create a new event.');
-    // } else {
-    //   setErr('Event Created');
-    //   setInputs({
-    //     date: '',
-    //     description: '',
-    //     time: '21:00',
-    //   });
-    //   setDate({ startDate: ' ', endDate: ' ' });
-    // }
   };
 
-  //use axios assign user to event
   return (
     <Fragment>
       <Button

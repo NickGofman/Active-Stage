@@ -8,6 +8,7 @@ import {
   useSortedEventDataByType,
 } from '../hooks/useAdminEvents';
 import dayjs from 'dayjs';
+import Loader from '../components/loader/Loader';
 
 function BusinessAllEvents() {
   //get all events
@@ -36,17 +37,17 @@ function BusinessAllEvents() {
     error: musicalStyleError,
   } = useGetMusicalStyles();
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   if (isError) {
     return error;
   }
 
   if (musicalStyleLoading) {
-    return <p>musicalStyleLoading...</p>;
+    return <Loader />;
   }
   if (musicalStyleIsError) {
-    console.log(musicalStyleError);
+    return <div>ERROR</div>
   }
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
@@ -59,7 +60,7 @@ function BusinessAllEvents() {
   };
   return (
     <div className="flex flex-col items-center space-y-9 mt-10">
-      <div className=" shadow-md sm:rounded-lg">
+      <div className="shadow-md sm:rounded-lg">
         <div className="flex justify-end">
           <Datepicker
             containerClassName=" relative max-w-sm "
