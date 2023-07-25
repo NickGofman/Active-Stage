@@ -50,7 +50,9 @@ const handleMulterErrors = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     // Handle file size error
     if (err.code === 'LIMIT_FILE_SIZE') {
-      return res.status(400).json({ message: 'File size exceeds the limit' });
+      return res
+        .status(400)
+        .json({ message: 'File size exceeds the limit 1MB' });
     } else {
       // Handle other Multer errors
       return res.status(400).json({ message: err.message });
