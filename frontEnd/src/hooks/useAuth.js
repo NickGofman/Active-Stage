@@ -15,3 +15,11 @@ export const useForgotPassword = () => {
 const forgotPassword = (userEmail) => {
   return makeRequest.post('/auth/forgotPassword', userEmail);
 };
+
+
+export const useChangePassword = () => {
+  return useMutation(changePassword);
+};
+const changePassword = (userEmail) => {
+  return makeRequest.post('/auth/changePassword', userEmail);
+};

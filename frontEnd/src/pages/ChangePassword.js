@@ -8,16 +8,15 @@ import {
   CardBody,
 } from '@material-tailwind/react';
 import { useState } from 'react';
-import { AuthContext } from '../components/context/authContext';
-import { useContext } from 'react';
-import { makeRequest } from '../axios';
 import { useNavigate } from 'react-router-dom';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import { useChangePassword } from '../hooks/useAuth';
 
 function ChangePassword() {
-  const { currentUser, logout } = useContext(AuthContext);
   const [err, setErr] = useState('');
   const navigate = useNavigate();
+  const mut = useChangePassword();
+
   // useState handle user profile Update
   const [inputs, setInputs] = useState({
     newPassword: '',
@@ -31,12 +30,7 @@ function ChangePassword() {
   };
   const clickChangePassword = async (e) => {
     e.preventDefault();
-    // if (
-    //   inputs.newPassword !== inputs.confirmNewPassword &&
-    //   inputs.newPassword === '' &&
-    //   inputs.confirmNewPassword === ''&&!/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/.test(inputs.newPassword)
-
-    // )
+    
     if (inputs.newPassword !== inputs.confirmNewPassword) {
       setErr('Password Not match');
       return;
@@ -47,14 +41,13 @@ function ChangePassword() {
       );
       return;
     } else {
+     
       try {
-        await makeRequest.post('/auth/changePassword', inputs, {
-          withCredentials: true,
-        });
-        await logout();
+        await mut.mutateAsync(inputs);
         navigate('/', { replace: true });
-      } catch (err) {
-        console.error(err);
+        setErr('Password was Changed');
+      } catch (error) {
+        setErr(error.response.data.error);
       }
     }
   };
