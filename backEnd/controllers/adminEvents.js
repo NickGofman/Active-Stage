@@ -122,7 +122,7 @@ const getAllUsersPerEvent = (req, res) => {
   console.log('getAllUsersPerEvent EventID:', EventID);
 
   const q = `
-  SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId,m.URL
+  SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId,m.URL,u.PhoneNumber
   FROM musician AS m
   JOIN musician_register_event AS mre ON m.UserId = mre.UserId
   JOIN event AS e ON mre.EventID = e.EventID
@@ -235,15 +235,14 @@ const addIncome = (req, res) => {
   });
 };
 const getUpcomingEvents = (req, res) => {
-  console.log('getUpcomingEvents');
 
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
- m.BandName AS BandName ,m.Photo,u.PhoneNumber
+ m.BandName AS BandName ,m.Photo,u.PhoneNumber,e.Status
     FROM event AS e
     LEFT JOIN musician AS m ON e.UserId = m.UserId
     LEFT JOIN user AS u ON u.UserId = m.UserId
-    WHERE e.Status = 'Assigned' AND e.Date > CURDATE()
+    WHERE (e.Status = 'Assigned' OR e.Status='Published') AND e.Date > CURDATE()
     GROUP BY e.EventID, e.Date
     ORDER BY e.Date ASC
    
