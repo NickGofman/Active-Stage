@@ -8,7 +8,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useUpdateMusicianProfile } from '../../hooks/useMusicianProfileData';
 function MusicianProfileForm(props) {
   const [err, setErr] = useState('');
-  const mut=useUpdateMusicianProfile();
+  const mut = useUpdateMusicianProfile();
   const {
     Description,
     FirstName,
@@ -48,6 +48,10 @@ function MusicianProfileForm(props) {
     });
   }, [props?.data?.data[0]]);
 
+
+
+
+
   //console.log('INPUSTS:', inputs);
   const handleChange = (e) => {
     setInputs((prev) => ({
@@ -55,8 +59,30 @@ function MusicianProfileForm(props) {
       [e.target.name]: e.target.value,
     }));
   };
+  // handle file upload
+  const UploadImage = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('oldPhoto', Photo);
+      const res = await makeRequest.post('/upload', formData);
+      setErr(''); // Clear any previous error messages
+      return res.data;
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        // If the server returned an error message, display it
+        throw new Error(error.response.data.message);
+      } else {
+        // Otherwise, throw a generic error message
+        throw new Error('An error occurred while uploading the image.');
+      }
+    }
+  };
 
-  
   // send data to backEnd to update user profile
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,41 +93,38 @@ function MusicianProfileForm(props) {
       inputs.lastName !== ''
     ) {
       //upload to backend localStorage
+      let isValidImage = true;
       if (file) {
-        let imgURL = '';
-        //upload image
-        imgURL = await UploadImage();
-        inputs.file = imgURL;
+        try {
+          const imgURL = await UploadImage();
+          inputs.file = imgURL;
+        } catch (error) {
+          // Handle image size error
+          isValidImage = false;
+          setErr(error.message);
+        }
       }
-    try {
-        await mut.mutateAsync(inputs);
-        setErr('Update Successfully');
-      } catch (error) {
-        return;
+      console.log('isValidImage', isValidImage);
+      if (isValidImage) {
+        try {
+          await mut.mutateAsync(inputs);
+          setErr('Update Successfully');
+        } catch (error) {
+          // Handle other mutation errors if needed
+          return;
+        }
       }
-    }
-    else{
-      setErr("Phone number ,First Name , Last name shouldn't be empty");
+    } else {
+      setErr("Phone number, First Name, Last Name shouldn't be empty");
     }
   };
-  // handle file upload
-  const UploadImage = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('oldPhoto', Photo);
-      const res = await makeRequest.post('/upload', formData);
-      setErr('');
-      return res.data;
-    } catch (error) {
-      setErr(error.response.data.message);
-    }
-  };
+
   return (
     <div className="max-w-lg w-auto md:w-full px-6 py-12 bg-white shadow-md rounded-md">
       <Typography color="blue" className="mb-2" variant="h5">
         Here You Can Edit Your Profile
       </Typography>
+
       <form method="post" className="space-y-6">
         <Input
           name="firstName"
@@ -179,14 +202,16 @@ function MusicianProfileForm(props) {
           icon={<FiUpload />}
           onChange={(e) => setFile(e.target.files[0])}
         />
-        {err&&<Typography
-          variant="small"
-          color="red"
-          className="flex items-center gap-1 font-normal mt-2"
-        >
-          <InformationCircleIcon className="w-4 h-4 -mt-px" />
-          {err && err}
-        </Typography>}
+        {err && (
+          <Typography
+            variant="small"
+            color="red"
+            className="flex items-center gap-1 font-normal mt-2"
+          >
+            <InformationCircleIcon className="w-4 h-4 -mt-px" />
+            {err && err}
+          </Typography>
+        )}
 
         <Button onClick={handleSubmit}>Save Changes</Button>
       </form>

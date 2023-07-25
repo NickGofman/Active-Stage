@@ -5,24 +5,19 @@ import BusinessProfileForm from '../components/forms/BusinessProfileForm ';
 import { AuthContext } from '../components/context/authContext';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  useMusicianProfileData,
-  
-} from '../hooks/useMusicianProfileData';
+import { useMusicianProfileData } from '../hooks/useMusicianProfileData';
 import { useAdminProfileData } from '../hooks/useAdminProfileData';
 function ProfilePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const userId = currentUser?.UserId;
   const handleChangePassword = () => {
-    navigate('/changepassword');
+    navigate('/changePassword');
   };
   //TODO-delete this!!!
-  const onSuccess = (data) => {
-  };
+  const onSuccess = (data) => {};
 
-  const onError = (error) => {
-  };
+  const onError = (error) => {};
   const isUser = currentUser.Role === 'user';
   console.log(isUser);
 
@@ -32,7 +27,7 @@ function ProfilePage() {
     data: userData,
     isError: userIsError,
     error: userError,
-  } = useMusicianProfileData( userId, isUser);
+  } = useMusicianProfileData(userId, isUser);
 
   //make a request for admin data
   const {
@@ -41,9 +36,7 @@ function ProfilePage() {
     isError: adminIsError,
     error: adminError,
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
-  
- 
-  
+
   //========wait for data==============
   if (userDataLoading) {
     return <div>Loading...</div>;

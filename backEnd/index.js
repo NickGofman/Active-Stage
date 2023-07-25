@@ -45,10 +45,16 @@ const storage = multer.diskStorage({
   },
 });
 
+// Middleware to handle file size error and other Multer errors
 const handleMulterErrors = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
-    // A Multer error occurred when uploading.
-    return res.status(400).json({ message: err.message });
+    // Handle file size error
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ message: 'File size exceeds the limit' });
+    } else {
+      // Handle other Multer errors
+      return res.status(400).json({ message: err.message });
+    }
   } else if (err) {
     // An unknown error occurred when uploading.
     return res.status(500).json({ message: err.message });

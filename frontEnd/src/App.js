@@ -106,11 +106,11 @@ function App() {
       element: <RegisterPage />,
     },
     {
-      path: '/forgetpassword',
+      path: '/forgetPassword',
       element: <ForgotPassword />,
     },
     {
-      path: '/changepassword',
+      path: '/changePassword',
       element: <ChangePassword />,
     },
     {

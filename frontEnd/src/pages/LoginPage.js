@@ -100,7 +100,7 @@ function LoginPage() {
             Log In
           </Button>
           <Link
-            to="/forgetpassword"
+            to="/forgetPassword"
             className="font-medium text-blue-500 transition-colors hover:text-blue-700 ml-2"
           >
             Forgot Password?
