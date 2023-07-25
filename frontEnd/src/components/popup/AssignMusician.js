@@ -27,7 +27,7 @@ function AssignMusician(props) {
     isLoading,
   } = useGetAllUsersPerEvent(EventId);
 
-  
+
 
 
 
@@ -80,6 +80,7 @@ function AssignMusician(props) {
                   Url={data.URL}
                   description={data.Description}
                   setOpen={setOpen}
+                  phoneNumber={data.PhoneNumber}
                 />
               ))}
             </div>

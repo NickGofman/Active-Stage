@@ -9,6 +9,7 @@ import {
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 import { makeRequest } from '../axios';
+import { useRegister } from '../hooks/useAuth';
 function RegisterPage() {
   const [inputs, setInputs] = useState({
     firstName: '',
@@ -24,27 +25,24 @@ function RegisterPage() {
     bandName: '',
   });
   const [err, setErr] = useState(null);
-  const [errMessage, setErrorMessage] = useState('');
+  const [errMessage, setErrMessage] = useState('');
   const navigate = useNavigate();
-
+  const mut = useRegister();
   //send data to backEnd
-  const handleRegistration = (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
     // Validate form data
     const errors = validateForm(inputs);
     if (Object.values(errors).some((current) => current !== '')) {
       return;
     } else {
-      makeRequest
-        .post('/auth/register', inputs)
-        .then((response) => {
-          // Handle successful registration
-          setErrorMessage('');
-          navigate('/');
-        })
-        .catch((error) => {
-          setErrorMessage(error.response.data.error);
-        });
+      try {
+        await mut.mutateAsync(inputs);
+        navigate('/');
+        setErrMessage('');
+      } catch (error) {
+        setErrMessage(error.response.data.error);
+      }
     }
   };
 

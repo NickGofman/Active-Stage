@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { makeRequest } from '../../axios';
 
-import{useLogout} from '../../hooks/useAuth'
 
 export const AuthContext = createContext();
 

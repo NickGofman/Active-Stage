@@ -41,7 +41,7 @@ function ProfilePage() {
     isError: adminIsError,
     error: adminError,
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
-
+  
  
   
   //========wait for data==============
@@ -59,7 +59,6 @@ function ProfilePage() {
   if (adminIsError) {
     console.log(adminError);
   }
-  // console.log('ADMIN DATA PROFILE PAGE  ', adminData);
   return (
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">

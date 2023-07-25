@@ -16,12 +16,12 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             </Typography>
           </CardHeader>
 
-          {upcomingEvents?.map(({ Date, EventID }) => {
+          {upcomingEvents?.map(({ Date, EventID,Status }) => {
             const eventDate = parseISO(Date);
             const threeHoursBehindDate = subHours(eventDate, 3);
 
             return (
-              <div
+              Status!=='Published'&&<div
                 key={EventID}
                 className="flex justify-center space-x-6 hover:bg-cyan-50 rounded-xl cursor-pointer"
               >

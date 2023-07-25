@@ -11,7 +11,16 @@ import { useAssignMusicianById } from '../../hooks/useAdminEvents';
 import { useBlockUser } from '../../hooks/useAdminActivities';
 
 function MusicianAssignCard(props) {
-  const { userId, eventId, bandName, experience, description, setOpen,Url } = props;
+  const {
+    userId,
+    eventId,
+    bandName,
+    experience,
+    description,
+    setOpen,
+    Url,
+    phoneNumber,
+  } = props;
   const { mutate:assignMusician } = useAssignMusicianById();
 
   const handleAssign = () => {
@@ -34,12 +43,15 @@ const handleBlock = () => {
           <Typography variant="h5" color="blue-gray" className="mb-2">
             Preforming Already {experience} Years
           </Typography>
+          <Typography variant="p" color="blue-gray" className="mb-2 font-bold text-sm">
+            Phone Number: {phoneNumber}
+          </Typography>
           {Url && (
             <a
               href={Url}
               target="_blank"
               rel="noreferrer"
-              className="mb-2 text-black font-bold"
+              className="mb-2 text-black font-bold text-sm"
             >
               Youtube Channel: {Url}
             </a>
@@ -47,7 +59,7 @@ const handleBlock = () => {
           <Typography variant="small">{description}</Typography>
         </div>
       </CardBody>
-      <CardFooter className="pt-0">
+      <CardFooter className="flex gap-28">
         <Button onClick={handleAssign}>Assign</Button>
         <Button onClick={handleBlock} color="red">
           Block User

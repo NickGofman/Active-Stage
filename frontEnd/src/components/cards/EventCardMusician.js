@@ -13,6 +13,7 @@ import {
   useUnregisterToEvent,
 } from '../../hooks/useMusicianEvents';
 import { AuthContext } from '../context/authContext';
+import { format,subHours} from 'date-fns';
 
 function EventCardMusician(props) {
   const { currentUser } = useContext(AuthContext);
@@ -49,15 +50,18 @@ function EventCardMusician(props) {
   const UnRegister = () => {
     unregister();
   };
+  let dateObj = new Date(date);
+  dateObj=subHours(dateObj,3);
+  const time = format(dateObj, 'HH:mm');
 
-  const dateEvent = date.split('T')[0];
-  const time = date.split('T')[1].substring(0, 5);
+  const dateFormatted=format(dateObj,'dd-MM-yyyy');
+
   return (
     //  className="flex flex-col   text-center text-gray-700 rounded-md border-2 py-8 max-w-sm"
     <Card className=" mt-6 w-96 justify-between text-center text-gray-700 rounded-md border-2">
       <CardBody className=" space-y-2">
         <Typography className="mt-1  text-s" variant="h3">
-          {dateEvent}
+          {dateFormatted}
         </Typography>
         <Typography variant="h4">{time}</Typography>
         <Typography variant="h4">{type}</Typography>
@@ -70,7 +74,7 @@ function EventCardMusician(props) {
         {location?.pathname !== '/user/myevents' && (
           <RegisterToEvent
             EventId={eventId}
-            date={dateEvent}
+            date={dateFormatted}
             hour={time}
             type={type}
             description={description}

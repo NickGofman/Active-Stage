@@ -1,11 +1,11 @@
-import { useQuery} from "react-query";
-import { makeRequest } from "../axios";
+import { useQuery, useMutation } from 'react-query';
+import { makeRequest } from '../axios';
 
-const logout = () => {
-  return makeRequest.post('/auth/logout');
+export const useRegister = () => {
+  return useMutation(register);
 };
 
-export const useLogout = () => 
-{
-  return useQuery('logoutUser', logout);
+const register = (data) => {
+  return makeRequest.post('/auth/register', data);
 };
+

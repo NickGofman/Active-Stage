@@ -5,9 +5,10 @@ import { useState } from 'react';
 import { makeRequest } from '../../axios';
 import { FiUpload } from 'react-icons/fi';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import { useUpdateMusicianProfile } from '../../hooks/useMusicianProfileData';
 function MusicianProfileForm(props) {
   const [err, setErr] = useState('');
-
+  const mut=useUpdateMusicianProfile();
   const {
     Description,
     FirstName,
@@ -55,6 +56,7 @@ function MusicianProfileForm(props) {
     }));
   };
 
+  
   // send data to backEnd to update user profile
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,15 +73,15 @@ function MusicianProfileForm(props) {
         imgURL = await UploadImage();
         inputs.file = imgURL;
       }
-      //send data to database
-      //TODO convert to react query
-      await makeRequest.post('/user/updateProfile', inputs, {
-        withCredentials: true,
-      });
-      setErr('');
-    } else {
+    try {
+        await mut.mutateAsync(inputs);
+        setErr('Update Successfully');
+      } catch (error) {
+        return;
+      }
+    }
+    else{
       setErr("Phone number ,First Name , Last name shouldn't be empty");
-      return;
     }
   };
   // handle file upload
@@ -177,14 +179,14 @@ function MusicianProfileForm(props) {
           icon={<FiUpload />}
           onChange={(e) => setFile(e.target.files[0])}
         />
-        <Typography
+        {err&&<Typography
           variant="small"
-          color="gray"
+          color="red"
           className="flex items-center gap-1 font-normal mt-2"
         >
           <InformationCircleIcon className="w-4 h-4 -mt-px" />
           {err && err}
-        </Typography>
+        </Typography>}
 
         <Button onClick={handleSubmit}>Save Changes</Button>
       </form>

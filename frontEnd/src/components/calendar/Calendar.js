@@ -15,14 +15,13 @@ import {
   subHours,
 } from 'date-fns';
 import { useState } from 'react';
-import { useGetUpcomingEvents } from '../../hooks/useAdminEvents';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Calendar() {
-  const { isLoading, data, isError, error } = useGetUpcomingEvents();
+export default function Calendar(props) {
+  const data = props.data;
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
@@ -43,18 +42,10 @@ export default function Calendar() {
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'));
   }
 
-  let selectedDayMeetings = data?.data.filter((meeting) =>
+  let selectedDayMeetings = data.filter((meeting) =>
     isSameDay(parseISO(meeting.Date), selectedDay)
   );
 
-  if (isLoading) {
-    // Return a loading state or component
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    // Return an error state or component
-    return <div>Error loading calendar data.</div>;
-  }
   return (
     <div className="pt-16 rounded-md text-xl border-4">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
@@ -152,10 +143,25 @@ export default function Calendar() {
                   </button>
 
                   <div className="w-1 h-1 mx-auto mt-1">
-                    {data?.data?.some((meeting) =>
+                    {data.some((meeting) =>
                       isSameDay(parseISO(meeting.Date), day)
                     ) && (
-                      <div className="w-1 h-1 rounded-full bg-blue-500"></div>
+                      <>
+                        {data
+                          .filter((meeting) =>
+                            isSameDay(parseISO(meeting.Date), day)
+                          )
+                          .map((meeting) => (
+                            <div
+                              key={meeting.EventID}
+                              className={`w-2 h-2 rounded-full ${
+                                meeting.Status === 'Published'
+                                  ? 'bg-green-500'
+                                  : 'bg-yellow-700'
+                              }`}
+                            ></div>
+                          ))}
+                      </>
                     )}
                   </div>
                 </div>
@@ -170,11 +176,17 @@ export default function Calendar() {
 
 function Meeting({ meeting }) {
   const date = parseISO(meeting.Date);
-  const subHour=subHours(date,3);
+  const subHour = subHours(date, 3);
 
-  
   return (
-    <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+    meeting.Status==='Published'?
+    (<li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+      <div className="flex-auto">
+        <p className="mt-0.5">
+          <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
+        </p>
+      </div>
+    </li>):(<li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
       <img
         src={
           meeting.Photo
@@ -191,7 +203,7 @@ function Meeting({ meeting }) {
           <time dateTime={meeting.Date}>{format(subHour, 'HH:mm')}</time>
         </p>
       </div>
-    </li>
+    </li>)
   );
 }
 

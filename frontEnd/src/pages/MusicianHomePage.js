@@ -6,13 +6,12 @@ import {
   useAllPublishedEvents,
   useAllRegisteredEvents,
 } from '../hooks/useMusicianEvents';
-import { useLocation } from 'react-router-dom';
+import { format, subHours } from 'date-fns';
 function MusicianHomePage() {
   //TODO REMOVE ALL DRILLING userID and Email -> USE USeContext
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user ? user.UserId : null;
   const userEmail = user ? user.Email : null;
-  // console.log('userId:', userId);
   const {
     isLoading: isLoadingPublishedEvents,
     data: dataPublishedEvents,
@@ -27,42 +26,23 @@ function MusicianHomePage() {
     isError: isErrorAllAssigned,
     error: errorAllAssigned,
   } = useAllAssignedEvents(userId);
-  // if (isLoadingPublishedEvents) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (isErrorPublishedEvents) {
-  //   return <div>Error: {errorPublishedEvents}</div>;
-  // }
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (isError) {
-  //   return <div>Error: {error}</div>;
-  // }
-  // if (isLoadingAllAssigned) {
-  //   return <div>Loading...</div>;
-  // }
+  if (isLoadingPublishedEvents || isLoading || isLoadingAllAssigned) {
+    return <div>Loading...</div>;
+  }
 
-  // if (isErrorAllAssigned) {
-  //   return <div>Error: {errorAllAssigned}</div>;
-  // }
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (isError) {
-  //   return <div>Error: {error}</div>;
-  // }
-if (isLoadingPublishedEvents || isLoading || isLoadingAllAssigned) {
-  return <div>Loading...</div>;
-}
-
-if (isErrorPublishedEvents || isError || isErrorAllAssigned) {
-  return <div>Error: {errorPublishedEvents || error || errorAllAssigned}</div>;
-}
+  if (isErrorPublishedEvents || isError || isErrorAllAssigned) {
+    return (
+      <div>Error: {errorPublishedEvents || error || errorAllAssigned}</div>
+    );
+  }
   const numberOfEvents = data?.data?.length;
-
   const nextEventDate = dataAllAssigned?.data[0]?.Date.split('T')[0];
+  let formattedDate='';
+  if (nextEventDate !== undefined) {
+    let dateObj = new Date(nextEventDate);
+    dateObj = subHours(dateObj, 3);
+    formattedDate = format(dateObj, 'dd-MM-yyy');
+  }
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -75,12 +55,12 @@ if (isErrorPublishedEvents || isError || isErrorAllAssigned) {
         </CardBody>
         <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
           <Typography variant="h5" color="blue-gray" className="mb-2">
-            {nextEventDate || 'No Upcoming shows'}
+            {formattedDate || 'No Upcoming shows'}
           </Typography>
           <Typography>My Next Show</Typography>
         </CardBody>
       </Card>
-      <div className='flex flex-col'>
+      <div className="flex flex-col">
         {dataPublishedEvents?.data?.length !== 0 ? (
           <PaginationEvents
             userEmail={userEmail}
