@@ -16,4 +16,3 @@ const pool = mysql.createPool({
 });
 // try to connect
 module.exports = pool;
-

@@ -1,7 +1,6 @@
 'use strict';
 const pool = require('../database');
 
-
 const emailFunctions = require('../emailUtils/emailFunctions'); // Import the email functions
 
 const createEvent = (req, res) => {
@@ -195,8 +194,6 @@ const assignMusicianToEventById = (req, res) => {
   });
 };
 
-
-
 const addIncome = (req, res) => {
   const { EventID } = req.params;
   const { income } = req.body;
@@ -302,8 +299,7 @@ const getSortedEventDataByType = (req, res) => {
             LEFT JOIN musician AS m ON mre.UserId = m.UserId
             LEFT JOIN user AS u ON u.UserId = m.UserId
             WHERE mre.EventID = e.EventID
-            AND u.Status = 'Active'
-            AND mre.UserId = e.UserID  -- Update this line to match the UserId in the event
+            AND mre.UserId = e.UserID  
             LIMIT 1
           ) AS BandName
         FROM event AS e

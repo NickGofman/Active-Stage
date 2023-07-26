@@ -27,7 +27,6 @@ function ProfilePage() {
     isLoading: userDataLoading,
     data: userData,
     isError: userIsError,
-    error: userError,
   } = useMusicianProfileData(userId, isUser);
 
   //make a request for admin data
@@ -35,24 +34,16 @@ function ProfilePage() {
     isLoading: adminDataLoading,
     data: adminData,
     isError: adminIsError,
-    error: adminError,
   } = useAdminProfileData(onError, onSuccess, userId, isUser);
 
   //========wait for data==============
-  if (userDataLoading) {
-    return <Loader/>;
+  if (userDataLoading || adminDataLoading) {
+    return <Loader />;
   }
-  if (userIsError) {
+  if (userIsError || adminIsError) {
     return <div>ERROR</div>;
-  }
-  //========wait for data==============
-  if (adminDataLoading) {
-    return <Loader/>;
   }
 
-  if (adminIsError) {
-    return <div>ERROR</div>;
-  }
   return (
     <>
       <div className="w-full flex flex-col lg:grid  lg:grid-cols-2 mt-8 px-36 py-12 ">

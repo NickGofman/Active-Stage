@@ -44,7 +44,6 @@ function CreateNewEvent() {
     data: eventDates,
     isError: datesIsError,
     isLoading: datesIsLoading,
-    error: datesError,
   } = useGetEventDates();
   //map over the dates to disable days that have events
   const modifiedEventDates = eventDates?.data.map((item) => {
@@ -55,7 +54,6 @@ function CreateNewEvent() {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
     isError: musicalStyleIsError,
-    error: musicalStyleError,
   } = useGetMusicalStyles();
 
   const onSuccess = () => {
@@ -72,14 +70,11 @@ function CreateNewEvent() {
   };
   const {
     mutate: createEvent,
-
-    isError,
-    error,
   } = useCreateNewEvent(onSuccess, onError);
-  if (musicalStyleLoading) {
+  if (musicalStyleLoading || datesIsLoading) {
     return <Loader />;
   }
-  if (musicalStyleIsError) {
+  if (musicalStyleIsError || datesIsError) {
     return <div>ERROR</div>;
   }
 

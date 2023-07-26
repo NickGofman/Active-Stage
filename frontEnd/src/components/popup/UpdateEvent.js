@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Fragment, useState } from 'react';
 import {
   Button,
@@ -12,13 +12,10 @@ import {
   Textarea,
   Option,
 } from '@material-tailwind/react';
-import {
-  
-  useGetEventDates,
-  useUpdateEvent,
-} from '../../hooks/useAdminEvents';
+import { useGetEventDates, useUpdateEvent } from '../../hooks/useAdminEvents';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { format } from 'date-fns';
+import Loader from '../loader/Loader';
 function UpdateEvent(props) {
   const {
     EventDate,
@@ -44,19 +41,19 @@ function UpdateEvent(props) {
   });
   const [message, setMessage] = useState('');
 
-  const { mutate: updateEvent, isError, error } = useUpdateEvent();
+  const { mutate: updateEvent } = useUpdateEvent();
   const {
     data: eventDates,
     isError: datesIsError,
     isLoading: datesIsLoading,
-    error: datesError,
   } = useGetEventDates();
+  if (datesIsLoading) return <Loader />;
+  if (datesIsError) return <div>ERROR</div>;
 
   //map over the dates to disable days that have events
   const modifiedEventDates = eventDates?.data.map((item) => {
     return { startDate: item.startDate, endDate: item.startDate };
   });
-
 
   const handleChange = (e) => {
     setInputs((prev) => ({
@@ -76,11 +73,10 @@ function UpdateEvent(props) {
   };
   const handleOpen = () => setOpen(!open);
   const handleConfirm = () => {
-    // TODO: Perform update logic with the new date and time values
     const updatedEvent = {
       date: inputs.date !== '' ? inputs.date : EventDate, // Use the new date value if provided, otherwise use the existing EventDate
       time: inputs.time !== '' ? inputs.time : EventTime, // Use the new time value if provided, otherwise use the default value
-      //TODO get the index of the musical style of the original event if the user don't change it (or set default -> if we don't choose any style the program crash)
+ 
       musicalTypeId:
         inputs.MusicalTypeId !== undefined
           ? inputs.MusicalTypeId
@@ -114,7 +110,9 @@ function UpdateEvent(props) {
       >
         <DialogHeader>Update Event Info</DialogHeader>
         <DialogBody divider>
-          <Typography variant="lead">Event Date: {newDateObj} {EventTime}</Typography>
+          <Typography variant="lead">
+            Event Date: {newDateObj} {EventTime}
+          </Typography>
           <div className="flex flex-col w-72  gap-6">
             <Datepicker
               minDate={new Date()}

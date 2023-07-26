@@ -8,7 +8,6 @@ import {
 } from '@material-tailwind/react';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
-import { makeRequest } from '../axios';
 import { useRegister } from '../hooks/useAuth';
 function RegisterPage() {
   const [inputs, setInputs] = useState({

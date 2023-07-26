@@ -28,26 +28,18 @@ function BusinessAllEvents() {
   };
   // Fetch events based on sort type and date range
 
-  const { data, error, isError, isLoading } =
-    useSortedEventDataByType(sortData);
+  const { data, isError, isLoading } = useSortedEventDataByType(sortData);
   const {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
     isError: musicalStyleIsError,
-    error: musicalStyleError,
   } = useGetMusicalStyles();
-  if (isLoading) {
+  if (isLoading || musicalStyleLoading) {
     return <Loader />;
-  }
-  if (isError) {
-    return error;
   }
 
-  if (musicalStyleLoading) {
-    return <Loader />;
-  }
-  if (musicalStyleIsError) {
-    return <div>ERROR</div>
+  if (musicalStyleIsError || isError) {
+    return <div>ERROR</div>;
   }
   // function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {

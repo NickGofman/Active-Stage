@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from 'react-query';
+import {  useMutation } from 'react-query';
 import { makeRequest } from '../axios';
 
 export const useRegister = () => {
