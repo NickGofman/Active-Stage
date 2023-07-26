@@ -4,16 +4,11 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const { handleImageUpload } = require('./uploadController'); // Import the upload controller
-
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const { unlink } = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
-const multer = require('multer');
-
 const port = process.env.PORT || 3001;
-
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
   next();
