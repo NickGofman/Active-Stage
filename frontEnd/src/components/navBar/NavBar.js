@@ -18,24 +18,22 @@ import { Link } from 'react-router-dom';
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
   const { logout, currentUser } = useContext(AuthContext);
-  
-  const handleLogout = async() => {
 
+  const handleLogout = async () => {
     await logout();
-
   };
   useEffect(() => {
-    console.log('useEffect NAV' );
+    console.log('useEffect NAV');
     window.addEventListener(
       'resize',
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
-    return () =>{
+    return () => {
       window.removeEventListener(
         'resize',
         () => window.innerWidth >= 960 && setOpenNav(false)
       );
-    }
+    };
   }, []);
 
   let navList = (
@@ -43,7 +41,7 @@ export default function NavBar() {
       {currentUser.Role === 'admin' || (
         <Avatar
           variant="circular"
-          size="lg"
+          size="xl"
           alt="candice wu"
           className="border border-blue-500 p-0.5 hidden lg:block"
           src={
@@ -121,7 +119,7 @@ export default function NavBar() {
   );
 
   return (
-    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 mb-10">
+    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 ">
       <div className="flex items-center justify-between text-blue-gray-900">
         <div className="hidden lg:flex lg:flex-col lg:gap-1">{navList}</div>
         {/* toggle icons */}

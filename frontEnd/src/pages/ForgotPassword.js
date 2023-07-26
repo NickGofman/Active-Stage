@@ -1,7 +1,6 @@
 import { Input, Button, Typography } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { makeRequest } from '../axios';
 import { useForgotPassword } from '../hooks/useAuth';
 const ForgotPassword = () => {
   const [inputs, setInputs] = useState({
@@ -16,7 +15,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     // Validate form data
     if (inputs.email !== '') {
-      const emailRegex = /\S+@\S+\.\S+/; // Regular expression to check email format
+      const emailRegex = /^\S+@\S+\.\S+[a-zA-Z0-9]$/; // Regular expression to check email format
       if (!emailRegex.test(inputs.email)) {
         setErrMessage(
           'Invalid email format. Please enter a valid email address.'
@@ -25,7 +24,6 @@ const ForgotPassword = () => {
         try {
           await mut.mutateAsync(inputs);
           setErrMessage('Check Your Mail Box');
-          navigate('/')
         } catch (error) {
           setErrMessage(error.response.data.error);
         }
@@ -34,7 +32,9 @@ const ForgotPassword = () => {
       setErrMessage('You must enter your Email');
     }
   };
-
+  const handleBackToLogin = () => {
+    navigate('/');
+  };
   const handleChange = (e) => {
     setInputs((prevInputs) => ({
       ...prevInputs,
@@ -74,6 +74,9 @@ const ForgotPassword = () => {
           to remember, but difficult for others to guess. If you have any
           trouble resetting your password, please don't hesitate to contact our
           support team for assistance.
+          <Button size="sm" color="amber" onClick={handleBackToLogin}>
+            Go To Login
+          </Button>
         </Typography>
       </div>
     </div>

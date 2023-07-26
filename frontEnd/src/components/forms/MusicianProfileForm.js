@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Input, Textarea, Button, Typography } from '@material-tailwind/react';
 
 import { useState } from 'react';
@@ -6,7 +6,9 @@ import { makeRequest } from '../../axios';
 import { FiUpload } from 'react-icons/fi';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useUpdateMusicianProfile } from '../../hooks/useMusicianProfileData';
+import { AuthContext } from '../context/authContext';
 function MusicianProfileForm(props) {
+  const { updateLocalStoragePhoto } = useContext(AuthContext);
   const [err, setErr] = useState('');
   const mut = useUpdateMusicianProfile();
   const {
@@ -48,10 +50,6 @@ function MusicianProfileForm(props) {
     });
   }, [props?.data?.data[0]]);
 
-
-
-
-
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
@@ -87,7 +85,7 @@ function MusicianProfileForm(props) {
     e.preventDefault();
     //update profile
     if (
-      /^05\d([-]{0,1})\d{7}$/.test(inputs.phone) &&
+      /^05\d-\d{7}$/.test(inputs.phone) &&
       inputs.firstName !== '' &&
       inputs.lastName !== ''
     ) {
@@ -97,12 +95,14 @@ function MusicianProfileForm(props) {
         try {
           const imgURL = await UploadImage();
           inputs.file = imgURL;
+          updateLocalStoragePhoto(imgURL);
         } catch (error) {
           // Handle image size error
           isValidImage = false;
           setErr(error.message);
         }
       }
+
       console.log('isValidImage', isValidImage);
       if (isValidImage) {
         try {
@@ -114,7 +114,11 @@ function MusicianProfileForm(props) {
         }
       }
     } else {
-      setErr("Phone number, First Name, Last Name shouldn't be empty");
+      if (!/^05\d-\d{7}$/.test(inputs.phone)) {
+        setErr('Phone number is not in the right format');
+      } else {
+        setErr("First Name, Last Name shouldn't be empty");
+      }
     }
   };
 

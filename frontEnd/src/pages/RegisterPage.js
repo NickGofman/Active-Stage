@@ -212,7 +212,7 @@ function RegisterPage() {
     // Check email
     if (!inputs.email) {
       errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(inputs.email)) {
+    } else if (!/^\S+@\S+\.\S+[a-zA-Z0-9]$/.test(inputs.email)) {
       errors.email = 'Invalid email address';
     }
 
@@ -249,7 +249,7 @@ function RegisterPage() {
     // Check phone number
     if (!inputs.phoneNumber) {
       errors.phoneNumber = 'Phone number is required';
-    } else if (!/^05\d([-]{0,1})\d{7}$/.test(inputs.phoneNumber)) {
+    } else if (!/^05\d-\d{7}$/.test(inputs.phoneNumber)) {
       errors.phoneNumber =
         'Phone number must be a valid Israeli phone number in the format 054-315-9449';
     }

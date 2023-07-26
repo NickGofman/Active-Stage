@@ -29,9 +29,17 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.removeItem('user');
     setCurrentUser(null);
   };
-
+  const updateLocalStoragePhoto = (photoURL) => {
+    setCurrentUser((prevUser) => {
+      const newUser = { ...prevUser, Photo: photoURL };
+      localStorage.setItem('user', JSON.stringify(newUser));
+      return newUser;
+    });
+  };
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout }}>
+    <AuthContext.Provider
+      value={{ currentUser, login, logout, updateLocalStoragePhoto }}
+    >
       {children}
     </AuthContext.Provider>
   );

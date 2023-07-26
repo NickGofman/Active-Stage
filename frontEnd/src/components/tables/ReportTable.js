@@ -6,6 +6,8 @@ const TABLE_HEAD = ['Band Name', 'Date', 'Income', 'Musical Style'];
 
 const ReportTable = (props) => {
   const { data, reportsNameList } = props;
+console.log('reportsNameList', reportsNameList);
+console.log('data', data);
 
 
   const handleExportToExcel = () => {
@@ -28,7 +30,7 @@ const ReportTable = (props) => {
     reportsNameList?.data?.forEach((event) => {
       const rowData = [
         event.BandName, 
-        event.date, 
+        event.Date, 
         event.Income, 
         event.MusicalTypeName, 
       ];

@@ -65,7 +65,7 @@ function ProfilePage() {
                   : `http://localhost:3001/ProfileImg.jpg`
               }
               alt=""
-              className="h-64 w-64 rounded-full object-cover min-w-min"
+              className="h-64 w-64 rounded-full object-cover max-w-lg"
             />
           )}
 

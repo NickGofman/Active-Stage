@@ -3,7 +3,7 @@ import { Input, Button, Typography } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useUpdateAdminData } from '../../hooks/useAdminProfileData';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
-import Loader from '../loader/Loader'
+import Loader from '../loader/Loader';
 
 function BusinessProfileForm(props) {
   const { businessName, address, PhoneNumber, managerName, Email } =
@@ -37,7 +37,7 @@ function BusinessProfileForm(props) {
   } = useUpdateAdminData(inputs);
 
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (isError) {
@@ -51,7 +51,7 @@ function BusinessProfileForm(props) {
   };
   const handleUpdate = () => {
     if (
-      /^05\d([-]{0,1})\d{7}$/.test(inputs.phone) &&
+      /^05\d-\d{7}$/.test(inputs.phone) &&
       inputs.businessName !== '' &&
       inputs.address !== '' &&
       inputs.managerName !== ''
@@ -59,9 +59,12 @@ function BusinessProfileForm(props) {
       update(inputs);
       setErr('');
     } else {
-      setErr(
-        "Phone number ,Business Name , Address,Manager Name shouldn't be empty"
-      );
+      if (!/^05\d-\d{7}$/.test(inputs.phone))
+        setErr('Phone number is not in the right format');
+      else
+        setErr(
+          "Business Name , Address,Manager Name shouldn't be empty"
+        );
       return;
     }
   };

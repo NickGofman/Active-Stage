@@ -2,26 +2,23 @@
 
 const express = require('express');
 const router = express.Router();
+const { updateProfile, getProfile } = require('../controllers/userProfile.js');
+
 const {
-  updateProfile,
-  getProfile,
   getPublishedEvents,
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,
-
   unregisterToEvent,
-} = require('../controllers/userProfile.js');
+} = require('../controllers/userEvents.js');
 
 router.post('/updateProfile', updateProfile);
-router.post('/registerToEvent/:id/:eventId/:email', registerToEvent);
-
 router.get('/profile/:id', getProfile);
+
+router.post('/registerToEvent/:id/:eventId/:email', registerToEvent);
 router.get('/getAllPublishedEvents/:id', getPublishedEvents);
 router.get('/getAllAssignedEvents/:id', getAssignedEvents);
-
 router.get('/getAllRegisteredEvents/:id', getRegisteredEvents);
-
 router.post('/unregisterToEvent/:userId/:eventId', unregisterToEvent);
 
 module.exports = router;

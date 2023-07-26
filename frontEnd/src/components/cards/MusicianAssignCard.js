@@ -85,6 +85,13 @@ function MusicianAssignCard(props) {
         <Typography variant="h6" color="blue-gray" className="mb-2">
           Preforming Already {experience} Years
         </Typography>
+        <Typography
+          variant="small"
+          color="blue-gray"
+          className="mb-2 font-bold text-sm"
+        >
+          Phone Number: {phoneNumber}
+        </Typography>
         {Url && (
           <a
             href={Url}

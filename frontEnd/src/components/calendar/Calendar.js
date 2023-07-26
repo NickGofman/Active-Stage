@@ -48,14 +48,14 @@ export default function Calendar(props) {
 
   return (
     <div className="rounded-md text-xl border-4 flex flex-col">
-        <div className="flex items-center mb-2">
-          <div className="text-sm mr-4 font-semibold">Published events</div>
-          <div className={'w-3 h-3 rounded-full bg-green-500'}></div>
-        </div>
-        <div className="flex items-center">
-          <div className="text-sm mr-5 font-semibold">Assigned events</div>
-          <div className={'w-3 h-3 rounded-full bg-yellow-700'}></div>
-        </div>
+      <div className="flex items-center mb-2">
+        <div className="text-sm mr-4 font-semibold">Published events</div>
+        <div className={'w-3 h-3 rounded-full bg-green-500'}></div>
+      </div>
+      <div className="flex items-center">
+        <div className="text-sm mr-5 font-semibold">Assigned events</div>
+        <div className={'w-3 h-3 rounded-full bg-yellow-700'}></div>
+      </div>
       <div className="pt-12 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 space-x-5 md:divide-gray-200">
           <section className="mt-12 md:mt-0 md:pl-14">

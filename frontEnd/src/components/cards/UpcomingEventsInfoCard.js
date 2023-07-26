@@ -1,7 +1,7 @@
 import { Card, Typography, CardHeader } from '@material-tailwind/react';
 import EventIncome from '../popup/EventIncome';
 import AssignMusician from '../popup/AssignMusician';
-import { subHours, format, parseISO } from 'date-fns';
+import { subHours, format, parseISO, addHours } from 'date-fns';
 
 const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
   const upcomingEvents = data?.filter(({ Status }) => Status === 'Assigned').slice(0,3);//get the three assigned events
@@ -47,6 +47,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             </Typography>
           </CardHeader>
           {data?.map(({ EventID, Date: date, RCount }) => {
+            
             return (
               <div
                 key={EventID}
@@ -60,7 +61,8 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
                 </Typography>
                 <AssignMusician
                   EventId={EventID}
-                  EventDate={date}
+                  // EventDate={date}
+                  EventDate={addHours(new Date(date), 3)}
                   disabled={true}
                 />
               </div>

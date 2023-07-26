@@ -34,6 +34,7 @@ function CreateNewEvent() {
     date: '',
     description: '',
     time: '21:00',
+    musicalTypeId:undefined,
   });
   const handleOpen = () => {
     setOpen(!open);
@@ -76,7 +77,7 @@ function CreateNewEvent() {
     error,
   } = useCreateNewEvent(onSuccess, onError);
   if (musicalStyleLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
   if (musicalStyleIsError) {
     return <div>ERROR</div>;
@@ -104,15 +105,25 @@ function CreateNewEvent() {
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
+    console.log(date);
 
-    if (date !== '' && time !== '' && inputs.musicalTypeId !== undefined) {
+    if (
+      date !== undefined &&
+      time !== '' &&
+      inputs.musicalTypeId !== undefined
+    ) {
       otherInput.dateTime = dateTime;
       createEvent(otherInput);
+      setDate({ startDate: '' });
+       setInputs({
+         ...inputs,
+         musicalTypeId: "",
+       });
     } else {
       setErr('Must select a Date, Time and Musical style');
+
       return;
     }
-
   };
 
   return (
@@ -137,6 +148,7 @@ function CreateNewEvent() {
           <div className="flex flex-col w-72  gap-2">
             <Typography variant="small">Pick A Date:</Typography>
             <Datepicker
+              key={JSON.stringify(date)}
               minDate={new Date()}
               containerClassName=" relative max-w-sm"
               useRange={false}
@@ -160,6 +172,7 @@ function CreateNewEvent() {
               className="col-span-1"
               label="Select Musical Type"
               name="musicalStyle"
+              value={inputs.musicalTypeId}
               onChange={handleChangeStyle}
             >
               {musicalStyleList?.data?.map((style) => (
