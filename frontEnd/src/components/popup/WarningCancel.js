@@ -12,18 +12,16 @@ import { useCancelEvent } from '../../hooks/useAdminEvents';
 import { format, subHours } from 'date-fns';
 import Loader from '../loader/Loader';
 
-function WarningCancel({ disabled, EventDate, EventId }) {
+function WarningCancel({ disabled, EventDate, EventId,eventStatus }) {
     const dateObj = new Date(EventDate);
     const newDate = subHours(dateObj, 3);
     const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
   const [open, setOpen] = useState(false);
-  const { isLoading, error, mutate } = useCancelEvent();
+  const { isLoading, error, mutate:cancelEvent } = useCancelEvent();
   const handleOpen = () => setOpen(!open);
-  //use axios to change the event status to cancel
   function handleCancel() {
-    mutate(EventId);
+    cancelEvent({ EventId, eventStatus });
     setOpen(false);
-    // handle cancel button click
   }
    if (isLoading) {
      return <Loader/>;

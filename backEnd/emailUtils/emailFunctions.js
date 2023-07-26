@@ -4,7 +4,7 @@ const transporter = require('../nodeMailer.js');
 // Function to send an email to the musician with the assigned event date
 const sendEmailWithAssignedEvent = (userEmail, eventDate) => {
   // Format the eventDate as needed (e.g., convert to a more readable format)
-  const formattedEventDate = new Date(eventDate).toLocaleString('en-US');
+  const formattedEventDate = new Date(eventDate).toLocaleString('en-IL');
 
   let mailOptions = {
     from: process.env.EMAIL_USERNAME,
@@ -35,10 +35,12 @@ const sendEmailWithEventCancellation = (userEmail, eventDate) => {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
+    timeZone: 'Asia/Jerusalem',
   };
 
   const dateObject = new Date(eventDate);
-  const date = dateObject.toLocaleTimeString('en-US', options);
+  const date = dateObject.toLocaleTimeString('en-IL', options);
+  console.log("date",date)
   let mailOptions = {
     from: process.env.EMAIL_USERNAME,
     to: userEmail,
@@ -71,12 +73,13 @@ const sendEmailWithEventChange = (userEmail, newDateTime, oldDateTime, res) => {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
+    timeZone: 'Asia/Jerusalem',
   };
 
   const oldDateObject = new Date(oldDateTime);
-  const oldDate = oldDateObject.toLocaleTimeString('en-US', options);
+  const oldDate = oldDateObject.toLocaleTimeString('en-IL', options);
   const formattedNewDateTime = new Date(newDateTime).toLocaleString(
-    'en-US',
+    'en-IL',
     options
   );
   let mailOptions = {
@@ -103,9 +106,30 @@ const sendEmailWithEventChange = (userEmail, newDateTime, oldDateTime, res) => {
       .json({ message: 'Email sent to users about the event change.' });
   });
 };
+const sendWelcomeEmail = (userEmail) => {
+  let mailOptions = {
+    from: process.env.EMAIL_USERNAME,
+    to: userEmail,
+    subject: 'Welcome to our platform',
+    html: `
+      <h1>Welcome to our platform</h1>
+      <p>Thank you for registering as a musician. We are excited to have you on board!</p>
+      <p>Have a great day!</p>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error(`Failed to send welcome email to ${userEmail}:`, error);
+    } else {
+      console.log(`Welcome email sent to ${userEmail}: ${info.response}`);
+    }
+  });
+};
 
 module.exports = {
   sendEmailWithAssignedEvent,
   sendEmailWithEventCancellation,
   sendEmailWithEventChange,
+  sendWelcomeEmail,
 };

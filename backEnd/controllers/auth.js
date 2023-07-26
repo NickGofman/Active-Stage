@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const pool = require('../database');
 const jwt = require('jsonwebtoken');
 const transporter = require('../nodeMailer.js');
+const emailFunctions = require('../emailUtils/emailFunctions'); // Import the email functions
 
 require('dotenv').config();
 
@@ -98,7 +99,7 @@ const register = async (req, res) => {
               return res.status(500).json({ error: err.message });
             }
             // Send the welcome email to the musician
-            sendWelcomeEmail(email);
+            emailFunctions.sendWelcomeEmail(email);
             res
               .status(200)
               .json({ message: 'Musician registered successfully.' });
@@ -108,26 +109,7 @@ const register = async (req, res) => {
     );
   });
 };
-const sendWelcomeEmail = (userEmail) => {
-  let mailOptions = {
-    from: process.env.EMAIL_USERNAME,
-    to: userEmail,
-    subject: 'Welcome to our platform',
-    html: `
-      <h1>Welcome to our platform</h1>
-      <p>Thank you for registering as a musician. We are excited to have you on board!</p>
-      <p>Have a great day!</p>
-    `,
-  };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.error(`Failed to send welcome email to ${userEmail}:`, error);
-    } else {
-      console.log(`Welcome email sent to ${userEmail}: ${info.response}`);
-    }
-  });
-};
 //#endregion
 
 //#region  ================ LOGIN ======================

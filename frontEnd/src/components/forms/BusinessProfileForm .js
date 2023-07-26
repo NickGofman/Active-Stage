@@ -128,14 +128,16 @@ function BusinessProfileForm(props) {
           value={inputs.managerName}
           onChange={handleChange}
         />
-        <Typography
-          variant="small"
-          color="gray"
-          className="flex items-center gap-1 font-normal mt-2"
-        >
-          <InformationCircleIcon className="w-4 h-4 -mt-px" />
-          {err && err}
-        </Typography>
+        {err && (
+          <Typography
+            variant="small"
+            color="red"
+            className="flex items-center gap-1 font-normal mt-2"
+          >
+            <InformationCircleIcon className="w-4 h-4 -mt-px" />
+            {err && err}
+          </Typography>
+        )}
 
         <Button onClick={handleUpdate}>Save Changes</Button>
       </form>

@@ -32,7 +32,7 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
       },
     },
   };
-
+console.log('length', events?.data?.length);
   return (
     <>
       {isHome ? (
@@ -41,7 +41,13 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
             {header}
           </Typography>
           {events?.data?.length !== 0 ? (
-            <div className="grid lg:grid-rows-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1">
+            <div
+              className={
+                events?.data?.length <= 3
+                  ? 'grid lg:grid-rows-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1'
+                  : 'grid lg:grid-rows-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:grid-cols-1'
+              }
+            >
               {currentItems?.map((event) => (
                 <EventCardMusician
                   userId={userId}

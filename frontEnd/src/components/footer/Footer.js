@@ -39,10 +39,18 @@ function Footer() {
             <h3 className="text-black">Contact Us</h3>
 
             <div className="flex flex-row space-x-3">
-              <a href="https://www.instagram.com/elispub/">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.instagram.com/elispub/"
+              >
                 <FaInstagram size={40} />
               </a>
-              <a href="https://www.facebook.com/elis.pub/">
+              <a
+                href="https://www.facebook.com/elis.pub/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FaFacebook size={40} />
               </a>
             </div>

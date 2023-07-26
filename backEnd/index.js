@@ -20,6 +20,7 @@ app.use(
     origin: 'http://localhost:3000',
   })
 );
+// app.use(cors());
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'UploadImages')));

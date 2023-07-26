@@ -54,7 +54,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
                 className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer"
               >
                 <Typography variant="paragraph">
-                  {format(new Date(date.slice(0, 10)), 'dd-MM-yyyy')}
+                  {format(addHours(new Date(date),3), 'dd-MM-yyyy')}
                 </Typography>
                 <Typography variant="paragraph">
                   Registered: {RCount}

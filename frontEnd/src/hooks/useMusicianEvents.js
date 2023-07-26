@@ -74,3 +74,14 @@ export const useUnregisterToEvent = (userId, EventId) => {
 const unregisterToEvent = (userId, eventId) => {
   return makeRequest.post(`/user/unregisterToEvent/${userId}/${eventId}`);
 };
+export const useAllPreviousEvents = (userId) => {
+  console.log('userId', userId);
+  return useQuery(['getAllPreviousEvents', userId], () =>
+    getAllPreviousEvents(userId)
+  );
+};
+
+const getAllPreviousEvents = (userId) => {
+  console.log('getAllPreviousEvents', userId);
+  return makeRequest.get(`/user/getAllPreviousEvents/${userId}`);
+};

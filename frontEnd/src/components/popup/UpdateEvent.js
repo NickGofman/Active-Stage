@@ -26,6 +26,7 @@ function UpdateEvent(props) {
     Description,
     musicalStyleList,
     musicalTypeName,
+    eventStatus,
   } = props;
   const dateObj = new Date(EventDate);
   const newDateObj = format(dateObj, 'dd-MM-yyyy');
@@ -87,6 +88,7 @@ function UpdateEvent(props) {
     updatedEvent.dateTime = dateTime;
 
     updatedEvent.eventId = EventId;
+    updatedEvent.Status=eventStatus;
     if (inputs.date === null) {
       setMessage('Date must be fulfilled');
       return;

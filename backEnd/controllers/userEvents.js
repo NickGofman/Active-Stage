@@ -78,12 +78,31 @@ const unregisterToEvent = (req, res) => {
     return res.status(200).json(data);
   });
 };
+const getAllPreviousEvents = (req, res) => {
+  const userId = req.params.userId;
+  console.log('userId:', userId);
 
+  // select date and musical type name
+  const q = `SELECT e.EventID, e.Date, t.MusicalTypeName AS musicalTypeName 
+             FROM event AS e
+             INNER JOIN typesdescription AS t ON e.MusicalTypeID = t.MusicalTypeID
+             WHERE e.UserID = ? AND e.Status = 'Closed'`;
+
+  pool.query(q, [userId], (err, data) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).json({ error: 'Error retrieving events' });
+    }
+    console.log('data:', data);
+
+    return res.status(200).json(data);
+  });
+};
 module.exports = {
   getPublishedEvents,
   registerToEvent,
   getAssignedEvents,
   getRegisteredEvents,
-
+  getAllPreviousEvents,
   unregisterToEvent,
 };

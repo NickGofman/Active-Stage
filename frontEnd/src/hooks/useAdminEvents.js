@@ -43,16 +43,6 @@ export const useGetEventDates = () => {
 
 //#endregion
 
-// export const useAllAssignMusicians = () => {
-//   console.log('getAllAssignMusicians');
-//   return useQuery('getAllAssignMusicians', getAllAssignMusicians);
-// };
-
-// const getAllAssignMusicians = () => {
-//   return makeRequest.get('/admin/getAllAssignMusicians');
-// };
-//all events data with status assign
-// export getAll
 
 export const useGetThreeEventsToAssign = () => {
   return useQuery('getThreeEventsToAssign', getThreeEventsToAssign);
@@ -154,8 +144,8 @@ export const useCancelEvent = () => {
   });
 };
 
-const cancelEvent = (eventId) => {
-  return makeRequest.post(`/admin/cancelEvent/${eventId}`);
+const cancelEvent = (data) => {
+  return makeRequest.post(`/admin/cancelEvent/${data.EventId}/${data.eventStatus}`);
 };
 
 export const useUpdateEvent = () => {
@@ -171,9 +161,9 @@ export const useUpdateEvent = () => {
 };
 
 const updateEvent = (data) => {
-  const { eventId, ...others } = data;
+  const { eventId,Status, ...others } = data;
 
-  return makeRequest.post(`/admin/updateEvent/${eventId}`, others);
+  return makeRequest.post(`/admin/updateEvent/${eventId}/${Status}`, others);
 };
 export const useCancelPassedEvents = () => {
   return useMutation('cancelPassedEvents', cancelPassedEvents);

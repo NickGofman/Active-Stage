@@ -53,8 +53,8 @@ router.post('/getFilteredReports', getFilteredReports);
 
 router.get('/getBandNames/:startDate/:endDate', getBandNames);
 
-router.post('/cancelEvent/:eventId', cancelEvent);
-router.post('/updateEvent/:eventId', updateEvent);
+router.post('/cancelEvent/:eventId/:status', cancelEvent);
+router.post('/updateEvent/:eventId/:status', updateEvent);
 router.post('/cancelPassedEvents', cancelPassedEvents);
 
 router.post('/blockUser/:userId', blockUserAndUnassignEvents);

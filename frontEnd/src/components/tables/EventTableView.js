@@ -67,6 +67,7 @@ import { format } from 'date-fns';
             }
             EventId={EventId}
             EventDate={eventDate}
+            eventStatus={status}
           />
           <UpdateEvent
             disabled={
@@ -80,6 +81,7 @@ import { format } from 'date-fns';
             Description={Description}
             musicalStyleList={musicalStyleList}
             musicalTypeName={musicalTypeName}
+            eventStatus={status}
           />
           <AssignMusician
             EventDate={eventDate}

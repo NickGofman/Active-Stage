@@ -34,7 +34,7 @@ function RegisterToEvent({ date, hour, type, register }) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Register To Event: {date}</DialogHeader>
+        <DialogHeader>Register To Event At: {date}</DialogHeader>
         <DialogBody className="flex flex-col lg:flex-row items-center lg:justify-between">
           <div className="flex  items-center">
             <Typography variant="lead">
@@ -42,8 +42,8 @@ function RegisterToEvent({ date, hour, type, register }) {
             </Typography>
           </div>
           <div>
-            <Typography variant="h3">Time: {hour}</Typography>
-            <Typography variant="h4">Event: {type}</Typography>
+            <Typography variant="h4">Time: {hour}</Typography>
+            <Typography variant="h4">Musical Style: {type}</Typography>
           </div>
         </DialogBody>
         <DialogFooter className="space-x-2">

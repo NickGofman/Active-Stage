@@ -67,7 +67,7 @@ function MusicianAssignCard(props) {
     //   <BlockUserWaraning handleBlockUser={blockUser} userId={userId}/>
     // </CardFooter>
     // </Card>
-    <Card className="mt-6 w-96">
+    <Card className="mt-6 w-96 flex">
       <CardHeader color="blue-gray" className="relative h-56">
         <img
           src={
@@ -97,7 +97,12 @@ function MusicianAssignCard(props) {
             href={Url}
             target="_blank"
             rel="noreferrer"
-            className="mb-2 text-black font-bold text-sm"
+            className="mb-2 text-black font-bold text-sm truncate max-w-[350px] text-ellipsis block"
+            // style={{
+            //   maxWidth: '150px',
+            //   textOverflow: 'ellipsis',
+            //   display: 'block',
+            // }}
           >
             Youtube Channel: {Url}
           </a>

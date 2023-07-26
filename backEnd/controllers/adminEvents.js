@@ -52,7 +52,6 @@ const createEvent = (req, res) => {
 };
 const getMusicalStyles = (req, res) => {
   const q = 'Select * FROM typesdescription';
-  console.log('BACKEND getMusicalStyles');
   pool.query(q, (err, data) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -73,8 +72,6 @@ const getEventsDate = (req, res) => {
 };
 
 const getThreeEventsToAssign = (req, res) => {
-  console.log('getAllAssignMusicians');
-
   const q = `
  SELECT e.EventID,Date
 , COUNT(mre.UserId) AS RCount
@@ -96,8 +93,6 @@ const getThreeEventsToAssign = (req, res) => {
   });
 };
 const getEventsPassedWithoutIncome = (req, res) => {
-  console.log('getEventsWithoutIncome');
-
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
 , m.BandName AS BandName
@@ -119,7 +114,6 @@ LIMIT 3;
 
 const getAllUsersPerEvent = (req, res) => {
   const { EventID } = req.params;
-  console.log('getAllUsersPerEvent EventID:', EventID);
 
   const q = `
   SELECT m.BandName, m.Description, m.YearsOfExperience, m.UserId,m.URL,u.PhoneNumber,m.Photo
@@ -139,7 +133,6 @@ const getAllUsersPerEvent = (req, res) => {
 };
 const assignMusicianToEventById = (req, res) => {
   const { EventID, UserId } = req.params;
-  console.log('assignMusicianToEventById: EventID:', EventID);
   const qAssignMusician = `
     UPDATE event AS e
     JOIN musician_register_event AS mre ON e.EventID = mre.EventID
@@ -429,21 +422,28 @@ const cancel = (eventId, res) => {
 };
 
 const cancelEvent = (req, res) => {
-  const { eventId } = req.params;
+  const { eventId, status } = req.params;
+  console.log("status",status)
+  console.log("eventid",eventId)
 
+  let getEmailQuery = '';
   // Retrieve the list of registered musicians' emails for the canceled event
-  const getEmailQuery = `SELECT mre.Email, e.date FROM musician_register_event as mre join event as e on e.EventId = mre.EventID and e.EventID = ?`;
+  if (status === 'Published') {
+    getEmailQuery = `SELECT mre.Email, e.date FROM musician_register_event as mre join event as e on e.EventId = mre.EventID and e.EventID = ?`;
+  } else {
+    getEmailQuery=`SELECT DISTINCT mre.Email,e.Date
+    FROM musician_register_event as mre join event as e on mre.UserId=e.UserId
+    WHERE e.EventId = ?`;
+  }
   pool.query(getEmailQuery, [eventId], (err, emails) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('emails', emails);
     if (emails.length === 0) cancel(eventId, res);
     else {
       // Extract the list of emails from the result
       const userEmails = emails.map((row) => row.Email);
       const eventDate = emails.map((row) => row.date);
-      console.log('emails', eventDate);
 
       // Send emails to all the registered musicians about the event cancellation
       userEmails.forEach((userEmails) => {
@@ -457,13 +457,19 @@ const cancelEvent = (req, res) => {
 };
 
 const updateEvent = (req, res) => {
-  const { eventId } = req.params;
+  const { eventId, status } = req.params;
   const updatedEvent = req.body;
-
+  let getEmail = '';
+  console.log('sss', status);
   // Extract the updated values from the request body
   const { description, dateTime, musicalTypeId } = updatedEvent;
-
-  const getEmail = `SELECT Email FROM musician_register_event WHERE EventId = ?`;
+  if (status === 'Published') {
+    getEmail = `SELECT Email FROM musician_register_event WHERE EventId = ?`;
+  } else {
+    getEmail = `SELECT Email 
+    FROM musician_register_event as mre join event as e on mre.UserId=e.UserId
+    WHERE e.EventId = ?`;
+  }
   pool.query(getEmail, [eventId], (err, Emails) => {
     if (err) {
       return res.status(500).json({ error: err.message });
