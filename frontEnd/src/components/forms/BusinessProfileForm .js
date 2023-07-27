@@ -3,7 +3,6 @@ import { Input, Button, Typography } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useUpdateAdminData } from '../../hooks/useAdminProfileData';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
-import Loader from '../loader/Loader';
 
 function BusinessProfileForm(props) {
   const { businessName, address, PhoneNumber, managerName, Email } =
@@ -29,45 +28,50 @@ function BusinessProfileForm(props) {
   }, [props?.data?.data[0]]);
   // send data to backEnd to update user profile
 
-  const {
-    mutate: update,
-    isError,
-    error,
-    isLoading,
-  } = useUpdateAdminData(inputs);
+  const mut = useUpdateAdminData(inputs);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    return error;
-  }
+  // if (isError) {
+  //   return error;
+  // }
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
-  const handleUpdate = () => {
-    if (
-      /^05\d-\d{7}$/.test(inputs.phone) &&
-      inputs.businessName !== '' &&
-      inputs.address !== '' &&
-      inputs.managerName !== ''
-    ) {
-      update(inputs);
-      setErr('');
-    } else {
-      if (!/^05\d-\d{7}$/.test(inputs.phone))
-        setErr('Phone number is not in the right format');
-      else
-        setErr(
-          "Business Name , Address,Manager Name shouldn't be empty"
-        );
-      return;
+
+  const handleUpdate = async () => {
+    const isPhoneValid = /^05\d-\d{7}$/.test(inputs.phone);
+    const isBusinessNameValid = inputs.businessName !== '';
+    const isAddressValid = inputs.address !== '';
+    const isManagerNameValid = inputs.managerName !== '';
+    const isEmailValid = /^\S+@\S+\.\S+[a-zA-Z0-9]$/.test(inputs.businessEmail);
+
+    try {
+      if (
+        isPhoneValid &&
+        isBusinessNameValid &&
+        isAddressValid &&
+        isManagerNameValid &&
+        isEmailValid
+      ) {
+        await mut.mutateAsync(inputs);
+        setErr('Update Successful');
+      } else {
+        if (!isPhoneValid) {
+          setErr('Phone number is not in the right format');
+        } else if (!isEmailValid) {
+          setErr('Invalid email address');
+        } else {
+          setErr("Business Name, Address, and Manager Name shouldn't be empty");
+        }
+      }
+    } catch (error) {
+      console.log(mut);
+      setErr(`${error.response.data}`);
     }
   };
+
   return (
     <div className="max-w-lg  w-auto md:w-full  px-6 py-12 bg-white shadow-md rounded-md">
       <Typography color="blue" className="mb-2" variant="h5">
@@ -79,7 +83,8 @@ function BusinessProfileForm(props) {
           id="inputBusinessEmail"
           type="text"
           name="businessEmail"
-          readOnly={true}
+          required={true}
+          onChange={handleChange}
           value={inputs.businessEmail}
         />
         <Input

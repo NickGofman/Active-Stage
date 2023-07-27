@@ -21,9 +21,11 @@ import {
 } from '../../hooks/useAdminEvents';
 import { useQueryClient } from 'react-query';
 import Loader from '../loader/Loader';
+import { useAddNewMusicalStyle } from '../../hooks/useAdminActivities';
 
 function CreateNewEvent() {
   const [err, setErr] = useState('');
+  const [errAdd, setErrAdd] = useState('');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState({
     startDate: '',
@@ -34,8 +36,14 @@ function CreateNewEvent() {
     date: '',
     description: '',
     time: '21:00',
-    musicalTypeId:undefined,
+    musicalTypeId: undefined,
   });
+
+  const [musicalStyleToAdd, setMusicalStyleToAdd] = useState('');
+
+  const handleChangeMusicalStyleAdd = (e) => {
+    setMusicalStyleToAdd(e.target.value);
+  };
   const handleOpen = () => {
     setOpen(!open);
     setErr('');
@@ -68,9 +76,20 @@ function CreateNewEvent() {
   const onError = () => {
     setErr('Failed To Create Event');
   };
-  const {
-    mutate: createEvent,
-  } = useCreateNewEvent(onSuccess, onError);
+
+  const onSuccessAdd = () => {
+    setErrAdd('Musical style added!');
+    setMusicalStyleToAdd('');
+
+    queryClient.invalidateQueries('getEventDates');
+  };
+  const onErrorAdd = (error) => {
+    setErrAdd(`${error.response.data.error}`);
+  };
+
+  const { mutate: addStyle } = useAddNewMusicalStyle(onSuccessAdd, onErrorAdd);
+  const { mutate: createEvent } = useCreateNewEvent(onSuccess, onError);
+
   if (musicalStyleLoading || datesIsLoading) {
     return <Loader />;
   }
@@ -110,15 +129,22 @@ function CreateNewEvent() {
       otherInput.dateTime = dateTime;
       createEvent(otherInput);
       setDate({ startDate: '' });
-       setInputs({
-         ...inputs,
-         musicalTypeId: "",
-       });
+      setInputs({
+        ...inputs,
+        musicalTypeId: '',
+      });
     } else {
       setErr('Must select a Date, Time and Musical style');
 
       return;
     }
+  };
+
+  const handleAddMusicalStyle = () => {
+    if (musicalStyleToAdd !== '') {
+      addStyle(musicalStyleToAdd);
+      setErrAdd('');
+    } else setErrAdd('Style Input is empty!');
   };
 
   return (
@@ -139,9 +165,13 @@ function CreateNewEvent() {
         }}
       >
         <DialogHeader>Create New Event</DialogHeader>
-        <DialogBody divider>
-          <div className="flex flex-col w-72  gap-2">
+        <DialogBody
+          divider
+          className="flex flex-col  lg:gap-3 lg:flex-row   md:flex-col"
+        >
+          <div className="flex flex-col w-72   gap-2">
             <Typography variant="small">Pick A Date:</Typography>
+
             <Datepicker
               key={JSON.stringify(date)}
               minDate={new Date()}
@@ -187,8 +217,29 @@ function CreateNewEvent() {
               value={inputs.description}
               onChange={handleChange}
             />
-            <Typography variant="h6" color="red">
+            <Typography variant="small" color="red">
               {err && err}
+            </Typography>
+          </div>
+          <div className=" flex flex-col lg:justify-start  w-72 gap-2">
+            <Typography> Add a new Style</Typography>
+            <Input
+              name="musicalStyleToAdd"
+              type="text"
+              size="lg"
+              label="Add New Musical Style"
+              value={musicalStyleToAdd}
+              onChange={handleChangeMusicalStyleAdd}
+            />
+            <Button
+              variant="gradient"
+              color="yellow"
+              onClick={handleAddMusicalStyle}
+            >
+              <span>Add new Style</span>
+            </Button>
+            <Typography variant="small" color="red">
+              {errAdd && errAdd}
             </Typography>
           </div>
         </DialogBody>

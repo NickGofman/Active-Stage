@@ -6,21 +6,33 @@ const jwt = require('jsonwebtoken');
 const updateProfile = (req, res) => {
   const token = req.cookies.accessToken;
   console.log('CONTROLLERS BACKEND updateProfile');
-  const { businessName, address, phone, managerName } = req.body;
+  const { businessEmail, businessName, address, phone, managerName } = req.body;
 
   if (!token) return res.status(401).json('Not logged in!');
   jwt.verify(token, 'secretKey', (err, userInfo) => {
     if (err) return res.status(403).json('Token is not valid!');
-    const qUpdateProfile =
-      'UPDATE business JOIN user ON business.UserId = user.UserId SET business.businessName = ?, business.address = ?, user.PhoneNumber = ?, business.managerName = ? WHERE business.UserId = ?';
+    const qCheckEmail = 'SELECT * FROM user WHERE Email = ?';
 
-    const values = [businessName, address, phone, managerName, userInfo.id];
-    pool.query(qUpdateProfile, values, (err, data) => {
+    pool.query(qCheckEmail, [businessEmail], (err, userData) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json('Admin information updated successfully');
+
+      if (userData.length > 0 && userData[0].UserId !== userInfo.id) {
+        // Email already exists for another user
+        return res.status(409).json('Email already exists for another user');
+      }
+
+      const qUpdateProfile =
+        'UPDATE business JOIN user ON business.UserId = user.UserId SET business.businessName = ?, business.address = ?, user.PhoneNumber = ?, business.managerName = ? WHERE business.UserId = ?';
+
+      const values = [businessName, address, phone, managerName, userInfo.id];
+      pool.query(qUpdateProfile, values, (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json('Admin information updated successfully');
+      });
     });
   });
 };
+
 //#endregion
 
 //#region ================GET ADMIN PROFILE================

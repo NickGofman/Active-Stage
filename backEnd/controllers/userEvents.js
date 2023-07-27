@@ -37,7 +37,7 @@ const getAssignedEvents = (req, res) => {
 FROM event AS e
 JOIN musician_register_event AS mre ON e.EventID = mre.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
-WHERE e.UserID = ? AND e.Status <> 'Cancelled'
+WHERE e.UserID = ? AND e.Status = 'Assigned'
 
   `;
 

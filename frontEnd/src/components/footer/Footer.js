@@ -66,7 +66,7 @@ function Footer() {
         </div>
       )}
 
-      <p className=" text-center text-sm text-gray-500 sm:ml-4 sm:pl-4 ">
+      <p className=" text-center text-sm sm:ml-4 sm:pl-4 ">
         © {currentYear} Active Stage @Nick Gofman & Saar Yanckovich
       </p>
     </footer>

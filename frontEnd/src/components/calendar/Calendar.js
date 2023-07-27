@@ -48,14 +48,19 @@ export default function Calendar(props) {
 
   return (
     <div className="rounded-md text-xl border-4 flex flex-col">
-      <div className="flex items-center mb-2">
-        <div className="text-sm mr-4 font-semibold">Published events</div>
-        <div className={'w-3 h-3 rounded-full bg-green-500'}></div>
+        <div className="flex items-center">
+          <div className="text-sm font-semibold w-32">Published events</div>
+          <div className={'w-3 h-3 rounded-full bg-green-500'}></div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-sm font-semibold w-32">Assigned events</div>
+          <div className={'w-3 h-3 rounded-full bg-yellow-700'}></div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-sm font-semibold w-32">Closed events</div>
+          <div className={'w-3 h-3 rounded-full bg-red-500'}></div>
       </div>
-      <div className="flex items-center">
-        <div className="text-sm mr-5 font-semibold">Assigned events</div>
-        <div className={'w-3 h-3 rounded-full bg-yellow-700'}></div>
-      </div>
+
       <div className="pt-12 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 space-x-5 md:divide-gray-200">
           <section className="mt-12 md:mt-0 md:pl-14">
@@ -165,6 +170,8 @@ export default function Calendar(props) {
                               className={`w-2 h-2 rounded-full ${
                                 meeting.Status === 'Published'
                                   ? 'bg-green-500'
+                                  : meeting.Status === 'Closed'
+                                  ? 'bg-red-500'
                                   : 'bg-yellow-700'
                               }`}
                             ></div>
@@ -185,7 +192,6 @@ export default function Calendar(props) {
 function Meeting({ meeting }) {
   const date = parseISO(meeting.Date);
   const subHour = subHours(date, 3);
-
   return meeting.Status === 'Published' ? (
     <li className="flex flex-col items-start  px-4 py-2 group rounded-xl focus-within:bg-gray-100  text-gray-900 hover:bg-gray-100">
       <div>
@@ -208,6 +214,9 @@ function Meeting({ meeting }) {
         className="flex-none w-20 h-20 rounded-full object-cover"
       />
       <div className="flex-auto text-gray-900">
+        {meeting.Status === 'Closed' && (
+          <div className="rounded-full text-center bg-red-200">Closed</div>
+        )}
         <p>{meeting.BandName}</p>
         <p>{meeting.PhoneNumber}</p>
         <div className=" flex flex-row space-x-2">

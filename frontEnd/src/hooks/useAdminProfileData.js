@@ -5,7 +5,6 @@ const fetchAdminProfileData = (userId) => {
   return makeRequest.get(`/admin/profile/${userId}`);
 };
 
-
 export const useAdminProfileData = (onError, onSuccess, userId, isUser) => {
   return useQuery('getAdminProfile', () => fetchAdminProfileData(userId), {
     onSuccess,
@@ -21,4 +20,3 @@ const updateAdminProfileData = (data) => {
   //axios request
   return makeRequest.post('/admin/updateProfile', data);
 };
-

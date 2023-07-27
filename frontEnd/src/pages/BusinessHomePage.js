@@ -5,7 +5,8 @@ import CreateNewEvent from '../components/popup/CreateNewEvent';
 import {
   useGetEventsPassedWithoutIncome,
   useGetThreeEventsToAssign,
-  useGetUpcomingEvents,
+  useGetEventsForCalendar,
+  useGetThreeUpcomingEvents,
 } from '../hooks/useAdminEvents';
 const BusinessHomePage = () => {
   const {
@@ -21,22 +22,33 @@ const BusinessHomePage = () => {
     isLoading: isLoadingIncome,
   } = useGetEventsPassedWithoutIncome();
   const {
-    data: dataUpcoming,
-    isError: isErrorUpcoming,
-    isLoading: isLoadingUpcoming,
-  } = useGetUpcomingEvents();
+    data: dataEvents,
+    isError: isErrorEvents,
+    isLoading: isLoadingEvents,
+  } = useGetEventsForCalendar();
 
-  if (isLoading || isLoadingIncome || isLoadingUpcoming) {
+  const {
+    data: dataThreeUpcomingEvent,
+    isError: isErrorThreeUpcomingEvent,
+    isLoading: isLoadingThreeUpcomingEvent,
+  } = useGetThreeUpcomingEvents();
+
+  if (
+    isLoading ||
+    isLoadingIncome ||
+    isLoadingEvents ||
+    isLoadingThreeUpcomingEvent
+  ) {
     return <Loader />;
   }
-  if (isError || isErrorIncome || isErrorUpcoming) {
+  if (isError || isErrorIncome || isErrorEvents || isErrorThreeUpcomingEvent) {
     return <div>Error</div>;
   }
   // console.log('dataAssign', dataAssign);
   return (
     <div className=" flex flex-grow px-5 py-24 pt-0 mx-auto flex-col justify-center items-center mt-10">
       <div className="flex flex-col space-y-4  lg:space-y-0 lg:flex-row space-x-2">
-        <Calendar data={dataUpcoming?.data} />
+        <Calendar data={dataEvents?.data} />
         <div className="lg:flex lg:flex-col space-y-4  lg:space-y-4 md:grid md:grid-cols-2 md:gap-3 justify-center ">
           <CreateNewEvent />
           <UpcomingEventsInfoCard
@@ -56,7 +68,7 @@ const BusinessHomePage = () => {
             header="Upcoming Event"
             isAssign={true}
             isAssignIncome={false}
-            data={dataUpcoming?.data}
+            data={dataThreeUpcomingEvent?.data}
           />
         </div>
       </div>

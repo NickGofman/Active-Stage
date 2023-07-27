@@ -80,7 +80,7 @@ const getThreeEventsToAssign = (req, res) => {
     JOIN musician AS m ON mre.UserId = m.UserId
     JOIN user AS u ON m.Email = u.Email
     AND u.Status = 'Active'
-    WHERE e.Status = 'Published'
+    WHERE e.Status = 'Published' 
     GROUP BY  e.EventID ,e.Date
 	ORDER BY e.Date ASC
     LIMIT 3
@@ -202,14 +202,14 @@ const addIncome = (req, res) => {
       .json({ message: 'Income updated successfully. Event closed.' });
   });
 };
-const getUpcomingEvents = (req, res) => {
+const getEventsForCalendar = (req, res) => {
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
  m.BandName AS BandName ,m.Photo,u.PhoneNumber,e.Status
     FROM event AS e
     LEFT JOIN musician AS m ON e.UserId = m.UserId
     LEFT JOIN user AS u ON u.UserId = m.UserId
-    WHERE (e.Status = 'Assigned' OR e.Status='Published') AND e.Date > CURDATE()
+    WHERE  e.Status <>'Cancelled' 
     GROUP BY e.EventID, e.Date
     ORDER BY e.Date ASC
    
@@ -227,6 +227,37 @@ const getUpcomingEvents = (req, res) => {
     }
   });
 };
+
+
+const getThreeUpcomingEvents = (req, res) => {
+  const q = `
+    SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
+ m.BandName AS BandName ,m.Photo,u.PhoneNumber,e.Status
+    FROM event AS e
+    LEFT JOIN musician AS m ON e.UserId = m.UserId
+    LEFT JOIN user AS u ON u.UserId = m.UserId
+    WHERE e.Status = 'Assigned' and e.Date>=Current_Date()
+    GROUP BY e.EventID, e.Date
+    ORDER BY e.Date ASC
+   limit 3
+  `;
+
+  // Execute the query to fetch upcoming events from the database
+  pool.query(q, (err, result) => {
+    if (err) {
+      // Handle the error
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      // Send the result as the response
+      res.json(result);
+    }
+  });
+};
+
+
+
+
 const getSortedEventDataByType = (req, res) => {
   const { sortType, endDate, startDate } = req.params;
   console.log('getSortedEventDataByType');
@@ -423,15 +454,15 @@ const cancel = (eventId, res) => {
 
 const cancelEvent = (req, res) => {
   const { eventId, status } = req.params;
-  console.log("status",status)
-  console.log("eventid",eventId)
+  console.log('status', status);
+  console.log('eventid', eventId);
 
   let getEmailQuery = '';
   // Retrieve the list of registered musicians' emails for the canceled event
   if (status === 'Published') {
     getEmailQuery = `SELECT mre.Email, e.date FROM musician_register_event as mre join event as e on e.EventId = mre.EventID and e.EventID = ?`;
   } else {
-    getEmailQuery=`SELECT DISTINCT mre.Email,e.Date
+    getEmailQuery = `SELECT DISTINCT mre.Email,e.Date
     FROM musician_register_event as mre join event as e on mre.UserId=e.UserId
     WHERE e.EventId = ?`;
   }
@@ -579,7 +610,8 @@ module.exports = {
   assignMusicianToEventById,
   getEventsPassedWithoutIncome,
   addIncome,
-  getUpcomingEvents,
+  getEventsForCalendar,
+  getThreeUpcomingEvents,
   getSortedEventDataByType,
   cancelEvent,
   updateEvent,

@@ -17,7 +17,8 @@ const {
   getEventsPassedWithoutIncome,
   getSortedEventDataByType,
   addIncome,
-  getUpcomingEvents,
+  getEventsForCalendar,
+  getThreeUpcomingEvents,
   cancelEvent,
   updateEvent,
 } = require('../controllers/adminEvents.js');
@@ -28,6 +29,7 @@ const {
 } = require('../controllers/adminReports.js');
 const {
   blockUserAndUnassignEvents,
+  addNewMusicalStyle,
 } = require('../controllers/adminActivities.js');
 router.post('/updateProfile', updateProfile);
 router.post('/createEvent', createEvent);
@@ -44,7 +46,10 @@ router.get('/eventsDates', getEventsDate);
 router.get('/getThreeEventsToAssign', getThreeEventsToAssign);
 router.get('/getAllUsersPerEvent/:EventID', getAllUsersPerEvent);
 router.get('/getEventsPassedWithoutIncome', getEventsPassedWithoutIncome);
-router.get('/getUpcomingEvents', getUpcomingEvents);
+router.get('/getEventsForCalendar', getEventsForCalendar);
+
+router.get('/getThreeUpcomingEvents', getThreeUpcomingEvents);
+
 router.get(
   '/getSortedEventDataByType/:sortType/:startDate/:endDate',
   getSortedEventDataByType
@@ -58,6 +63,6 @@ router.post('/updateEvent/:eventId/:status', updateEvent);
 router.post('/cancelPassedEvents', cancelPassedEvents);
 
 router.post('/blockUser/:userId', blockUserAndUnassignEvents);
+router.post('/addNewMusicalStyle/:musicalStyleName', addNewMusicalStyle);
 
-getUpcomingEvents;
 module.exports = router;

@@ -23,7 +23,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             return (
               Status!=='Published'&&<div
                 key={EventID}
-                className="flex justify-center space-x-6 hover:bg-cyan-50 rounded-xl cursor-pointer"
+                className="flex justify-center space-x-6  rounded-xl cursor-pointer"
               >
                 <Typography variant="paragraph">
                   <time dateTime={Date}>
@@ -51,10 +51,10 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             return (
               <div
                 key={EventID}
-                className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer"
+                className="flex justify-center space-x-6 rounded-xl "
               >
                 <Typography variant="paragraph">
-                  {format(addHours(new Date(date),3), 'dd-MM-yyyy')}
+                  {format(new Date(date), 'dd-MM-yyyy')}
                 </Typography>
                 <Typography variant="paragraph">
                   Registered: {RCount}
@@ -87,7 +87,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             return (
               <div
                 key={EventID}
-                className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer"
+                className="flex justify-center space-x-6  rounded-xl "
               >
                 <EventIncome
                   EventId={EventID}

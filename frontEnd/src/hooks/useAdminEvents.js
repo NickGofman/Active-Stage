@@ -43,7 +43,6 @@ export const useGetEventDates = () => {
 
 //#endregion
 
-
 export const useGetThreeEventsToAssign = () => {
   return useQuery('getThreeEventsToAssign', getThreeEventsToAssign);
 };
@@ -70,7 +69,7 @@ export const useAssignMusicianById = () => {
       onSettled: () => {
         // Invalidate relevant queries
         queryClient.invalidateQueries('getThreeEventsToAssign');
-        queryClient.invalidateQueries('getUpcomingEvents');
+        queryClient.invalidateQueries('getEventsForCalendar');
         queryClient.invalidateQueries('getSortedEventDataByType');
         // Add any other relevant operations after successful mutation
       },
@@ -103,6 +102,7 @@ export const useAddIncome = () => {
       // Invalidate queries for both getEventsPassedWithoutIncome and getSortedEventDataByType
       queryClient.invalidateQueries('getEventsPassedWithoutIncome');
       queryClient.invalidateQueries('getSortedEventDataByType');
+      queryClient.invalidateQueries('getEventsForCalendar');
       // Add any other relevant operations after the mutation is settled
     },
     // Add any other mutation options if needed
@@ -114,12 +114,22 @@ const addIncome = (data) => {
   return makeRequest.post(`/admin/addIncome/${eventId}`, { income });
 };
 
-export const useGetUpcomingEvents = () => {
-  return useQuery('getUpcomingEvents', getUpcomingEvents);
+export const useGetEventsForCalendar = () => {
+  return useQuery('getEventsForCalendar', getEventsForCalendar);
 };
-const getUpcomingEvents = () => {
-  return makeRequest.get('/admin/getUpcomingEvents');
+const getEventsForCalendar = () => {
+  return makeRequest.get('/admin/getEventsForCalendar');
 };
+
+
+
+export const useGetThreeUpcomingEvents = () => {
+  return useQuery('getThreeUpcomingEvents', getThreeUpcomingEvents);
+};
+const getThreeUpcomingEvents = () => {
+  return makeRequest.get('/admin/getThreeUpcomingEvents');
+};
+
 export const useSortedEventDataByType = (data) => {
   return useQuery(['getSortedEventDataByType', data], () =>
     getSortedEventDataByType(data)
@@ -145,7 +155,9 @@ export const useCancelEvent = () => {
 };
 
 const cancelEvent = (data) => {
-  return makeRequest.post(`/admin/cancelEvent/${data.EventId}/${data.eventStatus}`);
+  return makeRequest.post(
+    `/admin/cancelEvent/${data.EventId}/${data.eventStatus}`
+  );
 };
 
 export const useUpdateEvent = () => {
@@ -154,14 +166,14 @@ export const useUpdateEvent = () => {
   return useMutation((data) => updateEvent(data), {
     onSettled: () => {
       // Invalidate relevant queries
-      queryClient.invalidateQueries('getUpcomingEvents');
+      queryClient.invalidateQueries('getEventsForCalendar');
       queryClient.invalidateQueries('getSortedEventDataByType');
     },
   });
 };
 
 const updateEvent = (data) => {
-  const { eventId,Status, ...others } = data;
+  const { eventId, Status, ...others } = data;
 
   return makeRequest.post(`/admin/updateEvent/${eventId}/${Status}`, others);
 };
