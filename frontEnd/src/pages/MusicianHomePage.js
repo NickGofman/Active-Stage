@@ -61,7 +61,7 @@
 //           <Typography>My Next Show</Typography>
 //         </CardBody>
 //       </Card>
-      
+
 //       <div className="flex flex-col">
 //         {dataPublishedEvents?.data?.length !== 0 ? (
 //           <PaginationEvents
@@ -98,8 +98,6 @@ import {
 import { format, subHours } from 'date-fns';
 import Loader from '../components/loader/Loader';
 function MusicianHomePage() {
-
-
   //TODO REMOVE ALL DRILLING userID and Email -> USE USeContext
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user ? user.UserId : null;
@@ -147,8 +145,8 @@ function MusicianHomePage() {
   }
 
   return (
-    <div className="flex lg:flex-row flex-col lg:items-start justify-evenly items-center">
-      <div className="flex flex-col justify-center items-center">
+    <div className="flex lg:flex-row lg:items-start justify-evenly items-center flex-col ">
+      <div className="flex flex-col justify-center items-center lg:ml-5">
         <div className="flex flex-col">
           {dataPublishedEvents?.data?.length !== 0 ? (
             <PaginationEvents
@@ -164,7 +162,7 @@ function MusicianHomePage() {
           )}
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col lg:mr-5">
         <Card className="mt-6 w-96">
           <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
             <Typography variant="h5" color="blue-gray" className="mb-2">
@@ -185,20 +183,31 @@ function MusicianHomePage() {
               <Typography className="text-xl  mb-2 font-semibold">
                 My Previous Shows
               </Typography>
-              <div className=" h-96 overflow-scroll overflow-x-hidden border rounded">
-                {dataPreviousEvents?.data?.map((event) => (
-                  <div
-                    key={event.EventID}
-                    className="bg-white shadow-md rounded-md p-4 mb-4 w-96 "
-                  >
-                    <Typography variant="h6" color="blue-gray" className="mb-1">
-                      {event.musicalTypeName} 
-                    </Typography>
-                    <Typography className="text-gray-500">
-                      {event.Date}
-                    </Typography>
-                  </div>
-                ))}
+              <div className=" h-96 overflow-scroll{ overflow-x-hidden border rounded">
+                {dataPreviousEvents?.data?.map(
+                  ({ EventID, musicalTypeName, Date: date }) => {
+                    date = new Date(date);
+                    date = format(date, 'dd-MM-yyyy HH:mm');
+
+                    return (
+                      <div
+                        key={EventID}
+                        className="bg-white shadow-md rounded-md p-4 mb-4 w-96 "
+                      >
+                        <Typography
+                          variant="h6"
+                          color="blue-gray"
+                          className="mb-1"
+                        >
+                          {musicalTypeName}
+                        </Typography>
+                        <Typography className="text-gray-500">
+                          {date}
+                        </Typography>
+                      </div>
+                    );
+                  }
+                )}
               </div>
             </div>
           ) : (

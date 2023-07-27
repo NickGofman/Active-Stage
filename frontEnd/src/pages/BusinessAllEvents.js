@@ -51,8 +51,8 @@ function BusinessAllEvents() {
     setDate(newValue);
   };
   return (
-    <div className="flex flex-col items-center space-y-9 mt-10">
-      <div className="shadow-md sm:rounded-lg">
+    <div className="flex flex-col  items-center space-y-9 mt-10">
+      <div className=" shadow-md sm:rounded-lg">
         <div className="flex justify-end">
           <Datepicker
             containerClassName=" relative max-w-sm "

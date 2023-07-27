@@ -67,7 +67,6 @@ function BusinessProfileForm(props) {
         }
       }
     } catch (error) {
-      console.log(mut);
       setErr(`${error.response.data}`);
     }
   };

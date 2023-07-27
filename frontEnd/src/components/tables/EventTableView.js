@@ -59,7 +59,7 @@ import { format } from 'date-fns';
           {newDateObj} {formattedTime}
         </td>
         <td>{status}</td>
-        <td className="grid grid-cols-2 gap-3 m-3 lg:flex lg:flex-row">
+        <td className="grid grid-cols-2 gap-3 m-3 lg:flex lg:flex-row lg:justify-end">
           <WarningCancel
             disabled={
               status === 'Published' ||

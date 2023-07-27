@@ -301,7 +301,6 @@ const getSortedEventDataByType = (req, res) => {
           AND DATE(e.Date) <= DATE(?)
           AND (
             e.Status = 'Closed'
-            OR (e.Status = 'WithoutIncome' AND e.Income = 0)
             OR e.Status = 'Assigned'
             OR e.Status = 'Published'
           )

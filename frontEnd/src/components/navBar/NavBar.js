@@ -14,13 +14,17 @@ import { HiOutlineDocumentReport } from 'react-icons/hi';
 import MainLogo from '../../logo/NJs0uK01.svg';
 import { AuthContext } from '../../components/context/authContext';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
   const { logout, currentUser } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   const handleLogout = async () => {
     await logout();
+  };
+  const handleNavigateToHome = () => {
+    
+    navigate(`/${currentUser.Role}`);
   };
   useEffect(() => {
     console.log('useEffect NAV');
@@ -164,7 +168,8 @@ export default function NavBar() {
           <img
             src={MainLogo}
             alt="Active-Stage Logo"
-            className="w-[150px] h-[100px]"
+            className="w-[150px] h-[100px] hover:cursor-pointer"
+            onClick={handleNavigateToHome}
           />
           <Button
             onClick={handleLogout}
