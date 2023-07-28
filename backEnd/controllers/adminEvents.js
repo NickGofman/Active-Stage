@@ -5,8 +5,6 @@ const emailFunctions = require('../emailUtils/emailFunctions'); // Import the em
 
 const createEvent = (req, res) => {
   const { description, dateTime, musicalTypeId } = req.body;
-  console.log('BACKEND createEvent');
-
   // Extract the date component from the dateTime
   const date = dateTime.split(' ')[0];
 
@@ -72,6 +70,7 @@ const getEventsDate = (req, res) => {
 };
 
 const getThreeEventsToAssign = (req, res) => {
+
   const q = `
  SELECT e.EventID,Date
 , COUNT(mre.UserId) AS RCount
@@ -228,7 +227,6 @@ const getEventsForCalendar = (req, res) => {
   });
 };
 
-
 const getThreeUpcomingEvents = (req, res) => {
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
@@ -254,9 +252,6 @@ const getThreeUpcomingEvents = (req, res) => {
     }
   });
 };
-
-
-
 
 const getSortedEventDataByType = (req, res) => {
   const { sortType, endDate, startDate } = req.params;

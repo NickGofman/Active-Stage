@@ -121,8 +121,6 @@ const getEventsForCalendar = () => {
   return makeRequest.get('/admin/getEventsForCalendar');
 };
 
-
-
 export const useGetThreeUpcomingEvents = () => {
   return useQuery('getThreeUpcomingEvents', getThreeUpcomingEvents);
 };
@@ -187,6 +185,7 @@ const cancelPassedEvents = () => {
 
 export const useSortedEventReports = (data) => {
   console.log('FRONT: useSortedEventReports');
+
   return useQuery(['getSortedEventReports', data], () =>
     getSortedEventReports(data)
   );
@@ -202,7 +201,18 @@ export const useGetBandNames = (data) => {
     getBandNames(startDate, endDate)
   );
 };
-
 const getBandNames = (startDate, endDate) => {
   return makeRequest.get(`/admin/getBandNames/${startDate}/${endDate}`);
+};
+export const useGetMusicalStylesByDate = (data) => {
+
+  const { startDate, endDate } = data;
+  return useQuery(['getMusicalStylesByDate', startDate, endDate], () =>
+    getMusicalStylesByDate(startDate, endDate)
+  );
+};
+const getMusicalStylesByDate = (startDate, endDate) => {
+  return makeRequest.get(
+    `/admin/getMusicalStylesByDate/${startDate}/${endDate}`
+  );
 };

@@ -26,6 +26,7 @@ const {
 const {
   getBandNames,
   getFilteredReports,
+  getMusicalStylesByDate,
 } = require('../controllers/adminReports.js');
 const {
   blockUserAndUnassignEvents,
@@ -57,6 +58,10 @@ router.get(
 router.post('/getFilteredReports', getFilteredReports);
 
 router.get('/getBandNames/:startDate/:endDate', getBandNames);
+router.get(
+  '/getMusicalStylesByDate/:startDate/:endDate',
+  getMusicalStylesByDate
+);
 
 router.post('/cancelEvent/:eventId/:status', cancelEvent);
 router.post('/updateEvent/:eventId/:status', updateEvent);

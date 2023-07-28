@@ -73,8 +73,34 @@ const getFilteredReports = (req, res) => {
   });
 };
 
+const getMusicalStylesByDate = (req, res) => {
+  const { startDate, endDate } = req.params;
+  console.log('BACK END getMusicalStylesByDate', startDate, endDate);
+  const query = `
+SELECT DISTINCT typesdescription.MusicalTypeID, typesdescription.MusicalTypeName
+FROM musician
+JOIN musician_register_event ON musician.UserId = musician_register_event.UserId
+JOIN event ON musician_register_event.UserId = event.UserId
+JOIN typesdescription ON event.MusicalTypeID = typesdescription.MusicalTypeID
+WHERE event.Status = 'Closed'
+  AND event.Date >= DATE(?)
+  AND event.Date <= DATE(?) 
+  `;
 
+  // Execute the query and retrieve the band names
+  pool.query(query, [startDate, endDate], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .json({ error: 'An error occurred while fetching Musical Styles.' });
+    }
+
+    return res.status(200).json(results);
+  });
+};
 module.exports = {
   getBandNames,
   getFilteredReports,
+  getMusicalStylesByDate,
 };

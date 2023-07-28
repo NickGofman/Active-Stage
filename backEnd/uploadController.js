@@ -2,7 +2,7 @@ const { unlink } = require('fs');
 const path = require('path');
 const multer = require('multer');
 
-const maxSize = 1 * 1024 * 1024; //~1MB
+const maxSize = 2 * 1024 * 1024; //~2MB
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -35,7 +35,7 @@ const handleMulterErrors = (err, req, res, next) => {
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res
         .status(400)
-        .json({ message: 'File size exceeds the limit 1MB' });
+        .json({ message: 'File size exceeds the limit 2MB' });
     } else {
       return res.status(400).json({ message: err.message });
     }

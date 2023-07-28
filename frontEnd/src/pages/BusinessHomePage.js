@@ -46,7 +46,7 @@ const BusinessHomePage = () => {
   }
   // console.log('dataAssign', dataAssign);
   return (
-    <div className=" flex flex-grow px-5 py-24 pt-0 mx-auto flex-col justify-center items-center mt-10">
+    <div className=" flex flex-grow px-5 py-24 pt-0 mx-auto flex-col justify-center items-center mt-10 ">
       <div className="flex flex-col space-y-4  lg:space-y-0 lg:flex-row space-x-2">
         <Calendar data={dataEvents?.data} />
         <div className="lg:flex lg:flex-col space-y-4  lg:space-y-4 md:grid md:grid-cols-2 md:gap-3 justify-center ">

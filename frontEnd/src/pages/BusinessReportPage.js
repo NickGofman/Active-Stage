@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Select, Option, Typography } from '@material-tailwind/react';
 import dayjs from 'dayjs';
 import {
-  useGetMusicalStyles,
+  useGetMusicalStylesByDate,
   useGetBandNames,
   useSortedEventReports,
 } from '../hooks/useAdminEvents';
@@ -33,7 +33,10 @@ function BusinessReportPage() {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
     isError: musicalStyleIsError,
-  } = useGetMusicalStyles();
+  } = useGetMusicalStylesByDate({
+    startDate: date.startDate,
+    endDate: date.endDate,
+  });
   const {
     isLoading: bandNameLoading,
     data: bandNameList,
@@ -46,9 +49,7 @@ function BusinessReportPage() {
     isError: reportsNameIsError,
   } = useSortedEventReports(sortData);
   if (bandNameLoading || musicalStyleLoading || reportsLoading) {
-    return (
-        <Loader />
-    );
+    return <Loader />;
   }
 
   if (bandNameIsError || musicalStyleIsError || reportsNameIsError) {
@@ -91,16 +92,19 @@ function BusinessReportPage() {
 
     setDate(newValue);
   };
+
   let totalRevenue = 0;
   reportsNameList?.data.forEach((elem) => {
     totalRevenue += elem.Income;
   });
+
+  console.log('musicalStyleList', musicalStyleList);
   return (
     <>
       <div className="grid grid-cols-3 gap-4 mt-10 mr-16 ml-16">
         <div>
           <Datepicker
-            containerClassName=" relative max-w-sm"
+            containerClassName="relative max-w-sm border-[1px] border-blue-200 rounded-[7px]"
             useRange={false}
             value={date}
             onChange={handleDateChange}
@@ -128,15 +132,21 @@ function BusinessReportPage() {
           value={inputs.musicalTypeId}
           onChange={handleChangeStyle}
         >
-          {musicalStyleList?.data?.map((style) => (
-            <Option
-              name="musicalStyleOption"
-              key={style.MusicalTypeID}
-              value={style.MusicalTypeID.toString()}
-            >
-              {style.MusicalTypeName}
+          {musicalStyleList?.data?.length !== 0 ? (
+            musicalStyleList?.data?.map((style) => (
+              <Option
+                name="musicalStyleOption"
+                key={style.MusicalTypeID}
+                value={style.MusicalTypeID.toString()}
+              >
+                {style.MusicalTypeName}
+              </Option>
+            ))
+          ) : (
+            <Option name="musicalStyleOption">
+              No Events - chage date range
             </Option>
-          ))}
+          )}
         </Select>
       </div>
       <div className="flex flex-col mt-10 mr-16 ml-16">

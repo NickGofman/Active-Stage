@@ -4,8 +4,6 @@ import AssignMusician from '../popup/AssignMusician';
 import { subHours, format, parseISO, addHours } from 'date-fns';
 
 const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
-  const upcomingEvents = data?.filter(({ Status }) => Status === 'Assigned').slice(0,3);//get the three assigned events
-
   return (
     <>
       {isAssign ? (
@@ -16,24 +14,26 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             </Typography>
           </CardHeader>
 
-          {upcomingEvents?.map(({ Date, EventID,Status }) => {
+          {data?.map(({ Date, EventID, Status }) => {
             const eventDate = parseISO(Date);
             const threeHoursBehindDate = subHours(eventDate, 3);
 
             return (
-              Status!=='Published'&&<div
-                key={EventID}
-                className="flex justify-center space-x-6  rounded-xl cursor-pointer"
-              >
-                <Typography variant="paragraph">
-                  <time dateTime={Date}>
-                    {format(threeHoursBehindDate, 'dd-MM-yyyy HH:mm')}
-                  </time>
-                </Typography>
-              </div>
+              Status !== 'Published' && (
+                <div
+                  key={EventID}
+                  className="flex justify-center space-x-6  rounded-xl cursor-pointer"
+                >
+                  <Typography variant="paragraph">
+                    <time dateTime={Date}>
+                      {format(threeHoursBehindDate, 'dd-MM-yyyy HH:mm')}
+                    </time>
+                  </Typography>
+                </div>
+              )
             );
           })}
-          {upcomingEvents?.length === 0 && (
+          {data?.length === 0 && (
             <div className="flex justify-center space-x-6 hover:bg-cyan-50 rounded-xl cursor-pointer">
               <Typography variant="paragraph">No upcoming events</Typography>
             </div>
@@ -47,7 +47,6 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             </Typography>
           </CardHeader>
           {data?.map(({ EventID, Date: date, RCount }) => {
-            
             return (
               <div
                 key={EventID}
