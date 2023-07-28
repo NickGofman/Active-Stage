@@ -12,7 +12,7 @@ import ReportTable from '../components/tables/ReportTable';
 import Loader from '../components/loader/Loader';
 function BusinessReportPage() {
   const currentDate = new Date();
-  const [musicalTypeName, setMusicalTypeName] = useState('');
+  // const [musicalTypeName, setMusicalTypeName] = useState('');
 
   const [date, setDate] = useState({
     startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
@@ -36,12 +36,17 @@ function BusinessReportPage() {
   } = useGetMusicalStylesByDate({
     startDate: date.startDate,
     endDate: date.endDate,
+    bandName: inputs.bandName,
   });
   const {
     isLoading: bandNameLoading,
     data: bandNameList,
     isError: bandNameIsError,
-  } = useGetBandNames({ startDate: date.startDate, endDate: date.endDate });
+  } = useGetBandNames({
+    startDate: date.startDate,
+    endDate: date.endDate,
+    musicalTypeId: inputs.musicalTypeId,
+  });
 
   const {
     isLoading: reportsLoading,
@@ -58,13 +63,13 @@ function BusinessReportPage() {
     );
   }
   const handleChangeStyle = (selectedMusicalTypeId) => {
-    const selectedMusicalType = musicalStyleList.data.find(
-      (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
-    );
+    // const selectedMusicalType = musicalStyleList.data.find(
+    //   (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
+    // );
 
-    if (selectedMusicalType) {
-      setMusicalTypeName(selectedMusicalType.MusicalTypeName);
-    }
+    // if (selectedMusicalType) {
+    //   setMusicalTypeName(selectedMusicalType.MusicalTypeName);
+    // }
 
     setInputs((prevState) => ({
       ...prevState,
@@ -73,12 +78,6 @@ function BusinessReportPage() {
   };
   const handleBandNameChange = (selectedBandName) => {
     setInputs((prevState) => ({ ...prevState, bandName: selectedBandName }));
-
-    // const selectedBandName = event.target.value;
-    // setInputs((prevInputs) => ({
-    //   ...prevInputs,
-    //   bandName: selectedBandName,
-    // }));
   };
   //remove the duplicate strings
 
@@ -88,13 +87,13 @@ function BusinessReportPage() {
       bandName: '',
       musicalTypeId: '',
     }));
-    setMusicalTypeName('');
+    // setMusicalTypeName('');
 
     setDate(newValue);
   };
 
   let totalRevenue = 0;
-  reportsNameList?.data.forEach((elem) => {
+  reportsNameList?.data?.forEach((elem) => {
     totalRevenue += elem.Income;
   });
 
@@ -104,11 +103,12 @@ function BusinessReportPage() {
       <div className="grid grid-cols-3 gap-4 mt-10 mr-16 ml-16">
         <div>
           <Datepicker
-            containerClassName="relative max-w-sm border-[1px] border-blue-200 rounded-[7px]"
+            containerClassName="relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]"
             useRange={false}
             value={date}
             onChange={handleDateChange}
             displayFormat={'DD/MM/YYYY'}
+            popoverDirection="down"
           />
         </div>
         <Select
@@ -118,7 +118,7 @@ function BusinessReportPage() {
           value={inputs.bandName}
           onChange={handleBandNameChange}
         >
-          {bandNameList?.data?.bandNames?.map((band, index) => (
+          {bandNameList?.data?.map((band, index) => (
             <Option name="bandNameOption" value={band} key={index}>
               {band}
             </Option>
@@ -144,7 +144,7 @@ function BusinessReportPage() {
             ))
           ) : (
             <Option name="musicalStyleOption">
-              No Events - chage date range
+              No Events - change date range
             </Option>
           )}
         </Select>

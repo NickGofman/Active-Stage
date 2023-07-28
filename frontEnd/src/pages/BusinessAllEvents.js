@@ -55,11 +55,12 @@ function BusinessAllEvents() {
       <div className=" shadow-md sm:rounded-lg">
         <div className="flex justify-end">
           <Datepicker
-            containerClassName=" relative max-w-sm "
+            containerClassName=" relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]"
             useRange={false}
             value={date}
             onChange={handleDateChange}
             displayFormat={'DD/MM/YYYY'}
+            popoverDirection="down"
           />
         </div>
         {/* Radio buttons for sorting */}

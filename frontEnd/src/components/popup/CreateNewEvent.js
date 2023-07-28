@@ -167,15 +167,14 @@ function CreateNewEvent() {
         <DialogHeader>Create New Event</DialogHeader>
         <DialogBody
           divider
-          className="flex flex-col  lg:gap-3 lg:flex-row   md:flex-col"
+          className="flex flex-col lg:gap-3 lg:flex-row md:flex-col"
         >
           <div className="flex flex-col w-72   gap-2">
-            <Typography variant="small">Pick A Date:</Typography>
 
             <Datepicker
               key={JSON.stringify(date)}
               minDate={new Date()}
-              containerClassName=" relative max-w-sm"
+              containerClassName=" relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]"
               useRange={false}
               value={date}
               asSingle={true}
@@ -183,12 +182,13 @@ function CreateNewEvent() {
               displayFormat={'DD/MM/YYYY'}
               disabledDates={modifiedEventDates}
               popoverDirection="down"
+              placeholder='Pick A Date'
             />
             <Input
               name="time"
               type="time"
               size="lg"
-              label="time"
+              label="Time"
               value={inputs.time}
               onChange={handleChange}
             />
@@ -222,7 +222,6 @@ function CreateNewEvent() {
             </Typography>
           </div>
           <div className=" flex flex-col lg:justify-start  w-72 gap-2">
-            <Typography> Add a new Style</Typography>
             <Input
               name="musicalStyleToAdd"
               type="text"

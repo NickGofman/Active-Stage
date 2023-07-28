@@ -56,12 +56,8 @@ router.get(
   getSortedEventDataByType
 );
 router.post('/getFilteredReports', getFilteredReports);
-
-router.get('/getBandNames/:startDate/:endDate', getBandNames);
-router.get(
-  '/getMusicalStylesByDate/:startDate/:endDate',
-  getMusicalStylesByDate
-);
+router.post('/getBandNames', getBandNames);
+router.post('/getMusicalStylesByDate', getMusicalStylesByDate);
 
 router.post('/cancelEvent/:eventId/:status', cancelEvent);
 router.post('/updateEvent/:eventId/:status', updateEvent);

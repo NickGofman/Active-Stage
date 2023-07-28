@@ -90,7 +90,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
               >
                 <EventIncome
                   EventId={EventID}
-                  bandName={BandName}
+                  BandName={BandName}
                   EventDate={date}
                   disabled={true}
                 />

@@ -197,22 +197,21 @@ const getSortedEventReports = (data) => {
 
 export const useGetBandNames = (data) => {
   const { startDate, endDate } = data;
-  return useQuery(['getBandNames', startDate, endDate], () =>
-    getBandNames(startDate, endDate)
+  return useQuery(['getBandNames', data], () =>
+    getBandNames(data)
   );
 };
-const getBandNames = (startDate, endDate) => {
-  return makeRequest.get(`/admin/getBandNames/${startDate}/${endDate}`);
+const getBandNames = (data) => {
+  return makeRequest.post(`/admin/getBandNames`,data);
 };
 export const useGetMusicalStylesByDate = (data) => {
 
-  const { startDate, endDate } = data;
-  return useQuery(['getMusicalStylesByDate', startDate, endDate], () =>
-    getMusicalStylesByDate(startDate, endDate)
+  return useQuery(['getMusicalStylesByDate',data], () =>
+    getMusicalStylesByDate(data)
   );
 };
-const getMusicalStylesByDate = (startDate, endDate) => {
-  return makeRequest.get(
-    `/admin/getMusicalStylesByDate/${startDate}/${endDate}`
+const getMusicalStylesByDate = (data) => {
+  return makeRequest.post(
+    `/admin/getMusicalStylesByDate`,data
   );
 };
