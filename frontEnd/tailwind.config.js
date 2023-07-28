@@ -5,7 +5,12 @@ module.exports = withMT({
     './src/**/*.{js,jsx,ts,tsx}',
     './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
   ],
+
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'regal-blue': '#44403C',
+      },
+    },
   },
 });

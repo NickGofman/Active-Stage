@@ -7,7 +7,7 @@ const currentYear = date.getFullYear();
 function Footer() {
   const { currentUser } = useContext(AuthContext);
   return (
-    <footer>
+    <footer className="dark:bg-black dark:text-white">
       {currentUser.Role !== 'admin' ? (
         <div className="flex items-center justify-evenly  text-gray-600 flex-wrap">
           <div className=" px-5 py-5">
@@ -57,9 +57,9 @@ function Footer() {
           </div>
         </div>
       ) : (
-        <div className="flex items-start text-gray-600 flex-wrap">
+        <div className="flex items-start  flex-wrap dark:bg-black">
           <div className="px-5 py-5">
-            <h3 className="text-black"> Have any Problem?</h3>
+            <h3 > Have any Problem?</h3>
             <div>Email: contactNick@yourwebsite.com</div>
             <div>Email: contactSaar@yourwebsite.com</div>
           </div>

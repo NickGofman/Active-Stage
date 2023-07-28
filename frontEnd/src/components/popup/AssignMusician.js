@@ -48,12 +48,13 @@ function AssignMusician(props) {
         size="xl"
         open={open}
         handler={handleOpen}
+        className="dark:bg-black"
         animate={{
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader className="flex justify-between">
+        <DialogHeader className="flex justify-between dark:text-white ">
           Assign Musician
           <Typography variant="lead">Event Date:{formattedDate}</Typography>
           <Button
@@ -67,9 +68,11 @@ function AssignMusician(props) {
         </DialogHeader>
         <DialogBody divider className="h-[40rem] overflow-scroll">
           {dataRegistered?.data?.length === 0 ? (
-            <div className='font-bold'>No musicians to assign.</div>
+            <Typography className="font-bold dark:text-white">
+              No musicians to assign.
+            </Typography>
           ) : (
-            <div className="flex flex-row justify-center flex-wrap  gap-4">
+            <div className="flex flex-row justify-center flex-wrap  gap-4 ">
               {dataRegistered?.data?.map((data) => (
                 <MusicianAssignCard
                   key={data.UserId}

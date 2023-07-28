@@ -8,7 +8,6 @@ import {
 } from '@material-tailwind/react';
 import React, { Fragment, useState } from 'react';
 
-
 function RegisterToEvent({ date, hour, type, register }) {
   const [open, setOpen] = useState(false);
 
@@ -26,7 +25,7 @@ function RegisterToEvent({ date, hour, type, register }) {
         Register
       </Button>
       <Dialog
-        className="w-4/5 max-w-[80%] lg:w-2/5 lg:max-w-[40%] md:w-3/5 md:max-w-[60%] "
+        className="w-4/5 max-w-[80%] lg:w-2/5 lg:max-w-[40%] md:w-3/5 md:max-w-[60%]  dark:bg-black "
         open={open}
         handler={handleOpen}
         animate={{
@@ -34,8 +33,10 @@ function RegisterToEvent({ date, hour, type, register }) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Register To Event At: {date}</DialogHeader>
-        <DialogBody className="flex flex-col lg:flex-row items-center lg:justify-between">
+        <DialogHeader className="dark:text-white">
+          Register To Event At: {date}
+        </DialogHeader>
+        <DialogBody className="flex flex-col lg:flex-row items-center lg:justify-between dark:text-white">
           <div className="flex  items-center">
             <Typography variant="lead">
               You are about to register to the Event:

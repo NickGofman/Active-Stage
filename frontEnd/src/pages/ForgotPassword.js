@@ -44,7 +44,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-center h-screen">
+    <div className="flex flex-row items-center justify-center h-screen ">
       <div className="lg:grid  w-2/3 ">
         <Typography className="mb-7" variant="lead">
           Forgot your password? No problem! Enter your email address below and

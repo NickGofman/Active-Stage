@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Fragment, useState } from 'react';
 import {
   Button,
@@ -22,8 +22,9 @@ import {
 import { useQueryClient } from 'react-query';
 import Loader from '../loader/Loader';
 import { useAddNewMusicalStyle } from '../../hooks/useAdminActivities';
-
+import { DarkModeContext } from '../../DarkModeContext';
 function CreateNewEvent() {
+  const { darkMode } = useContext(DarkModeContext);
   const [err, setErr] = useState('');
   const [errAdd, setErrAdd] = useState('');
   const [open, setOpen] = useState(false);
@@ -163,19 +164,19 @@ function CreateNewEvent() {
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0.9, y: -100 },
         }}
+        className="dark:bg-black dark:text-white "
       >
         <DialogHeader>Create New Event</DialogHeader>
         <DialogBody
           divider
-          className="flex flex-col  lg:gap-3 lg:flex-row   md:flex-col"
+          className="flex flex-col  lg:gap-3 lg:flex-row   md:flex-col dark:text-white"
         >
-          <div className="flex flex-col w-72   gap-2">
+          <div className="flex flex-col w-72   gap-2 ">
             <Typography variant="small">Pick A Date:</Typography>
 
             <Datepicker
               key={JSON.stringify(date)}
               minDate={new Date()}
-              containerClassName=" relative max-w-sm"
               useRange={false}
               value={date}
               asSingle={true}
@@ -183,7 +184,11 @@ function CreateNewEvent() {
               displayFormat={'DD/MM/YYYY'}
               disabledDates={modifiedEventDates}
               popoverDirection="down"
+              containerClassName={`${
+                darkMode ? 'darkModeDatePicker' : ''
+              } border-[1px] relative mt-8 border-blue-gray-200 rounded-[7px] `}
             />
+
             <Input
               name="time"
               type="time"
@@ -191,10 +196,11 @@ function CreateNewEvent() {
               label="time"
               value={inputs.time}
               onChange={handleChange}
+              className="dark:text-white"
             />
 
             <Select
-              className="col-span-1"
+              className="col-span-1 dark:text-white"
               label="Select Musical Type"
               name="musicalStyle"
               value={inputs.musicalTypeId}
@@ -216,6 +222,7 @@ function CreateNewEvent() {
               label="Description"
               value={inputs.description}
               onChange={handleChange}
+              className="dark:text-white"
             />
             <Typography variant="small" color="red">
               {err && err}
@@ -230,6 +237,7 @@ function CreateNewEvent() {
               label="Add New Musical Style"
               value={musicalStyleToAdd}
               onChange={handleChangeMusicalStyleAdd}
+              className="dark:text-white"
             />
             <Button
               variant="gradient"

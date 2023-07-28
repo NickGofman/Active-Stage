@@ -123,7 +123,7 @@ function MusicianProfileForm(props) {
   };
 
   return (
-    <div className="max-w-lg w-auto md:w-full px-6 py-12 bg-white shadow-md rounded-md">
+    <div className="max-w-lg w-auto md:w-full px-6 py-12 bg-white shadow-md rounded-md dark:bg-black">
       <Typography color="blue" className="mb-2" variant="h5">
         Here You Can Edit Your Profile
       </Typography>
@@ -135,6 +135,7 @@ function MusicianProfileForm(props) {
           id="inputOrgName"
           value={inputs.firstName}
           onChange={handleChange}
+          className="dark:text-white"
         />
         <Input
           name="lastName"
@@ -142,6 +143,7 @@ function MusicianProfileForm(props) {
           id="inputOrglastName"
           value={inputs.lastName}
           onChange={handleChange}
+          className="dark:text-white"
         />
         <Input
           name="bandName"
@@ -149,6 +151,7 @@ function MusicianProfileForm(props) {
           id="inputBandName"
           value={inputs.bandName}
           readOnly
+          className="dark:text-white"
         />
         <Input
           name="email"
@@ -157,6 +160,7 @@ function MusicianProfileForm(props) {
           id="inputOrgEmail"
           value={inputs.email}
           readOnly={true}
+          className="dark:text-white"
         />
         <Input
           name="experience"
@@ -165,6 +169,7 @@ function MusicianProfileForm(props) {
           id="inputExp"
           onChange={handleChange}
           value={inputs.experience}
+          className="dark:text-white"
         />
         <Input
           name="phone"
@@ -173,14 +178,16 @@ function MusicianProfileForm(props) {
           id="inputOrgPhone"
           onChange={handleChange}
           value={inputs.phone}
+          className="dark:text-white"
         />
 
         <Typography
           variant="small"
           color="gray"
-          className="flex items-center gap-1 font-normal mt-2"
+          className="flex items-center gap-1 font-normal mt-2           dark:text-white
+"
         >
-          <InformationCircleIcon className="w-4 h-4 -mt-px" />
+          <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
           Phone number format 05X-XXXXXXX
         </Typography>
         <Input
@@ -190,28 +197,31 @@ function MusicianProfileForm(props) {
           id="inputOrgUrl"
           onChange={handleChange}
           value={inputs.youtubeURL}
+          className="dark:text-white"
         />
         <Textarea
           name="description"
           label="Description"
           onChange={handleChange}
           value={inputs.description}
+          className="dark:text-white"
         />
         <Input
-          className="text-xs cursor-pointer"
+          className="text-xs cursor-pointer dark:text-white"
           name="file"
           type="file"
           label="Upload Image"
           icon={<FiUpload />}
+          
           onChange={(e) => setFile(e.target.files[0])}
         />
         {err && (
           <Typography
             variant="small"
             color="red"
-            className="flex items-center gap-1 font-normal mt-2"
+            className="flex items-center gap-1 font-normal mt-2 dark:text-white"
           >
-            <InformationCircleIcon className="w-4 h-4 -mt-px" />
+            <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
             {err && err}
           </Typography>
         )}

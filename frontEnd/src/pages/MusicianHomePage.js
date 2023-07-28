@@ -163,27 +163,35 @@ function MusicianHomePage() {
         </div>
       </div>
       <div className="flex flex-col lg:mr-5">
-        <Card className="mt-6 w-96">
+        <Card className="mt-6 w-96 dark:bg-black dark:text-white">
           <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
-            <Typography variant="h5" color="blue-gray" className="mb-2">
+            <Typography
+              variant="h5"
+              color="blue-gray"
+              className="mb-2 dark:text-white "
+            >
               {numberOfEvents}
             </Typography>
             <Typography>Registered Events</Typography>
           </CardBody>
           <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
-            <Typography variant="h5" color="blue-gray" className="mb-2">
+            <Typography
+              variant="h5"
+              color="blue-gray"
+              className="mb-2 dark:text-white"
+            >
               {formattedDate || 'No Upcoming shows'}
             </Typography>
             <Typography>My Next Show</Typography>
           </CardBody>
         </Card>
-        <Card className=" mt-6 w-96">
+        <Card className=" mt-6 w-96 dark:text-white dark:bg-black">
           {dataPreviousEvents?.data?.length !== 0 ? (
             <div>
               <Typography className="text-xl  mb-2 font-semibold">
                 My Previous Shows
               </Typography>
-              <div className=" h-96 overflow-scroll{ overflow-x-hidden border rounded">
+              <div className=" h-96 overflow-scroll{ overflow-x-hidden border rounded ">
                 {dataPreviousEvents?.data?.map(
                   ({ EventID, musicalTypeName, Date: date }) => {
                     date = new Date(date);
@@ -192,16 +200,16 @@ function MusicianHomePage() {
                     return (
                       <div
                         key={EventID}
-                        className="bg-white shadow-md rounded-md p-4 mb-4 w-96 "
+                        className="bg-white shadow-md rounded-md p-4 mb-4 w-96  dark:bg-black "
                       >
                         <Typography
                           variant="h6"
                           color="blue-gray"
-                          className="mb-1"
+                          className="mb-1 dark:text-white"
                         >
                           {musicalTypeName}
                         </Typography>
-                        <Typography className="text-gray-500">
+                        <Typography >
                           {date}
                         </Typography>
                       </div>

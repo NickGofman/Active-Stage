@@ -30,7 +30,7 @@ function ChangePassword() {
   };
   const clickChangePassword = async (e) => {
     e.preventDefault();
-    
+
     if (inputs.newPassword !== inputs.confirmNewPassword) {
       setErr('Password Not match');
       return;
@@ -41,7 +41,6 @@ function ChangePassword() {
       );
       return;
     } else {
-     
       try {
         await mut.mutateAsync(inputs);
         navigate('/', { replace: true });
@@ -52,9 +51,9 @@ function ChangePassword() {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen ">
-      <Card className="max-w-5xl">
-        <CardHeader color="blue" className="text-center">
+    <div className="flex flex-col items-center justify-center h-screen dark:bg-black ">
+      <Card className="max-w-5xl dark:bg-black ">
+        <CardHeader color="blue" className="text-center dark:bg-black ">
           <Typography variant="h3">Change your password</Typography>
         </CardHeader>
         <CardBody>
@@ -67,6 +66,7 @@ function ChangePassword() {
               onChange={handleChange}
               error={!/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/.test(inputs.newPassword)}
               success={/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/.test(inputs.newPassword)}
+              className="dark:text-white"
             />
             <Input
               label="Confirm New password"
@@ -79,20 +79,23 @@ function ChangePassword() {
                 inputs.newPassword === inputs.confirmNewPassword &&
                 inputs.confirmNewPassword !== ''
               }
+              className="dark:text-white"
             />
             <Typography
               variant="small"
               color="gray"
-              className="flex items-center gap-1 font-normal mt-2"
+              className="flex items-center gap-1 font-normal mt-2 dark:text-white"
             >
-              <InformationCircleIcon className="w-4 h-4 -mt-px" />
+              <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
               Password should contain at least 8 characters with numbers and
               digits
             </Typography>
             <Typography color="red" variant="small">
               {err && err}
             </Typography>
-            <Button onClick={clickChangePassword}>Change password</Button>
+            <Button color="blue-gray" onClick={clickChangePassword}>
+              Change password
+            </Button>
           </form>
         </CardBody>
       </Card>

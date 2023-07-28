@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import EventTableView from '../components/tables/EventTableView';
 import { useState } from 'react';
 import { Radio } from '@material-tailwind/react';
@@ -9,8 +9,10 @@ import {
 } from '../hooks/useAdminEvents';
 import dayjs from 'dayjs';
 import Loader from '../components/loader/Loader';
-
+import { DarkModeContext } from '../DarkModeContext';
 function BusinessAllEvents() {
+  const { darkMode } = useContext(DarkModeContext);
+
   //get all events
   const [sortType, setSortType] = useState('all');
   const currentDate = new Date();
@@ -51,11 +53,13 @@ function BusinessAllEvents() {
     setDate(newValue);
   };
   return (
-    <div className="flex flex-col  items-center space-y-9 mt-10">
-      <div className=" shadow-md sm:rounded-lg">
-        <div className="flex justify-end">
+    <div className="flex flex-col  items-center space-y-9 mt-10 ">
+      <div className=" shadow-md sm:rounded-lg ">
+        <div className="flex justify-end ">
           <Datepicker
-            containerClassName=" relative max-w-sm "
+            containerClassName={`${
+              darkMode ? 'darkModeDatePicker' : ''
+            } border-[1px] relative  max-w-sm  border-blue-gray-200 rounded-lg`}
             useRange={false}
             value={date}
             onChange={handleDateChange}
@@ -63,7 +67,7 @@ function BusinessAllEvents() {
           />
         </div>
         {/* Radio buttons for sorting */}
-        <div className="space-x-7 pb-3">
+        <div className="space-x-7 pb-3 ">
           <Radio
             label="All"
             type="radio"
@@ -112,9 +116,9 @@ function BusinessAllEvents() {
             onChange={handleSortTypeChange}
           />
         </div>
-        <div className="h-96 overflow-scroll overflow-x-hidden border rounded ">
-          <table className="w-full text-sm text-left text-gray-500 rounded ">
-            <thead className=" sticky top-0 text-xs text-gray-700 uppercase bg-gray-50  ">
+        <div className="h-96 overflow-scroll overflow-x-hidden border rounded dark:text-black">
+          <table className="w-full text-sm text-left rounded ">
+            <thead className=" sticky top-0 text-xs uppercase bg-gray-50  dark:bg-black dark:text-white ">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Assigned Band
@@ -134,7 +138,7 @@ function BusinessAllEvents() {
               </tr>
             </thead>
             {/* map throw the data from DB */}
-            <tbody className="overflow-y-scroll">
+            <tbody className="overflow-y-scroll ">
               {data?.data?.map((event) => {
                 return (
                   <EventTableView

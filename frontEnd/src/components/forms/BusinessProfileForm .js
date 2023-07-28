@@ -72,11 +72,11 @@ function BusinessProfileForm(props) {
   };
 
   return (
-    <div className="max-w-lg  w-auto md:w-full  px-6 py-12 bg-white shadow-md rounded-md">
+    <div className="max-w-lg  w-auto md:w-full  px-6 py-12 bg-white shadow-md rounded-md dark:bg-black ">
       <Typography color="blue" className="mb-2" variant="h5">
         Here You Can Edit Your Profile
       </Typography>
-      <form className="space-y-9">
+      <form className="space-y-9 dark:text-white">
         <Input
           label="Business Email"
           id="inputBusinessEmail"
@@ -85,6 +85,7 @@ function BusinessProfileForm(props) {
           required={true}
           onChange={handleChange}
           value={inputs.businessEmail}
+          className="dark:text-white"
         />
         <Input
           label="Business Name"
@@ -94,6 +95,7 @@ function BusinessProfileForm(props) {
           required={true}
           onChange={handleChange}
           value={inputs.businessName}
+          className="dark:text-white"
         />
 
         <Input
@@ -104,6 +106,7 @@ function BusinessProfileForm(props) {
           required={true}
           value={inputs.address}
           onChange={handleChange}
+          className="dark:text-white"
         />
         <Input
           type="tel"
@@ -113,13 +116,14 @@ function BusinessProfileForm(props) {
           required={true}
           value={inputs.phone}
           onChange={handleChange}
+          className="dark:text-white"
         />
         <Typography
           variant="small"
           color="gray"
-          className="flex items-center gap-1 font-normal mt-2"
+          className="flex items-center gap-1 font-normal mt-2 dark:text-white"
         >
-          <InformationCircleIcon className="w-4 h-4 -mt-px" />
+          <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
           Phone number format 05X-XXXXXXX
         </Typography>
 
@@ -131,6 +135,7 @@ function BusinessProfileForm(props) {
           name="managerName"
           value={inputs.managerName}
           onChange={handleChange}
+          className="dark:text-white"
         />
         {err && (
           <Typography
@@ -138,7 +143,7 @@ function BusinessProfileForm(props) {
             color="red"
             className="flex items-center gap-1 font-normal mt-2"
           >
-            <InformationCircleIcon className="w-4 h-4 -mt-px" />
+            <InformationCircleIcon className="w-4 h-4 -mt-px " />
             {err && err}
           </Typography>
         )}

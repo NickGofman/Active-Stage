@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { useState } from 'react';
 import { Select, Option, Typography } from '@material-tailwind/react';
@@ -9,8 +9,11 @@ import {
   useSortedEventReports,
 } from '../hooks/useAdminEvents';
 import ReportTable from '../components/tables/ReportTable';
+import { DarkModeContext } from '../DarkModeContext';
+
 import Loader from '../components/loader/Loader';
 function BusinessReportPage() {
+  const { darkMode } = useContext(DarkModeContext);
   const currentDate = new Date();
   const [musicalTypeName, setMusicalTypeName] = useState('');
 
@@ -104,7 +107,9 @@ function BusinessReportPage() {
       <div className="grid grid-cols-3 gap-4 mt-10 mr-16 ml-16">
         <div>
           <Datepicker
-            containerClassName="relative max-w-sm border-[1px] border-blue-200 rounded-[7px]"
+            containerClassName={`${
+              darkMode ? 'darkModeDatePicker' : ''
+            } border-[1px] relative  max-w-sm  border-blue-gray-200 rounded-lg`}
             useRange={false}
             value={date}
             onChange={handleDateChange}
@@ -112,21 +117,27 @@ function BusinessReportPage() {
           />
         </div>
         <Select
-          className="col-span-1"
+          className="col-span-1 darkSelect dark:text-white  "
           label="Select band name"
           name="bandName"
           value={inputs.bandName}
           onChange={handleBandNameChange}
         >
-          {bandNameList?.data?.bandNames?.map((band, index) => (
-            <Option name="bandNameOption" value={band} key={index}>
-              {band}
+          {bandNameList?.data.length !== 0 ? (
+            bandNameList?.data?.bandNames?.map((band, index) => (
+              <Option name="bandNameOption" value={band} key={index}>
+                {band}
+              </Option>
+            ))
+          ) : (
+            <Option name="musicalStyleOption">
+              No Band Name - change date range
             </Option>
-          ))}
+          )}
         </Select>
 
         <Select
-          className="col-span-1"
+          className="col-span-1 dark:text-white"
           label="Select Musical Type"
           name="musicalStyle"
           value={inputs.musicalTypeId}
@@ -144,12 +155,12 @@ function BusinessReportPage() {
             ))
           ) : (
             <Option name="musicalStyleOption">
-              No Events - chage date range
+              No Events - change date range
             </Option>
           )}
         </Select>
       </div>
-      <div className="flex flex-col mt-10 mr-16 ml-16">
+      <div className="flex flex-col mt-10 mr-16 ml-16  ">
         <ReportTable data={sortData} reportsNameList={reportsNameList} />
         <Typography
           variant="lead"

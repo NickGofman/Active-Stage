@@ -67,7 +67,7 @@ function MusicianAssignCard(props) {
     //   <BlockUserWaraning handleBlockUser={blockUser} userId={userId}/>
     // </CardFooter>
     // </Card>
-    <Card className="mt-6 w-96 flex">
+    <Card className="mt-6 w-96 flex dark:bg-black dark:text-white">
       <CardHeader color="blue-gray" className="relative h-56">
         <img
           src={
@@ -78,17 +78,17 @@ function MusicianAssignCard(props) {
           alt="profileImage"
         />
       </CardHeader>
-      <CardBody className="flex-1">
-        <Typography variant="h5" color="blue-gray" className="mb-2">
+      <CardBody className="flex-1 ">
+        <Typography variant="h5" color="blue-gray" className="mb-2 dark:text-white">
           Band Name: {bandName}
         </Typography>
-        <Typography variant="h6" color="blue-gray" className="mb-2">
+        <Typography variant="h6" color="blue-gray" className="mb-2 dark:text-white">
           Preforming Already {experience} Years
         </Typography>
         <Typography
           variant="small"
           color="blue-gray"
-          className="mb-2 font-bold text-sm"
+          className="mb-2 dark:text-white font-bold text-sm"
         >
           Phone Number: {phoneNumber}
         </Typography>

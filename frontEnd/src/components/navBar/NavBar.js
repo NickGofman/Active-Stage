@@ -12,10 +12,15 @@ import { CgProfile } from 'react-icons/cg';
 import { BsCalendar4Event } from 'react-icons/bs';
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import MainLogo from '../../logo/NJs0uK01.svg';
+import MainLogoDark from '../../logo/NJs0uK01Dark.svg';
+
 import { AuthContext } from '../../components/context/authContext';
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { DarkModeContext } from '../../DarkModeContext';
 export default function NavBar() {
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
+
   const [openNav, setOpenNav] = useState(false);
   const { logout, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -23,7 +28,6 @@ export default function NavBar() {
     await logout();
   };
   const handleNavigateToHome = () => {
-    
     navigate(`/${currentUser.Role}`);
   };
   useEffect(() => {
@@ -59,7 +63,7 @@ export default function NavBar() {
         as="li"
         variant="small"
         color="blue-gray"
-        className=" p-1 font-bold"
+        className=" p-1 font-bold dark:text-white"
       >
         <Link
           to={currentUser.Role === 'admin' ? '/admin' : '/user'}
@@ -69,12 +73,11 @@ export default function NavBar() {
           Home
         </Link>
       </Typography>
-
       <Typography
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-bold "
+        className="p-1 font-bold dark:text-white"
       >
         <Link
           to={
@@ -92,7 +95,7 @@ export default function NavBar() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-bold "
+        className="p-1 font-bold dark:text-white"
       >
         <Link
           to={currentUser.Role === 'admin' ? '/admin/events' : '/user/myevents'}
@@ -102,13 +105,12 @@ export default function NavBar() {
           {currentUser.Role === 'admin' ? 'All Events' : 'My Events'}
         </Link>
       </Typography>
-
       {currentUser?.Role === 'admin' && (
         <Typography
           as="li"
           variant="small"
           color="blue-gray"
-          className="p-1 font-bold "
+          className="p-1 font-bold dark:text-white"
         >
           <Link
             to="/admin/reports"
@@ -119,17 +121,20 @@ export default function NavBar() {
           </Link>
         </Typography>
       )}
+      <button onClick={toggleDarkMode} className="dark:text-white text-black">
+        {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+      </button>
     </ul>
   );
 
   return (
-    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 ">
-      <div className="flex items-center justify-between text-blue-gray-900">
-        <div className="hidden lg:flex lg:flex-col lg:gap-1">{navList}</div>
+    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 dark:bg-regal-blue dark:text-white">
+      <div className="flex items-center justify-between ">
+        <div className="hidden lg:flex lg:flex-col lg:gap-1 ">{navList}</div>
         {/* toggle icons */}
         <IconButton
           variant="text"
-          className="mr-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+          className="mr-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden  text-black dark:text-white "
           ripple={false}
           onClick={() => setOpenNav(!openNav)}
         >
@@ -164,22 +169,22 @@ export default function NavBar() {
             </svg>
           )}
         </IconButton>
-        <div className="flex flex-col ">
-          <img
-            src={MainLogo}
-            alt="Active-Stage Logo"
-            className="w-[150px] h-[100px] hover:cursor-pointer"
-            onClick={handleNavigateToHome}
-          />
+        <div className="flex flex-row dark:bg-none">
           <Button
             onClick={handleLogout}
             variant="text"
             color="red"
             size="sm"
-            className="text-sm"
+            className="text-sm m-0 p-0"
           >
             Logout
           </Button>
+          <img
+            src={darkMode ? MainLogoDark : MainLogo}
+            alt="Active-Stage Logo"
+            className="w-[150px] h-[100px] hover:cursor-pointer"
+            onClick={handleNavigateToHome}
+          />
         </div>
       </div>
 

@@ -7,8 +7,8 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
   return (
     <>
       {isAssign ? (
-        <Card className="shadow-lg hover:shadow-cyan-300 shadow-cyan-200 space-y-6 p-6 text-center flex-1 min-h-48">
-          <CardHeader>
+        <Card className="shadow-lg hover:shadow-cyan-300 shadow-cyan-200 space-y-6 p-6 text-center flex-1 min-h-48 dark:bg-black dark:text-white ">
+          <CardHeader className="dark:bg-black">
             <Typography variant="paragraph" color="light-blue">
               Upcoming Events
             </Typography>
@@ -22,7 +22,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
               Status !== 'Published' && (
                 <div
                   key={EventID}
-                  className="flex justify-center space-x-6  rounded-xl cursor-pointer"
+                  className="flex justify-center space-x-6  rounded-xl "
                 >
                   <Typography variant="paragraph">
                     <time dateTime={Date}>
@@ -34,14 +34,14 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             );
           })}
           {data?.length === 0 && (
-            <div className="flex justify-center space-x-6 hover:bg-cyan-50 rounded-xl cursor-pointer">
+            <div className="flex justify-center space-x-6  rounded-xl cursor-pointer">
               <Typography variant="paragraph">No upcoming events</Typography>
             </div>
           )}
         </Card>
       ) : isAssignIncome ? (
-        <Card className="shadow-lg hover:shadow-green-300 shadow-green-200 space-y-6 p-6 text-center flex-2 min-h-48">
-          <CardHeader>
+        <Card className="dark:bg-black dark:text-white  shadow-lg hover:shadow-green-300 shadow-green-200 space-y-6 p-6 text-center flex-2 min-h-48">
+          <CardHeader className="dark:bg-black">
             <Typography variant="paragraph" color="green">
               Assign Musician
             </Typography>
@@ -68,7 +68,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             );
           })}
           {data?.length === 0 && (
-            <div className="flex justify-center space-x-6 hover:bg-light-green-50 rounded-xl cursor-pointer">
+            <div className="flex justify-center space-x-6 rounded-xl ">
               <Typography variant="paragraph">
                 No events to assign musicians
               </Typography>
@@ -76,8 +76,8 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
           )}
         </Card>
       ) : (
-        <Card className="shadow-lg shadow-deep-orange-200 hover:shadow-deep-orange-300 space-y-6 p-6 text-center flex-1 min-h-48">
-          <CardHeader>
+        <Card className="dark:bg-black dark:text-white  shadow-lg shadow-deep-orange-200  space-y-6 p-6 text-center flex-1 min-h-48">
+          <CardHeader className="dark:bg-black">
             <Typography variant="paragraph" color="red">
               Assign Income
             </Typography>
@@ -101,7 +101,7 @@ const UpcomingEventsInfoCard = ({ isAssign, isAssignIncome, data }) => {
             );
           })}
           {data?.length === 0 && (
-            <div className="flex justify-center space-x-6 hover:bg-red-50 rounded-xl cursor-pointer">
+            <div className="flex justify-center space-x-6 rounded-xl">
               <Typography variant="paragraph">
                 No events to assign income
               </Typography>

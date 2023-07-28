@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Fragment, useState } from 'react';
 import {
   Button,
@@ -16,7 +16,10 @@ import { useGetEventDates, useUpdateEvent } from '../../hooks/useAdminEvents';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { format } from 'date-fns';
 import Loader from '../loader/Loader';
+import { DarkModeContext } from '../../DarkModeContext';
 function UpdateEvent(props) {
+    const { darkMode } = useContext(DarkModeContext);
+
   const {
     EventDate,
     EventId,
@@ -105,20 +108,23 @@ function UpdateEvent(props) {
       <Dialog
         open={open}
         handler={handleOpen}
+        className="dark:bg-black "
         animate={{
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Update Event Info</DialogHeader>
+        <DialogHeader className="dark:text-white">
+          Update Event Info
+        </DialogHeader>
         <DialogBody divider>
-          <Typography variant="lead">
+          <Typography variant="lead" className="dark:text-white">
             Event Date: {newDateObj} {EventTime}
           </Typography>
           <div className="flex flex-col w-72  gap-6">
             <Datepicker
               minDate={new Date()}
-              containerClassName=" relative max-w-sm"
+              // containerClassName=" relative max-w-sm"
               useRange={false}
               value={date}
               asSingle={true}
@@ -126,6 +132,9 @@ function UpdateEvent(props) {
               displayFormat={'DD/MM/YYYY'}
               popoverDirection="down"
               disabledDates={modifiedEventDates}
+              containerClassName={`${
+                darkMode ? 'darkModeDatePicker' : ''
+              } border-[1px] relative mt-8 border-blue-gray-200 rounded-[7px] `}
             />
             <Input
               name="time"
@@ -134,9 +143,10 @@ function UpdateEvent(props) {
               label="Time"
               value={inputs.time}
               onChange={handleChange}
+              className="dark:text-white"
             />
             <Select
-              className="col-span-1"
+              className="col-span-1 dark:text-white"
               label={musicalTypeName}
               name="musicalStyle"
               onChange={handleChangeStyle}
@@ -157,6 +167,7 @@ function UpdateEvent(props) {
               label="Description"
               value={inputs.description}
               onChange={handleChange}
+              className="dark:text-white"
             />
             <p className="text-red-500">{message}</p>
           </div>

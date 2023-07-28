@@ -22,12 +22,13 @@ function BlockUserWaraning({ handleBlockUser, userId }) {
       <Button color="red" onClick={handleOpen}>
         Block user
       </Button>
-      <Dialog
-        open={open}
-        handler={handleOpen}
-      >
+      <Dialog open={open} handler={handleOpen} className='dark:bg-black'>
         <DialogHeader>
-          <Typography variant="h5" color="blue-gray">
+          <Typography
+            variant="h5"
+            className="dark:text-white "
+            color="blue-gray"
+          >
             Block Musician
           </Typography>
         </DialogHeader>

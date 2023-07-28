@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.darkModeDatePicker > input {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #1e1e1e;
+}
+.darkModeDatePicker :is(.dark .dark\:text-white) {
+  background-color: #000000;
+}
+

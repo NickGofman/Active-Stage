@@ -59,19 +59,18 @@ function EventCardMusician(props) {
 
   return (
     //  className="flex flex-col   text-center text-gray-700 rounded-md border-2 py-8 max-w-sm"
-    <Card className=" mt-6 w-96 justify-between text-center text-gray-700 rounded-md border-2">
-      <CardBody className=" space-y-2">
+    <Card className=" mt-6 w-96 justify-between text-center dark:text-white rounded-md border-2">
+      <CardBody className=" space-y-2 h-full dark:bg-black">
         <Typography className="mt-1  text-s" variant="h3">
           {dateFormatted}
         </Typography>
         <Typography variant="h4">{time}</Typography>
         <Typography variant="h4">{type}</Typography>
-
-        <Typography className="text-center " variant="paragraph">
+        <Typography   variant="paragraph" >
           {description}
         </Typography>
       </CardBody>
-      <CardFooter className="">
+      <CardFooter className="dark:bg-black">
         {location?.pathname !== '/user/myevents' && (
           <RegisterToEvent
             EventId={eventId}

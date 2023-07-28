@@ -36,7 +36,7 @@ console.log('length', events?.data?.length);
   return (
     <>
       {isHome ? (
-        <div className="flex flex-col items-center  mt-10">
+        <div className="flex flex-col items-center  mt-10 ">
           <Typography variant="h2" className="text-center mb-5  ">
             {header}
           </Typography>
@@ -66,7 +66,7 @@ console.log('length', events?.data?.length);
           )}
         </div>
       ) : (
-        <div className="flex flex-col items-center  mt-10">
+        <div className="flex flex-col items-center  mt-10 dark:bg-black">
           <Typography variant="h2" className="text-center mb-5  ">
             {header}
           </Typography>

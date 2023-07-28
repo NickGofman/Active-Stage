@@ -82,23 +82,23 @@ console.log('data', data);
   };
 
   return (
-    <div>
+    <div >
       <Button className="w-1/4" onClick={handleExportToExcel}>
         Export To Excel File
       </Button>
-      <Card className="overflow-scroll overflow-x-hidden h-96 w-full mt-5">
-        <table className="w-full min-w-max table-auto text-left">
-          <thead className="sticky top-0 z-0">
-            <tr>
+      <Card className="overflow-scroll overflow-x-hidden h-96 w-full mt-5 dark:bg-black dark:text-white">
+        <table className="w-full min-w-max table-auto text-left dark:text-white">
+          <thead className="sticky top-0 z-0 ">
+            <tr className="dark:text-white">
               {TABLE_HEAD.map((head) => (
                 <th
                   key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                  className="border-b border-blue-gray-100 bg-blue-gray-50 dark:border-gray-300 dark:bg-gray-600 p-4 dark:text-white"
                 >
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal leading-none opacity-70"
+                    className="font-normal leading-none opacity-70 dark:text-white"
                   >
                     {head}
                   </Typography>
@@ -120,7 +120,7 @@ console.log('data', data);
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal"
+                        className="font-normal dark:text-white"
                       >
                         {BandName}
                       </Typography>
@@ -129,7 +129,7 @@ console.log('data', data);
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal"
+                        className="font-normal dark:text-white"
                       >
                         {Date}
                       </Typography>
@@ -138,13 +138,13 @@ console.log('data', data);
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal"
+                        className="font-normal dark:text-white"
                       >
                         {Income}
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography variant="small" className="font-medium">
+                      <Typography variant="small" className="font-medium ">
                         {MusicalTypeName}
                       </Typography>
                     </td>
