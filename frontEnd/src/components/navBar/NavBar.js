@@ -18,6 +18,7 @@ import { AuthContext } from '../../components/context/authContext';
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { DarkModeContext } from '../../DarkModeContext';
+import SwitchDarkMode from '../switchDarkModeButton/SwitchDarkMode';
 export default function NavBar() {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
 
@@ -121,15 +122,16 @@ export default function NavBar() {
           </Link>
         </Typography>
       )}
-      <button onClick={toggleDarkMode} className="dark:text-white text-black">
-        {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-      </button>
     </ul>
   );
 
   return (
     <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 dark:bg-black dark:text-white">
-      <div className="flex items-center justify-between ">
+      <div className="absolute top-1 left-1">
+        <SwitchDarkMode onChange={toggleDarkMode} checked={darkMode} />
+      </div>
+
+      <div className="flex items-center justify-between relative">
         <div className="hidden lg:flex lg:flex-col lg:gap-1 ">{navList}</div>
         {/* toggle icons */}
         <IconButton
