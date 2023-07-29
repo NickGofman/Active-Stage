@@ -12,7 +12,7 @@ import { CgProfile } from 'react-icons/cg';
 import { BsCalendar4Event } from 'react-icons/bs';
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import MainLogo from '../../logo/NJs0uK01.svg';
-import MainLogoDark from '../../logo/NJs0uK01Dark.svg';
+import MainLogoDark from '../../logo/NJs0uK01Dark1.svg';
 
 import { AuthContext } from '../../components/context/authContext';
 import { useContext } from 'react';
@@ -182,7 +182,7 @@ export default function NavBar() {
           <img
             src={darkMode ? MainLogoDark : MainLogo}
             alt="Active-Stage Logo"
-            className="w-[150px] h-[100px] hover:cursor-pointer  dark:bg-white dark:rounded-full dark:w-[100px]"
+            className="w-[150px] h-[100px] hover:cursor-pointer  dark:rounded-full "
             onClick={handleNavigateToHome}
           />
         </div>

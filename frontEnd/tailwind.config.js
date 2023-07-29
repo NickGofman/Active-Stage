@@ -10,7 +10,8 @@ module.exports = withMT({
     extend: {
       colors: {
         'regal-blue': '#44403C',
-        'green-happy': '#43efa7',
+        'white-happy': '#f1e9e9',
+        'blue-happy': ' #bad4d5',
       },
     },
   },
