@@ -349,7 +349,7 @@ const getSortedEventDataByType = (req, res) => {
             LEFT JOIN user AS u ON u.UserId = m.UserId
             WHERE mre.EventID = e.EventID
             AND u.Status = 'Active'
-            AND mre.UserId = e.UserID  -- Update this line to match the UserId in the event
+            AND mre.UserId = e.UserID
             LIMIT 1
           ) AS BandName
         FROM event AS e

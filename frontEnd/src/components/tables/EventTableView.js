@@ -21,17 +21,17 @@ function EventTableView(props) {
   switch (status) {
     case 'Published':
       color =
-        'text-center rounded shadow-green-100 bg-green-50 dark:bg-green-200';
+        'text-center rounded shadow-green-100 bg-green-100 dark:bg-green-200';
       break;
     case 'Closed':
-      color = 'text-center rounded shadow-red-100 bg-red-50 dark:bg-red-200';
+      color = 'text-center rounded shadow-red-100 bg-red-100 dark:bg-red-200';
       break;
     case 'Assigned':
       color =
-        'text-center rounded shadow-yellow-100 bg-yellow-50 dark:bg-yellow-200';
+        'text-center rounded shadow-yellow-100 bg-yellow-100 dark:bg-yellow-200';
       break;
     default:
-      color = 'text-center rounded shadow-blue-100 bg-blue-50 dark:bg-blue-200';
+      color = 'text-center rounded shadow-blue-100 bg-blue-100 dark:bg-blue-200';
   }
   const [date, time] = eventDate.split('T'); // separate date and time components
   const [year, month, day] = date.split('-'); // extract year, month, and day values

@@ -28,7 +28,6 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 const queryClient = new QueryClient();
 
 function App() {
- 
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
     console.log('isAdmin:', isAdmin, 'isMusician"', isMusician);
@@ -37,7 +36,7 @@ function App() {
     }
     if (isAdmin) {
       console.log('isAdmin');
-      
+
       return currentUser.Role === 'admin' ? children : <Navigate to="/*" />;
     }
     if (isMusician) {
@@ -118,9 +117,20 @@ function App() {
       element: <Page404 />,
     },
   ]);
+  const theme = {
+    select: {
+      styles: {
+        base: {
+          menu: {
+            maxHeight: 'max-h-48',
+          },
+        },
+      },
+    },
+  };
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <ThemeProvider value={theme}>
         <RouterProvider router={router} />
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
