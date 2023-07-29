@@ -170,7 +170,7 @@ function MusicianHomePage() {
               isHome={true}
             />
           ) : (
-            <Typography className="font-semibold">NO Published Events</Typography>
+            <Typography className="font-semibold mt-5 lg:mt-0">NO Published Events</Typography>
           )}
         </div>
       </div>
