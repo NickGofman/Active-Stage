@@ -36,6 +36,8 @@ function MusicianProfileForm(props) {
     email: '',
     bandName: '',
   });
+  //state for description character count
+  const [countChar, setCountChar] = useState(Description.length);
   useEffect(() => {
     setInputs({
       firstName: FirstName || '',
@@ -51,6 +53,9 @@ function MusicianProfileForm(props) {
   }, [props?.data?.data[0]]);
 
   const handleChange = (e) => {
+    if (e.target.name === 'description') {
+      setCountChar(e.target.value.length);
+    }
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -87,7 +92,8 @@ function MusicianProfileForm(props) {
     if (
       /^05\d-\d{7}$/.test(inputs.phone) &&
       inputs.firstName !== '' &&
-      inputs.lastName !== ''
+      inputs.lastName !== '' &&
+      countChar <= 255
     ) {
       //upload to backend localStorage
       let isValidImage = true;
@@ -114,9 +120,11 @@ function MusicianProfileForm(props) {
         }
       }
     } else {
-      if (!/^05\d-\d{7}$/.test(inputs.phone)) {
+      if (countChar > 255) {
+        setErr('Description must be no longer than 255 character');
+      } else if (!/^05\d-\d{7}$/.test(inputs.phone)) {
         setErr('Phone number is not in the right format');
-      } else {
+      } else if (inputs.firstName === '' || inputs.lastName === '') {
         setErr("First Name, Last Name shouldn't be empty");
       }
     }
@@ -199,13 +207,21 @@ function MusicianProfileForm(props) {
           value={inputs.youtubeURL}
           className="dark:text-white"
         />
-        <Textarea
-          name="description"
-          label="Description"
-          onChange={handleChange}
-          value={inputs.description}
-          className="dark:text-white"
+        <div>
+          <Textarea
+            name="description"
+            label="Description"
+            onChange={handleChange}
+            value={inputs.description}
+            className="dark:text-white"
         />
+          <Typography color="gray" className="text-xs">
+            <span className={countChar > 255 ? 'text-red-700' : undefined}>
+              {countChar}
+            </span>
+            <span>/255</span>
+          </Typography>
+        </div>
         <Input
           className="text-xs cursor-pointer dark:text-white"
           name="file"

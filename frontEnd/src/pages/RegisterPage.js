@@ -25,12 +25,17 @@ function RegisterPage() {
   });
   const [err, setErr] = useState(null);
   const [errMessage, setErrMessage] = useState('');
+  const [countChar, setCountChar] = useState(0);
   const navigate = useNavigate();
   const mut = useRegister();
   //send data to backEnd
   const handleRegistration = async (e) => {
     e.preventDefault();
     // Validate form data
+    if (countChar> 255) {
+      setErrMessage('Description must be no longer than 255 character');
+      return;
+    }
     const errors = validateForm(inputs);
     if (Object.values(errors).some((current) => current !== '')) {
       return;
@@ -46,10 +51,14 @@ function RegisterPage() {
   };
 
   const handleChange = (e) => {
+    if (e.target.name === 'description') {
+      setCountChar(e.target.value.length);
+    }
     setInputs((prevInputs) => ({
       ...prevInputs,
       [e.target.name]: e.target.value,
     }));
+
     setErr(validateForm({ ...inputs, [e.target.name]: e.target.value }));
   };
 
@@ -98,26 +107,28 @@ function RegisterPage() {
             error={err?.email !== ''}
             success={err?.email === ''}
           />
-          <Input
-            required
-            type="password"
-            variant="outlined"
-            size="lg"
-            label="Password"
-            name="password"
-            onChange={handleChange}
-            error={err?.password !== ''}
-            success={err?.password === ''}
-          />
-          <Typography
-            variant="small"
-            color="gray"
-            className="flex items-center gap-1 font-normal mt-2"
-          >
-            <InformationCircleIcon className="w-4 h-4 -mt-px" />
-            Password should contain at least 8 characters with numbers and
-            digits
-          </Typography>
+          <div>
+            <Input
+              required
+              type="password"
+              variant="outlined"
+              size="lg"
+              label="Password"
+              name="password"
+              onChange={handleChange}
+              error={err?.password !== ''}
+              success={err?.password === ''}
+            />
+            <Typography
+              variant="small"
+              color="gray"
+              className="flex items-center gap-1 font-normal mt-2"
+            >
+              <InformationCircleIcon className="w-4 h-4 -mt-px" />
+              Password should contain at least 8 characters with numbers and
+              digits
+            </Typography>
+          </div>
           <Input
             required
             type="password"
@@ -145,35 +156,46 @@ function RegisterPage() {
             error={err?.yearsOfExperience !== ''}
             success={err?.yearsOfExperience === ''}
           />
-          <Input
-            size="lg"
-            label="Phone Number"
-            name="phoneNumber"
-            onChange={handleChange}
-            error={err?.phoneNumber !== ''}
-            success={err?.phoneNumber === ''}
-          />
-          <Typography
-            variant="small"
-            color="gray"
-            className="flex items-center gap-1 font-normal mt-2"
-          >
-            <InformationCircleIcon className="w-4 h-4 -mt-px" />
-            Phone number format 05X-XXXXXXX
-          </Typography>
+          <div>
+            <Input
+              size="lg"
+              label="Phone Number"
+              name="phoneNumber"
+              onChange={handleChange}
+              error={err?.phoneNumber !== ''}
+              success={err?.phoneNumber === ''}
+            />
+            <Typography
+              variant="small"
+              color="gray"
+              className="flex items-center gap-1 font-normal mt-2"
+            >
+              <InformationCircleIcon className="w-4 h-4 -mt-px" />
+              Phone number format 05X-XXXXXXX
+            </Typography>
+          </div>
           <Input
             size="lg"
             label="Youtube URL"
             name="url"
             onChange={handleChange}
           />
-          <Textarea
-            required
-            type="text"
-            label="Description"
-            name="description"
-            onChange={handleChange}
-          />
+          <div>
+            <Textarea
+              required
+              type="text"
+              label="Description"
+              name="description"
+              className="p-0"
+              onChange={handleChange}
+            />
+            <Typography color="gray" className="text-xs">
+              <span className={countChar > 255 ? 'text-red-700' : undefined}>
+                {countChar}
+              </span>
+              <span>/255</span>
+            </Typography>
+          </div>
           <Typography color="red" variant="lead">
             {errMessage && errMessage}
           </Typography>

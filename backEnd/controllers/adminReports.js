@@ -2,20 +2,27 @@
 const pool = require('../database');
 const getBandNames = (req, res) => {
   console.log('BACK END getBandNames');
-  const { startDate, endDate } = req.params;
-  const query = `
+  // const { startDate, endDate } = req.params;
+  console.log('bobobobdy', req.body);
+  const { startDate, endDate, musicalTypeId } = req.body;
+  let query = `
     SELECT DISTINCT musician.BandName
     FROM musician
-    JOIN musician_register_event ON musician.UserId = musician_register_event.UserId
-    JOIN event ON musician_register_event.UserId = event.UserId
+    JOIN musician_register_event as mre ON musician.UserId = mre.UserId
+    JOIN event ON mre.UserId = event.UserId
     
     WHERE event.Status = 'Closed'
     AND event.Date >= DATE(?)
-    AND event.Date <= DATE(?);
+    AND event.Date <= DATE(?)
   `;
+  const queryParams = [startDate, endDate];
+  if (musicalTypeId) {
+    query += ' AND event.MusicalTypeID = ?';
+    queryParams.push(musicalTypeId);
+  }
 
   // Execute the query and retrieve the band names
-  pool.query(query, [startDate, endDate], (err, results) => {
+  pool.query(query, queryParams, (err, results) => {
     if (err) {
       console.error(err);
       return res
@@ -24,7 +31,7 @@ const getBandNames = (req, res) => {
     }
 
     const bandNames = results.map((result) => result.BandName);
-    return res.status(200).json({ bandNames });
+    return res.status(200).json(bandNames);
   });
 };
 
@@ -74,9 +81,10 @@ const getFilteredReports = (req, res) => {
 };
 
 const getMusicalStylesByDate = (req, res) => {
-  const { startDate, endDate } = req.params;
+  console.log('ccccc', req.body);
+  const { startDate, endDate, bandName } = req.body;
   console.log('BACK END getMusicalStylesByDate', startDate, endDate);
-  const query = `
+  let query = `
 SELECT DISTINCT typesdescription.MusicalTypeID, typesdescription.MusicalTypeName
 FROM musician
 JOIN musician_register_event ON musician.UserId = musician_register_event.UserId
@@ -86,9 +94,14 @@ WHERE event.Status = 'Closed'
   AND event.Date >= DATE(?)
   AND event.Date <= DATE(?) 
   `;
+  const queryParams = [startDate, endDate];
+  if (bandName) {
+    query += ' AND musician.BandName = ?';
+    queryParams.push(bandName);
+  }
 
   // Execute the query and retrieve the band names
-  pool.query(query, [startDate, endDate], (err, results) => {
+  pool.query(query, queryParams, (err, results) => {
     if (err) {
       console.error(err);
       return res

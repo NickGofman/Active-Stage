@@ -80,7 +80,7 @@ function UpdateEvent(props) {
     const updatedEvent = {
       date: inputs.date !== '' ? inputs.date : EventDate, // Use the new date value if provided, otherwise use the existing EventDate
       time: inputs.time !== '' ? inputs.time : EventTime, // Use the new time value if provided, otherwise use the default value
- 
+
       musicalTypeId:
         inputs.MusicalTypeId !== undefined
           ? inputs.MusicalTypeId
@@ -91,7 +91,7 @@ function UpdateEvent(props) {
     updatedEvent.dateTime = dateTime;
 
     updatedEvent.eventId = EventId;
-    updatedEvent.Status=eventStatus;
+    updatedEvent.Status = eventStatus;
     if (inputs.date === null) {
       setMessage('Date must be fulfilled');
       return;

@@ -15,7 +15,7 @@ import Loader from '../components/loader/Loader';
 function BusinessReportPage() {
   const { darkMode } = useContext(DarkModeContext);
   const currentDate = new Date();
-  const [musicalTypeName, setMusicalTypeName] = useState('');
+  // const [musicalTypeName, setMusicalTypeName] = useState('');
 
   const [date, setDate] = useState({
     startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
@@ -39,12 +39,17 @@ function BusinessReportPage() {
   } = useGetMusicalStylesByDate({
     startDate: date.startDate,
     endDate: date.endDate,
+    bandName: inputs.bandName,
   });
   const {
     isLoading: bandNameLoading,
     data: bandNameList,
     isError: bandNameIsError,
-  } = useGetBandNames({ startDate: date.startDate, endDate: date.endDate });
+  } = useGetBandNames({
+    startDate: date.startDate,
+    endDate: date.endDate,
+    musicalTypeId: inputs.musicalTypeId,
+  });
 
   const {
     isLoading: reportsLoading,
@@ -61,13 +66,13 @@ function BusinessReportPage() {
     );
   }
   const handleChangeStyle = (selectedMusicalTypeId) => {
-    const selectedMusicalType = musicalStyleList.data.find(
-      (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
-    );
+    // const selectedMusicalType = musicalStyleList.data.find(
+    //   (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
+    // );
 
-    if (selectedMusicalType) {
-      setMusicalTypeName(selectedMusicalType.MusicalTypeName);
-    }
+    // if (selectedMusicalType) {
+    //   setMusicalTypeName(selectedMusicalType.MusicalTypeName);
+    // }
 
     setInputs((prevState) => ({
       ...prevState,
@@ -76,12 +81,6 @@ function BusinessReportPage() {
   };
   const handleBandNameChange = (selectedBandName) => {
     setInputs((prevState) => ({ ...prevState, bandName: selectedBandName }));
-
-    // const selectedBandName = event.target.value;
-    // setInputs((prevInputs) => ({
-    //   ...prevInputs,
-    //   bandName: selectedBandName,
-    // }));
   };
   //remove the duplicate strings
 
@@ -91,13 +90,13 @@ function BusinessReportPage() {
       bandName: '',
       musicalTypeId: '',
     }));
-    setMusicalTypeName('');
+    // setMusicalTypeName('');
 
     setDate(newValue);
   };
 
   let totalRevenue = 0;
-  reportsNameList?.data.forEach((elem) => {
+  reportsNameList?.data?.forEach((elem) => {
     totalRevenue += elem.Income;
   });
 
@@ -109,11 +108,12 @@ function BusinessReportPage() {
           <Datepicker
             containerClassName={`${
               darkMode ? 'darkModeDatePicker' : ''
-            } border-[1px] relative  max-w-sm  border-blue-gray-200 rounded-lg`}
+            } border-[1px] relative  max-w-sm  border-blue-gray-gray-200 rounded-lg`}
             useRange={false}
             value={date}
             onChange={handleDateChange}
             displayFormat={'DD/MM/YYYY'}
+            popoverDirection="down"
           />
         </div>
         <Select

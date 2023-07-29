@@ -70,7 +70,6 @@ const getEventsDate = (req, res) => {
 };
 
 const getThreeEventsToAssign = (req, res) => {
-
   const q = `
  SELECT e.EventID,Date
 , COUNT(mre.UserId) AS RCount
@@ -468,8 +467,8 @@ const cancelEvent = (req, res) => {
     else {
       // Extract the list of emails from the result
       const userEmails = emails.map((row) => row.Email);
-      const eventDate = emails.map((row) => row.date);
-
+      const eventDate = emails.map((row) => row.Date);
+      
       // Send emails to all the registered musicians about the event cancellation
       userEmails.forEach((userEmails) => {
         emailFunctions.sendEmailWithEventCancellation(userEmails, eventDate[0]);
@@ -484,6 +483,7 @@ const cancelEvent = (req, res) => {
 const updateEvent = (req, res) => {
   const { eventId, status } = req.params;
   const updatedEvent = req.body;
+  console.log("rrrr",req.body)
   let getEmail = '';
   console.log('sss', status);
   // Extract the updated values from the request body
@@ -491,7 +491,7 @@ const updateEvent = (req, res) => {
   if (status === 'Published') {
     getEmail = `SELECT Email FROM musician_register_event WHERE EventId = ?`;
   } else {
-    getEmail = `SELECT Email 
+    getEmail = `SELECT DISTINCT Email 
     FROM musician_register_event as mre join event as e on mre.UserId=e.UserId
     WHERE e.EventId = ?`;
   }

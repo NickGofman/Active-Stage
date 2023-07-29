@@ -22,6 +22,7 @@ function MusicianAssignCard(props) {
     Url,
     phoneNumber,
     Photo,
+    assignedBandName,
   } = props;
   const { mutate: assignMusician } = useAssignMusicianById();
 
@@ -98,11 +99,6 @@ function MusicianAssignCard(props) {
             target="_blank"
             rel="noreferrer"
             className="mb-2 text-black font-bold text-sm truncate max-w-[350px] text-ellipsis block"
-            // style={{
-            //   maxWidth: '150px',
-            //   textOverflow: 'ellipsis',
-            //   display: 'block',
-            // }}
           >
             Youtube Channel: {Url}
           </a>
@@ -111,7 +107,9 @@ function MusicianAssignCard(props) {
       </CardBody>
 
       <CardFooter className="flex gap-28">
-        <Button onClick={handleAssign}>Assign</Button>
+        <Button disabled={bandName === assignedBandName} onClick={handleAssign}>
+          Assign
+        </Button>
         <BlockUserWaraning handleBlockUser={blockUser} userId={userId} />
       </CardFooter>
     </Card>

@@ -12,7 +12,7 @@ import { useGetAllUsersPerEvent } from '../../hooks/useAdminEvents';
 import Loader from '../loader/Loader';
 
 function AssignMusician(props) {
-  const { EventDate, EventId, disabled } = props;
+  const { EventDate, EventId, disabled, assignedBandName } = props;
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
@@ -27,12 +27,8 @@ function AssignMusician(props) {
     isLoading,
   } = useGetAllUsersPerEvent(EventId);
 
-
-
-
-
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (isError) {
@@ -66,7 +62,7 @@ function AssignMusician(props) {
             <span>Cancel</span>
           </Button>
         </DialogHeader>
-        <DialogBody divider className="h-[40rem] overflow-scroll">
+        <DialogBody divider className="h-[28rem] overflow-scroll">
           {dataRegistered?.data?.length === 0 ? (
             <Typography className="font-bold dark:text-white">
               No musicians to assign.
@@ -85,6 +81,7 @@ function AssignMusician(props) {
                   setOpen={setOpen}
                   phoneNumber={data.PhoneNumber}
                   Photo={data.Photo}
+                  assignedBandName={assignedBandName}
                 />
               ))}
             </div>

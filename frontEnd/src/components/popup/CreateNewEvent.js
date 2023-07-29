@@ -109,24 +109,16 @@ function CreateNewEvent() {
     setInputs((prevState) => ({ ...prevState, musicalTypeId: e }));
   };
   const handleDateChange = (newValue) => {
-    // console.log('newValue:', newValue);
     setDate(newValue);
     setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
-
-    // setInputs(newValue);
   };
-
   //create new event
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
     console.log(date);
 
-    if (
-      date !== undefined &&
-      time !== '' &&
-      inputs.musicalTypeId !== undefined
-    ) {
+    if (date !== null && time !== '' && inputs.musicalTypeId !== undefined) {
       otherInput.dateTime = dateTime;
       createEvent(otherInput);
       setDate({ startDate: '' });
@@ -171,12 +163,11 @@ function CreateNewEvent() {
           divider
           className="flex flex-col  lg:gap-3 lg:flex-row   md:flex-col dark:text-white"
         >
-          <div className="flex flex-col w-72   gap-2 ">
-            <Typography variant="small">Pick A Date:</Typography>
-
+          <div className="flex flex-col w-72   gap-2">
             <Datepicker
               key={JSON.stringify(date)}
               minDate={new Date()}
+              // containerClassName=" relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]"
               useRange={false}
               value={date}
               asSingle={true}
@@ -184,6 +175,7 @@ function CreateNewEvent() {
               displayFormat={'DD/MM/YYYY'}
               disabledDates={modifiedEventDates}
               popoverDirection="down"
+              placeholder="Pick A Date"
               containerClassName={`${
                 darkMode ? 'darkModeDatePicker' : ''
               } border-[1px] relative mt-8 border-blue-gray-200 rounded-[7px] `}
@@ -193,7 +185,7 @@ function CreateNewEvent() {
               name="time"
               type="time"
               size="lg"
-              label="time"
+              label="Time"
               value={inputs.time}
               onChange={handleChange}
               className="dark:text-white"
@@ -229,7 +221,6 @@ function CreateNewEvent() {
             </Typography>
           </div>
           <div className=" flex flex-col lg:justify-start  w-72 gap-2">
-            <Typography> Add a new Style</Typography>
             <Input
               name="musicalStyleToAdd"
               type="text"
