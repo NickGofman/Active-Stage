@@ -51,6 +51,12 @@ function BusinessReportPage() {
     musicalTypeId: inputs.musicalTypeId,
   });
 
+
+  console.log('bandNameList', bandNameList);
+  console.log('bandNameList', bandNameList);
+  console.log('bandNameList', bandNameList);
+
+
   const {
     isLoading: reportsLoading,
     data: reportsNameList,
@@ -124,7 +130,7 @@ function BusinessReportPage() {
           onChange={handleBandNameChange}
         >
           {bandNameList?.data.length !== 0 ? (
-            bandNameList?.data?.bandNames?.map((band, index) => (
+            bandNameList?.data?.map((band, index) => (
               <Option name="bandNameOption" value={band} key={index}>
                 {band}
               </Option>

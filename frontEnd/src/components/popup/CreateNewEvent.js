@@ -167,7 +167,7 @@ function CreateNewEvent() {
             <Datepicker
               key={JSON.stringify(date)}
               minDate={new Date()}
-              // containerClassName=" relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]"
+          
               useRange={false}
               value={date}
               asSingle={true}
@@ -177,8 +177,10 @@ function CreateNewEvent() {
               popoverDirection="down"
               placeholder="Pick A Date"
               containerClassName={`${
-                darkMode ? 'darkModeDatePicker' : ''
-              } border-[1px] relative mt-8 border-blue-gray-200 rounded-[7px] `}
+                darkMode
+                  ? 'darkModeDatePicker  relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]'
+                  : ''
+              }  relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]`}
             />
 
             <Input

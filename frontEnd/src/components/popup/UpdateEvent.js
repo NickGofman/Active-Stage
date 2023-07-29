@@ -133,8 +133,10 @@ function UpdateEvent(props) {
               popoverDirection="down"
               disabledDates={modifiedEventDates}
               containerClassName={`${
-                darkMode ? 'darkModeDatePicker' : ''
-              } border-[1px] relative mt-8 border-blue-gray-200 rounded-[7px] `}
+                darkMode
+                  ? 'darkModeDatePicker  relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]'
+                  : ''
+              }  relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px] `}
             />
             <Input
               name="time"
