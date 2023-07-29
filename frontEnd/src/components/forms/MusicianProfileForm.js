@@ -179,25 +179,27 @@ function MusicianProfileForm(props) {
           value={inputs.experience}
           className="dark:text-white"
         />
-        <Input
-          name="phone"
-          type="tel"
-          label="Phone Number"
-          id="inputOrgPhone"
-          onChange={handleChange}
-          value={inputs.phone}
-          className="dark:text-white"
-        />
+        <div>
+          <Input
+            name="phone"
+            type="tel"
+            label="Phone Number"
+            id="inputOrgPhone"
+            onChange={handleChange}
+            value={inputs.phone}
+            className="dark:text-white"
+          />
 
-        <Typography
-          variant="small"
-          color="gray"
-          className="flex items-center gap-1 font-normal mt-2           dark:text-white
+          <Typography
+            variant="small"
+            color="gray"
+            className="flex items-center gap-1 font-normal mt-2           dark:text-white
 "
-        >
-          <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
-          Phone number format 05X-XXXXXXX
-        </Typography>
+          >
+            <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
+            Phone number format 05X-XXXXXXX
+          </Typography>
+        </div>
         <Input
           name="youtubeURL"
           type="Url"
@@ -214,7 +216,7 @@ function MusicianProfileForm(props) {
             onChange={handleChange}
             value={inputs.description}
             className="dark:text-white"
-        />
+          />
           <Typography color="gray" className="text-xs">
             <span className={countChar > 255 ? 'text-red-700' : undefined}>
               {countChar}
@@ -228,7 +230,6 @@ function MusicianProfileForm(props) {
           type="file"
           label="Upload Image"
           icon={<FiUpload />}
-          
           onChange={(e) => setFile(e.target.files[0])}
         />
         {err && (

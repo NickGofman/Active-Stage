@@ -108,24 +108,26 @@ function BusinessProfileForm(props) {
           onChange={handleChange}
           className="dark:text-white"
         />
-        <Input
-          type="tel"
-          label="Phone"
-          id="phone"
-          name="phone"
-          required={true}
-          value={inputs.phone}
-          onChange={handleChange}
-          className="dark:text-white"
-        />
-        <Typography
-          variant="small"
-          color="gray"
-          className="flex items-center gap-1 font-normal mt-2 dark:text-white"
-        >
-          <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
-          Phone number format 05X-XXXXXXX
-        </Typography>
+        <div>
+          <Input
+            type="tel"
+            label="Phone"
+            id="phone"
+            name="phone"
+            required={true}
+            value={inputs.phone}
+            onChange={handleChange}
+            className="dark:text-white"
+          />
+          <Typography
+            variant="small"
+            color="gray"
+            className="flex items-center gap-1 font-normal mt-2 dark:text-white"
+          >
+            <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
+            Phone number format 05X-XXXXXXX
+          </Typography>
+        </div>
 
         <Input
           type="text"

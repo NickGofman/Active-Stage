@@ -120,7 +120,8 @@ function MusicianHomePage() {
     isLoading: isLoadingPreviousEvents,
     data: dataPreviousEvents,
     isError: isErrorPreviousEvents,
-  } = useAllPreviousEvents(userId); // Use the useAllPreviousEvents hook
+    error: errorPreviousEvents,
+  } = useAllPreviousEvents(userId);
   if (
     isLoadingPublishedEvents ||
     isLoading ||
@@ -130,9 +131,20 @@ function MusicianHomePage() {
     return <Loader />;
   }
 
-  if (isErrorPublishedEvents || isError || isErrorAllAssigned) {
+  if (
+    isErrorPublishedEvents ||
+    isError ||
+    isErrorAllAssigned ||
+    isErrorPreviousEvents
+  ) {
     return (
-      <div>Error: {errorPublishedEvents || error || errorAllAssigned}</div>
+      <div>
+        Error:{' '}
+        {errorPublishedEvents ||
+          error ||
+          errorAllAssigned ||
+          errorPreviousEvents}
+      </div>
     );
   }
   const numberOfEvents = data?.data?.length;
@@ -145,9 +157,9 @@ function MusicianHomePage() {
   }
 
   return (
-    <div className="flex lg:flex-row lg:items-start justify-evenly items-center flex-col ">
+    <div className="flex lg:flex-row justify-evenly items-center flex-col ">
       <div className="flex flex-col justify-center items-center lg:ml-5">
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-center items-center">
           {dataPublishedEvents?.data?.length !== 0 ? (
             <PaginationEvents
               userEmail={userEmail}
@@ -158,7 +170,7 @@ function MusicianHomePage() {
               isHome={true}
             />
           ) : (
-            <Typography>NO Published Events</Typography>
+            <Typography className="font-semibold">NO Published Events</Typography>
           )}
         </div>
       </div>
@@ -209,9 +221,7 @@ function MusicianHomePage() {
                         >
                           {musicalTypeName}
                         </Typography>
-                        <Typography >
-                          {date}
-                        </Typography>
+                        <Typography>{date}</Typography>
                       </div>
                     );
                   }
