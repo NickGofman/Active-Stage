@@ -1,4 +1,4 @@
-// import Button from '../components/buttons/Button';
+
 import {
   Card,
   Input,
@@ -12,6 +12,8 @@ import { AuthContext } from '../components/context/authContext';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCancelPassedEvents } from '../hooks/useAdminEvents';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+
 function LoginPage() {
   const { login, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -20,6 +22,8 @@ function LoginPage() {
     password: '',
   });
   const [err, setErr] = useState('');
+  // State to keep track of password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     // console.log('ERROR USE EFFECT:', err);
@@ -28,8 +32,7 @@ function LoginPage() {
       currentUser?.Role === 'admin' ? navigate('/admin') : navigate('/user');
     }
   }, [currentUser, navigate]);
-  const { mutate: cancelPassedEvents } =
-    useCancelPassedEvents();
+  const { mutate: cancelPassedEvents } = useCancelPassedEvents();
   if (currentUser !== null && currentUser?.Role === 'admin') {
     cancelPassedEvents();
   }
@@ -52,6 +55,10 @@ function LoginPage() {
     }));
   };
 
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <Card className="w-96 mt-10">
@@ -74,15 +81,27 @@ function LoginPage() {
               name="email"
               onChange={handleChange}
             />
-            <Input
-              required
-              type="password"
-              variant="outlined"
-              size="lg"
-              label="Password"
-              name="password"
-              onChange={handleChange}
-            />
+            <div className="relative flex items-center">
+              <Input
+                required
+                type={showPassword ? 'text' : 'password'} // Show the password when 
+                variant="outlined"
+                size="lg"
+                label="Password"
+                name="password"
+                onChange={handleChange}
+              />
+              <div
+                className="absolute right-4 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <FiEyeOff className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <FiEye className="h-5 w-5 text-gray-500" />
+                )}
+              </div>
+            </div>
           </form>
         </CardBody>
         <CardFooter className="pt-0">

@@ -9,6 +9,7 @@ import {
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../hooks/useAuth';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 function RegisterPage() {
   const [inputs, setInputs] = useState({
     firstName: '',
@@ -26,13 +27,16 @@ function RegisterPage() {
   const [err, setErr] = useState(null);
   const [errMessage, setErrMessage] = useState('');
   const [countChar, setCountChar] = useState(0);
+  // State to keep track of password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const mut = useRegister();
   //send data to backEnd
   const handleRegistration = async (e) => {
     e.preventDefault();
     // Validate form data
-    if (countChar> 255) {
+    if (countChar > 255) {
       setErrMessage('Description must be no longer than 255 character');
       return;
     }
@@ -60,6 +64,18 @@ function RegisterPage() {
     }));
 
     setErr(validateForm({ ...inputs, [e.target.name]: e.target.value }));
+  };
+
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  // Function to toggle confirm password visibility
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(
+      (prevShowConfirmPassword) => !prevShowConfirmPassword
+    );
   };
 
   return (
@@ -108,17 +124,26 @@ function RegisterPage() {
             success={err?.email === ''}
           />
           <div>
-            <Input
-              required
-              type="password"
-              variant="outlined"
-              size="lg"
-              label="Password"
-              name="password"
-              onChange={handleChange}
-              error={err?.password !== ''}
-              success={err?.password === ''}
-            />
+            <div className="relative flex items-center">
+              <Input
+                required
+                type={showPassword ? 'text' : 'password'}
+                variant="outlined"
+                size="lg"
+                label="Password"
+                name="password"
+                onChange={handleChange}
+                error={err?.password !== ''}
+                success={err?.password === ''}
+              />
+              <div
+                className="absolute right-4 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </div>
+            </div>
+
             <Typography
               variant="small"
               color="gray"
@@ -129,16 +154,25 @@ function RegisterPage() {
               digits
             </Typography>
           </div>
-          <Input
-            required
-            type="password"
-            size="lg"
-            label="Confirm Password"
-            name="confirmPassword"
-            onChange={handleChange}
-            error={err?.confirmPassword !== ''}
-            success={err?.confirmPassword === ''}
-          />
+
+          <div className="relative">
+            <Input
+              required
+              type={showConfirmPassword ? 'text' : 'password'}
+              size="lg"
+              label="Confirm Password"
+              name="confirmPassword"
+              onChange={handleChange}
+              error={err?.confirmPassword !== ''}
+              success={err?.confirmPassword === ''}
+            />
+            <div
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+              onClick={toggleConfirmPasswordVisibility}
+            >
+              {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+            </div>
+          </div>
           <Input
             required
             type="date"
