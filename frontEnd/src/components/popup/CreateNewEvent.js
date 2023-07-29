@@ -108,24 +108,16 @@ function CreateNewEvent() {
     setInputs((prevState) => ({ ...prevState, musicalTypeId: e }));
   };
   const handleDateChange = (newValue) => {
-    // console.log('newValue:', newValue);
     setDate(newValue);
     setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
-
-    // setInputs(newValue);
   };
-
   //create new event
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
     console.log(date);
 
-    if (
-      date !== undefined &&
-      time !== '' &&
-      inputs.musicalTypeId !== undefined
-    ) {
+    if (date !== null && time !== '' && inputs.musicalTypeId !== undefined) {
       otherInput.dateTime = dateTime;
       createEvent(otherInput);
       setDate({ startDate: '' });
@@ -170,7 +162,6 @@ function CreateNewEvent() {
           className="flex flex-col lg:gap-3 lg:flex-row md:flex-col"
         >
           <div className="flex flex-col w-72   gap-2">
-
             <Datepicker
               key={JSON.stringify(date)}
               minDate={new Date()}
@@ -182,7 +173,7 @@ function CreateNewEvent() {
               displayFormat={'DD/MM/YYYY'}
               disabledDates={modifiedEventDates}
               popoverDirection="down"
-              placeholder='Pick A Date'
+              placeholder="Pick A Date"
             />
             <Input
               name="time"
@@ -194,7 +185,6 @@ function CreateNewEvent() {
             />
 
             <Select
-              className="col-span-1"
               label="Select Musical Type"
               name="musicalStyle"
               value={inputs.musicalTypeId}

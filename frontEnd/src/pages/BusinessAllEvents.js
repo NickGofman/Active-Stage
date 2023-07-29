@@ -20,7 +20,6 @@ function BusinessAllEvents() {
     endDate: dayjs(currentDate).add(1, 'year').format('YYYY-MM-DD'),
   });
 
-  //axios will be here we wil have 4 routes that get sortType and date
   const sortData = {
     sortType: sortType,
     startDate: date.startDate,
