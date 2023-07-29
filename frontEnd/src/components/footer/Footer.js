@@ -10,7 +10,7 @@ function Footer() {
     <footer className="dark:bg-black dark:text-white">
       {currentUser.Role !== 'admin' ? (
         <div className="flex items-center justify-evenly  text-gray-600 flex-wrap">
-          <div className=" px-5 py-5">
+          <div className=" px-5 py-5 dark:text-white">
             <div data-field="phone">
               <a
                 href="tel:+972-50-831-7378"
@@ -25,7 +25,7 @@ function Footer() {
               </ul>
             </div>
           </div>
-          <div className="px-5 py-5">
+          <div className="px-5 py-5 dark:text-white">
             <h3 className="text-black">Address</h3>
             <div>
               <address>
@@ -35,7 +35,7 @@ function Footer() {
               </address>
             </div>
           </div>
-          <div className="px-5 py-5">
+          <div className="px-5 py-5 dark:text-white">
             <h3 className="text-black">Contact Us</h3>
 
             <div className="flex flex-row space-x-3">
@@ -59,7 +59,7 @@ function Footer() {
       ) : (
         <div className="flex items-start  flex-wrap dark:bg-black">
           <div className="px-5 py-5">
-            <h3 > Have any Problem?</h3>
+            <h3> Have any Problem?</h3>
             <div>Email: contactNick@yourwebsite.com</div>
             <div>Email: contactSaar@yourwebsite.com</div>
           </div>

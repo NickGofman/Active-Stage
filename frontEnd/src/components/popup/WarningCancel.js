@@ -12,24 +12,24 @@ import { useCancelEvent } from '../../hooks/useAdminEvents';
 import { format, subHours } from 'date-fns';
 import Loader from '../loader/Loader';
 
-function WarningCancel({ disabled, EventDate, EventId,eventStatus }) {
-    const dateObj = new Date(EventDate);
-    const newDate = subHours(dateObj, 3);
-    const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
+function WarningCancel({ disabled, EventDate, EventId, eventStatus }) {
+  const dateObj = new Date(EventDate);
+  const newDate = subHours(dateObj, 3);
+  const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
   const [open, setOpen] = useState(false);
-  const { isLoading, error, mutate:cancelEvent } = useCancelEvent();
+  const { isLoading, error, mutate: cancelEvent } = useCancelEvent();
   const handleOpen = () => setOpen(!open);
   function handleCancel() {
     cancelEvent({ EventId, eventStatus });
     setOpen(false);
   }
-   if (isLoading) {
-     return <Loader/>;
-   }
+  if (isLoading) {
+    return <Loader />;
+  }
 
-   if (error) {
-     return <div>Error: {error.message}</div>;
-   }
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <Fragment>
@@ -37,6 +37,7 @@ function WarningCancel({ disabled, EventDate, EventId,eventStatus }) {
         Cancel
       </Button>
       <Dialog
+        className="dark:bg-black"
         open={open}
         handler={handleOpen}
         animate={{
@@ -44,7 +45,9 @@ function WarningCancel({ disabled, EventDate, EventId,eventStatus }) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader>Cancel Event at: {formattedDate}</DialogHeader>
+        <DialogHeader className="dark:text-white">
+          Cancel Event at: {formattedDate}
+        </DialogHeader>
         <DialogBody divider>
           <Typography variant="h5" color="red" className="mb-2">
             Are you sure you want to cancel this event?!

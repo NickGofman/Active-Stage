@@ -157,7 +157,11 @@ function MusicianHomePage() {
   }
 
   return (
-    <div className="flex lg:flex-row justify-evenly items-center flex-col ">
+    <div
+      className={`flex lg:flex-row justify-evenly  ${
+        dataPublishedEvents?.data?.length !== 0 ? 'items-start' : 'items-center'
+      }  flex-col`}
+    >
       <div className="flex flex-col justify-center items-center lg:ml-5">
         <div className="flex flex-col justify-center items-center">
           {dataPublishedEvents?.data?.length !== 0 ? (
@@ -170,12 +174,14 @@ function MusicianHomePage() {
               isHome={true}
             />
           ) : (
-            <Typography className="font-semibold mt-5 lg:mt-0">NO Published Events</Typography>
+            <Typography className="font-semibold mt-5 lg:mt-0">
+              NO Published Events
+            </Typography>
           )}
         </div>
       </div>
-      <div className="flex flex-col lg:mr-5">
-        <Card className="mt-6 w-96 dark:bg-black dark:text-white">
+      <div className="flex flex-col lg:mr-5 ">
+        <Card className="mt-6 w-96 dark:bg-black dark:text-white ">
           <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
             <Typography
               variant="h5"

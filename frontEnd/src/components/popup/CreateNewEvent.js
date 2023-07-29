@@ -158,7 +158,7 @@ function CreateNewEvent() {
         }}
         className="dark:bg-black dark:text-white "
       >
-        <DialogHeader>Create New Event</DialogHeader>
+        <DialogHeader className='dark:text-white' >Create New Event</DialogHeader>
         <DialogBody
           divider
           className="flex flex-col  lg:gap-3 lg:flex-row   md:flex-col dark:text-white"
