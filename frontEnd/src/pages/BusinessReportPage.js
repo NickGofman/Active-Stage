@@ -51,12 +51,6 @@ function BusinessReportPage() {
     musicalTypeId: inputs.musicalTypeId,
   });
 
-
-  console.log('bandNameList', bandNameList);
-  console.log('bandNameList', bandNameList);
-  console.log('bandNameList', bandNameList);
-
-
   const {
     isLoading: reportsLoading,
     data: reportsNameList,
@@ -106,7 +100,6 @@ function BusinessReportPage() {
     totalRevenue += elem.Income;
   });
 
-  console.log('musicalStyleList', musicalStyleList);
   return (
     <>
       <div className="grid grid-cols-3 gap-4 mt-10 mr-16 ml-16">
@@ -172,8 +165,9 @@ function BusinessReportPage() {
           variant="lead"
           className="font-bold mt-2 border-2 rounded-lg"
         >
-          Total Revenue: {totalRevenue}
+          Total Revenue: {totalRevenue} 
         </Typography>
+    
       </div>
     </>
   );

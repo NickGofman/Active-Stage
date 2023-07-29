@@ -128,7 +128,7 @@ export default function NavBar() {
   );
 
   return (
-    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 dark:bg-regal-blue dark:text-white">
+    <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 dark:bg-black dark:text-white">
       <div className="flex items-center justify-between ">
         <div className="hidden lg:flex lg:flex-col lg:gap-1 ">{navList}</div>
         {/* toggle icons */}
@@ -169,7 +169,7 @@ export default function NavBar() {
             </svg>
           )}
         </IconButton>
-        <div className="flex flex-row dark:bg-none">
+        <div className="flex flex-row dark:space-x-10 dark:bg-none">
           <Button
             onClick={handleLogout}
             variant="text"
@@ -182,7 +182,7 @@ export default function NavBar() {
           <img
             src={darkMode ? MainLogoDark : MainLogo}
             alt="Active-Stage Logo"
-            className="w-[150px] h-[100px] hover:cursor-pointer"
+            className="w-[150px] h-[100px] hover:cursor-pointer  dark:bg-white dark:rounded-full dark:w-[100px]"
             onClick={handleNavigateToHome}
           />
         </div>

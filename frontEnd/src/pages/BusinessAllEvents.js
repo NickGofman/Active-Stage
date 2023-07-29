@@ -51,6 +51,7 @@ function BusinessAllEvents() {
   const handleDateChange = (newValue) => {
     setDate(newValue);
   };
+
   return (
     <div className="flex flex-col  items-center space-y-9 mt-10 ">
       <div className=" shadow-md sm:rounded-lg ">
@@ -65,6 +66,20 @@ function BusinessAllEvents() {
             displayFormat={'DD/MM/YYYY'}
             popoverDirection="down"
           />
+        </div>
+        <div className="flex flex-row mt-2">
+          <div className="ml-4 mt-1 flex items-center">
+            <div className="text-sm font-semibold w-32">Published events</div>
+            <div className={'w-3 h-3 rounded-full bg-green-500'}></div>
+          </div>
+          <div className="ml-4 mt-1  flex items-center">
+            <div className="text-sm font-semibold w-32">Assigned events</div>
+            <div className={'w-3 h-3 rounded-full bg-yellow-700'}></div>
+          </div>
+          <div className=" ml-4 mt-1  flex items-center">
+            <div className="text-sm font-semibold w-32">Closed events</div>
+            <div className={'w-3 h-3 rounded-full bg-red-500'}></div>
+          </div>
         </div>
         {/* Radio buttons for sorting */}
         <div className="space-x-7 pb-3 ">

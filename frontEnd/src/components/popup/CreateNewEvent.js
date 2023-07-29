@@ -167,7 +167,6 @@ function CreateNewEvent() {
             <Datepicker
               key={JSON.stringify(date)}
               minDate={new Date()}
-          
               useRange={false}
               value={date}
               asSingle={true}
@@ -194,7 +193,7 @@ function CreateNewEvent() {
             />
 
             <Select
-              className="col-span-1 dark:text-white"
+              className="col-span-1 dark:text-white "
               label="Select Musical Type"
               name="musicalStyle"
               value={inputs.musicalTypeId}

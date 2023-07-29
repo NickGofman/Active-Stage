@@ -34,17 +34,12 @@ function RegisterToEvent({ date, hour, type, register }) {
         }}
       >
         <DialogHeader className="dark:text-white">
-          Register To Event At: {date}
+          Register To Event {date}
         </DialogHeader>
         <DialogBody className="flex flex-col lg:flex-row items-center lg:justify-between dark:text-white">
-          <div className="flex  items-center">
-            <Typography variant="lead">
-              You are about to register to the Event:
-            </Typography>
-          </div>
-          <div>
-            <Typography variant="h4">Time: {hour}</Typography>
-            <Typography variant="h4">Musical Style: {type}</Typography>
+          <div className="flex  items-start flex-col">
+            <Typography variant="paragraph">Time: {hour}</Typography>
+            <Typography variant="paragraph">Musical Style: {type}</Typography>
           </div>
         </DialogBody>
         <DialogFooter className="space-x-2">
