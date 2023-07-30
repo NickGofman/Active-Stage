@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { useState } from 'react';
-import { Select, Option, Typography } from '@material-tailwind/react';
+import { Select, Option, Typography, Button } from '@material-tailwind/react';
 import dayjs from 'dayjs';
 import {
   useGetMusicalStylesByDate,
@@ -99,6 +99,16 @@ function BusinessReportPage() {
   reportsNameList?.data?.forEach((elem) => {
     totalRevenue += elem.Income;
   });
+  const handleResetFilters = () => {
+    setDate({
+      startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
+      endDate: dayjs(currentDate).format('YYYY-MM-DD'),
+    });
+    setInputs({
+      bandName: '',
+      musicalTypeId: '',
+    });
+  };
 
   return (
     <>
@@ -107,7 +117,7 @@ function BusinessReportPage() {
           <Datepicker
             containerClassName={`${
               darkMode ? 'darkModeDatePicker' : ''
-            } border-[1px] relative  max-w-sm  border-blue-gray-gray-200 rounded-lg`}
+            } border-[1px] border-blue-gray-200 rounded-[7px] relative  max-w-sm rounded-lg`}
             useRange={false}
             value={date}
             onChange={handleDateChange}
@@ -158,6 +168,11 @@ function BusinessReportPage() {
             </Option>
           )}
         </Select>
+        <div className="col-span-3 flex justify-end">
+          <Button onClick={handleResetFilters} size="sm">
+            Reset Filters
+          </Button>
+        </div>
       </div>
       <div className="flex flex-col mt-10 mr-16 ml-16  ">
         <ReportTable data={sortData} reportsNameList={reportsNameList} />
@@ -165,9 +180,8 @@ function BusinessReportPage() {
           variant="lead"
           className="font-bold mt-2 border-2 rounded-lg"
         >
-          Total Revenue: {totalRevenue} 
+          Total Revenue: {totalRevenue}
         </Typography>
-    
       </div>
     </>
   );
