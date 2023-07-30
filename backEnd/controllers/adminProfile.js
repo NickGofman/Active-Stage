@@ -51,12 +51,11 @@ Retrieves the admin's profile data from the database based on the provided user 
 const getAdminData = (req, res) => {
   const userId = req.params.id;
 
-  console.log('IN BACKEND getProfile');
   const q =
     'SELECT businessName, address, PhoneNumber, managerName,b.Email  FROM business as b JOIN user as u ON b.UserId = u.UserId WHERE b.UserId = ?';
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
-    console.log('IN BACKEND getProfile DATA:', data);
+
     return res.status(200).json(data);
   });
   //

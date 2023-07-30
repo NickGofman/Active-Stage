@@ -45,7 +45,7 @@ Retrieves filtered reports of closed events based on the provided start date, en
 */
 const getFilteredReports = (req, res) => {
   const { startDate, endDate, musicalTypeId, bandName } = req.body;
-  console.log('BACKEND getFilteredReports');
+
   let query = `
     SELECT 
       e.EventID,

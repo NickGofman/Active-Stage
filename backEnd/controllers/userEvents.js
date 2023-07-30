@@ -107,7 +107,6 @@ Retrieves all previously closed events for a musician.
 */
 const getAllPreviousEvents = (req, res) => {
   const userId = req.params.userId;
-  console.log('userId:', userId);
 
   // select date and musical type name
   const q = `SELECT e.EventID, e.Date, t.MusicalTypeName AS musicalTypeName 

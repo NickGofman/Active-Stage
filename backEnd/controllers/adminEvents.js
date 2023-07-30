@@ -81,7 +81,6 @@ const getEventsDate = (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    console.log('inEventDates');
     return res.status(200).json(data);
   });
 };
@@ -233,7 +232,6 @@ Adds income to a specific event and updates the event status to 'Closed'.
 const addIncome = (req, res) => {
   const { EventID } = req.params;
   const { income } = req.body;
-  console.log('addIncome: EventID-income => ', EventID, '-', income);
   const updateQuery = `UPDATE event SET Income = ?, Status = 'Closed' WHERE EventID = ?`;
   pool.query(updateQuery, [income, EventID], (err, result) => {
     if (err) {
@@ -315,7 +313,6 @@ Retrieves events based on the specified sorting type ('all', 'Closed', 'WithoutI
 */
 const getSortedEventDataByType = (req, res) => {
   const { sortType, endDate, startDate } = req.params;
-  console.log('getSortedEventDataByType');
   let query = '';
   let queryParams = [];
   switch (sortType) {
@@ -516,8 +513,6 @@ Cancels an event and sends cancellation emails to registered musicians if applic
 */
 const cancelEvent = (req, res) => {
   const { eventId, status } = req.params;
-  console.log('status', status);
-  console.log('eventid', eventId);
 
   let getEmailQuery = '';
   // Retrieve the list of registered musicians' emails for the canceled event
@@ -557,9 +552,8 @@ Updates an event with new information and sends change notification emails to re
 const updateEvent = (req, res) => {
   const { eventId, status } = req.params;
   const updatedEvent = req.body;
-  console.log('rrrr', req.body);
   let getEmail = '';
-  console.log('sss', status);
+
   // Extract the updated values from the request body
   const { description, dateTime, musicalTypeId } = updatedEvent;
   if (status === 'Published') {
