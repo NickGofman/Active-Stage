@@ -62,7 +62,7 @@ function AssignMusician(props) {
             <span>Cancel</span>
           </Button>
         </DialogHeader>
-        <DialogBody divider className="h-[28rem] overflow-scroll">
+        <DialogBody divider className="h-[28rem] overflow-y-scroll">
           {dataRegistered?.data?.length === 0 ? (
             <Typography className="font-bold dark:text-white">
               No musicians to assign.
