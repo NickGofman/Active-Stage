@@ -1,9 +1,12 @@
 'use strict';
 const pool = require('../database');
+
+/**
+Retrieves band names of musicians based on the provided start date, end date, and optional musical type.
+@param {*} req - The request object containing the start date, end date, and optional musical type.
+@param {*} res - The response object to send back the distinct band names of musicians.
+*/
 const getBandNames = (req, res) => {
-  console.log('BACK END getBandNames');
-  // const { startDate, endDate } = req.params;
-  console.log('bobobobdy', req.body);
   const { startDate, endDate, musicalTypeId } = req.body;
   let query = `
     SELECT DISTINCT musician.BandName
@@ -35,6 +38,11 @@ const getBandNames = (req, res) => {
   });
 };
 
+/**
+Retrieves filtered reports of closed events based on the provided start date, end date, musical type, and band name.
+@param {*} req - The request object containing the start date, end date, musical type ID, and band name for filtering the reports.
+@param {*} res - The response object to send back the filtered reports.
+*/
 const getFilteredReports = (req, res) => {
   const { startDate, endDate, musicalTypeId, bandName } = req.body;
   console.log('BACKEND getFilteredReports');
@@ -60,11 +68,12 @@ const getFilteredReports = (req, res) => {
 
   const queryParams = [startDate, endDate];
 
+  //check if musicalTypeId is given
   if (musicalTypeId) {
     query += ' AND mt.MusicalTypeID = ?';
     queryParams.push(musicalTypeId);
   }
-
+  //check if band name is given
   if (bandName) {
     query += ' AND m.BandName = ?';
     queryParams.push(bandName);
@@ -80,10 +89,13 @@ const getFilteredReports = (req, res) => {
   });
 };
 
+/**
+Retrieves musical styles based on the provided start date, end date, and optional band name.
+@param {*} req - The request object containing the start date, end date, and optional band name for filtering the musical styles.
+@param {*} res - The response object to send back the distinct musical styles with their IDs.
+*/
 const getMusicalStylesByDate = (req, res) => {
-  console.log('ccccc', req.body);
   const { startDate, endDate, bandName } = req.body;
-  console.log('BACK END getMusicalStylesByDate', startDate, endDate);
   let query = `
 SELECT DISTINCT typesdescription.MusicalTypeID, typesdescription.MusicalTypeName
 FROM musician

@@ -4,9 +4,13 @@ const jwt = require('jsonwebtoken');
 
 //#region ================UPDATE PROFILE================
 
+/**
+Updates the musician's profile information after verify his jwt.
+@param {*} req - The request object containing the musician's profile data.
+@param {*} res - The response object to send back the status of the update process.
+*/
 const updateProfile = (req, res) => {
   const token = req.cookies.accessToken;
-  console.log('CONTROLLERS BACKEND updateProfile');
   const {
     firstName,
     lastName,
@@ -45,10 +49,14 @@ const updateProfile = (req, res) => {
 
 //#region ================GET PROFILE================
 
+/**
+Retrieves the musician's profile information.
+@param {*} req - The request object containing the musician's user ID.
+@param {*} res - The response object to send back the musician's profile data.
+*/
 const getProfile = (req, res) => {
   const userId = req.params.id;
 
-  console.log('IN BACKEND getProfile');
   const q =
     'SELECT m.FirstName,m.LastName,u.PhoneNumber,m.YearsOfExperience,m.URL,m.Photo,m.Description, m.Email,m.BandName FROM musician as m JOIN user as u ON m.UserId = u.UserId WHERE m.UserId = ?';
   pool.query(q, userId, (err, data) => {

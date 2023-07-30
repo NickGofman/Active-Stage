@@ -20,7 +20,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DarkModeContext } from '../../DarkModeContext';
 import SwitchDarkMode from '../switchDarkModeButton/SwitchDarkMode';
 export default function NavBar() {
-  const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
+  const { darkMode} = useContext(DarkModeContext);
 
   const [openNav, setOpenNav] = useState(false);
   const { logout, currentUser } = useContext(AuthContext);
@@ -128,7 +128,7 @@ export default function NavBar() {
   return (
     <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 dark:bg-black dark:text-white">
       <div className="absolute top-1 left-1">
-        <SwitchDarkMode onChange={toggleDarkMode} checked={darkMode} />
+        <SwitchDarkMode/>
       </div>
 
       <div className="flex items-center justify-between relative">
@@ -171,7 +171,7 @@ export default function NavBar() {
             </svg>
           )}
         </IconButton>
-        <div className="flex flex-row dark:space-x-10 dark:bg-none">
+        <div className="flex flex-row dark:bg-none">
           <Button
             onClick={handleLogout}
             variant="text"

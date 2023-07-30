@@ -14,15 +14,20 @@ app.use((req, res, next) => {
   next();
 });
 
+// Set up express to use JSON
 app.use(express.json());
+
+// Enable CORS for requests coming from http://localhost:3000
 app.use(
   cors({
     origin: 'http://localhost:3000',
   })
 );
-// app.use(cors());
 
+// Parse cookies from incoming requests
 app.use(cookieParser());
+
+// Serve static files from the 'UploadImages' directory
 app.use(express.static(path.join(__dirname, 'UploadImages')));
 // Parse JSON bodies
 app.use(bodyParser.json());
@@ -30,8 +35,10 @@ app.use(bodyParser.json());
 // Parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/upload', handleImageUpload); // Use the handleImageUpload function for /upload route
+// Route to handle image uploads using the 'handleImageUpload' function
+app.post('/upload', handleImageUpload);
 
+//middlewears to handle auth, user and admin requests
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);

@@ -3,9 +3,15 @@ const pool = require('../database');
 const jwt = require('jsonwebtoken');
 
 //#region ================UPDATE PROFILE================
+
+/**
+Updates the admin's profile information in the database.
+@param {*} req - The request object containing the admin's updated profile information.
+@param {*} res - The response object to send back the result.
+*/
 const updateProfile = (req, res) => {
+  //get the token of the admin to authorize
   const token = req.cookies.accessToken;
-  console.log('CONTROLLERS BACKEND updateProfile');
   const { businessEmail, businessName, address, phone, managerName } = req.body;
 
   if (!token) return res.status(401).json('Not logged in!');
@@ -36,6 +42,12 @@ const updateProfile = (req, res) => {
 //#endregion
 
 //#region ================GET ADMIN PROFILE================
+
+/**
+Retrieves the admin's profile data from the database based on the provided user ID.
+@param {*} req - The request object containing the admin's user ID.
+@param {*} res - The response object to send back the profile data.
+*/
 const getAdminData = (req, res) => {
   const userId = req.params.id;
 

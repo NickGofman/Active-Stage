@@ -1,6 +1,11 @@
 'use strict';
 const pool = require('../database');
 
+/**
+Retrieves published events that a musician has not registered for yet.
+@param {*} req - The request object containing the musician's ID.
+@param {*} res - The response object to send back the list of published events.
+*/
 const getPublishedEvents = (req, res) => {
   const userId = req.params.id;
   const q = `SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
@@ -12,12 +17,15 @@ const getPublishedEvents = (req, res) => {
   });
 };
 
+/**
+Registers a musician to an event by creating a registration record in the database.
+@param {*} req - The request object containing the musician's ID, event ID, and email.
+@param {*} res - The response object to send back the status of the registration process.
+*/
 const registerToEvent = (req, res) => {
   const userId = req.params.id;
   const eventId = req.params.eventId;
   const userEmail = req.params.email;
-
-  console.log('IN BACKEND registerToEvent', userId, eventId, userEmail);
 
   const q = `INSERT INTO musician_register_event (EventID, UserId, Email)
 VALUES (?, ?, ?);
@@ -29,9 +37,13 @@ VALUES (?, ?, ?);
   });
 };
 
+/**
+Retrieves assigned events for a specific musician.
+@param {*} req - The request object containing the musician's ID.
+@param {*} res - The response object to send back the list of assigned events.
+*/
 const getAssignedEvents = (req, res) => {
   const userId = req.params.id;
-  console.log('BACkEND getAssignedEvents');
 
   const q = `SELECT DISTINCT e.EventID, CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
 FROM event AS e
@@ -46,9 +58,13 @@ WHERE e.UserID = ? AND e.Status = 'Assigned'
     return res.status(200).json(data);
   });
 };
-const getRegisteredEvents = (req, res) => {
-  console.log('BACkEND getAssignedEvents');
 
+/**
+Retrieves events that a musician has registered for but not assigned yet.
+@param {*} req - The request object containing the musician's ID.
+@param {*} res - The response object to send back the list of registered events.
+*/
+const getRegisteredEvents = (req, res) => {
   const userId = req.params.id;
 
   const q = `SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
@@ -66,6 +82,11 @@ ORDER BY e.Date
   });
 };
 
+/**
+Unregisters a musician from an event by removing the registration record from the database.
+@param {*} req - The request object containing the musician's ID and event ID.
+@param {*} res - The response object to send back the status of the unregistration process.
+*/
 const unregisterToEvent = (req, res) => {
   const userId = req.params.userId;
   const eventId = req.params.eventId;
@@ -78,6 +99,12 @@ const unregisterToEvent = (req, res) => {
     return res.status(200).json(data);
   });
 };
+
+/**
+Retrieves all previously closed events for a musician.
+@param {*} req - The request object containing the musician's ID.
+@param {*} res - The response object to send back the list of previous events.
+*/
 const getAllPreviousEvents = (req, res) => {
   const userId = req.params.userId;
   console.log('userId:', userId);
@@ -93,7 +120,6 @@ const getAllPreviousEvents = (req, res) => {
       console.error('Error executing query:', err);
       return res.status(500).json({ error: 'Error retrieving events' });
     }
-    console.log('data:', data);
 
     return res.status(200).json(data);
   });

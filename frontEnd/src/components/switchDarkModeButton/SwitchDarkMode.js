@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
+import { MdDarkMode, MdOutlineWbSunny } from 'react-icons/md';
 import { DarkModeContext } from '../../DarkModeContext';
 
 const SwitchDarkMode = () => {
@@ -18,17 +18,17 @@ const SwitchDarkMode = () => {
           onChange={handleSwitchChange}
           defaultChecked={darkMode}
         />
-        <div className="block bg-gray-400 w-12 h-6 rounded-full"></div>
+        <div className="block bg-blue-gray-200 w-8 h-4 rounded-full"></div>
         <div
           className={`${
-            darkMode ? 'bg-blue-500' : 'bg-white'
-          } absolute left-0 top-0 w-6 h-6 rounded-full transition-transform flex items-center justify-center`}
+            darkMode ? 'bg-blue-500' : 'bg-yellow-100'
+          } absolute left-0 top-0 w-4 h-4 rounded-full transition-transform flex items-center justify-center`}
           style={{ transform: darkMode ? 'translateX(100%)' : 'translateX(0)' }}
         >
           {darkMode ? (
-            <MdDarkMode className="text-white text-sm" />
+            <MdDarkMode className="text-black text-sm" />
           ) : (
-            <MdOutlineDarkMode className="text-yellow-500 text-sm" />
+            <MdOutlineWbSunny className="text-yellow-900 text-sm" />
           )}
         </div>
       </div>

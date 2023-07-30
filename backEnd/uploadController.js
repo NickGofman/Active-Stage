@@ -1,9 +1,10 @@
 const { unlink } = require('fs');
-const path = require('path');
 const multer = require('multer');
 
-const maxSize = 2 * 1024 * 1024; //~2MB
+// Define the maximum allowed file size (2MB)
+const maxSize = 2 * 1024 * 1024;
 
+// Set up the disk storage for multer to store uploaded images
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './UploadImages');
@@ -13,6 +14,7 @@ const storage = multer.diskStorage({
   },
 });
 
+// Configure multer to handle the image uploads
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
@@ -30,6 +32,7 @@ const upload = multer({
   limits: { fileSize: maxSize },
 }).single('file');
 
+// Middleware to handle multer errors and provide appropriate responses
 const handleMulterErrors = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
@@ -45,6 +48,7 @@ const handleMulterErrors = (err, req, res, next) => {
   next();
 };
 
+// Function to handle image upload using multer
 const handleImageUpload = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {

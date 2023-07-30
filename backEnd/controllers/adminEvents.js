@@ -3,13 +3,18 @@ const pool = require('../database');
 
 const emailFunctions = require('../emailUtils/emailFunctions'); // Import the email functions
 
+/**
+Creates a new event with the provided description, date, and musical type ID.
+Checks if an event already exists on the specified date.
+@param {*} req - The request object containing the event details in the body.
+@param {*} res - The response object to send back the result.
+*/
 const createEvent = (req, res) => {
   const { description, dateTime, musicalTypeId } = req.body;
   // Extract the date component from the dateTime
   const date = dateTime.split(' ')[0];
 
   // Check if event already exists on the specified date
-  //TODO-should we delete the date validation (we have disabled dates)
   const qCheckIfExist = 'SELECT * FROM event WHERE Date LIKE ?';
   pool.query(qCheckIfExist, [`${date}%`], (err, data) => {
     if (err) {
@@ -48,6 +53,12 @@ const createEvent = (req, res) => {
     );
   });
 };
+
+/**
+Retrieves all available musical styles from the database.
+@param {*} req - The request object.
+@param {*} res - The response object to send back the result.
+*/
 const getMusicalStyles = (req, res) => {
   const q = 'Select * FROM typesdescription';
   pool.query(q, (err, data) => {
@@ -58,6 +69,12 @@ const getMusicalStyles = (req, res) => {
     return res.status(200).json(data);
   });
 };
+
+/**
+Retrieves all event dates from the database.
+@param {*} req - The request object.
+@param {*} res - The response object to send back the result.
+*/
 const getEventsDate = (req, res) => {
   const q = `SELECT DATE_FORMAT(Date, '%Y-%m-%d') AS startDate FROM event`;
   pool.query(q, (err, data) => {
@@ -69,6 +86,11 @@ const getEventsDate = (req, res) => {
   });
 };
 
+/**
+Retrieves up to three events with their event ID, date, and the count of registered musicians for each event.
+@param {*} req - The request object.
+@param {*} res - The response object to send back the result.
+*/
 const getThreeEventsToAssign = (req, res) => {
   const q = `
  SELECT e.EventID,Date
@@ -90,6 +112,12 @@ const getThreeEventsToAssign = (req, res) => {
     return res.status(200).json(data);
   });
 };
+
+/**
+Retrieves up to three events with their event ID, date, and the band name for events that have passed their date, had no income, and were in 'Assigned' status.
+@param {*} req - The request object.
+@param {*} res - The response object to send back the result.
+*/
 const getEventsPassedWithoutIncome = (req, res) => {
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date
@@ -110,6 +138,11 @@ LIMIT 3;
   });
 };
 
+/**
+Retrieves all musicians registered for a specific event, along with their information.
+@param {*} req - The request object containing the event ID in the params.
+@param {*} res - The response object to send back the result.
+*/
 const getAllUsersPerEvent = (req, res) => {
   const { EventID } = req.params;
 
@@ -129,6 +162,13 @@ const getAllUsersPerEvent = (req, res) => {
     return res.status(200).json(data);
   });
 };
+
+/**
+Assigns a musician to a specific event using their user ID and updates the event status to 'Assigned'.
+Sends an email notification to the musician about the assignment.
+@param {*} req - The request object containing the event ID and musician's user ID in the params.
+@param {*} res - The response object to send back the result.
+*/
 const assignMusicianToEventById = (req, res) => {
   const { EventID, UserId } = req.params;
   const qAssignMusician = `
@@ -185,6 +225,11 @@ const assignMusicianToEventById = (req, res) => {
   });
 };
 
+/**
+Adds income to a specific event and updates the event status to 'Closed'.
+@param {*} req - The request object containing the event ID in the params and the income in the body.
+@param {*} res - The response object to send back the result.
+*/
 const addIncome = (req, res) => {
   const { EventID } = req.params;
   const { income } = req.body;
@@ -200,6 +245,12 @@ const addIncome = (req, res) => {
       .json({ message: 'Income updated successfully. Event closed.' });
   });
 };
+
+/**
+Retrieves all events (Closed, Published, Assigned) with their event ID, date, band name, photo, phone number, and status for displaying on a calendar.
+@param {*} req - The request object.
+@param {*} res - The response object to send back the result.
+*/
 const getEventsForCalendar = (req, res) => {
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
@@ -226,6 +277,11 @@ const getEventsForCalendar = (req, res) => {
   });
 };
 
+/**
+Retrieves up to three upcoming events (Assigned events in the future) with their event ID, date, band name, photo, phone number, and status.
+@param {*} req - The request object.
+@param {*} res - The response object to send back the result.
+*/
 const getThreeUpcomingEvents = (req, res) => {
   const q = `
     SELECT e.EventID,CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date,
@@ -252,13 +308,16 @@ const getThreeUpcomingEvents = (req, res) => {
   });
 };
 
+/**
+Retrieves events based on the specified sorting type ('all', 'Closed', 'WithoutIncome', 'Assigned', or 'Published') and date range.
+@param {*} req - The request object containing the sorting type, end date, and start date in the params.
+@param {*} res - The response object to send back the result.
+*/
 const getSortedEventDataByType = (req, res) => {
   const { sortType, endDate, startDate } = req.params;
   console.log('getSortedEventDataByType');
   let query = '';
   let queryParams = [];
-  //SELECT BandName,Count(),Date,status
-  // FROM event WHERE Date >= ? AND Date <= ? order by Status
   switch (sortType) {
     case 'all':
       query = `
@@ -430,8 +489,13 @@ const getSortedEventDataByType = (req, res) => {
     return res.status(200).json(data);
   });
 };
+
+/**
+Updates the status of an event to 'Cancelled' in the database.
+@param {number} eventId - The ID of the event to be cancelled.
+@param {*} res - The response object to send back the result.
+*/
 const cancel = (eventId, res) => {
-  // Construct the update query
   const qCancelEvent = 'UPDATE event SET Status = ? WHERE EventID = ?';
 
   pool.query(qCancelEvent, ['Cancelled', eventId], (err, result) => {
@@ -445,6 +509,11 @@ const cancel = (eventId, res) => {
   });
 };
 
+/**
+Cancels an event and sends cancellation emails to registered musicians if applicable.
+@param {*} req - The request object containing the event ID and status in the params.
+@param {*} res - The response object to send back the result.
+*/
 const cancelEvent = (req, res) => {
   const { eventId, status } = req.params;
   console.log('status', status);
@@ -468,7 +537,7 @@ const cancelEvent = (req, res) => {
       // Extract the list of emails from the result
       const userEmails = emails.map((row) => row.Email);
       const eventDate = emails.map((row) => row.Date);
-      
+
       // Send emails to all the registered musicians about the event cancellation
       userEmails.forEach((userEmails) => {
         emailFunctions.sendEmailWithEventCancellation(userEmails, eventDate[0]);
@@ -480,10 +549,15 @@ const cancelEvent = (req, res) => {
   });
 };
 
+/**
+Updates an event with new information and sends change notification emails to registered musicians if applicable.
+@param {*} req - The request object containing the event ID and status in the params, and the updated event details in the body.
+@param {*} res - The response object to send back the result.
+*/
 const updateEvent = (req, res) => {
   const { eventId, status } = req.params;
   const updatedEvent = req.body;
-  console.log("rrrr",req.body)
+  console.log('rrrr', req.body);
   let getEmail = '';
   console.log('sss', status);
   // Extract the updated values from the request body
@@ -544,7 +618,15 @@ const updateEvent = (req, res) => {
     }
   });
 };
-// Helper function to update the event in the database
+
+/**
+Updates the event details in the database based on the provided event ID.
+@param {number} eventId - The ID of the event to be updated.
+@param {string} description - The updated description of the event.
+@param {string} dateTime - The updated date and time of the event.
+@param {number} musicalTypeId - The updated musical type ID of the event.
+@param {*} res - The response object to send back the result.
+*/
 const updateEventInDatabase = (
   eventId,
   description,
@@ -578,9 +660,12 @@ const updateEventInDatabase = (
   );
 };
 
+/**
+Cancels events that have passed their date and were in 'Published' status.
+@param {*} req - The request object.
+@param {*} res - The response object to send back the result.
+*/
 const cancelPassedEvents = (req, res) => {
-  console.log(`Updated events to 'Cancelled'.`);
-
   const selectQuery = `UPDATE event SET status = 'Cancelled'  WHERE status = 'Published' AND event.Date < CURDATE()`;
   pool.query(selectQuery, (error, result) => {
     if (error) {

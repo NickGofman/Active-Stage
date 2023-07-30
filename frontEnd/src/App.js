@@ -25,10 +25,12 @@ import {
 import { useContext } from 'react';
 import { AuthContext } from './components/context/authContext';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { DarkModeContext } from './DarkModeContext.js';
 const queryClient = new QueryClient();
 
 function App() {
   const { currentUser } = useContext(AuthContext);
+  const{darkMode}=useContext(DarkModeContext);
   const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
     console.log('isAdmin:', isAdmin, 'isMusician"', isMusician);
     if (!currentUser) {
@@ -123,6 +125,7 @@ function App() {
         base: {
           menu: {
             maxHeight: 'max-h-48',
+            backgroundColor: darkMode ? 'dark:bg-black' : 'bg-white',
           },
         },
       },

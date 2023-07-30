@@ -1,9 +1,14 @@
 'use strict';
 const pool = require('../database');
+
+/**
+Blocks a user and unassigns their events.
+@param {*} req - The request object containing the user's ID in the params.
+@param {*} res - The response object to send back the result.
+*/
 const blockUserAndUnassignEvents = (req, res) => {
   const { userId } = req.params;
 
-  // Construct the query to update the user's status to 'Banned'
   const blockUserQuery = `UPDATE user SET Status = 'Banned' WHERE UserId = ?`;
 
   pool.query(blockUserQuery, [userId], (error, result) => {
@@ -16,7 +21,6 @@ const blockUserAndUnassignEvents = (req, res) => {
     }
 
     // After blocking the user, update the assigned events
-    // Construct the query to set UserId to null and change the status to 'Published' for assigned events of the blocked user
     const unassignEventsQuery = `
       UPDATE event
       SET UserId = NULL,
@@ -45,6 +49,11 @@ const blockUserAndUnassignEvents = (req, res) => {
   });
 };
 
+/**
+Adds a new musical style to the database.
+@param {*} req - The request object containing the musical style name in the params.
+@param {*} res - The response object to send back the result.
+*/
 const addNewMusicalStyle = (req, res) => {
   // Extract the new musical style data from the request body
   const { musicalStyleName } = req.params;

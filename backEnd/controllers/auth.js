@@ -19,14 +19,13 @@ const roleEnum = {
 
 //#region ================ REGISTER ======================
 
+/**
+Registers a new musician user with the provided information.
+@param {*} req - The request object containing the musician's registration information.
+@param {*} res - The response object to send back the registration status.
+*/
 const register = async (req, res) => {
-  console.log(
-    ' IN /auth/register BACKEND HERE STATUS',
-    statusEnum.ACTIVE,
-    roleEnum.MUSICIAN
-  );
   //get data from frontEND
-
   const {
     email,
     password,
@@ -48,7 +47,8 @@ const register = async (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    //check if email or bandName
+
+    //check in the data base if email exist or band name
     if (result.length > 0) {
       for (let i = 0; i < result.length; i++) {
         const user = result[i];
@@ -114,8 +114,12 @@ const register = async (req, res) => {
 
 //#region  ================ LOGIN ======================
 
+/**
+Authenticates the musician user by comparing the provided email and password with the database records and assign jwt to the user.
+@param {*} req - The request object containing the musician's email and password for authentication.
+@param {*} res - The response object to send back the login status and user information if successful.
+*/
 const login = (req, res) => {
-  console.log('IN /auth/login BACKEND');
   const qLogin = `
     SELECT u.*, m.Photo
     FROM user u
@@ -144,7 +148,6 @@ const login = (req, res) => {
       if (!isPasswordValid) {
         return res.status(401).json({ error: 'Invalid email or password.' });
       }
-      console.log('USER ID:', user.UserId);
       //assign TOKEN
       const token = jwt.sign({ id: user.UserId }, 'secretKey');
       const { Password, ...others } = user;
@@ -165,9 +168,13 @@ const login = (req, res) => {
 
 //#region ================ LOGOUT ======================
 
+/**
+Logs out the musician user by clearing the access token cookie.
+@param {*} req - The request object containing the musician's access token.
+@param {*} res - The response object to send back the logout confirmation message.
+*/
 const logout = (req, res) => {
-  console.log('IN /auth/logout BACKEND');
-
+  //clear the website cookies
   res
     .clearCookie('accessToken', { secure: true, sameSite: 'none' })
     .status(200)
@@ -177,9 +184,12 @@ const logout = (req, res) => {
 
 //#region ================ FORGOT-PASSWORD ======================
 
+/**
+Sends a new random password to the musician's email and updates the password in the database.
+@param {*} req - The request object containing the musician's email.
+@param {*} res - The response object to send back the status of the password reset process.
+*/
 const forgotPassword = async (req, res) => {
-  console.log('IN /auth/forgotPassword BACKEND');
-
   // Generate new password
   let newPassword = generatePassword();
   // Hash password
@@ -207,7 +217,7 @@ const forgotPassword = async (req, res) => {
         //send email with new password to the user
         let mailOptions = {
           from: process.env.EMAIL_USERNAME,
-          to: userEmail, // Corrected to userEmail
+          to: userEmail,
           subject: 'Your new Password',
           html: `<h1>Hello ${userEmail} </h1>
           <p>your new password is:</p>
@@ -218,11 +228,9 @@ const forgotPassword = async (req, res) => {
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
             console.error(`Failed to send email to ${userEmail}:`, error);
-            // Although an error occurred sending the email, continue and return a response to the client
           } else {
             console.log(`Email sent to ${userEmail}: ${info.response}`);
           }
-          // Only one response should be sent after the query execution and the email sending are complete
           return res
             .status(200)
             .json({ message: 'New password sent to your email.' });
@@ -235,9 +243,13 @@ const forgotPassword = async (req, res) => {
 //#endregion ================ Forgot Password ======================
 
 //#region ================ CHANGE-PASSWORD======================
-const changePassword = async (req, res) => {
-  console.log('IN /auth/changePassword BACKEND');
 
+/**
+Changes the musician user's password and updates it in the database after verify the user's jwt.
+@param {*} req - The request object containing the musician's new password and access token.
+@param {*} res - The response object to send back the status of the password change process.
+*/
+const changePassword = async (req, res) => {
   const token = req.cookies.accessToken;
   const password = req.body.newPassword;
 
@@ -247,7 +259,6 @@ const changePassword = async (req, res) => {
   if (!token) return res.status(401).json('Not logged in!');
   jwt.verify(token, 'secretKey', (err, userInfo) => {
     if (err) return res.status(403).json('Token is not valid!');
-    console.log(userInfo);
     const qChangePassword = 'UPDATE user SET Password = ? WHERE UserId=?';
 
     const values = [hashedPassword, userInfo.id];
@@ -259,7 +270,8 @@ const changePassword = async (req, res) => {
 };
 //#endregion ================ CHANGE-PASSWORD======================
 
-//generate random new Password
+//helper function used to generate a random
+//password for the musician registration process.
 function generatePassword() {
   const length = 12;
   const charset =

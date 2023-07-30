@@ -1,7 +1,11 @@
 'use strict';
 const transporter = require('../nodeMailer.js');
 
-// Function to send an email to the musician with the assigned event date
+/**
+Function to send an email to the musician with the assigned event date.
+@param {string} userEmail - The email address of the musician.
+@param {Date} eventDate - The date of the assigned event.
+*/
 const sendEmailWithAssignedEvent = (userEmail, eventDate) => {
   // Format the eventDate as needed (e.g., convert to a more readable format)
   const formattedEventDate = new Date(eventDate).toLocaleString('en-IL');
@@ -26,7 +30,11 @@ const sendEmailWithAssignedEvent = (userEmail, eventDate) => {
   });
 };
 
-// Function to send email notification to users about the event cancellation
+/**
+Sends an email notification to users about the event cancellation.
+@param {string} userEmail - The email address of the user.
+@param {Date} eventDate - The date of the canceled event.
+*/
 const sendEmailWithEventCancellation = (userEmail, eventDate) => {
   const options = {
     year: 'numeric',
@@ -40,7 +48,7 @@ const sendEmailWithEventCancellation = (userEmail, eventDate) => {
 
   const dateObject = new Date(eventDate);
   const date = dateObject.toLocaleTimeString('en-IL', options);
-  console.log("date",date)
+
   let mailOptions = {
     from: process.env.EMAIL_USERNAME,
     to: userEmail,
@@ -64,7 +72,13 @@ const sendEmailWithEventCancellation = (userEmail, eventDate) => {
   });
 };
 
-// Function to send email notification to users about the event change
+/**
+Sends an email notification to users about the change in the event.
+@param {string} userEmail - The email address of the user.
+@param {Date} newDateTime - The new date and time of the event.
+@param {Date} oldDateTime - The old date and time of the event.
+@param {object} res - The response object to handle the result of sending the email.
+*/
 const sendEmailWithEventChange = (userEmail, newDateTime, oldDateTime, res) => {
   const options = {
     year: 'numeric',
@@ -106,6 +120,11 @@ const sendEmailWithEventChange = (userEmail, newDateTime, oldDateTime, res) => {
       .json({ message: 'Email sent to users about the event change.' });
   });
 };
+
+/**
+Sends a welcome email to the user upon successful registration as a musician.
+@param {string} userEmail - The email address of the musician.
+*/
 const sendWelcomeEmail = (userEmail) => {
   let mailOptions = {
     from: process.env.EMAIL_USERNAME,
