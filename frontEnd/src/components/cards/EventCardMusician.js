@@ -13,7 +13,7 @@ import {
   useUnregisterToEvent,
 } from '../../hooks/useMusicianEvents';
 import { AuthContext } from '../context/authContext';
-import { format,subHours} from 'date-fns';
+import { format, subHours } from 'date-fns';
 import Loader from '../loader/Loader';
 
 function EventCardMusician(props) {
@@ -42,7 +42,7 @@ function EventCardMusician(props) {
     return error;
   }
   if (isLoadingUnregister) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (isErrorUnregister) {
@@ -52,21 +52,21 @@ function EventCardMusician(props) {
     unregister();
   };
   let dateObj = new Date(date);
-  dateObj=subHours(dateObj,3);
+  dateObj = subHours(dateObj, 3);
   const time = format(dateObj, 'HH:mm');
 
-  const dateFormatted=format(dateObj,'dd-MM-yyyy');
+  const dateFormatted = format(dateObj, 'dd-MM-yyyy');
 
   return (
     //  className="flex flex-col   text-center text-gray-700 rounded-md border-2 py-8 max-w-sm"
-    <Card className=" mt-6 w-96 justify-between text-center dark:text-white rounded-md border-2">
-      <CardBody className=" space-y-2 h-full dark:bg-black">
+    <Card className=" mt-6 w-96 justify-between text-center dark:text-white dark:bg-black rounded-md border-2">
+      <CardBody className=" space-y-2 ">
         <Typography className="mt-1  text-s" variant="h3">
           {dateFormatted}
         </Typography>
         <Typography variant="h4">{time}</Typography>
         <Typography variant="h4">{type}</Typography>
-        <Typography   variant="paragraph" >
+        <Typography variant="paragraph" className="break-words">
           {description}
         </Typography>
       </CardBody>
