@@ -18,7 +18,8 @@ import { format } from 'date-fns';
 import Loader from '../loader/Loader';
 import { DarkModeContext } from '../../DarkModeContext';
 function UpdateEvent(props) {
-    const { darkMode } = useContext(DarkModeContext);
+  // Access the darkMode context to apply dark mode styles
+  const { darkMode } = useContext(DarkModeContext);
 
   const {
     EventDate,
@@ -31,8 +32,12 @@ function UpdateEvent(props) {
     musicalTypeName,
     eventStatus,
   } = props;
+
+  // Format the event date
   const dateObj = new Date(EventDate);
   const newDateObj = format(dateObj, 'dd-MM-yyyy');
+
+  // State to manage the input values and dialog visibility
   const [inputs, setInputs] = useState({
     date: EventDate,
     description: Description,
@@ -45,37 +50,45 @@ function UpdateEvent(props) {
   });
   const [message, setMessage] = useState('');
 
-  const { mutate: updateEvent } = useUpdateEvent();
+  // Custom hook to Update Event
+  const { mutate: updateEvent, isLoading, error, } = useUpdateEvent();
+
+  // Custom hook to Get Event Dates
   const {
     data: eventDates,
     isError: datesIsError,
     isLoading: datesIsLoading,
   } = useGetEventDates();
-  if (datesIsLoading) return <Loader />;
-  if (datesIsError) return <div>ERROR</div>;
+  if (datesIsLoading || isLoading) return <Loader />;
+  if (datesIsError || error) return <div>ERROR</div>;
 
   //map over the dates to disable days that have events
   const modifiedEventDates = eventDates?.data.map((item) => {
     return { startDate: item.startDate, endDate: item.startDate };
   });
 
+  // Handle input change
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
+  // Handle date change
   const handleDateChange = (newValue) => {
-    // console.log('newValue:', newValue);
     setDate(newValue);
     setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
-
-    // setInputs(newValue);
   };
+
+  // Handle musical style change
   const handleChangeStyle = (e) => {
     setInputs((prevState) => ({ ...prevState, MusicalTypeId: e }));
   };
+
   const handleOpen = () => setOpen(!open);
+
+  // Handle update event confirmation
   const handleConfirm = () => {
     const updatedEvent = {
       date: inputs.date !== '' ? inputs.date : EventDate, // Use the new date value if provided, otherwise use the existing EventDate
@@ -87,15 +100,20 @@ function UpdateEvent(props) {
           : MusicalTypeId,
       description: inputs.description !== '' ? inputs.description : '', // Use the new description value if provided, otherwise use an empty string
     };
+    // Concatenate date and time to create a new date-time string
     const dateTime = `${updatedEvent.date} ${updatedEvent.time}`;
     updatedEvent.dateTime = dateTime;
 
+    // Assign event ID and status to the updatedEvent object
     updatedEvent.eventId = EventId;
     updatedEvent.Status = eventStatus;
+
+    // If date is not provided, show an error message and return
     if (inputs.date === null) {
       setMessage('Date must be fulfilled');
       return;
     }
+    // Call the updateEvent function to update the event data
     updateEvent(updatedEvent);
     // Close the dialog
     setOpen(false);

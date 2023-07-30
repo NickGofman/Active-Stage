@@ -14,22 +14,31 @@ import Loader from '../loader/Loader';
 
 function EventIncome(props) {
   const { EventDate, BandName, EventId, disabled } = props;
+
+  // State to manage dialog visibility and income amount
   const [open, setOpen] = useState(false);
   const [income, setIncome] = useState('');
+
+  // Formatting the event date
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
-  // update income
+
+  // Custom hook to add income for the event
   const { isLoading, error, mutate } = useAddIncome();
+
+  // Function to handle opening the dialog
   const handleOpen = () => setOpen(!open);
+
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>ERROR</div>;
   }
 
+  // Function to handle adding income to the event
   const handleAddIncome = () => {
     const parsedIncome = +income; // Parse the income value to a number
     if (!isNaN(parsedIncome)) {

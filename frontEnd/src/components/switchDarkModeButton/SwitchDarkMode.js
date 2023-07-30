@@ -3,12 +3,14 @@ import { MdDarkMode, MdOutlineWbSunny } from 'react-icons/md';
 import { DarkModeContext } from '../../DarkModeContext';
 
 const SwitchDarkMode = () => {
+  // Access the darkMode state and toggleDarkMode function from the DarkModeContext
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
-
+  // Handle the switch change event and update the dark mode state
   const handleSwitchChange = () => {
     toggleDarkMode();
   };
 
+  // The component renders a toggle switch with icons for dark mode and light mode
   return (
     <label className="flex flex-col items-center cursor-pointer">
       <div className="relative">

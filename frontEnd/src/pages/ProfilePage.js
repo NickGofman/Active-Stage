@@ -22,14 +22,14 @@ function ProfilePage() {
   const isUser = currentUser.Role === 'user';
   console.log(isUser);
 
-  //make a request for user data
+  // Fetch data for Musician Profile - custom hook
   const {
     isLoading: userDataLoading,
     data: userData,
     isError: userIsError,
   } = useMusicianProfileData(userId, isUser);
 
-  //make a request for admin data
+  // Fetch data for  Admin Profile - custom hook
   const {
     isLoading: adminDataLoading,
     data: adminData,

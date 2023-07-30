@@ -6,15 +6,16 @@ const TABLE_HEAD = ['Band Name', 'Date', 'Income', 'Musical Style'];
 
 const ReportTable = (props) => {
   const { data, reportsNameList } = props;
-console.log('reportsNameList', reportsNameList);
-console.log('data', data);
+  console.log('reportsNameList', reportsNameList);
+  console.log('data', data);
 
-
+  // Function to handle exporting data to Excel
   const handleExportToExcel = () => {
+    // Create a new Excel workbook and worksheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Events');
 
-    // Styling
+    // Styling for header row
     const headerRow = worksheet.addRow(TABLE_HEAD);
     headerRow.eachCell((cell) => {
       cell.font = { bold: true, color: { argb: 'FFFFFF' }, size: 14 }; // Change the font size to 12
@@ -26,13 +27,13 @@ console.log('data', data);
       cell.alignment = { horizontal: 'center' };
     });
 
-    // Add data rows
+    // Add data rows to the worksheet
     reportsNameList?.data?.forEach((event) => {
       const rowData = [
-        event.BandName, 
-        event.Date, 
-        event.Income, 
-        event.MusicalTypeName, 
+        event.BandName,
+        event.Date,
+        event.Income,
+        event.MusicalTypeName,
       ];
       const row = worksheet.addRow(rowData);
       row.eachCell((cell) => {
@@ -41,7 +42,7 @@ console.log('data', data);
       });
     });
 
-    // Calculate total revenue
+    // Calculate total revenue and add it to the worksheet
     const totalRevenueFormula = `SUM(C2:C${reportsNameList?.data?.length + 1})`;
     const totalRevenueRow = worksheet.insertRow(7, [
       'Total Revenue',
@@ -67,7 +68,8 @@ console.log('data', data);
       });
       column.width = maxLength < 20 ? 20 : maxLength;
     });
-    // Save workbook as XLSX file
+
+    // Save workbook as XLSX file and trigger download
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -82,7 +84,7 @@ console.log('data', data);
   };
 
   return (
-    <div >
+    <div>
       <Button className="w-1/4" onClick={handleExportToExcel}>
         Export To Excel File
       </Button>
@@ -90,6 +92,7 @@ console.log('data', data);
         <table className="w-full min-w-max table-auto text-left dark:text-white">
           <thead className="sticky top-0 z-0 ">
             <tr className="dark:text-white">
+              {/* Render table header with column names */}
               {TABLE_HEAD.map((head) => (
                 <th
                   key={head}
@@ -107,6 +110,7 @@ console.log('data', data);
             </tr>
           </thead>
           <tbody>
+            {/* Render table rows with event data */}
             {reportsNameList?.data?.map(
               ({ EventID, BandName, Date, Income, MusicalTypeName }, index) => {
                 const isLast = index === reportsNameList?.data?.length - 1;

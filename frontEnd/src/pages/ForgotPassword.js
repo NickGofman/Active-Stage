@@ -3,14 +3,17 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForgotPassword } from '../hooks/useAuth';
 const ForgotPassword = () => {
+  // State to handle user input for email
   const [inputs, setInputs] = useState({
     email: '',
   });
-  //TODO- we need to delete this state? (err)
-  const [err, setErr] = useState(null);
   const [errMessage, setErrMessage] = useState('');
   const navigate = useNavigate();
+
+  // Mutation hook for requesting a password reset
   const mut = useForgotPassword();
+
+  // Handler for the "Change password" button click
   const handleRegistration = async (e) => {
     e.preventDefault();
     // Validate form data
@@ -35,12 +38,12 @@ const ForgotPassword = () => {
   const handleBackToLogin = () => {
     navigate('/');
   };
+  // Handler to update the inputs state when user types in the input field
   const handleChange = (e) => {
     setInputs((prevInputs) => ({
       ...prevInputs,
       [e.target.name]: e.target.value,
     }));
-    setErr({ [e.target.name]: e.target.value });
   };
 
   return (

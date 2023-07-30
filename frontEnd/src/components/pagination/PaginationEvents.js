@@ -6,16 +6,26 @@ import { Typography } from '@material-tailwind/react';
 import EventCardMusician from '../cards/EventCardMusician';
 
 const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
-  const [itemOffset, setItemOffset] = useState(0); //initial state
-  const endOffset = itemOffset + itemsPerPage; //last item to present
-  const currentItems = events?.data?.slice(itemOffset, endOffset); //array of current items
+  // State to manage the current offset (index) of the events array
+  const [itemOffset, setItemOffset] = useState(0);
+
+  // Calculate the end offset based on the current offset and itemsPerPage
+  const endOffset = itemOffset + itemsPerPage;
+
+  // Get the current items to display on the current page
+  const currentItems = events?.data?.slice(itemOffset, endOffset);
+
+  // Calculate the total number of pages required for pagination
   const pageCount = Math.ceil(events?.data?.length / itemsPerPage);
 
+  // Function to handle page change when user clicks on a pagination button
   const handlePageClick = (event) => {
+    // Calculate the new offset based on the selected page
     const newOffset = (event.selected * itemsPerPage) % events?.data?.length;
     setItemOffset(newOffset);
   };
-  //make query to check if user already registered to event if true change the text in the button and disabled the button
+
+  // Framer Motion variants for pagination animation
   const paginationVariants = {
     hidden: {
       opacity: 0,
@@ -32,9 +42,9 @@ const PaginationEvents = ({ itemsPerPage, events, header, isHome, userId }) => {
       },
     },
   };
-console.log('length', events?.data?.length);
   return (
     <>
+      {/* Display events based on the 'isHome' prop */}
       {isHome ? (
         <div className="flex flex-col items-center  mt-10 ">
           <Typography variant="h2" className="text-center mb-5  ">
@@ -91,7 +101,7 @@ console.log('length', events?.data?.length);
           )}
         </div>
       )}
-
+      {/* Pagination */}
       <motion.div
         variants={paginationVariants}
         initial="hidden"

@@ -5,8 +5,11 @@ import { useUpdateAdminData } from '../../hooks/useAdminProfileData';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 
 function BusinessProfileForm(props) {
+  // Destructuring data from props
   const { businessName, address, PhoneNumber, managerName, Email } =
     props?.data?.data[0];
+    
+  // State to handle error message
   const [err, setErr] = useState('');
 
   // useState handle user profile Update
@@ -17,6 +20,8 @@ function BusinessProfileForm(props) {
     managerName: managerName,
     businessEmail: Email,
   });
+
+  // useEffect to update inputs when data changes
   useEffect(() => {
     setInputs({
       businessName: businessName || '',
@@ -26,20 +31,19 @@ function BusinessProfileForm(props) {
       businessEmail: Email || '',
     });
   }, [props?.data?.data[0]]);
-  // send data to backEnd to update user profile
 
+  // Custom hook to update admin profile
   const mut = useUpdateAdminData(inputs);
 
-  // if (isError) {
-  //   return error;
-  // }
+  // Function to handle form input change
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
-
+  
+  // Function to handle profile update when 'Save Changes' button is clicked
   const handleUpdate = async () => {
     const isPhoneValid = /^05\d-\d{7}$/.test(inputs.phone);
     const isBusinessNameValid = inputs.businessName !== '';
@@ -55,6 +59,7 @@ function BusinessProfileForm(props) {
         isManagerNameValid &&
         isEmailValid
       ) {
+        // Update user profile data
         await mut.mutateAsync(inputs);
         setErr('Update Successful');
       } else {

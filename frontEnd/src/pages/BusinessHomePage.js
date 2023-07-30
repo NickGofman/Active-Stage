@@ -9,24 +9,24 @@ import {
   useGetThreeUpcomingEvents,
 } from '../hooks/useAdminEvents';
 const BusinessHomePage = () => {
-  const {
-    data: dataAssign,
+  // Fetch data for upcoming events to assign custom hook
+  const { data: dataAssign, isError, isLoading } = useGetThreeEventsToAssign();
 
-    isError,
-    isLoading,
-  } = useGetThreeEventsToAssign();
-
+  // Fetch data for events passed without income custom hook
   const {
     data: dataIncome,
     isError: isErrorIncome,
     isLoading: isLoadingIncome,
   } = useGetEventsPassedWithoutIncome();
+
+  // Fetch data for events to display on the calendar custom hook
   const {
     data: dataEvents,
     isError: isErrorEvents,
     isLoading: isLoadingEvents,
   } = useGetEventsForCalendar();
 
+  // Fetch data for the next three upcoming events custom hook
   const {
     data: dataThreeUpcomingEvent,
     isError: isErrorThreeUpcomingEvent,

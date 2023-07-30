@@ -13,16 +13,19 @@ import Loader from '../loader/Loader';
 
 function AssignMusician(props) {
   const { EventDate, EventId, disabled, assignedBandName } = props;
+  // date formatting
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
+
+  // State to handle the dialog open/close
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
 
+  // Fetch registered musicians for the event using the useGetAllUsersPerEvent hook
   const {
     data: dataRegistered,
-    error,
     isError,
     isLoading,
   } = useGetAllUsersPerEvent(EventId);
@@ -32,7 +35,7 @@ function AssignMusician(props) {
   }
 
   if (isError) {
-    console.error(error);
+    return <div>ERROR</div>;
   }
 
   return (
@@ -63,12 +66,14 @@ function AssignMusician(props) {
           </Button>
         </DialogHeader>
         <DialogBody divider className="h-[28rem] overflow-y-scroll">
+          {/* Conditionally render the list of musicians or a message if no musicians */}
           {dataRegistered?.data?.length === 0 ? (
             <Typography className="font-bold dark:text-white">
               No musicians to assign.
             </Typography>
           ) : (
             <div className="flex flex-row justify-center flex-wrap  gap-4 ">
+              {/* Render each musician card */}
               {dataRegistered?.data?.map((data) => (
                 <MusicianAssignCard
                   key={data.UserId}

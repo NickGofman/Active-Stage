@@ -8,7 +8,7 @@ import {
 } from '@material-tailwind/react';
 import { useState } from 'react';
 
-function BlockUserWaraning({ handleBlockUser, userId }) {
+function BlockUserWarning({ handleBlockUser, userId }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -65,4 +65,4 @@ function BlockUserWaraning({ handleBlockUser, userId }) {
     </>
   );
 }
-export default BlockUserWaraning;
+export default BlockUserWarning;

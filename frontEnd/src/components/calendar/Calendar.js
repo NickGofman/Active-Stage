@@ -27,27 +27,33 @@ export default function Calendar(props) {
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
   let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date());
 
+  // Get the days of the current month to display on the calendar
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
   });
 
+  // Function to go to the previous month
   function previousMonth() {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'));
   }
 
+  // Function to go to the next month
   function nextMonth() {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'));
   }
 
+  // Filter the meetings for the selected day
   let selectedDayMeetings = data.filter((meeting) =>
     isSameDay(subHours(parseISO(meeting.Date), 3), selectedDay)
   );
 
+  // Return the calendar UI
   return (
     <div className="rounded-md text-xl border-4 flex flex-col ">
+      {/* Display event categories */}
       <div className="ml-4 mt-4 flex items-center">
         <div className="text-sm font-semibold w-32">Published events</div>
         <div className={'w-3 h-3 rounded-full bg-green-500'}></div>
@@ -61,6 +67,7 @@ export default function Calendar(props) {
         <div className={'w-3 h-3 rounded-full bg-red-500'}></div>
       </div>
 
+      {/* Display selected day's meetings */}
       <div className="pt-12 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6 ">
         <div className="md:grid md:grid-cols-2 space-x-5 md:divide-gray-200">
           <section className="mt-12 md:mt-0 md:pl-14">
@@ -84,6 +91,8 @@ export default function Calendar(props) {
               )}
             </ol>
           </section>
+
+          {/* Display calendar grid */}
           <div>
             <div className="flex items-center">
               <h2 className="flex-auto font-semibold ">
@@ -189,6 +198,7 @@ export default function Calendar(props) {
   );
 }
 
+// Display individual meeting items
 function Meeting({ meeting }) {
   const date = parseISO(meeting.Date);
   const subHour = subHours(date, 3);
@@ -228,6 +238,7 @@ function Meeting({ meeting }) {
   );
 }
 
+// CSS classes for starting columns of calendar days
 let colStartClasses = [
   '',
   'col-start-2',

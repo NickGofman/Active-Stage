@@ -25,6 +25,8 @@ import { useAddNewMusicalStyle } from '../../hooks/useAdminActivities';
 import { DarkModeContext } from '../../DarkModeContext';
 function CreateNewEvent() {
   const { darkMode } = useContext(DarkModeContext);
+
+  // State variables to manage the form inputs, date, and error messages
   const [err, setErr] = useState('');
   const [errAdd, setErrAdd] = useState('');
   const [open, setOpen] = useState(false);
@@ -32,7 +34,7 @@ function CreateNewEvent() {
     startDate: '',
   });
   const queryClient = useQueryClient();
-
+  // State variables to manage input values and new musical style
   const [inputs, setInputs] = useState({
     date: '',
     description: '',
@@ -49,15 +51,13 @@ function CreateNewEvent() {
     setOpen(!open);
     setErr('');
   };
+
+  // Custom hooks to fetch data related to musical styles and event dates
   const {
     data: eventDates,
     isError: datesIsError,
     isLoading: datesIsLoading,
   } = useGetEventDates();
-  //map over the dates to disable days that have events
-  const modifiedEventDates = eventDates?.data.map((item) => {
-    return { startDate: item.startDate, endDate: item.startDate };
-  });
 
   const {
     isLoading: musicalStyleLoading,
@@ -65,6 +65,12 @@ function CreateNewEvent() {
     isError: musicalStyleIsError,
   } = useGetMusicalStyles();
 
+  //map over the dates to disable days that have events
+  const modifiedEventDates = eventDates?.data.map((item) => {
+    return { startDate: item.startDate, endDate: item.startDate };
+  });
+
+  // Success and error handlers for creating a new event
   const onSuccess = () => {
     setErr('Event Created!');
     setInputs({
@@ -78,6 +84,7 @@ function CreateNewEvent() {
     setErr('Failed To Create Event');
   };
 
+  // Success and error handlers for adding a new musical style
   const onSuccessAdd = () => {
     setErrAdd('Musical style added!');
     setMusicalStyleToAdd('');
@@ -88,7 +95,10 @@ function CreateNewEvent() {
     setErrAdd(`${error.response.data.error}`);
   };
 
+  // Custom hook for adding a new musical style.
   const { mutate: addStyle } = useAddNewMusicalStyle(onSuccessAdd, onErrorAdd);
+
+  // Custom hook for creating a new event.
   const { mutate: createEvent } = useCreateNewEvent(onSuccess, onError);
 
   if (musicalStyleLoading || datesIsLoading) {
@@ -98,21 +108,25 @@ function CreateNewEvent() {
     return <div>ERROR</div>;
   }
 
+  // Event handler to update the state when input values change
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
+  // Event handler to update the selected musical style
   const handleChangeStyle = (e) => {
-    // console.log('INDEX', selectedIndex);
     setInputs((prevState) => ({ ...prevState, musicalTypeId: e }));
   };
+
+  // Event handler to update the selected date
   const handleDateChange = (newValue) => {
     setDate(newValue);
     setInputs((prevState) => ({ ...prevState, date: newValue.startDate }));
   };
-  //create new event
+  // Event handler to create a new event
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
@@ -133,6 +147,7 @@ function CreateNewEvent() {
     }
   };
 
+  // Event handler to add a new musical style
   const handleAddMusicalStyle = () => {
     if (musicalStyleToAdd !== '') {
       addStyle(musicalStyleToAdd);
@@ -158,7 +173,9 @@ function CreateNewEvent() {
         }}
         className="dark:bg-black dark:text-white "
       >
-        <DialogHeader className='dark:text-white' >Create New Event</DialogHeader>
+        <DialogHeader className="dark:text-white">
+          Create New Event
+        </DialogHeader>
         <DialogBody
           divider
           className="flex flex-col  lg:gap-3 lg:flex-row   md:flex-col dark:text-white"

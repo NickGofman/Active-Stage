@@ -20,24 +20,36 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DarkModeContext } from '../../DarkModeContext';
 import SwitchDarkMode from '../switchDarkModeButton/SwitchDarkMode';
 export default function NavBar() {
-  const { darkMode} = useContext(DarkModeContext);
+  // Access the DarkModeContext to get the current darkMode state
+  const { darkMode } = useContext(DarkModeContext);
 
+  // State to control whether the mobile navigation is open or closed
   const [openNav, setOpenNav] = useState(false);
+
+  // Access the AuthContext to get user information and logout function
   const { logout, currentUser } = useContext(AuthContext);
+
+  // Hook to manage navigation using react-router-dom
   const navigate = useNavigate();
+
+  // Function to handle user logout
   const handleLogout = async () => {
     await logout();
   };
+
+  // Function to navigate to the user's home page
   const handleNavigateToHome = () => {
     navigate(`/${currentUser.Role}`);
   };
+
   useEffect(() => {
-    console.log('useEffect NAV');
+    // Add event listener for resizing window to close the mobile navigation on larger screens
     window.addEventListener(
       'resize',
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
     return () => {
+      // Cleanup function to remove the event listener when the component unmounts
       window.removeEventListener(
         'resize',
         () => window.innerWidth >= 960 && setOpenNav(false)
@@ -45,6 +57,7 @@ export default function NavBar() {
     };
   }, []);
 
+  // JSX for the navigation links based on the user role
   let navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {currentUser.Role === 'admin' || (
@@ -99,7 +112,7 @@ export default function NavBar() {
         className="p-1 font-bold dark:text-white"
       >
         <Link
-          to={currentUser.Role === 'admin' ? '/admin/events' : '/user/myevents'}
+          to={currentUser.Role === 'admin' ? '/admin/events' : '/user/myEvents'}
           className="flex flex-row-reverse gap-1 items-center"
         >
           <BsCalendar4Event />
@@ -124,16 +137,16 @@ export default function NavBar() {
       )}
     </ul>
   );
-
+  // NAV BAR
   return (
     <Navbar className="h-max max-w-full rounded-md py-2 px-4 lg:px-8 lg:py-4 dark:bg-black dark:text-white">
       <div className="absolute top-1 left-1">
-        <SwitchDarkMode/>
+        <SwitchDarkMode />
       </div>
 
       <div className="flex items-center justify-between relative">
         <div className="hidden lg:flex lg:flex-col lg:gap-1 ">{navList}</div>
-        {/* toggle icons */}
+        {/* Toggle icon for mobile navigation */}
         <IconButton
           variant="text"
           className="mr-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden  text-black dark:text-white "
@@ -171,6 +184,7 @@ export default function NavBar() {
             </svg>
           )}
         </IconButton>
+        {/*  Logo */}
         <div className="flex flex-row dark:bg-none">
           <Button
             onClick={handleLogout}
@@ -189,7 +203,7 @@ export default function NavBar() {
           />
         </div>
       </div>
-
+      {/* Mobile Navigation */}
       <MobileNav open={openNav}>
         <div className="container mx-auto">{navList}</div>
       </MobileNav>

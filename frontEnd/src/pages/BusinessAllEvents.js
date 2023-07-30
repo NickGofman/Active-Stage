@@ -13,10 +13,11 @@ import { DarkModeContext } from '../DarkModeContext';
 function BusinessAllEvents() {
   const { darkMode } = useContext(DarkModeContext);
 
-  //get all events
+  // State to store sorting type and date range
   const [sortType, setSortType] = useState('all');
   const currentDate = new Date();
 
+  // Object containing sorting data to be used in the API query
   const [date, setDate] = useState({
     startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
     endDate: dayjs(currentDate).add(1, 'year').format('YYYY-MM-DD'),
@@ -27,8 +28,8 @@ function BusinessAllEvents() {
     startDate: date.startDate,
     endDate: date.endDate,
   };
-  // Fetch events based on sort type and date range
 
+  // Fetch events based on sort type and date range using custom hooks
   const { data, isError, isLoading } = useSortedEventDataByType(sortData);
   const {
     isLoading: musicalStyleLoading,
@@ -42,12 +43,12 @@ function BusinessAllEvents() {
   if (musicalStyleIsError || isError) {
     return <div>ERROR</div>;
   }
-  // function to handle the click event of each radio button
+  // Function to handle the click event of each radio button
   const handleSortTypeChange = (event) => {
     setSortType(event.target.value);
-
-    // send a query to the database based on the selected sort type
   };
+  
+  // Function to handle date range changes
   const handleDateChange = (newValue) => {
     setDate(newValue);
   };

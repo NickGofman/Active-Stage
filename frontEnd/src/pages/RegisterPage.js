@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../hooks/useAuth';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 function RegisterPage() {
+  // State to manage form inputs and their corresponding errors
   const [inputs, setInputs] = useState({
     firstName: '',
     lastName: '',
@@ -32,7 +33,8 @@ function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const mut = useRegister();
-  //send data to backEnd
+
+  // Send data to backend for registration
   const handleRegistration = async (e) => {
     e.preventDefault();
     // Validate form data
@@ -53,7 +55,7 @@ function RegisterPage() {
       }
     }
   };
-
+  // Handle changes in form inputs
   const handleChange = (e) => {
     if (e.target.name === 'description') {
       setCountChar(e.target.value.length);
@@ -241,6 +243,7 @@ function RegisterPage() {
     </div>
   );
 
+  // Validation function for form inputs
   function validateForm(inputs) {
     const errors = {
       firstName: '',

@@ -1,76 +1,72 @@
-<<<<<<< HEAD
-# Actvie-Stage
-dashboard website for musicians
-=======
+## Getting Started
 
-# Getting Started with Create React App
+### Prerequisites
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Before you begin, make sure you have the following installed on your system:
 
-## Available Scripts
+Node.js and npm: The project requires Node.js and npm (Node Package Manager) to be installed on your machine. You can download the latest version of Node.js from the official website (https://nodejs.org) and npm will be installed automatically along with Node.js.
 
-In the project directory, you can run:
+### Installation
 
-### `npm start`
+To get started with the project, follow these steps:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone this repository to your local machine:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+git clone https://github.com/NickGofman/Active-Stage.git
 
-### `npm test`
+2. Change into the project directory:
+   cd frontend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3.Install the project dependencies, including Tailwind CSS:
+npm install
 
-### `npm run build`
+important:
+Tailwind CSS
+To get started with Tailwind CSS, you can visit the official website https://tailwindcss.com/. The Tailwind CSS documentation provides in-depth information on how to use Tailwind CSS to style your components. You'll learn about utility classes, customizing styles, and creating responsive designs using Tailwind CSS.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Material Tailwind Components Documentation
+For most of the components used in the project, you can find detailed documentation at https://www.material-tailwind.com/. This documentation will help you understand how to use and customize the Material Tailwind components in your application. You'll find examples, code snippets, and guidelines to make the most out of Material Tailwind's UI components.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+React Query
+For data fetching and state management in your React application, you can use React Query. The official website for React Query is https://tanstack.com/query/v3/. There, you'll find comprehensive documentation, guides, and examples to help you integrate React Query into your project. It will empower you to fetch, cache, and update data seamlessly, enhancing the performance and user experience of your application.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Running the Development Server
+   To run the development server, use the following command:
+   npm start
 
-### `npm run eject`
+Technologies Used
+The project is built using several technologies and libraries, including:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+React: The frontend is developed using React, a popular JavaScript library for building user interfaces.
+Tailwind CSS: Tailwind CSS is used for styling the components. It provides a utility-first approach to CSS, making it highly customizable and responsive.
+React Query: For data fetching and state management, the application relies on React Query. This library simplifies data management by handling caching, background data updates, and more.
+React Router: To manage client-side routing, the frontend utilizes React Router. Different routes are defined for various pages, ensuring a smooth navigation experience for users.
+axios: Axios is a widely-used library for making HTTP requests to the server, enabling smooth communication between the frontend and backend.
+date-fns: The date-fns library is employed for handling date and time manipulation, offering a range of utilities to work with dates effectively.
+Pages and Functionality
+The frontend consists of various pages, each serving a distinct purpose:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+LoginPage: Allows users to log in and access their accounts.
+RegisterPage: Permits users to create a new account on the platform.
+ProfilePage: Displays user profile information, enabling users to view and edit their profiles.
+MusicianMyEventsPage: Shows events assigned specifically to musicians, allowing them to manage their schedule.
+BusinessAllEvents: Provides businesses with an overview of all events, enabling them to manage their event calendar efficiently.
+BusinessHomePage: Serves as the home page for business users, providing an overview of their account and relevant information.
+BusinessReportPage: Allows businesses to generate reports, helping them analyze event data effectively.
+MusicianHomePage: The homepage for musicians, showing personalized content and important updates.
+Page404: The 404 error page is displayed when a route is not found, ensuring a user-friendly experience for incorrect URLs.
+Authentication and Dark Mode
+The frontend incorporates authentication features using the AuthContext to manage user authentication. The currentUser object stores information about the authenticated user, including their role, such as "admin" or "user."
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Additionally, the application offers a Dark Mode feature through the DarkModeContext. The darkMode variable can be toggled to switch between light and dark themes, enhancing user experience and accessibility.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Styling and Forms
+The frontend is styled using Tailwind CSS, which provides a wide range of utility classes to quickly build responsive UI components. These classes are applied directly within the components to style them efficiently.
 
-## Learn More
+Forms play a crucial role in user interactions. For instance, the MusicianProfileForm component is a form that musicians can use to edit their profiles. It allows them to update their personal information, such as their name, phone number, experience, and more.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+State Management
+For state management and data fetching, the application leverages React Query. The queryClient manages the cache for API data and is wrapped around the entire application using QueryClientProvider. This setup facilitates efficient data handling, ensuring a seamless user experience.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> 4f68a3b80bc683910bee6474fb38762de97986a5
+Calendar
+To display a calendar view of events, the frontend uses the Calendar component. It utilizes date-fns for handling dates and events filtering, making it easy to navigate and visualize events based on their dates.

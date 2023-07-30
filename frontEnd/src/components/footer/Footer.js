@@ -5,9 +5,12 @@ const date = new Date();
 const currentYear = date.getFullYear();
 
 function Footer() {
+  
+  // Accessing the currentUser data from the AuthContext
   const { currentUser } = useContext(AuthContext);
   return (
     <footer className="dark:bg-black dark:text-white">
+      {/*Non-admin user view of the footer */}
       {currentUser.Role !== 'admin' ? (
         <div className="flex items-center justify-evenly  text-gray-600 flex-wrap">
           <div className=" px-5 py-5 dark:text-white">

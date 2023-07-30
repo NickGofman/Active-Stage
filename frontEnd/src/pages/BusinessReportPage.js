@@ -13,10 +13,12 @@ import { DarkModeContext } from '../DarkModeContext';
 
 import Loader from '../components/loader/Loader';
 function BusinessReportPage() {
+  // Accessing the dark mode state using context
   const { darkMode } = useContext(DarkModeContext);
-  const currentDate = new Date();
-  // const [musicalTypeName, setMusicalTypeName] = useState('');
 
+  const currentDate = new Date();
+
+  // State for date range and filter inputs
   const [date, setDate] = useState({
     startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),
     endDate: dayjs(currentDate).format('YYYY-MM-DD'),
@@ -25,6 +27,8 @@ function BusinessReportPage() {
     bandName: '',
     musicalTypeId: '',
   });
+
+  // Data object to be used for sorting events
   const sortData = {
     startDate: date.startDate,
     endDate: date.endDate,
@@ -32,6 +36,7 @@ function BusinessReportPage() {
     bandName: inputs.bandName,
   };
 
+  // Fetch musical styles based on the selected date range custom hook
   const {
     isLoading: musicalStyleLoading,
     data: musicalStyleList,
@@ -41,6 +46,8 @@ function BusinessReportPage() {
     endDate: date.endDate,
     bandName: inputs.bandName,
   });
+
+  // Fetch band names based on the selected date range custom hook
   const {
     isLoading: bandNameLoading,
     data: bandNameList,
@@ -51,6 +58,7 @@ function BusinessReportPage() {
     musicalTypeId: inputs.musicalTypeId,
   });
 
+  // Fetch reports based on the selected filters custom hook
   const {
     isLoading: reportsLoading,
     data: reportsNameList,
@@ -65,40 +73,37 @@ function BusinessReportPage() {
       <div>Error occurred while fetching data. Please try again later.</div>
     );
   }
+
+  // Handler for changing musical style filter
   const handleChangeStyle = (selectedMusicalTypeId) => {
-    // const selectedMusicalType = musicalStyleList.data.find(
-    //   (style) => style.MusicalTypeID.toString() === selectedMusicalTypeId
-    // );
-
-    // if (selectedMusicalType) {
-    //   setMusicalTypeName(selectedMusicalType.MusicalTypeName);
-    // }
-
     setInputs((prevState) => ({
       ...prevState,
       musicalTypeId: selectedMusicalTypeId,
     }));
   };
+
+  // Handler for changing band name filter
   const handleBandNameChange = (selectedBandName) => {
     setInputs((prevState) => ({ ...prevState, bandName: selectedBandName }));
   };
-  //remove the duplicate strings
 
+  // Handler for changing date range
   const handleDateChange = (newValue) => {
     setInputs((prevState) => ({
       ...prevState,
       bandName: '',
       musicalTypeId: '',
     }));
-    // setMusicalTypeName('');
-
     setDate(newValue);
   };
 
+  // Calculate the total revenue from the reports
   let totalRevenue = 0;
   reportsNameList?.data?.forEach((elem) => {
     totalRevenue += elem.Income;
   });
+
+  // Handler for resetting filters
   const handleResetFilters = () => {
     setDate({
       startDate: dayjs(currentDate).subtract(1, 'year').format('YYYY-MM-DD'),

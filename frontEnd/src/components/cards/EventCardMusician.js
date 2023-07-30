@@ -15,42 +15,41 @@ import {
 import { AuthContext } from '../context/authContext';
 import { format, subHours } from 'date-fns';
 import Loader from '../loader/Loader';
-
 function EventCardMusician(props) {
+  // Extracting necessary props and context from React
   const { currentUser } = useContext(AuthContext);
   const { date, type, description, eventId, userId, header } = props;
   const userEmail = currentUser ? currentUser.Email : null;
+  // React-router-dom hook to get the current location
+
+  const location = useLocation();
+
+  // Custom hooks to handle event registration and unregistration
   const {
     mutate: register,
     isError,
-    error,
     isLoading,
   } = useRegisterToEvent(userId, eventId, userEmail);
   const {
     mutate: unregister,
     isError: isErrorUnregister,
-    error: errorUnregister,
     isLoading: isLoadingUnregister,
   } = useUnregisterToEvent(userId, eventId);
-  const location = useLocation();
 
-  if (isLoading) {
+  if (isLoading || isLoadingUnregister) {
     return <Loader />;
   }
 
-  if (isError) {
-    return error;
-  }
-  if (isLoadingUnregister) {
-    return <Loader />;
+  if (isError || isErrorUnregister) {
+    return <div>ERROR</div>;
   }
 
-  if (isErrorUnregister) {
-    return errorUnregister;
-  }
+  // Function to handle event unregistration
   const UnRegister = () => {
     unregister();
   };
+  // Format date and time using date-fns library
+
   let dateObj = new Date(date);
   dateObj = subHours(dateObj, 3);
   const time = format(dateObj, 'HH:mm');
@@ -58,7 +57,6 @@ function EventCardMusician(props) {
   const dateFormatted = format(dateObj, 'dd-MM-yyyy');
 
   return (
-    //  className="flex flex-col   text-center text-gray-700 rounded-md border-2 py-8 max-w-sm"
     <Card className=" mt-6 w-96 justify-between text-center dark:text-white dark:bg-black rounded-md border-2">
       <CardBody className=" space-y-2 ">
         <Typography className="mt-1  text-s" variant="h3">
@@ -71,7 +69,7 @@ function EventCardMusician(props) {
         </Typography>
       </CardBody>
       <CardFooter className="dark:bg-black">
-        {location?.pathname !== '/user/myevents' && (
+        {location?.pathname !== '/user/myEvents' && (
           <RegisterToEvent
             EventId={eventId}
             date={dateFormatted}

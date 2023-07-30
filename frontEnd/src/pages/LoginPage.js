@@ -1,4 +1,3 @@
-
 import {
   Card,
   Input,
@@ -15,8 +14,10 @@ import { useCancelPassedEvents } from '../hooks/useAdminEvents';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 function LoginPage() {
+  // Accessing the login function and currentUser state from the AuthContext
   const { login, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  // State to handle user input for email and password
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -26,18 +27,20 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    // console.log('ERROR USE EFFECT:', err);
-    // console.log('Use affect', currentUser);
+    // Redirect to the appropriate dashboard based on the user's role
     if (currentUser !== null) {
       currentUser?.Role === 'admin' ? navigate('/admin') : navigate('/user');
     }
   }, [currentUser, navigate]);
+
+  // Mutation hook to cancel passed events for admin users
   const { mutate: cancelPassedEvents } = useCancelPassedEvents();
+  // If the user is an admin, cancel passed events
   if (currentUser !== null && currentUser?.Role === 'admin') {
     cancelPassedEvents();
   }
 
-  //send to login function the email and password
+  // Function to handle user login
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -47,7 +50,7 @@ function LoginPage() {
       setErr(error.response.data.error);
     }
   };
-
+  // Function to update the inputs state when the user types in the input fields
   const handleChange = (e) => {
     setInputs((prevInputs) => ({
       ...prevInputs,
@@ -84,7 +87,7 @@ function LoginPage() {
             <div className="relative flex items-center">
               <Input
                 required
-                type={showPassword ? 'text' : 'password'} // Show the password when 
+                type={showPassword ? 'text' : 'password'} // Show the password when
                 variant="outlined"
                 size="lg"
                 label="Password"

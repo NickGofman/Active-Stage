@@ -26,11 +26,15 @@ import { useContext } from 'react';
 import { AuthContext } from './components/context/authContext';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { DarkModeContext } from './DarkModeContext.js';
+
+// Create a new instance of QueryClient
 const queryClient = new QueryClient();
 
 function App() {
+  // Access the currentUser and darkMode variables from the corresponding contexts
   const { currentUser } = useContext(AuthContext);
-  const{darkMode}=useContext(DarkModeContext);
+  const { darkMode } = useContext(DarkModeContext);
+  // Define a ProtectedRoute component that checks the user's role and redirects accordingly
   const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
     console.log('isAdmin:', isAdmin, 'isMusician"', isMusician);
     if (!currentUser) {
@@ -49,6 +53,8 @@ function App() {
 
     return children;
   };
+
+  // Create the router object with all the routes and their corresponding components
   const router = createBrowserRouter([
     {
       path: '/admin',
@@ -119,6 +125,8 @@ function App() {
       element: <Page404 />,
     },
   ]);
+
+  // Define the custom theme for the application
   const theme = {
     select: {
       styles: {

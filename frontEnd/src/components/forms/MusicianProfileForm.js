@@ -8,9 +8,15 @@ import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useUpdateMusicianProfile } from '../../hooks/useMusicianProfileData';
 import { AuthContext } from '../context/authContext';
 function MusicianProfileForm(props) {
+  // Access the AuthContext to update the user's photo URL in local storage
   const { updateLocalStoragePhoto } = useContext(AuthContext);
+
   const [err, setErr] = useState('');
+
+  // Custom hook to update Musician profile
   const mut = useUpdateMusicianProfile();
+
+  // Destructuring data from props
   const {
     Description,
     FirstName,
@@ -22,9 +28,11 @@ function MusicianProfileForm(props) {
     Email,
     BandName,
   } = props?.data?.data[0];
-  // useState handle use file
+
+  // useState handle use file upload
   const [file, setFile] = useState(null);
-  // useState handle user profile Update
+
+  // useState to manage the form input values
   const [inputs, setInputs] = useState({
     firstName: '',
     lastName: '',
@@ -36,8 +44,11 @@ function MusicianProfileForm(props) {
     email: '',
     bandName: '',
   });
-  //state for description character count
+
+  // State to count description character length
   const [countChar, setCountChar] = useState(Description.length);
+
+  // Set the initial form input values from the data
   useEffect(() => {
     setInputs({
       firstName: FirstName || '',
@@ -53,14 +64,17 @@ function MusicianProfileForm(props) {
   }, [props?.data?.data[0]]);
 
   const handleChange = (e) => {
+    // Update the character count for the description field
     if (e.target.name === 'description') {
       setCountChar(e.target.value.length);
     }
+    // Update the input values
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
   // handle file upload
   const UploadImage = async () => {
     try {
@@ -88,14 +102,14 @@ function MusicianProfileForm(props) {
   // send data to backEnd to update user profile
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //update profile
+    // Check if the inputs are valid
     if (
       /^05\d-\d{7}$/.test(inputs.phone) &&
       inputs.firstName !== '' &&
       inputs.lastName !== '' &&
       countChar <= 255
     ) {
-      //upload to backend localStorage
+      // Upload the image to the backend and update local storage
       let isValidImage = true;
       if (file) {
         try {
@@ -109,9 +123,9 @@ function MusicianProfileForm(props) {
         }
       }
 
-      console.log('isValidImage', isValidImage);
       if (isValidImage) {
         try {
+          // Update musician profile data
           await mut.mutateAsync(inputs);
           setErr('Update Successfully');
         } catch (error) {
@@ -193,8 +207,7 @@ function MusicianProfileForm(props) {
           <Typography
             variant="small"
             color="gray"
-            className="flex items-center gap-1 font-normal mt-2           dark:text-white
-"
+            className="flex items-center gap-1 font-normal mt-2 dark:text-white"
           >
             <InformationCircleIcon className="w-4 h-4 -mt-px dark:text-white" />
             Phone number format 05X-XXXXXXX

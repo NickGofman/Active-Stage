@@ -17,7 +17,7 @@ function EventTableView(props) {
     musicalStyleList,
   } = props;
   let color = '';
-  // switch color by status
+  // Set color classes based on the event status
   switch (status) {
     case 'Published':
       color =
@@ -31,8 +31,11 @@ function EventTableView(props) {
         'text-center rounded shadow-yellow-100 bg-yellow-100 dark:bg-yellow-200';
       break;
     default:
-      color = 'text-center rounded shadow-blue-100 bg-blue-100 dark:bg-blue-200';
+      color =
+        'text-center rounded shadow-blue-100 bg-blue-100 dark:bg-blue-200';
   }
+
+  // Extract and format the event date and time
   const [date, time] = eventDate.split('T'); // separate date and time components
   const [year, month, day] = date.split('-'); // extract year, month, and day values
   const [hour, minute] = time.split(':'); // extract hour and minute values
@@ -43,6 +46,7 @@ function EventTableView(props) {
   const eventDateObject = eventDate;
   const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
 
+  // Get the musical type name based on the MusicalTypeId
   let musicalTypeName = musicalStyleList.filter((style) => {
     return style.MusicalTypeID === MusicalTypeId;
   });

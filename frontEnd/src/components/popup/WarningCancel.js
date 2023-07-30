@@ -13,9 +13,12 @@ import { format, subHours } from 'date-fns';
 import Loader from '../loader/Loader';
 
 function WarningCancel({ disabled, EventDate, EventId, eventStatus }) {
+  // Format the event date
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
   const formattedDate = format(newDate, ' dd-MM-yyyy HH:mm ');
+
+  
   const [open, setOpen] = useState(false);
   const { isLoading, error, mutate: cancelEvent } = useCancelEvent();
   const handleOpen = () => setOpen(!open);

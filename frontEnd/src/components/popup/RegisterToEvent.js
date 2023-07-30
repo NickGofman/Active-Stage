@@ -13,7 +13,7 @@ function RegisterToEvent({ date, hour, type, register }) {
 
   const handleOpen = () => setOpen(!open);
 
-  // Register user to event
+  // Function to handle user registration to the event
   const handleRegister = () => {
     register();
   };

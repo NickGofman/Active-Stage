@@ -1,6 +1,13 @@
 import { makeRequest } from '../axios';
-import { QueryClient, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
+//#region ==============Block User==============
+
+/**
+useBlockUser
+Custom React Query hook to block a user.
+@returns {useMutation} - React Query useMutation instance.
+*/
 export const useBlockUser = () => {
   const queryClient = useQueryClient();
   return useMutation((userId) => blockUser(userId), {
@@ -13,11 +20,28 @@ export const useBlockUser = () => {
     },
   });
 };
+/**
+
+blockUser
+Function to block a user by their userId.
+@param {string} userId - The ID of the user to be blocked.
+@returns {Promise} - A Promise representing the result of the axios POST request.
+*/
 const blockUser = (userId) => {
   //axios request
   return makeRequest.post(`/admin/blockUser/${userId}`);
 };
 
+//#endregion
+
+//#region ==============Add New Musical Style==============
+/**
+useAddNewMusicalStyle
+Custom React Query hook to add a new musical style.
+@param {function} onSuccess - Callback function to be called on successful mutation.
+@param {function} onError - Callback function to be called on mutation error.
+@returns {useMutation} - React Query useMutation instance.
+*/
 export const useAddNewMusicalStyle = (onSuccess, onError) => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -33,7 +57,13 @@ export const useAddNewMusicalStyle = (onSuccess, onError) => {
     }
   );
 };
-
+/**
+addNewMusicalStyle
+Function to add a new musical style.
+@param {Object} musicalStyleToAdd - The musical style data to be added.
+@returns {Promise} - A Promise representing the result of the axios POST request.
+*/
 const addNewMusicalStyle = (musicalStyleToAdd) => {
   return makeRequest.post(`/admin/addNewMusicalStyle/${musicalStyleToAdd}`);
 };
+//#endregion

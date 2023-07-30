@@ -15,26 +15,32 @@ import { useChangePassword } from '../hooks/useAuth';
 function ChangePassword() {
   const [err, setErr] = useState('');
   const navigate = useNavigate();
+
+  // Mutation hook for changing the password
   const mut = useChangePassword();
 
-  // useState handle user profile Update
+  // State to handle user inputs for the new password and confirmation
   const [inputs, setInputs] = useState({
     newPassword: '',
     confirmNewPassword: '',
   });
+  // Handler to update the inputs state when user types in the input fields
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
+  // Handler for the "Change password" button click
   const clickChangePassword = async (e) => {
     e.preventDefault();
-
+    // Check if the new password matches the confirmation
     if (inputs.newPassword !== inputs.confirmNewPassword) {
       setErr('Password Not match');
       return;
     }
+    // Check if the new password meets the required format
     if (!/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/.test(inputs.newPassword)) {
       setErr(
         'Password should contain at least 8 characters with numbers and digits'
@@ -42,6 +48,7 @@ function ChangePassword() {
       return;
     } else {
       try {
+        // Call the mutation function to change the password
         await mut.mutateAsync(inputs);
         navigate('/', { replace: true });
         setErr('Password was Changed');
