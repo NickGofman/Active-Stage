@@ -14,9 +14,9 @@ function MusicianMyEventsPage() {
 
   // Fetch data for events the musician has registered for - custom hook
   const {
-    isLoadingRegisteredEvents,
-    dataRegisteredEvents,
-    isErrorRegisteredEvents,
+    isLoading: isLoadingRegisteredEvents,
+    data: dataRegisteredEvents,
+    isError: isErrorRegisteredEvents,
   } = useAllRegisteredEvents(userId);
 
   // Fetch data for all events assigned to the musician - custom hook
@@ -33,6 +33,7 @@ function MusicianMyEventsPage() {
     return <div>ERROR</div>;
   }
 
+  console.log('AAA', dataRegisteredEvents);
   return (
     <div>
       <PaginationEvents

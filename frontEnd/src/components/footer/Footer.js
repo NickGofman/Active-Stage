@@ -5,7 +5,6 @@ const date = new Date();
 const currentYear = date.getFullYear();
 
 function Footer() {
-  
   // Accessing the currentUser data from the AuthContext
   const { currentUser } = useContext(AuthContext);
   return (
@@ -29,7 +28,7 @@ function Footer() {
             </div>
           </div>
           <div className="px-5 py-5 dark:text-white">
-            <h3 className="text-black">Address</h3>
+            <h3>Address</h3>
             <div>
               <address>
                 <div>Derekh Yafo 35</div>
@@ -39,7 +38,7 @@ function Footer() {
             </div>
           </div>
           <div className="px-5 py-5 dark:text-white">
-            <h3 className="text-black">Contact Us</h3>
+            <h3>Contact Us</h3>
 
             <div className="flex flex-row space-x-3">
               <a

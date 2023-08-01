@@ -18,7 +18,7 @@ function EventIncome(props) {
   // State to manage dialog visibility and income amount
   const [open, setOpen] = useState(false);
   const [income, setIncome] = useState('');
-
+  const [err, setErr] = useState('');
   // Formatting the event date
   const dateObj = new Date(EventDate);
   const newDate = subHours(dateObj, 3);
@@ -41,10 +41,14 @@ function EventIncome(props) {
   // Function to handle adding income to the event
   const handleAddIncome = () => {
     const parsedIncome = +income; // Parse the income value to a number
-    if (!isNaN(parsedIncome)) {
-      const data = { eventId: EventId, income: parsedIncome };
-      mutate(data);
-      handleOpen();
+    if (!isNaN(parsedIncome) && parsedIncome !== '') {
+      if (parsedIncome > 0) {
+        const data = { eventId: EventId, income: parsedIncome };
+        mutate(data);
+        handleOpen();
+      } else setErr('Income must be positive number');
+    } else {
+      setErr('Income must be a number');
     }
   };
 
@@ -82,6 +86,7 @@ function EventIncome(props) {
             onChange={(e) => setIncome(e.target.value)}
             className="dark:text-white"
           />
+          {err && err}
         </DialogBody>
         <DialogFooter>
           <Button

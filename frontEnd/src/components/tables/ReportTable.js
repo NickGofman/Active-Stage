@@ -6,9 +6,8 @@ const TABLE_HEAD = ['Band Name', 'Date', 'Income', 'Musical Style'];
 
 const ReportTable = (props) => {
   const { data, reportsNameList } = props;
-  console.log('reportsNameList', reportsNameList);
-  console.log('data', data);
 
+ 
   // Function to handle exporting data to Excel
   const handleExportToExcel = () => {
     // Create a new Excel workbook and worksheet
@@ -43,11 +42,11 @@ const ReportTable = (props) => {
     });
 
     // Calculate total revenue and add it to the worksheet
-    const totalRevenueFormula = `SUM(C2:C${reportsNameList?.data?.length + 1})`;
-    const totalRevenueRow = worksheet.insertRow(7, [
-      'Total Revenue',
-      { formula: totalRevenueFormula },
-    ]);
+    const totalRevenueFormula = `SUM(C2:C${reportsNameList?.data?.length + 2})`;
+    const totalRevenueRow = worksheet.insertRow(
+      reportsNameList?.data?.length + 2,
+      ['Total Revenue', { formula: totalRevenueFormula }]
+    );
     totalRevenueRow.getCell(2).font = {
       bold: true,
     };
@@ -85,7 +84,11 @@ const ReportTable = (props) => {
 
   return (
     <div>
-      <Button className="w-1/4" onClick={handleExportToExcel}>
+      <Button
+        className="w-1/4"
+        onClick={handleExportToExcel}
+        disabled={reportsNameList?.data?.length === 0 ? true : false}
+      >
         Export To Excel File
       </Button>
       <Card className="overflow-scroll overflow-x-hidden h-96 w-full mt-5 dark:bg-black dark:text-white">

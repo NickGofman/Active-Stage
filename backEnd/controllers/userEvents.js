@@ -46,12 +46,12 @@ const getAssignedEvents = (req, res) => {
   const userId = req.params.id;
 
   const q = `SELECT DISTINCT e.EventID, CONVERT_TZ(e.Date, '+00:00', '+03:00') as Date, e.Description, td.MusicalTypeName
-FROM event AS e
-JOIN musician_register_event AS mre ON e.EventID = mre.EventID
-JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
-WHERE e.UserID = ? AND e.Status = 'Assigned'
-
-  `;
+  FROM event AS e
+  JOIN musician_register_event AS mre ON e.EventID = mre.EventID
+  JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
+  WHERE e.UserID = ? AND e.Status = 'Assigned'and e.Date>=CURRENT_DATE()
+  ORDER BY e.Date asc
+    `;
 
   pool.query(q, userId, (err, data) => {
     if (err) return res.status(500).json(err);
@@ -73,7 +73,7 @@ JOIN event AS e ON mre.EventID = e.EventID
 JOIN typesdescription AS td ON e.MusicalTypeID = td.MusicalTypeID
 WHERE e.UserID IS NULL
 AND mre.UserID = ? AND e.Status <> 'Cancelled'
-ORDER BY e.Date
+ORDER BY e.Date asc
 `;
 
   pool.query(q, userId, (err, data) => {
@@ -112,7 +112,8 @@ const getAllPreviousEvents = (req, res) => {
   const q = `SELECT e.EventID, e.Date, t.MusicalTypeName AS musicalTypeName 
              FROM event AS e
              INNER JOIN typesdescription AS t ON e.MusicalTypeID = t.MusicalTypeID
-             WHERE e.UserID = ? AND e.Status = 'Closed'`;
+             WHERE e.UserID = ? AND e.Date<CURRENT_DATE() AND (e.Status = 'Closed' or e.Status = 'Assigned')
+             ORDER BY e.date desc`;
 
   pool.query(q, [userId], (err, data) => {
     if (err) {

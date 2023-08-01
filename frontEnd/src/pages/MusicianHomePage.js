@@ -62,7 +62,7 @@ function MusicianHomePage() {
 
   // Get the number of registered events
   const numberOfEvents = dataRegisteredEvents?.data?.length;
-
+ 
   // Get the date of the next assigned event
   const nextEventDate = dataAllAssigned?.data[0]?.Date.split('T')[0];
   let formattedDate = '';
@@ -110,14 +110,26 @@ function MusicianHomePage() {
             <Typography>Registered Events</Typography>
           </CardBody>
           <CardBody className="flex flex-col justify-center items-center py-4 lg:pt-4 pt-8  ">
-            <Typography
-              variant="h5"
-              color="blue-gray"
-              className="mb-2 dark:text-white"
-            >
-              {formattedDate || 'No Upcoming shows'}
-            </Typography>
-            <Typography>My Next Show</Typography>
+            {formattedDate === '' ? (
+              <Typography
+                variant="h5"
+                color="blue-gray"
+                className="mb-2 dark:text-white"
+              >
+                No Upcoming shows
+              </Typography>
+            ) : (
+              <>
+                <Typography
+                  variant="h5"
+                  color="blue-gray"
+                  className="mb-2 dark:text-white"
+                >
+                  {formattedDate}
+                </Typography>
+                <Typography>My Next Show</Typography>
+              </>
+            )}
           </CardBody>
         </Card>
         <Card className=" mt-6 w-96 dark:text-white dark:bg-black">
