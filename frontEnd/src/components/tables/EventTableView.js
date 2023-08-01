@@ -44,6 +44,8 @@ function EventTableView(props) {
   const dateObj = new Date(formattedDate);
   const newDateObj = format(dateObj, 'dd-MM-yyyy');
   const eventDateObject = eventDate;
+
+  //function to determines if dateA occurs chronologically before dateB.
   const isBefore = (dateA, dateB) => new Date(dateA) < dateB;
 
   // Get the musical type name based on the MusicalTypeId

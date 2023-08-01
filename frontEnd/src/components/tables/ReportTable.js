@@ -2,6 +2,7 @@ import React from 'react';
 import ExcelJS from 'exceljs';
 import { Button, Card, Typography } from '@material-tailwind/react';
 
+//table headers names
 const TABLE_HEAD = ['Band Name', 'Date', 'Income', 'Musical Style'];
 
 const ReportTable = (props) => {

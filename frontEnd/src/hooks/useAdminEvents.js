@@ -352,7 +352,6 @@ const cancelPassedEvents = () => {
  * @returns {useQuery} - React Query useQuery instance.
  */
 export const useSortedEventReports = (data) => {
-  console.log('FRONT: useSortedEventReports');
 
   return useQuery(['getSortedEventReports', data], () =>
     getSortedEventReports(data)

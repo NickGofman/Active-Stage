@@ -34,11 +34,9 @@ const fetchMusicianProfileData = (userId) => {
  */
 
 export const useUpdateMusicianProfile = () => {
-  console.log('useUpdateMusicianProfile');
   const queryClient = new QueryClient();
   return useMutation(updateMusicianProfile, {
     onSettled: () => {
-      console.log('onSettled');
 
       queryClient.invalidateQueries('getProfile');
     },

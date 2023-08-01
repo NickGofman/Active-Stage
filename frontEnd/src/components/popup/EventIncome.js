@@ -86,7 +86,7 @@ function EventIncome(props) {
             onChange={(e) => setIncome(e.target.value)}
             className="dark:text-white"
           />
-          {err && err}
+          <Typography color='red'>{err && err}</Typography>
         </DialogBody>
         <DialogFooter>
           <Button

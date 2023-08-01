@@ -21,7 +21,6 @@ export const AuthContextProvider = ({ children }) => {
    * @param {Object} inputs - The login credentials (e.g., username and password).
    */
   const login = async (inputs) => {
-    console.log('In authContext');
     const res = await makeRequest.post('/auth/login', inputs, {
       withCredentials: true,
     });

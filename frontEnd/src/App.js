@@ -36,17 +36,14 @@ function App() {
   const { darkMode } = useContext(DarkModeContext);
   // Define a ProtectedRoute component that checks the user's role and redirects accordingly
   const ProtectedRoute = ({ children, isAdmin, isMusician }) => {
-    console.log('isAdmin:', isAdmin, 'isMusician"', isMusician);
     if (!currentUser) {
       return <Navigate to="/" />;
     }
     if (isAdmin) {
-      console.log('isAdmin');
 
       return currentUser.Role === 'admin' ? children : <Navigate to="/*" />;
     }
     if (isMusician) {
-      console.log('isMusician');
 
       return currentUser.Role === 'user' ? children : <Navigate to="/*" />;
     }
@@ -126,7 +123,7 @@ function App() {
     },
   ]);
 
-  // Define the custom theme for the application
+  // Define the custom theme for material-tailwind library components
   const theme = {
     select: {
       styles: {

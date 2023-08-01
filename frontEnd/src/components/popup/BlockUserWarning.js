@@ -8,6 +8,7 @@ import {
 } from '@material-tailwind/react';
 import { useState } from 'react';
 
+//component for block user warning dialog
 function BlockUserWarning({ handleBlockUser, userId }) {
   const [open, setOpen] = useState(false);
 

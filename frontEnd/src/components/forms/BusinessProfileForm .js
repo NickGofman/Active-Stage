@@ -8,7 +8,7 @@ function BusinessProfileForm(props) {
   // Destructuring data from props
   const { businessName, address, PhoneNumber, managerName, Email } =
     props?.data?.data[0];
-    
+
   // State to handle error message
   const [err, setErr] = useState('');
 
@@ -30,7 +30,7 @@ function BusinessProfileForm(props) {
       managerName: managerName || '',
       businessEmail: Email || '',
     });
-  }, [props?.data?.data[0]]);
+  }, [businessName, address, PhoneNumber, managerName, Email]);
 
   // Custom hook to update admin profile
   const mut = useUpdateAdminData(inputs);
@@ -42,7 +42,7 @@ function BusinessProfileForm(props) {
       [e.target.name]: e.target.value,
     }));
   };
-  
+
   // Function to handle profile update when 'Save Changes' button is clicked
   const handleUpdate = async () => {
     const isPhoneValid = /^05\d-\d{7}$/.test(inputs.phone);

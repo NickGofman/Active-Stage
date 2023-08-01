@@ -20,8 +20,8 @@ function EventCardMusician(props) {
   const { currentUser } = useContext(AuthContext);
   const { date, type, description, eventId, userId, header } = props;
   const userEmail = currentUser ? currentUser.Email : null;
+  
   // React-router-dom hook to get the current location
-
   const location = useLocation();
 
   // Custom hooks to handle event registration and unregistration

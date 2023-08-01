@@ -130,7 +130,6 @@ function CreateNewEvent() {
   const handleCreateEvent = () => {
     const { date, time, ...otherInput } = inputs;
     const dateTime = `${date} ${time}`;
-    console.log(date);
 
     if (date !== null && time !== '' && inputs.musicalTypeId !== undefined) {
       otherInput.dateTime = dateTime;

@@ -27,7 +27,7 @@ function MusicianAssignCard(props) {
   // Custom hooks to handle musician assignment and user blocking
   const { mutate: assignMusician } = useAssignMusicianById();
   const { mutate: blockUser } = useBlockUser();
-  
+
   const handleAssign = () => {
     const data = { eventId, userId };
     assignMusician(data);
@@ -79,7 +79,7 @@ function MusicianAssignCard(props) {
             Youtube Channel: {Url}
           </a>
         )}
-        <Typography>{description}</Typography>
+        <Typography className="break-words">{description}</Typography>
       </CardBody>
 
       <CardFooter className="flex gap-28">

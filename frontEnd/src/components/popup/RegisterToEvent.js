@@ -18,7 +18,6 @@ function RegisterToEvent({ date, hour, type, register }) {
     register();
   };
 
-  // axios request for assign
   return (
     <Fragment>
       <Button onClick={handleOpen} size="sm" color="blue">

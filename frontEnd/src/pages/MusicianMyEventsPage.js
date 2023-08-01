@@ -33,7 +33,6 @@ function MusicianMyEventsPage() {
     return <div>ERROR</div>;
   }
 
-  console.log('AAA', dataRegisteredEvents);
   return (
     <div>
       <PaginationEvents

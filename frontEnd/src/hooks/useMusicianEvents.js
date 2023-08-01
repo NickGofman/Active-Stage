@@ -153,7 +153,6 @@ const unregisterToEvent = (userId, eventId) => {
  * @returns {useQuery} - React Query useQuery instance.
  */
 export const useAllPreviousEvents = (userId) => {
-  console.log('userId', userId);
   return useQuery(['getAllPreviousEvents', userId], () =>
     getAllPreviousEvents(userId)
   );
@@ -165,7 +164,6 @@ export const useAllPreviousEvents = (userId) => {
  * @returns {Promise} - A Promise representing the result of the axios GET request.
  */
 const getAllPreviousEvents = (userId) => {
-  console.log('getAllPreviousEvents', userId);
   return makeRequest.get(`/user/getAllPreviousEvents/${userId}`);
 };
 //#endregion

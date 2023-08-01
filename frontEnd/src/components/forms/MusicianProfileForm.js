@@ -61,7 +61,17 @@ function MusicianProfileForm(props) {
       email: Email || '',
       bandName: BandName || '',
     });
-  }, [props?.data?.data[0]]);
+  }, [
+    FirstName,
+    LastName,
+    PhoneNumber,
+    Photo,
+    YearsOfExperience,
+    URL,
+    Description,
+    Email,
+    BandName,
+  ]);
 
   const handleChange = (e) => {
     // Update the character count for the description field

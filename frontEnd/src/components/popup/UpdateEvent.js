@@ -51,7 +51,7 @@ function UpdateEvent(props) {
   const [message, setMessage] = useState('');
 
   // Custom hook to Update Event
-  const { mutate: updateEvent, isLoading, error, } = useUpdateEvent();
+  const { mutate: updateEvent, isLoading, error } = useUpdateEvent();
 
   // Custom hook to Get Event Dates
   const {
@@ -142,7 +142,6 @@ function UpdateEvent(props) {
           <div className="flex flex-col w-72  gap-6">
             <Datepicker
               minDate={new Date()}
-              // containerClassName=" relative max-w-sm"
               useRange={false}
               value={date}
               asSingle={true}
@@ -154,7 +153,7 @@ function UpdateEvent(props) {
                 darkMode
                   ? 'darkModeDatePicker  relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]'
                   : ''
-              }  relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px] `}
+              }  relative max-w-sm border-[1px] border-blue-gray-200 rounded-[7px]`}
             />
             <Input
               name="time"

@@ -15,12 +15,10 @@ function ProfilePage() {
   const handleChangePassword = () => {
     navigate('/changePassword');
   };
-  //TODO-delete this!!!
   const onSuccess = (data) => {};
 
   const onError = (error) => {};
   const isUser = currentUser.Role === 'user';
-  console.log(isUser);
 
   // Fetch data for Musician Profile - custom hook
   const {

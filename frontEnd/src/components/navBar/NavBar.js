@@ -42,6 +42,11 @@ export default function NavBar() {
     navigate(`/${currentUser.Role}`);
   };
 
+  //Function to navigate to the user's profile page
+  const handleNavigateToProfile=()=>{
+    navigate(`/${currentUser.Role}/profile/${currentUser.UserId}`);
+  }
+
   useEffect(() => {
     // Add event listener for resizing window to close the mobile navigation on larger screens
     window.addEventListener(
@@ -59,7 +64,7 @@ export default function NavBar() {
 
   // JSX for the navigation links based on the user role
   let navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 hover:cursor-pointer">
       {currentUser.Role === 'admin' || (
         <Avatar
           variant="circular"
@@ -71,6 +76,7 @@ export default function NavBar() {
               ? `http://localhost:3001/${currentUser.Photo}`
               : `http://localhost:3001/ProfileImg.jpg`
           }
+          onClick={handleNavigateToProfile}
         />
       )}
       <Typography
