@@ -18,6 +18,7 @@ export const useCreateNewEvent = (onSuccess, onError) => {
       // Invalidate queries for both getEventsPassedWithoutIncome and getSortedEventDataByType
       queryClient.invalidateQueries('getEventsPassedWithoutIncome');
       queryClient.invalidateQueries('getSortedEventDataByType');
+      queryClient.invalidateQueries('getEventsForCalendar');
     },
   });
 };
@@ -352,7 +353,6 @@ const cancelPassedEvents = () => {
  * @returns {useQuery} - React Query useQuery instance.
  */
 export const useSortedEventReports = (data) => {
-
   return useQuery(['getSortedEventReports', data], () =>
     getSortedEventReports(data)
   );
