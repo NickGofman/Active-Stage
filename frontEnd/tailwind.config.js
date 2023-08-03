@@ -13,6 +13,9 @@ module.exports = withMT({
         'white-happy': '#f1e9e9',
         'blue-happy': ' #bad4d5',
       },
+      screens:{
+        '3xl':'1600px',
+      }
     },
   },
 });
