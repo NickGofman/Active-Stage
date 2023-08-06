@@ -201,7 +201,7 @@ const addIncome = (data) => {
 };
 //#endregion
 
-//#region ==============Get events for calendar==============
+//#region ==============Get events for calendar=============
 /**
  * useGetEventsForCalendar
  * Custom React Query hook to fetch the list of events for the calendar (except with status canceled).
@@ -220,7 +220,7 @@ const getEventsForCalendar = () => {
 };
 //#endregion
 
-//#region ==============Get three upcoming events==============
+//#region ==============Get three upcoming events===========
 /**
  * useGetThreeUpcomingEvents
  * Custom React Query hook to fetch the list of three upcoming events (status assigned).
@@ -239,7 +239,7 @@ const getThreeUpcomingEvents = () => {
 };
 //#endregion
 
-//#region ==============Get sorted event data by type==============
+//#region ==============Get sorted event data by type========
 /**
  * useSortedEventDataByType
  * Custom React Query hook to fetch sorted event data by type.
@@ -265,7 +265,7 @@ const getSortedEventDataByType = (data) => {
 };
 //#endregion
 
-//#region ==============Cancel event==============
+//#region ==============Cancel event=========================
 /**
  * useCancelEvent
  * Custom React Query hook to cancel an event.
@@ -294,7 +294,7 @@ const cancelEvent = (data) => {
 };
 //#endregion
 
-//#region ==============Update Event==============
+//#region ==============Update Event=========================
 /**
  * useUpdateEvent
  * Custom React Query hook to update an event.
@@ -324,7 +324,7 @@ const updateEvent = (data) => {
 };
 //#endregion
 
-//#region ==============Cancel passed events==============
+//#region ==============Cancel passed events=================
 /**
  * useCancelPassedEvents
  * Custom React Query hook to cancel passed events.
@@ -345,7 +345,7 @@ const cancelPassedEvents = () => {
 };
 //#endregion
 
-//#region ==============Get sorted event reports==============
+//#region ==============Get sorted event reports=============
 /**
  * useSortedEventReports
  * Custom React Query hook to fetch sorted event reports.
@@ -368,7 +368,7 @@ const getSortedEventReports = (data) => {
 };
 //#endregion
 
-//#region ==============Get band names==============
+//#region ==============Get band names=======================
 /**
  * useGetBandNames
  * Custom React Query hook to fetch the list of band names based on a date range.
@@ -390,7 +390,7 @@ const getBandNames = (data) => {
 };
 //#endregion
 
-//#region ==============Get musical styles by date==============
+//#region ==============Get musical styles by date===========
 /**
  * useGetMusicalStylesByDate
  * Custom React Query hook to fetch the list of musical styles based on a date range.
