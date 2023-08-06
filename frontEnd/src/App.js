@@ -141,7 +141,6 @@ function App() {
       <ThemeProvider value={theme}>
         <RouterProvider router={router} />
       </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 }
