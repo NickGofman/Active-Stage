@@ -1,3 +1,5 @@
+'use strict';
+
 const { unlink } = require('fs');
 const multer = require('multer');
 

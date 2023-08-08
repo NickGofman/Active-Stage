@@ -1,3 +1,4 @@
+'use strict';
 const nodeMailer = require('nodemailer');
 
 //module to create nodeMailer object

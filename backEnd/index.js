@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const app = express();
 const authRoutes = require('./routes/authRoutes');

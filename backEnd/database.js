@@ -1,7 +1,8 @@
+'use strict';
+
 const mysql = require('mysql');
 
 require('dotenv').config();
-
 
 //create module that connects to the database
 const pool = mysql.createPool({
