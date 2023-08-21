@@ -10,8 +10,9 @@ ADMIN ALL EVENTS
 ADMIN REPORT PAGE
 <img width="959" alt="4" src="https://github.com/NickGofman/Active-Stage/assets/83462964/f0275a98-4bf2-47d3-8c95-c8e64e676d53">
 
-USER HOME PAGE
-<img width="960" alt="11" src="https://github.com/NickGofman/Active-Stage/assets/83462964/86e87ffc-9b57-4014-9de3-491752fcc1af">
+USER Home PAGE
+![image](https://github.com/NickGofman/Active-Stage/assets/83462964/7b85442b-5735-4c13-ab9d-2c11e1e3b307)
+
 
 # Getting Started with Create React App
 
