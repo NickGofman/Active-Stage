@@ -1,4 +1,7 @@
 
+<img width="510" alt="15" src="https://github.com/NickGofman/Active-Stage/assets/83462964/62b20a18-9005-45d2-887e-64461fd4d030">
+<img width="959" alt="1" src="https://github.com/NickGofman/Active-Stage/assets/83462964/5987761e-ae9a-46ec-ac53-7c1bdd20700b">
+
 
 # Getting Started with Create React App
 
