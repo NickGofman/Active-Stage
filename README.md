@@ -1,7 +1,17 @@
-
-<img width="510" alt="15" src="https://github.com/NickGofman/Active-Stage/assets/83462964/62b20a18-9005-45d2-887e-64461fd4d030">
+ADMIN HOME PAGE
 <img width="959" alt="1" src="https://github.com/NickGofman/Active-Stage/assets/83462964/5987761e-ae9a-46ec-ac53-7c1bdd20700b">
 
+ADMIN CREATE EVENT
+<img width="959" alt="8" src="https://github.com/NickGofman/Active-Stage/assets/83462964/37147f0e-570b-4d2c-ab66-80adcbf3cdd5">
+
+ADMIN ALL EVENTS
+<img width="962" alt="3" src="https://github.com/NickGofman/Active-Stage/assets/83462964/1cd4ab6f-ce63-4e29-bae5-93d16a58fa49">
+
+ADMIN REPORT PAGE
+<img width="959" alt="4" src="https://github.com/NickGofman/Active-Stage/assets/83462964/f0275a98-4bf2-47d3-8c95-c8e64e676d53">
+
+USER HOME PAGE
+<img width="960" alt="11" src="https://github.com/NickGofman/Active-Stage/assets/83462964/86e87ffc-9b57-4014-9de3-491752fcc1af">
 
 # Getting Started with Create React App
 
