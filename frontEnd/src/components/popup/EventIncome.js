@@ -13,6 +13,7 @@ import { useAddIncome } from '../../hooks/useAdminEvents';
 import Loader from '../loader/Loader';
 
 function EventIncome(props) {
+  console.log('EventIncome');
   const { EventDate, BandName, EventId, disabled } = props;
 
   // State to manage dialog visibility and income amount
@@ -86,7 +87,7 @@ function EventIncome(props) {
             onChange={(e) => setIncome(e.target.value)}
             className="dark:text-white"
           />
-          <Typography color='red'>{err && err}</Typography>
+          <Typography color="red">{err && err}</Typography>
         </DialogBody>
         <DialogFooter>
           <Button

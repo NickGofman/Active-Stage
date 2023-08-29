@@ -41,7 +41,9 @@ const createNewEvent = (data) => {
  * @returns {useQuery} - React Query useQuery instance.
  */
 export const useGetMusicalStyles = () => {
-  return useQuery('getMusicalStyles', getMusicalStyles, {});
+  return useQuery('getMusicalStyles', getMusicalStyles, {
+    staleTime: 60000, // Cache musical styles for 1 minute
+  });
 };
 /**
  * getMusicalStyles
@@ -60,7 +62,9 @@ const getMusicalStyles = () => {
  * @returns {useQuery} - React Query useQuery instance.
  */
 export const useGetEventDates = () => {
-  return useQuery('getEventDates', getEventDates);
+  return useQuery('getEventDates', getEventDates, {
+    staleTime: 60000, // Cache musical styles for 1 minute
+  });
 };
 
 /**
@@ -103,8 +107,12 @@ const getThreeEventsToAssign = () => {
  * @returns {useQuery} - React Query useQuery instance.
  */
 export const useGetAllUsersPerEvent = (eventId) => {
-  return useQuery(['useGetAllUsersPerEvent', eventId], () =>
-    getAllUsersPerEvent(eventId)
+  return useQuery(
+    ['useGetAllUsersPerEvent', eventId],
+    () => getAllUsersPerEvent(eventId),
+    {
+      staleTime: 60000, // Cache musical styles for 1 minute
+    }
   );
 };
 /**

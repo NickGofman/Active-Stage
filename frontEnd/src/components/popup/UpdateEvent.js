@@ -20,7 +20,7 @@ import { DarkModeContext } from '../../DarkModeContext';
 function UpdateEvent(props) {
   // Access the darkMode context to apply dark mode styles
   const { darkMode } = useContext(DarkModeContext);
-
+console.log('UpdateEvent');
   const {
     EventDate,
     EventId,
