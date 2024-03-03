@@ -7,7 +7,7 @@ import {
   useAllPublishedEvents,
   useAllRegisteredEvents,
 } from '../hooks/useMusicianEvents';
-import { format, subHours } from 'date-fns';
+import { format, parseISO, subHours } from 'date-fns';
 import Loader from '../components/loader/Loader';
 function MusicianHomePage() {
   // Retrieve user data from localStorage
@@ -64,10 +64,10 @@ function MusicianHomePage() {
   const numberOfEvents = dataRegisteredEvents?.data?.length;
  
   // Get the date of the next assigned event
-  const nextEventDate = dataAllAssigned?.data[0]?.Date.split('T')[0];
+  const nextEventDate = dataAllAssigned?.data[0]?.Date;
   let formattedDate = '';
   if (nextEventDate !== undefined) {
-    let dateObj = new Date(nextEventDate);
+    let dateObj = parseISO(nextEventDate);
     dateObj = subHours(dateObj, 3);
     formattedDate = format(dateObj, 'dd-MM-yyy');
   }

@@ -3,7 +3,7 @@ import WarningCancel from '../popup/WarningCancel';
 import EventIncome from '../popup/EventIncome';
 import AssignMusician from '../popup/AssignMusician';
 import UpdateEvent from '../popup/UpdateEvent';
-import { format } from 'date-fns';
+import { parseISO, subHours,format } from 'date-fns';
 
 function EventTableView(props) {
   const {
@@ -34,7 +34,8 @@ function EventTableView(props) {
       color =
         'text-center rounded shadow-blue-100 bg-blue-100 dark:bg-blue-200';
   }
-
+  const dateISO = parseISO(eventDate);
+  const subHour = subHours(dateISO, 3);
   // Extract and format the event date and time
   const [date, time] = eventDate.split('T'); // separate date and time components
   const [year, month, day] = date.split('-'); // extract year, month, and day values
@@ -63,9 +64,7 @@ function EventTableView(props) {
         {status !== 'Published' && BandName}
       </th>
       <td className="px-6 py-4">{Registered}</td>
-      <td className="px-6 py-4 text-gray-900">
-        {newDateObj} {formattedTime}
-      </td>
+      <td className="px-6 py-4 text-gray-900">{format(subHour, 'dd-MM-yyyy HH:mm')}</td>
       <td>{status}</td>
       <td className="grid grid-cols-2 gap-3 m-3 lg:flex lg:flex-row lg:justify-end">
         <WarningCancel
