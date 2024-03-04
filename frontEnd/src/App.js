@@ -15,7 +15,6 @@ import {
   Page404,
 } from './pages/exportPages.js';
 import { ThemeProvider } from '@material-tailwind/react';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 import {
   createBrowserRouter,
@@ -141,7 +140,6 @@ function App() {
       <ThemeProvider value={theme}>
         <RouterProvider router={router} />
       </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 }

@@ -68,7 +68,7 @@ const ForgotPassword = () => {
             {errMessage && errMessage}
           </Typography>
           <Button onClick={handleRegistration} fullWidth>
-            Change password
+            Send new password
           </Button>
         </form>
         <Typography className=" mt-4 mb-7 col-span-2" variant="small">

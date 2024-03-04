@@ -62,8 +62,8 @@ function Footer() {
         <div className="flex items-start  flex-wrap dark:bg-black">
           <div className="px-5 py-5">
             <h3> Have any Problem?</h3>
-            <div>Email: contactNick@yourwebsite.com</div>
-            <div>Email: contactSaar@yourwebsite.com</div>
+            <div>Email: nik.help@gmail.com</div>
+            <div>Email: saar.help@gmail.com</div>
           </div>
         </div>
       )}
