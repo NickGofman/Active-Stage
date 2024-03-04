@@ -436,7 +436,7 @@ const getSortedEventDataByType = (req, res) => {
             LEFT JOIN user AS u ON u.UserId = m.UserId
             WHERE mre.EventID = e.EventID
             AND u.Status = 'Active'
-            AND mre.UserId = e.UserID  -- Update this line to match the UserId in the event
+            AND mre.UserId = e.UserID
             LIMIT 1
           ) AS BandName
         FROM event AS e
@@ -461,7 +461,7 @@ const getSortedEventDataByType = (req, res) => {
     e.Description,
     e.Status,
     COUNT(mre.UserId) AS NumberOfRegisters,
-    m.BandName
+    NULL as BandName
     FROM event AS e
     LEFT JOIN musician_register_event AS mre ON e.EventID = mre.EventID  
     LEFT JOIN musician AS m ON mre.UserId = m.UserId 
