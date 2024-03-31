@@ -1,90 +1,102 @@
-ADMIN HOME PAGE
-<img width="959" alt="1" src="https://github.com/NickGofman/Active-Stage/assets/83462964/5987761e-ae9a-46ec-ac53-7c1bdd20700b">
+# Atcive Stage - Event Management System
 
-ADMIN CREATE EVENT
-![image](https://github.com/NickGofman/Active-Stage/assets/83462964/ed3d38b5-136f-4a43-940c-e8fcb298eb06)
+The Event Management System is a comprehensive web application designed to streamline event organization for both musicians and businesses. It offers a wide range of features including user authentication, profile management, event listing, and reporting functionalities.
 
-ADMIN ASSIGN MUSICAIN
-<img width="959" alt="8" src="https://github.com/NickGofman/Active-Stage/assets/83462964/37147f0e-570b-4d2c-ab66-80adcbf3cdd5">
+## Backend Overview
 
-ADMIN ALL EVENTS
-<img width="962" alt="3" src="https://github.com/NickGofman/Active-Stage/assets/83462964/1cd4ab6f-ce63-4e29-bae5-93d16a58fa49">
+The backend of the Event Management System is built with Node.js and Express.js, utilizing MySQL as the database management system. Here's an overview of the backend components:
 
-ADMIN REPORT PAGE
-<img width="959" alt="4" src="https://github.com/NickGofman/Active-Stage/assets/83462964/f0275a98-4bf2-47d3-8c95-c8e64e676d53">
+- **Routes:**
+  - `authRoutes.js`: Defines routes for user authentication functionalities such as registration, login, logout, and password management.
+  - `userRoutes.js`: Contains routes for handling user-specific actions such as profile management.
+  - `adminRoutes.js`: Defines routes for administrative tasks such as event management and reporting.
 
-USER Home PAGE
-![image](https://github.com/NickGofman/Active-Stage/assets/83462964/7b85442b-5735-4c13-ab9d-2c11e1e3b307)
+- **Controllers:**
+  - `uploadController.js`: Controller responsible for handling image uploads.
+  - `auth.js`: Controller for user authentication functionalities including registration, login, logout, password reset, and password change.
+
+- **Database Management:**
+  - `database.js`: Module that connects to the MySQL database and exports the connection pool for executing queries.
+
+## Frontend Overview
+
+The frontend of the Event Management System is developed using React.js. It provides a user-friendly interface for interacting with the application's features. Here's an overview of the frontend components:
+
+- **Components:**
+  - Various UI components such as calendars, cards, forms, headers, and pagination for enhanced user experience.
+
+- **Hooks:**
+  - Custom hooks for managing state and logic across components, such as `useAuth` for handling user authentication.
+
+- **Layout:**
+  - `PageLayout.js`: Layout component ensuring a consistent structure across different pages of the application.
+
+- **Pages:**
+  - Individual components representing different pages of the application, including login, registration, profile management, and homepages for musicians and businesses.
+
+- **Context:**
+  - `AuthContext.js`: Context provider for managing user authentication state and providing necessary context to components.
+
+## Technologies Used
+
+### Backend Technologies:
+
+- Node.js
+- Express.js
+- MySQL
+- Bcrypt for password hashing
+- JSON Web Tokens (JWT) for user authentication
+- Nodemailer for sending emails
+
+### Frontend Technologies:
+
+- React.js
+- React Router for client-side routing
+- Axios for making HTTP requests to the backend
+- Tailwind CSS for styling components
+- Date-fns for date manipulation
+- XLSX for reading and writing Excel files
+
+## Usage
+
+To run the Event Management System locally, follow these steps:
+
+1. Clone this repository.
+2. Navigate to the `backEnd` directory and install backend dependencies by running `npm install`.
+3. Navigate to the `frontEnd` directory and install frontend dependencies by running `npm install`.
+4. Start the backend server by running `npm start` in the `backEnd` directory.
+5. Start the frontend server by running `npm start` in the `frontEnd` directory.
+6. Access the application by navigating to `http://localhost:3000` in your web browser.
 
 
-# Getting Started with Create React App
+## Database Structure
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Event Management System relies on MySQL as its primary database management system, comprising multiple tables to store vital information regarding users, events, and musical details. Here's a concise overview of the database structure:
 
-## Available Scripts
+- **User Table:** Stores fundamental user data such as email, user ID, role, and status.
+- **Musician Table:** Contains additional details specific to musician users, including years of experience, band name, and profile photo.
+- **Business Table:** Stores information pertinent to business users, including business name and address.
+- **Event Table:** Houses event-related information like event ID, organizer's user ID, date, and description.
+- **EventMusician Table:** Records details about participating musicians in events, including the songs performed.
+- **TypesDescription Table:** Provides descriptions for different musical types, mapping each type ID to its corresponding name.
+- **EventMusician_Register_Musician Table:** Tracks registrations of musicians for events, linking the event ID and musician's user ID.
 
-In the project directory, you can run:
+This structured database layout facilitates efficient data storage and retrieval, enabling seamless management of users, events, and music-related information within the system.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Authors
+Nick Gofman, Saar Yanckovich
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For more information on each plugin and library used in the Event Management System, refer to the official documentation and resources provided by their respective maintainers:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> 4f68a3b80bc683910bee6474fb38762de97986a5
+- [Node.js Documentation](https://nodejs.org/en/docs/)
+- [Express.js Documentation](https://expressjs.com/)
+- [React.js Documentation](https://reactjs.org/docs/getting-started.html)
+- [MySQL Documentation](https://dev.mysql.com/doc/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Axios Documentation](https://axios-http.com/docs/intro)
+- [Date-fns Documentation](https://date-fns.org/v2.24.0/docs/)
+- [Nodemailer Documentation](https://nodemailer.com/about/)
